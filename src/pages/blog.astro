@@ -1,0 +1,32 @@
+---
+import Layout from "../layouts/Page.astro";
+import Container from "../components/Container.astro";
+import BlogPostsList from "../components/BlogPostsList.astro";
+
+const posts = (await Astro.glob('./blog/*.{md,mdx}')).sort(
+	(a, b) => new Date(b.frontmatter.publishedAt).valueOf() - new Date(a.frontmatter.publishedAt).valueOf()
+);
+const seo = {
+    title: "cloud-np | Tech Blog",
+    description: "A simple blog focused on provided the best",
+};
+---
+
+<style>
+    .main_content {
+        padding: 5vh;
+    }
+    h1 {
+        text-align: center;
+    }
+</style>
+
+<Layout seo={seo}>
+    <Container>
+        <div class="main_content">
+            <h1>Latest posts</h1>
+
+        </div>
+        <BlogPostsList posts={posts}/>
+    </Container>
+</Layout>

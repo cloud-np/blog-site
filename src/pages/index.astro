@@ -1,0 +1,41 @@
+---
+import Layout from '../layouts/Page.astro'
+import Container from '../components/Container.astro';
+import TypeWriter from '../components/TypeWriter.astro';
+
+const seo = {
+  title: 'Simple Blog | A template by Little Sticks',
+  description: 'A simple blog template for Astro by Little Sticks',
+}
+---
+
+<style>
+  .home-hero-text__container {
+    padding: 5vh 0;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: space-between;
+    height: 100vh; */
+  }
+  h1 {
+    padding-bottom: 2.5rem;
+  }
+  p {
+    padding-bottom: 6rem;
+  }
+</style>
+
+<Layout seo={seo}>
+  <Container>
+    <div class="home-hero-text__container">
+      <div>
+        <h1>Hi, I'm Nick.👋<br>I like to 
+          <TypeWriter waitPeriod={2000} messages={['develop apps.', 'think creative', 'always improve.']}/>
+        </h1>
+        <p>I'm a programmer by heart and graphic designer by night. I love trying to solve complex problems while paying attention to the details.</p>
+      </div>
+      <h4 class="fade-in">Couple of my Projects</h4>
+    </div>
+  </Container>
+</Layout>
+
