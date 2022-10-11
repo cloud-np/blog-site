@@ -2,6 +2,7 @@
 import Layout from './Page.astro';
 import Container from '../components/Container.astro';
 import { formatDate, slugify } from '../utils/helpers';
+import SharePost from '../components/SharePost.astro';
 
 const { frontmatter } = Astro.props;
 
@@ -50,6 +51,7 @@ const seo = {
         <slot />
       </div>
     </article>
+    <SharePost postTitle={frontmatter.title}/>
   </Container>
 </Layout>
 

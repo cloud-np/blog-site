@@ -10,12 +10,20 @@
   --theme-background: hsl(0, 0%, 98%);
   --theme-on-background: hsl(0, 0%, 5%);
 
+  /* Code element styling vars */
+  --theme-code-background: #1a1a1a;
+  --theme-code-border:hsl(0, 0%, 12%); 
+  --theme-on-code-background: #fff;
+  --theme-code-border: rgb(46, 46, 46);
+  --theme-on-code-border: rgb(228, 228, 228);
+
   --theme-surface-1: hsl(0, 0%, 93%);
   --theme-on-surface-1: hsl(0, 0%, 10%);
 
   --theme-footer-background: hsl(0, 0%, 9%);
   --theme-on-footer-background: hsl(0, 0%, 90%);
 
+  --theme-share: #00d0ff;
   --light-blue: #00d0ff;
   --color-gray: rgb(105, 105, 105);
   --selection-color: #00c3ff6b;
@@ -62,6 +70,12 @@
 
     --theme-surface-1: hsl(0, 0%, 12%);
     --theme-on-surface-1: hsl(0, 0%, 96%);
+
+    --theme-code-background: #1a1a1a;
+    --theme-on-code-background: #fff;
+
+    --theme-code-border: rgb(46, 46, 46);
+    --theme-on-code-border: rgb(228, 228, 228);
   }
 }
 
@@ -80,6 +94,11 @@
 
   --theme-surface-1: hsl(0, 0%, 93%);
   --theme-on-surface-1: hsl(0, 0%, 10%);
+
+  --theme-code-background: #1a1a1a;
+  --theme-on-code-background: #fff;
+  --theme-code-border: rgb(46, 46, 46);
+  --theme-on-code-border: rgb(228, 228, 228);
 }
 
 [color-scheme='dark'] {
@@ -97,7 +116,14 @@
 
   --theme-surface-1: hsl(0, 0%, 12%);
   --theme-on-surface-1: hsl(0, 0%, 96%);
+
+  --theme-code-background: #fff;
+  --theme-on-code-background: #1a1a1a;
+ 
+  --theme-code-border: rgb(228, 228, 228);
+  --theme-on-code-border: rgb(46, 46, 46);
 }
+
 
 html {
   scroll-behavior: smooth;
@@ -179,7 +205,13 @@ pre {
   max-width: 100%;
   overflow-x: auto;
   padding: 1rem 0.75rem;
+  padding: 1.2rem;
   border-radius: 0.25rem;
+  border: 1px solid var(--theme-on-code-border);
+  /* Can't find where this gets styled from will check later
+  update: This is propably getting styled from the MDX astro plugin. 
+  It has code highlighting so it may be worth it to keep it that way..*/
+  background-color: var(--theme-on-code-background) !important;
 }
 
 pre:hover > copy-code-button {
@@ -188,7 +220,7 @@ pre:hover > copy-code-button {
 
 copy-code-button {
   opacity: 0;
-  transition: all .1s ease-in;
+  transition: all .4s ease-in;
 }
 
 pre copy-code-button {

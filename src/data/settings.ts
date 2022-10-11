@@ -1,7 +1,7 @@
 export const settings = {
-  site: 'https://simple-blog.littlesticks.dev',
-  name: 'Simple Blog',
-  title: 'Site title',
-  description: 'Site description',
+  site: 'https://cloud-np.com',
+  name: 'cloud-np',
+  title: 'cloud-np - A blog about computer science.',
+  description: 'A blog about computer science, programming, software engineering, and technology. No ads, no tracking, no bullshit.',
   showLittleSticksPlug: true,
 }

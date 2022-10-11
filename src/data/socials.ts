@@ -1,6 +1,6 @@
 export const socials = [
   {
-    name: 'Twitter',
+    name: 'LinkedIn',
     url: 'https://www.linkedin.com/in/cloud-np/',
     icon: 'mdi:linkedin'
   },
