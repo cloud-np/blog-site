@@ -8,46 +8,11 @@ import SocialList from './SocialList.astro';
   import './ThemeToggleButton/theme-toggle-button'
 </script>
 
-<header>
-  <Container>
-    <nav>
-      <ul>
-        <li>
-          <a class="header__logo" href="/" title="Navigate Home">
-            <Logo />
-          </a>
-        </li>
-        <li>
-          <a class="clickable" href="/blog" title="Navigate Home">
-            Blog
-          </a>
-        </li>
-        <li>
-          <a class="clickable" href="/portofolio" title="Navigate Home">
-            Portofolio 
-          </a>
-        </li>
-        <li>
-          <a class="clickable" href="/" title="Navigate Home">
-            Contact
-          </a>
-        </li>
-      </ul>
-      <SocialList />
-    </nav>
-  </Container>
-  <div class="theme-toggle__container">
-    <!-- I was running into some issues with the Lit integration so I'm using it as a client script for now -->
-    <theme-toggle-button></theme-toggle-button>
-  </div>
-</header>
-
 <style>
   header {
     height: var(--theme-header-height, 64px);
     display: flex;
     align-items: center;
-    /* border-bottom: 1px solid var(--theme-primary-light); */
   }
   nav {
     width: 100%;
@@ -64,6 +29,8 @@ import SocialList from './SocialList.astro';
   }
   a {
     text-decoration: none;
+    font-size: 1.2rem;
+    font-style: var(--font-family-heading);
   }
   .header__logo {
     margin: 0;
@@ -77,3 +44,37 @@ import SocialList from './SocialList.astro';
     justify-content: center;
   }
 </style>
+
+<header>
+  <Container>
+    <nav>
+      <ul>
+        <li>
+          <a class="header__logo" href="/" title="Navigate Home">
+            <Logo />
+          </a>
+        </li>
+        <li>
+          <a class="clickable" href="/blog" title="Navigate Home">
+            Blog
+          </a>
+        </li>
+        <!-- <li>
+          <a class="clickable" href="/portofolio" title="Navigate Home">
+            Portofolio 
+          </a>
+        </li> -->
+        <li>
+          <a class="clickable" href="/contact" title="Navigate Home">
+            Contact
+          </a>
+        </li>
+      </ul>
+      <SocialList />
+    </nav>
+  </Container>
+  <div class="theme-toggle__container">
+    <!-- I was running into some issues with the Lit integration so I'm using it as a client script for now -->
+    <theme-toggle-button></theme-toggle-button>
+  </div>
+</header>

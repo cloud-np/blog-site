@@ -23,18 +23,35 @@ const seo = {
   p {
     padding-bottom: 6rem;
   }
+  .waving {
+    position: absolute;
+    animation: waving-anim .5s ease-in-out 5 alternate;
+  }
+
+  @keyframes waving-anim {
+    from {
+      transform: rotate(15deg);
+    }
+    to {
+      transform: rotate(0deg);
+    }
+  }
+
+  .projects-title {
+    margin-top: 6rem;
+  }
 </style>
 
 <Layout seo={seo}>
   <Container>
     <div class="home-hero-text__container">
       <div>
-        <h1>Hi, I'm Nick.👋<br>I like to 
+        <h1>Hi, I'm Nick.<span class="waving">👋🏼</span><br>I like to 
           <TypeWriter waitPeriod={2000} messages={['develop apps.', 'think creative', 'always improve.']}/>
         </h1>
         <p>I'm a programmer by heart and graphic designer by night. I love trying to solve complex problems while paying attention to the details.</p>
       </div>
-      <h4 class="fade-in">Couple of my Projects</h4>
+      <h4 class="projects-title fade-in">My latest Projects</h4>
     </div>
   </Container>
 </Layout>

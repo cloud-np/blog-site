@@ -40,7 +40,7 @@
   --step-4: clamp(2.33rem, calc(1.81rem + 2.59vw), 3.66rem);
   --step-5: clamp(2.80rem, calc(2.11rem + 3.47vw), 4.58rem);
 
-  --font-family-heading: '', sans-serif;
+  --font-family-heading: 'Open Sans', sans-serif;
   --font-family-body: 'Inter', sans-serif;
 
   --body-max-width: 1920px;
