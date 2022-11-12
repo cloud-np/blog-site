@@ -1,19 +1,26 @@
 ---
 import { settings } from "../data/settings";
 import Container from "./Container.astro";
-import SocialList from './SocialList.astro';
+import SocialList from "./SocialList.astro";
 import LittleSticksPlug from "./LittleSticksPlug.astro";
 import SharePost from "./SharePost.astro";
+import Logo from "./Logo.astro";
 ---
 
 <footer>
   <Container>
     <div class="footer-links__grid">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/blog">Blog</a></li>
+        <li>
+          <a href="mailto:cloud-np@outlook.com">Contact</a>
+        </li>
+      </ul>
+      <ul class="logo-container">
+        <li><Logo /></li>
+      </ul>
     </div>
-    <!-- You can delete this code or hide in the settings.ts file -->
-    <!-- {settings.showLittleSticksPlug && <div>
-     <LittleSticksPlug/>
-    </div>} -->
     <div class="footer-bottom__container">
       <p>&copy; {new Date().getFullYear()} {settings.name}</p>
       <div class="socials-container">
@@ -31,35 +38,47 @@ import SharePost from "./SharePost.astro";
     background-color: var(--theme-footer-background);
     color: var(--theme-on-footer-background);
     border-radius: 1rem 1rem 0 0;
-    /* display: flex;
-    flex-direction: column; */
   }
 
   li {
     list-style: none;
   }
-  .socials-container{
+  a {
+    text-decoration: none;
+    color: var(--theme-on-footer-background);
+  }
+
+  .logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .socials-container {
     display: flex;
   }
-  .socials-container > h5{
+  .socials-container > h5 {
     margin-right: 1rem;
   }
+
+  .footer-links__grid ul li > a {
+    font-size: 1.1rem;
+    font-weight: 600;
+    font-family: var(--font-family-body);
+  }
+
   .footer-links__grid {
     padding: 2vh 0;
     display: flex;
-    flex-direction: column;
+    max-width: 800px;
+    justify-content: space-between;
   }
   .footer-links__grid ul {
     list-style: none;
     padding: 0;
     margin: 0;
   }
-  .footer-links__grid ul li:first-of-type {
-    margin-bottom: 0.5rem;
-  }
-  .footer-links__grid ul li strong {
-    font-weight: 900;
-  }
+
   .footer-bottom__container {
     position: relative;
     bottom: 0;
@@ -70,16 +89,7 @@ import SharePost from "./SharePost.astro";
     font-size: var(--step--2);
   }
 
-  @media(max-width: 768px) {
-    .footer-links__grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-  @media(max-width: 480px) {
-    .footer-links__grid {
-      grid-template-columns: 1fr;
-      gap: 2rem;
-    }
+  @media (max-width: 480px) {
     .footer-bottom__container {
       flex-direction: column;
       align-items: flex-start;

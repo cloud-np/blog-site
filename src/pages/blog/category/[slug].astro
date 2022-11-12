@@ -10,10 +10,10 @@ export async function getStaticPaths() {
   const sortedPosts = allPosts.sort((a, b) => new Date(b.date).valueOf() - new Date(a.date).valueOf());
   const allCategoriesUnique = new Set();
 
+  // Make the list a set
   sortedPosts.forEach(post => {
-    if(post.frontmatter.category) {
+    if(post.frontmatter.category)
       allCategoriesUnique.add(post.frontmatter.category);
-    }
   })
   const allCategoriesData = generateCategoryData(allCategoriesUnique);
    // map through the categories array

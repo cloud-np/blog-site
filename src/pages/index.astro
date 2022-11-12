@@ -1,12 +1,20 @@
 ---
-import Layout from '../layouts/Page.astro'
-import Container from '../components/Container.astro';
-import TypeWriter from '../components/TypeWriter.astro';
+import Layout from "../layouts/Page.astro";
+import Container from "../components/Container.astro";
+import TypeWriter from "../components/TypeWriter.astro";
+import BlogPostsList from "../components/BlogPostsList.astro";
 
 const seo = {
-  title: 'Simple Blog | A template by Little Sticks',
-  description: 'A simple blog template for Astro by Little Sticks',
-}
+  title: "Simple Blog | A template by Little Sticks",
+  description: "A simple blog template for Astro by Little Sticks",
+};
+
+const allPosts = await Astro.glob("./blog/*.{md,mdx}");
+const posts = [];
+// Change this to map.
+allPosts.forEach(post => {
+  if(post.frontmatter.personal) posts.push(post);
+})
 ---
 
 <style>
@@ -25,7 +33,7 @@ const seo = {
   }
   .waving {
     position: absolute;
-    animation: waving-anim .5s ease-in-out 5 alternate;
+    animation: waving-anim 0.5s ease-in-out 5 alternate;
   }
 
   @keyframes waving-anim {
@@ -37,8 +45,13 @@ const seo = {
     }
   }
 
+  .latest-projects-container {
+    padding-top: 2rem;
+  }
+
   .projects-title {
     margin-top: 6rem;
+    margin-bottom: 3rem;
   }
 </style>
 
@@ -46,13 +59,20 @@ const seo = {
   <Container>
     <div class="home-hero-text__container">
       <div>
-        <h1>Hi, I'm Nick.<span class="waving">👋🏼</span><br>I like to 
-          <TypeWriter waitPeriod={2000} messages={['develop apps.', 'think creative', 'always improve.']}/>
+        <h1>
+          Hi, I'm Nick.<span class="waving">👋🏼</span><br />I like to
+          <TypeWriter
+            waitPeriod={2000}
+            messages={["develop apps.", "think creative", "always improve."]}
+          />
         </h1>
-        <p>I'm a programmer by heart and graphic designer by night. I love trying to solve complex problems while paying attention to the details.</p>
+        <p>
+          I'm a programmer by heart and graphic designer by night. I love trying
+          to solve complex problems while paying attention to the details.
+        </p>
       </div>
-      <h4 class="projects-title fade-in">My latest Projects</h4>
+      <h4 class="projects-title fade-in">Latest Projects</h4>
+      <BlogPostsList class="latest-projects-container" posts={posts} />
     </div>
   </Container>
 </Layout>
-

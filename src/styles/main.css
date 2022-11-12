@@ -193,6 +193,7 @@ h3 {
 
 ::selection {
   background-color: var(--selection-color);
+  color: rgb(0, 181, 212);
 }
 
 /* p,
