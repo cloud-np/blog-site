@@ -1,0 +1,53 @@
+---
+import Layout from "../layouts/Page.astro";
+import Container from "../components/Container.astro";
+import TypeWriter from "../components/TypeWriter.astro";
+import BlogPostsList from "../components/BlogPostsList.astro";
+import BlogPostPreview from "../components/BlogPostPreview.astro";
+import PortofolioPostsList from "../components/PortofolioPostsList.astro";
+
+const seo = {
+    title: "cloud-np | Portofolio",
+    description: "A simple blog focused on provided the best",
+};
+
+// const allPosts = await Astro.glob("./blog/*.{md,mdx}");
+// const posts = [];
+// // Change this to map.
+// allPosts.forEach(post => {
+//   if(post.frontmatter.personal) posts.push(post);
+// })
+const posts = (await Astro.glob('./blog/*.{md,mdx}')).sort(
+	(a, b) => new Date(b.frontmatter.publishedAt).valueOf() - new Date(a.frontmatter.publishedAt).valueOf()
+);
+---
+
+<style>
+    .home-hero-text__container {
+        padding: 5vh 0;
+        display: flex;
+        flex-direction: column;
+    }
+    h1 {
+        padding-bottom: 2.5rem;
+        text-align: center;
+    }
+    p {
+        padding-bottom: 6rem;
+    }
+</style>
+
+<Layout seo={seo}>
+    <Container>
+        <div class="home-hero-text__container">
+            <div>
+                <h1>Some of my projects</h1>
+                <p>
+                    <!-- I'm a programmer by heart and graphic designer by night. I love trying
+          to solve complex problems while paying attention to the details. -->
+                </p>
+            </div>
+            <PortofolioPostsList posts={posts}/>
+        </div>
+    </Container>
+</Layout>
