@@ -1,0 +1,29 @@
+---
+
+import Layout from "../layouts/Page.astro";
+import Container from "../components/Container.astro";
+import BlogPostsList from "../components/BlogPostsList.astro";
+
+const posts = (await Astro.glob('./blog/*.{md,mdx}')).sort(
+	(a, b) => new Date(b.frontmatter.publishedAt).valueOf() - new Date(a.frontmatter.publishedAt).valueOf()
+);
+const seo = {
+    title: "cloud-np | Tech Blog",
+    description: "A simple blog focused on provided the best",
+};
+---
+
+<style>
+    div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+
+<Layout seo={seo}>
+    <div>
+        <h1>404</h1>
+        <p>Well this is awk</p>
+    </div>
+</Layout>
