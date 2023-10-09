@@ -3,6 +3,7 @@ import {settings} from "../data/settings";
 
 import '../styles/reset.css';
 import '../styles/main.css';
+import { ViewTransitions } from "astro:transitions";
 
 export interface Props {
 	title?: string;
@@ -30,10 +31,12 @@ const image = new URL(Astro.props.image || './social.png', Astro.site);
 <!-- settingsmap -->
 <link rel="sitemap" href="/sitemap.xml">
 <!-- RSS -->
-<!-- TODO: This needs fixing -->
 <link rel="alternate" type="application/rss+xml" title={`${settings.name} Blog`} href={`${settings.url}/feed/blog.xml`}/>
 <!-- Canonical -->
 <link rel="canonical" href={canonicalURL}>
+
+<!-- To let javascript handle transitions between pages -->
+<ViewTransitions />
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website" />
@@ -78,4 +81,5 @@ onload="this.onload=null;this.rel='stylesheet'">
     rel="stylesheet"
     type="text/css">
 </noscript>
+
 
