@@ -206,8 +206,9 @@ pre {
   max-width: 100%;
   overflow-x: auto;
   padding: 1rem 0.75rem;
-  padding: 1.2rem;
+  padding: 2rem;
   border-radius: 0.25rem;
+  font-size: 1rem;
   border: 1px solid var(--theme-on-code-border);
   /* Can't find where this gets styled from will check later
   update: This is propably getting styled from the MDX astro plugin. 
@@ -221,7 +222,7 @@ pre:hover > copy-code-button {
 
 copy-code-button {
   opacity: 0;
-  transition: all .4s ease-in;
+  transition: all .2s ease-in;
 }
 
 pre copy-code-button {

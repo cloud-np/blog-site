@@ -21,7 +21,7 @@ const seo = {
           frontmatter.category && (
             <p class="post-content__category">
               <a href={`/blog/category/${slugify(frontmatter.category)}`}>
-                {frontmatter.category}
+                { frontmatter.category }
               </a>
             </p>
           )
@@ -51,7 +51,7 @@ const seo = {
         <slot />
       </div>
     </article>
-    <SharePost postTitle={frontmatter.title}/>
+    <SharePost postTitle={ frontmatter.title }/>
   </Container>
 </Layout>
 
