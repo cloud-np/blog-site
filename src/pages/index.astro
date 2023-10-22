@@ -31,6 +31,11 @@ allPosts.forEach(post => {
   p {
     padding-bottom: 6rem;
   }
+
+  .home__main-text {
+    font-size: 1.2rem;
+  }
+
   .waving {
     position: absolute;
     animation: waving-anim 0.5s ease-in-out 5 alternate;
@@ -63,10 +68,10 @@ allPosts.forEach(post => {
           Hi, I'm Nick.<span class="waving">👋🏼</span><br />I like to
           <TypeWriter
             waitPeriod={2000}
-            messages={["develop apps.", "think creative", "keep improving."]}
+            messages={["develop apps.", "think creative.", "keep improving."]}
           />
         </h1>
-        <p>From dawn to dusk, I'm a software sorcerer, conjuring code and casting spells to solve intricate puzzles.
+        <p class="home__main-text">From dawn to dusk, I'm a software sorcerer, conjuring code and casting spells to solve intricate puzzles.
           Other than that I enjoy freediving, skiing and playing football with friends. With an eye for detail 
           and a penchant for problem solving, I passionately engineer software.</p>
       </div>

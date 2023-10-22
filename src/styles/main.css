@@ -233,7 +233,7 @@ pre copy-code-button {
 /* Global classes */
 
 .clickable {
-  transition: color .1s ease-in;
+  transition: color .2s ease-in;
 }
 
 .clickable:hover {
