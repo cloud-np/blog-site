@@ -8,9 +8,82 @@ searchCategories: ['Hard Problem', 'Leetcode', 'Javascript', 'Typescript']
 personal: true
 ---
 
-## Heading 2
+LeetCode is a platform filled with challenging problems, and today we're going to explore one of its classic hard problems: "Median of Two Sorted Arrays". By the end of this post, you'll have a clear understanding of the problem, and an efficient solution approach to tackle it.
+## Problem Statement
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Eget gravida cum sociis natoque penatibus et magnis dis. Posuere morbi leo urna molestie at elementum eu facilisis sed. Lectus nulla at volutpat diam. Pharetra magna ac placerat vestibulum lectus. Turpis massa tincidunt dui ut ornare lectus sit amet. Pretium vulputate sapien nec sagittis. Mollis nunc sed id semper. Odio pellentesque diam volutpat commodo sed egestas. Mi sit amet mauris commodo quis. Ullamcorper morbi tincidunt ornare massa. Mi proin sed libero enim sed faucibus turpis. Eu consequat ac felis donec et. Ultricies integer quis auctor elit. Aliquam sem et tortor consequat id porta nibh.
+Given: Two sorted arrays nums1 and nums2 of size 
+�
+m and 
+�
+n respectively.
+
+Task: Return the median of the two sorted arrays.
+
+Constraints:
+
+0
+≤
+�
+≤
+1000
+0≤m≤1000
+0
+≤
+�
+≤
+1000
+0≤n≤1000
+1
+≤
+�
++
+�
+≤
+2000
+1≤m+n≤2000
+−
+1
+0
+6
+≤
+�
+�
+�
+�
+1
+[
+�
+]
+,
+�
+�
+�
+�
+2
+[
+�
+]
+≤
+1
+0
+6
+−10 
+6
+ ≤nums1[i],nums2[i]≤10 
+6
+ 
+Performance Expectation: The overall runtime complexity should be 
+�
+(
+log
+⁡
+(
+�
++
+�
+)
+)
+O(log(m+n)).
 
 ```typescript
 let foo: number = 'bar';

@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@astrojs/mdx": "^1.1.1",
+    "katex": "^0.16.9",
     "lit": "^2.8.0",
     "undici": "^5.25.4"
   }
