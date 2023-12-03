@@ -196,16 +196,10 @@ h3 {
   color: rgb(0, 181, 212);
 }
 
-/* p,
-li {
-  max-width: 70ch;
-} */
-
 pre {
   position: relative;
   max-width: 100%;
   overflow-x: auto;
-  padding: 1rem 0.75rem;
   padding: 2rem;
   border-radius: 0.25rem;
   font-size: 1rem;
@@ -214,6 +208,25 @@ pre {
   update: This is propably getting styled from the MDX astro plugin. 
   It has code highlighting so it may be worth it to keep it that way..*/
   background-color: var(--theme-on-code-background) !important;
+  background-color: #1a1a1a !important;
+
+}
+
+.code-numbers {
+  color: rgb(0, 181, 212);
+}
+
+p > code, li > code {
+  background-color: #333333 !important;
+  font-size: var(--step--2);
+  padding: 0.23rem;
+  border-radius: 0.5rem;
+  line-height: 1.5rem;
+  color: rgb(196, 196, 196);
+}
+
+code {
+  color: var(--theme-on-primary);
 }
 
 pre:hover > copy-code-button {
@@ -245,11 +258,11 @@ pre copy-code-button {
 
 @media (prefers-reduced-motion: no-preference) {
   .fade-in[data-state=visible] {
-      transition: transform 700ms cubic-bezier(0.42, 0, 0.32, 1.17), opacity 1000ms cubic-bezier(0.42, 0, 0.32, 1.17) 200ms;
+    transition: transform 700ms cubic-bezier(0.42, 0, 0.32, 1.17), opacity 1000ms cubic-bezier(0.42, 0, 0.32, 1.17) 200ms;
   }
 
   .fade-in[data-state=hidden] {
-      transform: translateY(2ex);
-      opacity: 0;
+    transform: translateY(2ex);
+    opacity: 0;
   }
 }

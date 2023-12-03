@@ -1,0 +1,48 @@
+---
+layout: '../../layouts/Post.astro'
+title: Median of Two Sorted Arrays
+image: /images/freelance
+publishedAt: "2022-11-12"
+category: 'Leetcode'
+searchCategories: ['Hard Problem', 'Leetcode', 'Javascript', 'Typescript']
+personal: true
+---
+import Note from '../../components/Note/Note.astro';
+
+In this post, we'll delve into a straightforward solution to a classic problem often encountered in coding interviews of companies like 
+Google, Amazon, Microsoft and Facebook, which deal with massive amounts of data and require efficient algorithms for data processing and analysis. 
+This approach is particularly efficient for large datasets since it achieves the optimal time complexity of `O(log (m+n))`.
+
+## Problem Statement
+
+Given: Two sorted arrays `nums1` and `nums2` of size `m` and `n` respectively, return the median of the two sorted arrays.
+The overall run time complexity should be `O(log (m+n))`
+##### Example 1:
+
+- Input: **nums1** = <span class="code-numbers">[1,3]</span>, **nums2** = <span class="code-numbers">[2]</span>
+- Output: <span class="code-numbers">2.00000</span>
+- Explanation: **merged array** = <span class="code-numbers">[1,2,3]</span> and **median** is <span class="code-numbers">2</span>.
+##### Example 2:
+- Input: **nums1** = <span class="code-numbers">[1,2]</span>, **nums2** = <span class="code-numbers">[3,4]</span>
+- Output: <span class="code-numbers">2.50000</span>
+- Explanation: **merged array** = <span class="code-numbers">[1,2,3,4]</span> and **median** is (2 + 3) / 2 = <span class="code-numbers">2.5</span>.
+
+### Intuition and Approach
+The solution leverages the simple idea that for the median we just have to look for the middle of the merged array of the two sorted arrays.
+So we combine the two sorted arrays into one sorted array named `A`. 
+- If the combined length `n` of these arrays is odd,the median is `A[n / 2]`.
+- If n is even, the median is the average of `A[n / 2]` and `A[n / 2 + 1]`.
+
+With that we can find the length of the two combined arrays as if they were merged and their median position.
+```typescript
+const lenSum: number = nums1.length + nums2.length;
+const medianPos: number = Math.floor(lenSum / 2);
+const isCombinedLenEven: boolean = !(lenSum % 2);
+
+let mergedArr: number[] = [];
+```
+<Note noteType="note" title="Note">
+    Even though we will use at first a 
+</Note>
+
+![image](https://unsplash.it/400/300)
