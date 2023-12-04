@@ -1,0 +1,20 @@
+:root {
+  --theme-primary: hsl(0, 0%, 90%);
+  --theme-on-primary: hsl(0, 0%, 5%);
+
+  --theme-primary-hover: hsl(0, 0%, 80%);
+
+  --theme-primary-light: hsl(0, 0%, 20%);
+
+  --theme-on-background: hsl(0, 0%, 92%);
+  --theme-background: hsl(0, 0%, 8%);
+
+  --theme-surface-1: hsl(0, 0%, 12%);
+  --theme-on-surface-1: hsl(0, 0%, 96%);
+
+  --theme-code-background: #fff;
+  --theme-on-code-background: #1a1a1a;
+ 
+  --theme-code-border: rgb(228, 228, 228);
+  --theme-on-code-border: rgb(46, 46, 46);
+}

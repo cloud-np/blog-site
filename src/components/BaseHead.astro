@@ -1,5 +1,5 @@
 ---
-import {settings} from "../data/settings";
+import { settings } from "../data/settings";
 
 import '../styles/reset.css';
 import '../styles/main.css';
@@ -35,6 +35,9 @@ const image = new URL(Astro.props.image || './social.png', Astro.site);
 <!-- Canonical -->
 <link rel="canonical" href={canonicalURL}>
 
+<!-- This stylesheet is responsible for changing the themes. When you want to change theme you simply point
+  to different file which just includes different values for the vars. -->
+<link rel="stylesheet" id="theme-stylesheet" href="light.theme.scss">
 <!-- To let javascript handle transitions between pages -->
 <ViewTransitions />
 
