@@ -47,7 +47,7 @@ export class ThemeToggleButton extends LitElement {
     if (localStorageTheme !== null) {
       this._setTheme(localStorageTheme);
     } else {
-      this._setTheme(ThemeType.Light);
+      this._setTheme(ThemeType.light);
     }
   }
 
@@ -58,7 +58,7 @@ export class ThemeToggleButton extends LitElement {
   private _setTheme(theme) {
     this.theme = theme;
     this._doc.setAttribute('color-scheme', theme);
-    (document.getElementById('theme-stylesheet') as HTMLAnchorElement).href = "/src/styles/" + theme.toLowerCase() + '.theme.scss';
+    // (document.getElementById('theme-stylesheet') as HTMLAnchorElement).href = "/src/styles/" + theme + '.theme.scss';
 
     localStorage.setItem(THEME_KEY, theme);
   }
@@ -73,7 +73,7 @@ export class ThemeToggleButton extends LitElement {
         @click=${this._toggleTheme}
         title=${`Enable ${ThemeUtil.getOppositeTheme(this.theme)} Theme`}
       >
-        ${this.theme === ThemeType.Dark 
+        ${this.theme === ThemeType.dark 
           ? html`
               ${lightThemeIcon}
             `

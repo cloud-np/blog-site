@@ -13,7 +13,8 @@ export default defineConfig({
   integrations: [
     sitemap(),
     astroExpressiveCode({
-      themes: ['dracula']
+      themeCssSelector: (theme) => `[data-theme='${theme.type}']`,
+      themes: ['dracula', 'solarized-light'],
     }),
     mdx()
  ],
