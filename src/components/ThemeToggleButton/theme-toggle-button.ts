@@ -1,9 +1,6 @@
 import { html, css, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { lightThemeIcon, darkThemeIcon } from './icons';
-import { ThemeType, ThemeUtil } from './theme';
-
-const THEME_KEY = "theme";
 
 @customElement('theme-toggle-button')
 export class ThemeToggleButton extends LitElement {
@@ -39,15 +36,15 @@ export class ThemeToggleButton extends LitElement {
   private _doc = document.firstElementChild;
 
   @property({ type: String })
-  theme: ThemeType | null = null;
+  theme: string | null = null;
 
   private _getCurrentTheme() {
     // check for a local storage theme first
-    const localStorageTheme = localStorage.getItem(THEME_KEY);
+    const localStorageTheme = localStorage.getItem('theme');
     if (localStorageTheme !== null) {
       this._setTheme(localStorageTheme);
     } else {
-      this._setTheme(ThemeType.light);
+      this._setTheme('light');
     }
   }
 
@@ -58,22 +55,24 @@ export class ThemeToggleButton extends LitElement {
   private _setTheme(theme) {
     this.theme = theme;
     this._doc.setAttribute('color-scheme', theme);
-    // (document.getElementById('theme-stylesheet') as HTMLAnchorElement).href = "/src/styles/" + theme + '.theme.scss';
-
-    localStorage.setItem(THEME_KEY, theme);
+    localStorage.setItem('theme', theme);
   }
 
   private _toggleTheme() {
-      this._setTheme(ThemeUtil.getOppositeTheme(this.theme))
+    if (this.theme === 'dark') {
+      this._setTheme('light');
+    } else {
+      this._setTheme('dark');
+    }
   }
 
   render() {
     return html`
       <button
         @click=${this._toggleTheme}
-        title=${`Enable ${ThemeUtil.getOppositeTheme(this.theme)} Theme`}
+        title=${`Enable ${this.theme === 'dark' ? 'Light' : 'Dark'} Theme`}
       >
-        ${this.theme === ThemeType.dark 
+        ${this.theme === 'dark'
           ? html`
               ${lightThemeIcon}
             `

@@ -4,6 +4,7 @@ interface Props {
     messages: string[]
 }
 const { waitPeriod, messages } = Astro.props
+
 ---
 
 <style>
@@ -13,7 +14,6 @@ const { waitPeriod, messages } = Astro.props
     to{border-right-color: transparent;}
   }
 </style>
-
 <script define:vars={{waitPeriod, messages}}>
     const TxtType = function(el, toRotate, period) {
         this.toRotate = toRotate;
@@ -29,9 +29,11 @@ const { waitPeriod, messages } = Astro.props
         let i = this.loopNum % this.toRotate.length;
         let fullTxt = this.toRotate[i];
 
-        this.txt = this.isDeleting 
-                ? fullTxt.substring(0, this.txt.length - 1)
-                : fullTxt.substring(0, this.txt.length + 1);
+        if (this.isDeleting) {
+            this.txt = fullTxt.substring(0, this.txt.length - 1);
+        } else {
+            this.txt = fullTxt.substring(0, this.txt.length + 1);
+        }
 
         this.el.innerHTML = `<span class="wrap">${this.txt}</span>`;
         let delta = 200 - Math.random() * 100;
@@ -51,18 +53,16 @@ const { waitPeriod, messages } = Astro.props
         }, delta);
     };
 
-    setTimeout(() => {
+    window.onload = function() {
         let element = document.getElementsByClassName('typewrite')[0];
-
         if (messages) {
             new TxtType(element, messages, waitPeriod);
         }
-        // inject css
+        // INJECT CSS
         let css = document.createElement("style");
         css.innerHTML = ".typewrite > .wrap { color: var(--light-blue); border-right: 0.08em solid #00d0ff; animation: animated-cursor 600ms steps(29, end) infinite;}";
         document.body.appendChild(css);
-    }, 500);
-
+    };
 </script>
 
 <span class="typewrite">

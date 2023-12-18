@@ -1,15 +1,32 @@
 :root {
-  --c-theme-share: #00d0ff;
-  --c-light-blue: #00d0ff;
+  /* Colors */
+  --theme-primary: hsl(0, 0%, 5%);
+  --theme-on-primary: hsl(0, 0%, 90%);
 
-  --c-light-gray: rgb(196, 196, 196);
-  --c-gray: rgb(105, 105, 105);
+  --theme-primary-hover: hsl(0, 0%, 10%);
 
-  --c-ligther-gray:hsl(240, 19%, 84%);
-  --c-dark-gray: rgb(59, 59, 59);
+  --theme-primary-light: hsl(0, 0%, 80%);
 
-  --c-selection: #00c3ff6b;
-  --c-blue-100: hsl(240, 19%, 84%); /* Light Blue */
+  --theme-background: hsl(0, 0%, 98%);
+  --theme-on-background: hsl(0, 0%, 5%);
+
+  /* Code element styling vars */
+  --theme-code-background: #1a1a1a;
+  --theme-code-border:hsl(0, 0%, 12%); 
+  --theme-on-code-background: #fff;
+  --theme-code-border: rgb(46, 46, 46);
+  --theme-on-code-border: rgb(228, 228, 228);
+
+  --theme-surface-1: hsl(0, 0%, 93%);
+  --theme-on-surface-1: hsl(0, 0%, 10%);
+
+  --theme-footer-background: hsl(0, 0%, 9%);
+  --theme-on-footer-background: hsl(0, 0%, 90%);
+
+  --theme-share: #00d0ff;
+  --light-blue: #00d0ff;
+  --color-gray: rgb(105, 105, 105);
+  --selection-color: #00c3ff6b;
 
   /* Typography */
  /* @link https://utopia.fyi/type/calculator?c=320,18,1.2,1140,24,1.25,5,2,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l */
@@ -23,15 +40,14 @@
   --step-4: clamp(2.33rem, calc(1.81rem + 2.59vw), 3.66rem);
   --step-5: clamp(2.80rem, calc(2.11rem + 3.47vw), 4.58rem);
 
-  --f-fallback: ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --f-sans: 'Open Sans', var(--f-fallback);
-  --f-mono: 'Inter', var(--f-fallback);
+  --font-family-heading: 'Open Sans', sans-serif;
+  --font-family-body: 'Inter', sans-serif;
 
   --body-max-width: 1920px;
 
   /* Container */
-  --con-padding: 0 1rem;
-  --con-max-width: 860px;
+  --container-padding: 0 1rem;
+  --container-max-width: 860px;
 
   --header-height: 76px;
 
@@ -39,12 +55,86 @@
   --ease-out-soft: cubic-bezier(0.28, 0, 0.49, 1);
 }
 
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Colors */
+    --theme-primary: hsl(0, 0%, 90%);
+    --theme-on-primary: hsl(0, 0%, 5%);
+
+    --theme-primary-hover: hsl(0, 0%, 80%);
+
+    --theme-primary-light: hsl(0, 0%, 20%);
+
+    --theme-on-background: hsl(0, 0%, 92%);
+    --theme-background: hsl(0, 0%, 8%);
+
+    --theme-surface-1: hsl(0, 0%, 12%);
+    --theme-on-surface-1: hsl(0, 0%, 96%);
+
+    --theme-code-background: #1a1a1a;
+    --theme-on-code-background: #fff;
+
+    --theme-code-border: rgb(46, 46, 46);
+    --theme-on-code-border: rgb(228, 228, 228);
+  }
+}
+
+[color-scheme='light'] {
+  color-scheme: light;
+  /* Colors */
+  --theme-primary: hsl(0, 0%, 5%);
+  --theme-on-primary: hsl(0, 0%, 90%);
+
+  --theme-primary-hover: hsl(0, 0%, 10%);
+
+  --theme-primary-light: hsl(0, 0%, 80%);
+
+  --theme-background: hsl(0, 0%, 98%);
+  --theme-on-background: hsl(0, 0%, 5%);
+
+  --theme-surface-1: hsl(0, 0%, 93%);
+  --theme-on-surface-1: hsl(0, 0%, 10%);
+
+  --theme-code-background: #1a1a1a;
+  --theme-on-code-background: #fff;
+  --theme-code-border: rgb(46, 46, 46);
+  --theme-on-code-border: rgb(228, 228, 228);
+}
+
+[color-scheme='dark'] {
+  color-scheme: dark;
+  /* Colors */
+  --theme-primary: hsl(0, 0%, 90%);
+  --theme-on-primary: hsl(0, 0%, 5%);
+
+  --theme-primary-hover: hsl(0, 0%, 80%);
+
+  --theme-primary-light: hsl(0, 0%, 20%);
+
+  --theme-on-background: hsl(0, 0%, 92%);
+  --theme-background: hsl(0, 0%, 8%);
+
+  --theme-surface-1: hsl(0, 0%, 12%);
+  --theme-on-surface-1: hsl(0, 0%, 96%);
+
+  --theme-code-background: #fff;
+  --theme-on-code-background: #1a1a1a;
+ 
+  --theme-code-border: rgb(228, 228, 228);
+  --theme-on-code-border: rgb(46, 46, 46);
+}
+
+
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0 auto;
   background-color: var(--theme-background);
   color: var(--theme-on-background);
   font-size: var(--step-0);
-  font-family: var(--f-mono);
+  font-family: var(--font-family-body);
   font-weight: 400;
   line-height: 1.5;
   max-width: var(--body-max-width);
@@ -71,28 +161,28 @@ a {
 
 h1 {
   font-size: var(--step-4);
-  font-family: var(--f-sans);
+  font-family: var(--font-family-heading);
   font-weight: 700;
   line-height: 1.2;
 }
 
 h2 {
   font-size: var(--step-3);
-  font-family: var(--f-sans);
+  font-family: var(--font-family-heading);
   font-weight: 700;
   line-height: 1.2;
 }
 
 h3 {
   font-size: var(--step-2);
-  font-family: var(--f-sans);
+  font-family: var(--font-family-heading);
   font-weight: 500;
   line-height: 1.2;
 }
 
 h4 {
   font-size: var(--step-1);
-  font-family: var(--f-sans);
+  font-family: var(--font-family-heading);
 }
 
 h1,
@@ -102,31 +192,27 @@ h3 {
 }
 
 ::selection {
-  background-color: var(--c-selection);
+  background-color: var(--selection-color);
   color: rgb(0, 181, 212);
 }
 
-.code-numbers {
-  color: rgb(0, 181, 212);
-}
+/* p,
+li {
+  max-width: 70ch;
+} */
 
-:where(html[color-scheme='dark']) :not(pre) > code {
-  background-color: var(--c-dark-gray) !important;
-
-  color: var(--c-light-gray);
-}
-
-:where(html[color-scheme='light']) :not(pre) > code {
-  background-color: var(--c-light-gray) !important;
-
-  color: var(--c-dark-gray);
-}
-
-:not(pre) > code {
-  font-size: var(--step--2);
-  padding: 0.23rem;
-  border-radius: 0.5rem;
-  line-height: 1.5rem;
+pre {
+  position: relative;
+  max-width: 100%;
+  overflow-x: auto;
+  padding: 1rem 0.75rem;
+  padding: 1.2rem;
+  border-radius: 0.25rem;
+  border: 1px solid var(--theme-on-code-border);
+  /* Can't find where this gets styled from will check later
+  update: This is propably getting styled from the MDX astro plugin. 
+  It has code highlighting so it may be worth it to keep it that way..*/
+  background-color: var(--theme-on-code-background) !important;
 }
 
 pre:hover > copy-code-button {
@@ -135,7 +221,7 @@ pre:hover > copy-code-button {
 
 copy-code-button {
   opacity: 0;
-  transition: all .2s ease-in;
+  transition: all .4s ease-in;
 }
 
 pre copy-code-button {
@@ -147,22 +233,22 @@ pre copy-code-button {
 /* Global classes */
 
 .clickable {
-  transition: color .2s ease-in;
+  transition: color .1s ease-in;
 }
 
 .clickable:hover {
-  color: var(--c-light-blue);
+  color: var(--light-blue);
 }
 
 /* Gloal fade in animation */
 
 @media (prefers-reduced-motion: no-preference) {
   .fade-in[data-state=visible] {
-    transition: transform 700ms cubic-bezier(0.42, 0, 0.32, 1.17), opacity 1000ms cubic-bezier(0.42, 0, 0.32, 1.17) 200ms;
+      transition: transform 700ms cubic-bezier(0.42, 0, 0.32, 1.17), opacity 1000ms cubic-bezier(0.42, 0, 0.32, 1.17) 200ms;
   }
 
   .fade-in[data-state=hidden] {
-    transform: translateY(2ex);
-    opacity: 0;
+      transform: translateY(2ex);
+      opacity: 0;
   }
 }

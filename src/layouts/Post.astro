@@ -3,14 +3,13 @@ import Layout from './Page.astro';
 import Container from '../components/Container.astro';
 import { formatDate, slugify } from '../utils/helpers';
 import SharePost from '../components/SharePost.astro';
-import { Picture } from 'astro:assets';
 
 const { frontmatter } = Astro.props;
 
 const seo = {
   title: frontmatter.title,
   description: frontmatter.description,
-  image: frontmatter.titleImage,
+  image: frontmatter.image,
 };
 ---
 
@@ -22,7 +21,7 @@ const seo = {
           frontmatter.category && (
             <p class="post-content__category">
               <a href={`/blog/category/${slugify(frontmatter.category)}`}>
-                { frontmatter.category }
+                {frontmatter.category}
               </a>
             </p>
           )
@@ -31,17 +30,20 @@ const seo = {
         <p class="post-content__date">
           <time>{formatDate(frontmatter.publishedAt)}</time>
         </p>
+        <!-- Hopefully we'll be able to use Astro's image integration for this soon -->
         {
-          frontmatter.titleImage && (
-            <Picture
-              src={frontmatter.titleImage}
-              alt={frontmatter.alt ?? ""}
-              formats={['webp', 'png']}
-              class="post-content__img"
-              loading="eager"
-              width="1200"
-              height="630"
-            />
+          frontmatter.image && (
+            <picture>
+              <source srcset={`${frontmatter.image}.webp`} type="image/webp" />
+              <img
+                width="1200"
+                height="630"
+                class="post-content__img"
+                loading="eager"
+                src={`${frontmatter.image}.png`}
+                alt={frontmatter.alt}
+              />
+            </picture>
           )
         }
       </div>
@@ -49,7 +51,7 @@ const seo = {
         <slot />
       </div>
     </article>
-    <SharePost postTitle={ frontmatter.title }/>
+    <SharePost postTitle={frontmatter.title}/>
   </Container>
 </Layout>
 
@@ -73,8 +75,8 @@ const seo = {
     opacity: 0.8;
   }
   .post-content__article {
-    padding: 5vh 2rem;
-    max-width: 60rem;
+    padding: 5vh 0;
+    max-width: 40rem;
     margin: auto;
   }
   .post-content__title {

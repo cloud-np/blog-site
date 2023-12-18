@@ -1,17 +1,28 @@
 ---
-import { settings } from "../data/settings.const";
+import { settings } from "../data/settings";
 import Container from "./Container.astro";
 import SocialList from "./SocialList.astro";
+import LittleSticksPlug from "./LittleSticksPlug.astro";
+import SharePost from "./SharePost.astro";
 import Logo from "./Logo.astro";
 ---
 
 <footer>
   <Container>
+    <div class="footer-links__grid">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/blog">Blog</a></li>
+        <li>
+          <a href="mailto:cloud-np@outlook.com">Contact</a>
+        </li>
+      </ul>
+      <ul class="logo-container">
+        <li><Logo /></li>
+      </ul>
+    </div>
     <div class="footer-bottom__container">
-      <div class="copyright-logo">
-        <p>&copy; {new Date().getFullYear()} {settings.name} </p>
-        <span class="logo__container"> <Logo /> </span>
-      </div>
+      <p>&copy; {new Date().getFullYear()} {settings.name}</p>
       <div class="socials-container">
         <h5>Follow me on</h5>
         <SocialList />
@@ -23,10 +34,7 @@ import Logo from "./Logo.astro";
 <style>
   footer {
     position: relative;
-    min-height: 100px;
-    justify-content: center;
-    align-items: center;
-    display: flex;
+    min-height: 200px;
     background-color: var(--theme-footer-background);
     color: var(--theme-on-footer-background);
     border-radius: 1rem 1rem 0 0;
@@ -53,6 +61,12 @@ import Logo from "./Logo.astro";
     margin-right: 1rem;
   }
 
+  .footer-links__grid ul li > a {
+    font-size: 1.1rem;
+    font-weight: 600;
+    font-family: var(--font-family-body);
+  }
+
   .footer-links__grid {
     padding: 2vh 0;
     display: flex;
@@ -73,14 +87,6 @@ import Logo from "./Logo.astro";
     justify-content: space-between;
     align-items: center;
     font-size: var(--step--2);
-  }
-  .copyright-logo {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  .logo__container {
-    margin-left: 1rem;
   }
 
   @media (max-width: 480px) {
