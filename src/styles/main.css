@@ -1,8 +1,15 @@
 :root {
-  --theme-share: #00d0ff;
-  --light-blue: #00d0ff;
-  --color-gray: rgb(105, 105, 105);
-  --selection-color: #00c3ff6b;
+  --c-theme-share: #00d0ff;
+  --c-light-blue: #00d0ff;
+
+  --c-light-gray: rgb(196, 196, 196);
+  --c-gray: rgb(105, 105, 105);
+
+  --c-ligther-gray:hsl(240, 19%, 84%);
+  --c-dark-gray: rgb(59, 59, 59);
+
+  --c-selection: #00c3ff6b;
+  --c-blue-100: hsl(240, 19%, 84%); /* Light Blue */
 
   /* Typography */
  /* @link https://utopia.fyi/type/calculator?c=320,18,1.2,1140,24,1.25,5,2,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l */
@@ -16,15 +23,15 @@
   --step-4: clamp(2.33rem, calc(1.81rem + 2.59vw), 3.66rem);
   --step-5: clamp(2.80rem, calc(2.11rem + 3.47vw), 4.58rem);
 
-  --font-fallback: ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-sans: 'Open Sans', var(--font-fallback);
-  --font-mono: 'Inter', var(--font-fallback);
+  --f-fallback: ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --f-sans: 'Open Sans', var(--f-fallback);
+  --f-mono: 'Inter', var(--f-fallback);
 
   --body-max-width: 1920px;
 
   /* Container */
-  --container-padding: 0 1rem;
-  --container-max-width: 860px;
+  --con-padding: 0 1rem;
+  --con-max-width: 860px;
 
   --header-height: 76px;
 
@@ -37,7 +44,7 @@ body {
   background-color: var(--theme-background);
   color: var(--theme-on-background);
   font-size: var(--step-0);
-  font-family: var(--font-mono);
+  font-family: var(--f-mono);
   font-weight: 400;
   line-height: 1.5;
   max-width: var(--body-max-width);
@@ -64,28 +71,28 @@ a {
 
 h1 {
   font-size: var(--step-4);
-  font-family: var(--font-sans);
+  font-family: var(--f-sans);
   font-weight: 700;
   line-height: 1.2;
 }
 
 h2 {
   font-size: var(--step-3);
-  font-family: var(--font-sans);
+  font-family: var(--f-sans);
   font-weight: 700;
   line-height: 1.2;
 }
 
 h3 {
   font-size: var(--step-2);
-  font-family: var(--font-sans);
+  font-family: var(--f-sans);
   font-weight: 500;
   line-height: 1.2;
 }
 
 h4 {
   font-size: var(--step-1);
-  font-family: var(--font-sans);
+  font-family: var(--f-sans);
 }
 
 h1,
@@ -95,7 +102,7 @@ h3 {
 }
 
 ::selection {
-  background-color: var(--selection-color);
+  background-color: var(--c-selection);
   color: rgb(0, 181, 212);
 }
 
@@ -103,13 +110,23 @@ h3 {
   color: rgb(0, 181, 212);
 }
 
-p > code, li > code {
-  background-color: #333333 !important;
+:where(html[color-scheme='dark']) :not(pre) > code {
+  background-color: var(--c-dark-gray) !important;
+
+  color: var(--c-light-gray);
+}
+
+:where(html[color-scheme='light']) :not(pre) > code {
+  background-color: var(--c-light-gray) !important;
+
+  color: var(--c-dark-gray);
+}
+
+:not(pre) > code {
   font-size: var(--step--2);
   padding: 0.23rem;
   border-radius: 0.5rem;
   line-height: 1.5rem;
-  color: rgb(196, 196, 196);
 }
 
 pre:hover > copy-code-button {
@@ -134,7 +151,7 @@ pre copy-code-button {
 }
 
 .clickable:hover {
-  color: var(--light-blue);
+  color: var(--c-light-blue);
 }
 
 /* Gloal fade in animation */

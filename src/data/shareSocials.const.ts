@@ -1,4 +1,4 @@
-export const share_socials = [
+export const shareSocials = [
   {
     name: 'Share to Facebook.',
     url: 'https://www.facebook.com/sharer.php?u=[post-url]',
@@ -44,5 +44,4 @@ export const share_socials = [
   //   url: '[post-url]',
   //   icon: 'mdi:bookmark'
   // },
-
-]
+] as const;
