@@ -1,7 +1,7 @@
 ---
 import Container from "./Container.astro";
 import {Icon} from 'astro-icon'
-import { share_socials } from "../data/share_socials";
+import { share_socials } from "../data/share_socials.const";
 
 interface Props {
     postTitle: string,
@@ -11,37 +11,34 @@ const currUrl = Astro.url.toString();
 const postTitle = Astro.props.postTitle;
 ---
 
-<div>
-    <Container>
-        <h4>Share post</h4>
+<Container>
+    <div class="share__container">
+        <h4>Share</h4>
         <ul class="social__list">
             {share_socials.map((social) => (
-                    <li>
-                        <a
-                            href={social.url.replace('[post-url]', currUrl).replace('[post-title]', postTitle)}
-                            title={social.name}
-                        >
-                            <Icon
-                                name={social.icon}
-                                width="24px"
-                                height="24px"
-                            />
-                        </a>
-                    </li>
-                ))
-            }
+                <li>
+                    <a
+                        href={social.url.replace('[post-url]', currUrl).replace('[post-title]', postTitle)}
+                        title={social.name}
+                    >
+                        <Icon
+                            name={social.icon}
+                            width="24px"
+                            height="24px"
+                        />
+                    </a>
+                </li>
+            ))}
         </ul>
-    </Container>
-</div>
+
+    </div>
+</Container>
 
 <style>
-    div {
+    .share__container {
         padding: 1rem;
-        /* background-color: rgb(24, 24, 24); */
         border-radius: 10rem;
         margin: 2rem;
-    }
-    ul {
     }
 
     h4 {

@@ -9,4 +9,4 @@ export const socials = [
     url: 'https://github.com/cloud-np',
     icon: 'mdi:github'
   }
-]
+] as const;

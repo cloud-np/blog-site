@@ -20,6 +20,26 @@ const posts = allPosts.filter(post => !post.frontmatter.personal);
         flex-direction: column;
         /* justify-content: space-between;
     height: 100vh; */
+  }
+  h1 {
+    padding-bottom: 2.5rem;
+  }
+  p {
+    padding-bottom: 6rem;
+  }
+
+  .home__main-text {
+    font-size: 1.2rem;
+  }
+
+  .waving {
+    position: absolute;
+    animation: waving-anim 0.5s ease-in-out 5 alternate;
+  }
+
+  @keyframes waving-anim {
+    from {
+      transform: rotate(15deg);
     }
     h1 {
         padding-bottom: 2.5rem;
@@ -52,29 +72,22 @@ const posts = allPosts.filter(post => !post.frontmatter.personal);
 </style>
 
 <Layout seo={seo}>
-    <Container>
-        <div class="home-hero-text__container">
-            <div>
-                <h1>
-                    Hi, I'm Nick.<span class="waving">👋🏼</span><br />I like to
-                    <TypeWriter
-                        waitPeriod={2000}
-                        messages={[
-                            "develop apps.",
-                            "think creative",
-                            "always improve.",
-                        ]}
-                    />
-                </h1>
-                <p>
-                    From dawn to dusk, I'm a software sorcerer, conjuring code
-                    and casting spells to solve intricate puzzles. With an eye
-                    for detail and a penchant for problem solving, I
-                    passionately engineer software.
-                </p>
-            </div>
-            <h4 class="projects-title fade-in">Latest Projects</h4>
-            <BlogPostsList class="latest-projects-container" posts={posts} />
-        </div>
-    </Container>
+  <Container>
+    <div class="home-hero-text__container">
+      <div class="home-hero-text">
+        <h1>
+          Hi, I'm Nick.<span class="waving">👋🏼</span><br />I like to
+          <TypeWriter
+            waitPeriod={2000}
+            messages={["develop apps.", "think creative.", "keep improving."]}
+          />
+        </h1>
+        <p class="home__main-text">From dawn to dusk, I'm a software sorcerer, conjuring code and casting spells to solve intricate puzzles.
+          Other than that I enjoy freediving, skiing and playing football with friends. With an eye for detail 
+          and a penchant for problem solving, I passionately engineer software.</p>
+      </div>
+      <h4 class="projects-title fade-in">Latest Projects</h4>
+      <BlogPostsList class="latest-projects-container" posts={posts} />
+    </div>
+  </Container>
 </Layout>

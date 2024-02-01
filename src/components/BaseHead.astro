@@ -1,9 +1,9 @@
 ---
-import { settings } from "../data/settings";
-import { ViewTransitions } from "astro:transitions";
+import { settings } from "../data/settings.const";
 
-import "../styles/reset.css";
-import "../styles/main.css";
+import '../styles/reset.css';
+import '../styles/main.css';
+import { ViewTransitions } from "astro:transitions";
 
 export interface Props {
     title?: string;
@@ -19,36 +19,50 @@ const image = new URL(Astro.props.image || "./social.png", Astro.site);
 ---
 
 <meta charset="utf-8" />
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1, viewport-fit=cover"
-/>
-<!-- Favicon -->
-<link rel="icon" type="image/svg" href="/favicon.svg" />
-<!-- Primary Meta Tags -->
-<title>{title || settings.title}</title>
-<ViewTransitions />
-<meta name="title" content={title || settings.title} />
 
+<title>{title || settings.title}</title>
+
+<link rel="icon" type="image/svg" href="/favicon.svg" />
+<link rel="sitemap" href="/sitemap-index.xml" />
+
+<meta name="title" content={title || settings.title} />
 <meta name="description" content={description || settings.description} />
 <meta name="generator" content={Astro.generator} />
-<!-- settingsmap -->
-<link rel="sitemap" href="/sitemap.xml" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+
 <!-- RSS -->
-<!-- <link
-    rel="alternate"
-    type="application/rss+xml"
-    title={`${settings.name} Blog`}
-    href={`${settings.url}/feed/blog.xml`}
-/>
--->
-<!-- Canonical -->
-<link rel="canonical" href={canonicalURL} />
+<link rel="alternate" type="application/rss+xml" title={`${settings.name} Blog`} href={`${settings.url}/feed/blog.xml`}/>
+
+<link rel="canonical" href={canonicalURL}>
+
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload"
+  href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap"
+  as="style"
+  onload="this.onload=null;this.rel='stylesheet'"
+>
+<noscript>
+  <link
+    href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    rel="stylesheet"
+    type="text/css">
+</noscript>
+<!-- For LaTeX -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.css" integrity="sha384-WsHMgfkABRyG494OmuiNmkAOk8nhO1qE+Y6wns6v+EoNoTNxrWxYpl5ZYWFOLPCM" crossorigin="anonymous">
+<!-- This stylesheet is responsible for changing the themes. When you want to change theme you simply point
+  to different file which just includes different values for the vars. -->
+<link rel="stylesheet" id="theme-stylesheet" href="/src/styles/light.theme.scss">
+<!-- To let javascript handle transitions between pages -->
+<ViewTransitions />
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website" />
 <meta property="og:url" content={canonicalURL} />
 <meta property="og:title" content={title} />
+<meta property="og:locale" content="en_US" />
 <meta property="og:description" content={description} />
 <meta property="og:image" content={image} />
 
@@ -59,37 +73,3 @@ const image = new URL(Astro.props.image || "./social.png", Astro.site);
 <meta property="twitter:description" content={description} />
 <meta property="twitter:image" content={image} />
 
-<!-- Google Fonts -->
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link
-    rel="preload"
-    href="https://fonts.googleapis.com/css2?family=Arvo:ital,wght@0,400;0,700;1,400;1,700&family=Lato:ital,wght@0,300;0,700;1,700&family=Roboto:wght@100;400;500;900&display=swap"
-    onload="this.onload=null;this.rel='stylesheet'"
-/>
-<link
-    rel="preload"
-    href="https://fonts.googleapis.com/icon?family=Material+Icons"
-    as="style"
-    onload="this.onload=null;this.rel='stylesheet'"
-/>
-<noscript>
-    <link
-        href="https://fonts.googleapis.com/icon?family=Material+Icons"
-        rel="stylesheet"
-        type="text/css"
-    />
-</noscript>
-<link
-    rel="preload"
-    href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap"
-    as="style"
-    onload="this.onload=null;this.rel='stylesheet'"
-/>
-<noscript>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap"
-        rel="stylesheet"
-        type="text/css"
-    />
-</noscript>

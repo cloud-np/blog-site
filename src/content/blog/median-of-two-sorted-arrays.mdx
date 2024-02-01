@@ -1,0 +1,63 @@
+---
+layout: '../../layouts/Post.astro'
+title: Median of Two Sorted Arrays
+previewImage: '../../assets/images/median-of-two-sorted-arrays-perf.png'
+titleImage: /images/median-of-two-sorted-arrays-perf
+publishedAt: "2022-11-12"
+category: 'Leetcode'
+searchCategories: ['Hard Problem', 'Leetcode', 'Javascript', 'Typescript']
+personal: true
+---
+import Note from "../../components/Note/Note.astro";
+
+In this post, we'll delve into a straightforward solution to a classic problem often encountered in coding interviews of companies like 
+Google, Amazon, Microsoft and Facebook, which deal with massive amounts of data and require efficient algorithms for data processing and analysis. 
+This approach is particularly efficient for large datasets since it achieves the optimal time complexity of `O(log (m+n))`
+
+```typescript title="example.ts" {2-4}
+const lenSum: number = nums1.length + nums2.length;
+const medianPos: number = Math.floor(lenSum / 2);
+const isCombinedLenEven: boolean = !(lenSum % 2);
+
+let mergedArr: number[] = [];
+```
+```sh frame="code"
+#!/bin/sh
+# my-script.sh
+echo "This is a script file, not a terminal!"
+```
+
+## Problem Statement
+
+Given: Two sorted arrays `nums1` and `nums2` of size `m` and `n` respectively, return the median of the two sorted arrays.
+The overall run time complexity should be `O(log (m+n))`
+##### Example 1:
+
+- Input: `nums1 = [1,3]`, `nums2 = [2]`
+- Output: `2.00000`
+- Explanation: merged array is `[1,2,3]` and median is `2`.
+##### Example 2:
+- Input: `nums1 = [1,2]`, `nums2 = [3,4]`
+- Output: `2.50000`
+- Explanation: merged array is `[1,2,3,4]` and median is `(2 + 3) / 2 = 2.5`.
+
+### Intuition and Approach
+The solution leverages the simple idea that for the median we just have to look for the middle of the merged array of the two sorted arrays.
+So we combine the two sorted arrays into one sorted array named `A`. 
+- If the combined length `n` of these arrays is odd,the median is `A[n / 2]`.
+- If n is even, the median is the average of `A[n / 2]` and `A[n / 2 + 1]`.
+
+With that we can find the length of the two combined arrays as if they were merged and their median position.
+
+```typescript title="example.ts" {2-4}
+const lenSum: number = nums1.length + nums2.length;
+const medianPos: number = Math.floor(lenSum / 2);
+const isCombinedLenEven: boolean = !(lenSum % 2);
+
+let mergedArr: number[] = [];
+```
+<Note title="Note">
+    Even though we will use at first a 
+</Note>
+
+![random-image](https://unsplash.it/400/300)

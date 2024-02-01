@@ -6,7 +6,7 @@
 <script is:inline>
 	const doc = document.firstElementChild;
 	const localStorageTheme = localStorage.getItem('theme');
-	if (localStorageTheme !== null) {
+	if (!localStorageTheme) {
 		doc.setAttribute('color-scheme', localStorageTheme);
 	}
 </script>

@@ -1,8 +1,6 @@
 ---
 import BaseHead from "../components/BaseHead.astro";
 import type { Props as BaseHeadProps } from '../components/BaseHead.astro';
-import CreateCopyCodeButtons from "../components/CodeButtons/CreateCopyCodeButtons.astro";
-// import FadeIn from "../components/FadeIn.astro";
 import ThemeProvider from "../components/ThemeToggleButton/ThemeProvider.astro";
 
 export interface Props {
@@ -16,12 +14,6 @@ const { seo } = Astro.props;
   <head>
     <BaseHead {...seo} />
     <ThemeProvider/>
-    <!-- This is and experimental global fade in animation that is being worked on, enable at your own risk of some jank -->
-    <!-- <FadeIn/> -->
-    <CreateCopyCodeButtons />
-    <script>
-      import '../components/CodeButtons/copy-code-button'
-    </script>
   </head>
   <body>
     <slot name="header" />
@@ -31,3 +23,55 @@ const { seo } = Astro.props;
     <slot name="footer" />
   </body>
 </html>
+
+
+<style>
+  :root {
+    color-scheme: light;
+
+    --theme-primary: hsl(0, 0%, 5%);
+    --theme-on-primary: hsl(0, 0%, 90%);
+
+    --theme-primary-hover: hsl(0, 0%, 10%);
+
+    --theme-primary-light: hsl(0, 0%, 80%);
+
+    --theme-background: hsl(0, 0%, 98%);
+    --theme-on-background: hsl(0, 0%, 5%);
+
+    --theme-surface-1: hsl(0, 0%, 93%);
+    --theme-on-surface-1: hsl(0, 0%, 10%);
+
+    --theme-code-background: #1a1a1a;
+    --theme-on-code-background: rgba(245, 245, 245, 0.185);
+    --theme-code-border: rgb(46, 46, 46);
+    --theme-on-code-border: rgb(228, 228, 228);
+  }
+
+  :where(html)[color-scheme='dark'] {
+    color-scheme: dark;
+
+    --theme-primary: hsl(0, 0%, 90%);
+    --theme-on-primary: hsl(0, 0%, 5%);
+
+    --theme-primary-hover: hsl(0, 0%, 80%);
+
+    --theme-primary-light: hsl(0, 0%, 20%);
+
+    --theme-on-background: hsl(0, 0%, 92%);
+    --theme-background: hsl(0, 0%, 8%);
+
+    --theme-surface-1: hsl(0, 0%, 12%);
+    --theme-on-surface-1: hsl(0, 0%, 96%);
+
+    --theme-code-background: #fff;
+    --theme-on-code-background: #1a1a1a;
+  
+    --theme-code-border: rgb(228, 228, 228);
+    --theme-on-code-border: rgb(46, 46, 46);
+  }
+
+  :where(html) {
+    scroll-behavior: smooth;
+  }
+</style>
