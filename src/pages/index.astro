@@ -5,72 +5,76 @@ import TypeWriter from "../components/TypeWriter.astro";
 import BlogPostsList from "../components/BlogPostsList.astro";
 
 const seo = {
-  title: "cloud-np",
-  description: "A simple blog focused on provided the best",
+    title: "cloud-np",
+    description: "A simple blog focused on provided the best",
 };
 
 const allPosts = await Astro.glob("./blog/*.{md,mdx}");
-const posts = [];
-// Change this to map.
-allPosts.forEach(post => {
-  if(post.frontmatter.personal) posts.push(post);
-})
+const posts = allPosts.filter(post => !post.frontmatter.personal);
 ---
 
 <style>
-  .home-hero-text__container {
-    padding: 5vh 0;
-    display: flex;
-    flex-direction: column;
-    /* justify-content: space-between;
+    .home-hero-text__container {
+        padding: 5vh 0;
+        display: flex;
+        flex-direction: column;
+        /* justify-content: space-between;
     height: 100vh; */
-  }
-  h1 {
-    padding-bottom: 2.5rem;
-  }
-  p {
-    padding-bottom: 6rem;
-  }
-  .waving {
-    position: absolute;
-    animation: waving-anim 0.5s ease-in-out 5 alternate;
-  }
-
-  @keyframes waving-anim {
-    from {
-      transform: rotate(15deg);
     }
-    to {
-      transform: rotate(0deg);
+    h1 {
+        padding-bottom: 2.5rem;
     }
-  }
+    p {
+        padding-bottom: 6rem;
+    }
+    .waving {
+        position: absolute;
+        animation: waving-anim 0.5s ease-in-out 5 alternate;
+    }
 
-  .latest-projects-container {
-    padding-top: 2rem;
-  }
+    @keyframes waving-anim {
+        from {
+            transform: rotate(15deg);
+        }
+        to {
+            transform: rotate(0deg);
+        }
+    }
 
-  .projects-title {
-    margin-top: 6rem;
-    margin-bottom: 3rem;
-  }
+    .latest-projects-container {
+        padding-top: 2rem;
+    }
+
+    .projects-title {
+        margin-top: 6rem;
+        margin-bottom: 3rem;
+    }
 </style>
 
 <Layout seo={seo}>
-  <Container>
-    <div class="home-hero-text__container">
-      <div>
-        <h1>
-          Hi, I'm Nick.<span class="waving">👋🏼</span><br />I like to
-          <TypeWriter
-            waitPeriod={2000}
-            messages={["develop apps.", "think creative", "always improve."]}
-          />
-        </h1>
-        <p>From dawn to dusk, I'm a software sorcerer, conjuring code and casting spells to solve intricate puzzles.
-          With an eye for detail and a penchant for problem solving, I passionately engineer software.</p>
-      </div>
-      <h4 class="projects-title fade-in">Latest Projects</h4>
-      <BlogPostsList class="latest-projects-container" posts={posts} />
-    </div>
-  </Container>
+    <Container>
+        <div class="home-hero-text__container">
+            <div>
+                <h1>
+                    Hi, I'm Nick.<span class="waving">👋🏼</span><br />I like to
+                    <TypeWriter
+                        waitPeriod={2000}
+                        messages={[
+                            "develop apps.",
+                            "think creative",
+                            "always improve.",
+                        ]}
+                    />
+                </h1>
+                <p>
+                    From dawn to dusk, I'm a software sorcerer, conjuring code
+                    and casting spells to solve intricate puzzles. With an eye
+                    for detail and a penchant for problem solving, I
+                    passionately engineer software.
+                </p>
+            </div>
+            <h4 class="projects-title fade-in">Latest Projects</h4>
+            <BlogPostsList class="latest-projects-container" posts={posts} />
+        </div>
+    </Container>
 </Layout>

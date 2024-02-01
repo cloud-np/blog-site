@@ -5,11 +5,11 @@ import mdx from "@astrojs/mdx";
 
 // https://astro.build/config
 export default defineConfig({
-  site: settings.site,
-  integrations: [sitemap(), mdx()],
-  vite: {
-    ssr: {
-      external: ["svgo"]
+    site: settings.url,
+    integrations: [sitemap(), mdx()],
+    vite: {
+        ssr: {
+            external: ["svgo"]
+        }
     }
-  }
 });

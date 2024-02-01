@@ -2,6 +2,7 @@
 layout: '../../layouts/Post.astro'
 title: Gmail Analyzer
 image: /images/freelance
+alt: "Gmail analyzer"
 publishedAt: "2022-11-12"
 category: 'Python'
 searchCategories: ['NLP', 'AI', 'Machine Learning', 'API']

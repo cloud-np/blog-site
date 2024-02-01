@@ -1,8 +1,5 @@
 ---
-
-import logo from '../../assets/logo.png';
-
+const { default: innerHtml } = await import('/assets/logo.svg?raw');
 ---
 
-<img width="40px" src={logo} alt="cloud-np logo" />
-<!-- <svg fill="none" viewBox="0 0 206 252" height="24px"><path stroke="currentColor" stroke-linecap="round" stroke-width="18.628" d="M10 242.594 135.02 10M196.519 242.595 71.499 10"></path></svg> -->
+<Fragment set:html={innerHtml} />
