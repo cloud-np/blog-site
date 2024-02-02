@@ -3,8 +3,11 @@ import Layout from "../layouts/Page.astro";
 import Container from "../components/Container.astro";
 import BlogPostsList from "../components/BlogPostsList.astro";
 
-const posts = (await Astro.glob('./blog/*.{md,mdx}')).sort(
-	(a, b) => new Date(b.frontmatter.publishedAt).valueOf() - new Date(a.frontmatter.publishedAt).valueOf()
+console.log("Hello from the blog index page");
+const posts = (await Astro.glob("./blog/*.{md,mdx}")).sort(
+    (a, b) =>
+        new Date(b.frontmatter.publishedAt).valueOf() -
+        new Date(a.frontmatter.publishedAt).valueOf(),
 );
 const seo = {
     title: "cloud-np | Tech Blog",
@@ -26,6 +29,6 @@ const seo = {
         <div class="main_content">
             <h1>Latest posts</h1>
         </div>
-        <BlogPostsList posts={posts}/>
+        <BlogPostsList posts={posts} />
     </Container>
 </Layout>
