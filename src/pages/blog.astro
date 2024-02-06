@@ -9,6 +9,7 @@ const posts = (await Astro.glob("./blog/*.{md,mdx}")).sort(
         new Date(b.frontmatter.publishedAt).valueOf() -
         new Date(a.frontmatter.publishedAt).valueOf(),
 );
+console.log(posts);
 const seo = {
     title: "cloud-np | Tech Blog",
     description: "A simple blog focused on provided the best",

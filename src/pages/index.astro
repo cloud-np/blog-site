@@ -3,70 +3,19 @@ import Layout from "../layouts/Page.astro";
 import Container from "../components/Container.astro";
 import TypeWriter from "../components/TypeWriter.astro";
 import BlogPostsList from "../components/BlogPostsList.astro";
+import { getPosts } from "../libs/post";
+import { Image } from "astro:assets";
 
 const seo = {
     title: "cloud-np",
     description: "A simple blog focused on provided the best",
 };
 
-const allPosts = await Astro.glob("./content/blog/*.{md,mdx}");
+// const allPosts = await Astro.glob("./content/blog/*.{md,mdx}");
+const allPosts = await getPosts(undefined);
 //const allPosts = await Astro.glob("./blog/*.{md,mdx}");
-const posts = allPosts.filter((post) => !post.frontmatter.personal);
+const posts = allPosts.filter(post => !!post.personal);
 ---
-
-<style>
-    .home-hero-text__container {
-        padding: 5vh 0;
-        display: flex;
-        flex-direction: column;
-        /* justify-content: space-between;
-    height: 100vh; */
-    }
-    h1 {
-        padding-bottom: 2.5rem;
-    }
-    p {
-        padding-bottom: 6rem;
-    }
-
-    .home__main-text {
-        font-size: 1.2rem;
-    }
-
-    .waving {
-        position: absolute;
-        animation: waving-anim 0.5s ease-in-out 5 alternate;
-    }
-
-    h1 {
-        padding-bottom: 2.5rem;
-    }
-    p {
-        padding-bottom: 6rem;
-    }
-    .waving {
-        position: absolute;
-        animation: waving-anim 0.5s ease-in-out 5 alternate;
-    }
-
-    @keyframes waving-anim {
-        from {
-            transform: rotate(15deg);
-        }
-        to {
-            transform: rotate(0deg);
-        }
-    }
-
-    .latest-projects-container {
-        padding-top: 2rem;
-    }
-
-    .projects-title {
-        margin-top: 6rem;
-        margin-bottom: 3rem;
-    }
-</style>
 
 <Layout seo={seo}>
     <Container>
@@ -96,3 +45,61 @@ const posts = allPosts.filter((post) => !post.frontmatter.personal);
         </div>
     </Container>
 </Layout>
+
+<style>
+    .home-hero-text__container {
+        padding: 5vh 0;
+        display: flex;
+        flex-direction: column;
+        /* justify-content: space-between;
+        height: 100vh; */
+    }
+
+    h1 {
+        padding-bottom: 2.5rem;
+    }
+
+    p {
+        padding-bottom: 6rem;
+    }
+
+    .home__main-text {
+        font-size: 1.2rem;
+    }
+
+    .waving {
+        position: absolute;
+        animation: waving-anim 0.5s ease-in-out 5 alternate;
+    }
+
+    h1 {
+        padding-bottom: 2.5rem;
+    }
+
+    p {
+        padding-bottom: 6rem;
+    }
+
+    .waving {
+        position: absolute;
+        animation: waving-anim 0.5s ease-in-out 5 alternate;
+    }
+
+    @keyframes waving-anim {
+        from {
+            transform: rotate(15deg);
+        }
+        to {
+            transform: rotate(0deg);
+        }
+    }
+
+    .latest-projects-container {
+        padding-top: 2rem;
+    }
+
+    .projects-title {
+        margin-top: 6rem;
+        margin-bottom: 3rem;
+    }
+</style>

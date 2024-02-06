@@ -12,18 +12,18 @@ import icon from "astro-icon";
 
 // https://astro.build/config
 export default defineConfig({
-  site: settings.url,
-  integrations: [sitemap(), expressiveCode(), astroExpressiveCode({
-    themeCssSelector: theme => `[color-scheme='${theme.type}']`,
-    themes: ['material-theme-darker', 'material-theme-lighter']
-  }), mdx(), tailwind(), icon()],
-  vite: {
-    ssr: {
-      external: ["svgo"]
-    }
-  },
-  markdown: {
-    remarkPlugins: [remarkMath],
-    rehypePlugins: [rehypeKatex]
-  }
+	site: settings.url,
+	integrations: [sitemap(), expressiveCode(), astroExpressiveCode({
+		themeCssSelector: theme => `[color-scheme='${theme.type}']`,
+		themes: ['material-theme-darker', 'material-theme-lighter']
+	}), mdx(), tailwind(), icon()],
+	vite: {
+		ssr: {
+			external: ["svgo"]
+		}
+	},
+	markdown: {
+		remarkPlugins: [remarkMath],
+		rehypePlugins: [rehypeKatex]
+	}
 });

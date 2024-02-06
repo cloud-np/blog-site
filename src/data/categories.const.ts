@@ -1,7 +1,11 @@
 export const CATEGORIES = [
-    'Category 1',
-    'Category 2',
-    'Category 3',
-    'Category 4',
-    'Category 5'
+    'Leetcode',
+    'Angular',
+    'React',
+    'Astro',
+    'Frontend',
+    'AI & Machine learning',
+    'DevOps',
+    'Javascript',
+    'Typescript'
 ] as const;

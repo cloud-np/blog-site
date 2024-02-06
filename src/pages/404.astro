@@ -1,9 +1,8 @@
 ---
 import Layout from "../layouts/Page.astro";
+import girl404 from '../assets/giphy.gif';
+import { Picture } from "astro:assets";
 
-//const posts = (await Astro.glob('./blog/*.{md,mdx}')).sort(
-//  (a, b) => new Date(b.frontmatter.publishedAt).valueOf() - new Date(a.frontmatter.publishedAt).valueOf()
-//);
 const seo = {
     title: "cloud-np | Tech Blog",
     description: "A simple blog focused on provided the best",
@@ -11,16 +10,31 @@ const seo = {
 ---
 
 <style>
-    div {
+    section {
         display: flex;
         justify-content: center;
+        text-align: center;
+        flex-direction: column;
         align-items: center;
+        height: 100%;
+    }
+    div {
+        margin-bottom: 2rem;
+    }
+    p {
+        font-size: 1.2rem;
     }
 </style>
 
 <Layout seo={seo}>
-    <div>
-        <h1>404</h1>
-        <p>Well this is awk</p>
-    </div>
+    <section>
+        <div>
+            <h1>404</h1>
+            <p>Well that was unfortunate..</p>
+        </div>
+        <Picture
+            src={girl404}
+            alt="ep"
+        />
+    </section>
 </Layout>

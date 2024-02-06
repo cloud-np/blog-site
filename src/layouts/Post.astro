@@ -4,108 +4,116 @@ import Container from '../components/Container.astro';
 import { formatDate, slugify } from '../utils/helpers';
 import SharePost from '../components/SharePost.astro';
 import { Picture } from 'astro:assets';
+import type { Post } from '../libs/post';
 
-const { frontmatter } = Astro.props;
+interface Props {
+	post: Post;
+}
+
+const { post } = Astro.props;
 
 const seo = {
-  title: frontmatter.title,
-  description: frontmatter.description,
-  image: frontmatter.titleImage,
+	title: post.title,
+	// description: post.description,
+	image: post.titleImage.src,
 };
 ---
 
 <Layout seo={seo}>
-  <Container>
-    <article class="post-content__article">
-      <div class="post-content__top fade-in">
-        {
-          frontmatter.category && (
-            <p class="post-content__category">
-              <a href={`/blog/category/${slugify(frontmatter.category)}`}>
-                { frontmatter.category }
-              </a>
-            </p>
-          )
-        }
-        <h1 class="post-content__title">{frontmatter.title}</h1>
-        <p class="post-content__date">
-          <time>{formatDate(frontmatter.publishedAt)}</time>
-        </p>
-        {
-          frontmatter.titleImage && (
-            <Picture
-              src={frontmatter.titleImage}
-              alt={frontmatter.alt ?? ""}
-              formats={['webp', 'png']}
-              class="post-content__img"
-              loading="eager"
-              width="1200"
-              height="630"
-            />
-          )
-        }
-      </div>
-      <div class="post-content__content flow fade-in">
-        <slot />
-      </div>
-    </article>
-    <SharePost postTitle={ frontmatter.title }/>
-  </Container>
+	<Container>
+		<article class="post-content__article">
+			<div class="post-content__top fade-in">
+				{
+					post.category && (
+						<p class="post-content__category">
+							<a
+								href={`/blog/category/${slugify(post.category)}`}
+							>
+								{post.category}
+							</a>
+						</p>
+					)
+				}
+				<h1 class="post-content__title">{post.title}</h1>
+				<p class="post-content__date">
+					<time>{formatDate(post.publishedAt)}</time>
+				</p>
+
+				{
+					post.titleImage && (
+						<Picture
+							src={post.titleImage}
+                            alt={`Featured for ${post.title}`}
+							formats={['webp', 'png']}
+							class="post-content__img"
+							loading="eager"
+							width="1200"
+							height="630"
+						/>
+					)
+				}
+			</div>
+			<div class="post-content__content flow fade-in">
+				<slot />
+			</div>
+		</article>
+		<SharePost postTitle={post.title} />
+	</Container>
 </Layout>
 
 <style>
-  .post-content__top {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-  .post-content__category {
-    padding: 0.5rem 1rem;
-    font-size: var(--step--1);
-    background-color: var(--theme-surface-1);
-    border-radius: 2rem;
-  }
-  .post-content__category a {
-    text-decoration: none;
-  }
-  .post-content__category a:hover {
-    opacity: 0.8;
-  }
-  .post-content__article {
-    padding: 5vh 2rem;
-    max-width: 60rem;
-    margin: auto;
-  }
-  .post-content__title {
-    margin: 1rem auto;
-    font-size: var(--step-5);
-  }
-  .post-content__date {
-    margin: 0 auto;
-    font-size: var(--step--1);
-    color: var(--color-gray);
-  }
-  .post-content__img {
-    margin: 3rem 0 2rem 0;
-    max-width: 100%;
-    /* max-width: calc(40rem); */
-    height: auto;
-    border-radius: .5rem;
-  }
-  .post-content__content {
-    font-size: var(--step--1);
-    hyphens: auto;
-    /* max-width: min(100%, 600px); */
-    /* max-width: calc(40rem); */
-  }
+	.post-content__top {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
+	}
+	.post-content__category {
+		padding: 0.5rem 1rem;
+		font-size: var(--step--1);
+		background-color: var(--theme-surface-1);
+		border-radius: 2rem;
+	}
+	.post-content__category a {
+		text-decoration: none;
+	}
+	.post-content__category a:hover {
+		opacity: 0.8;
+	}
+	.post-content__article {
+		padding: 5vh 2rem;
+		max-width: 60rem;
+		margin: auto;
+	}
+	.post-content__title {
+		margin: 1rem auto;
+		font-size: var(--step-5);
+	}
+	.post-content__date {
+		margin: 0 auto;
+		font-size: var(--step--1);
+		color: var(--color-gray);
+	}
+	.post-content__img {
+		margin: 3rem 0 2rem 0;
+		max-width: 100%;
+		/* max-width: calc(40rem); */
+		height: auto;
+		border-radius: 0.5rem;
+	}
+	.post-content__content {
+		font-size: var(--step--1);
+		hyphens: auto;
+		/* max-width: min(100%, 600px); */
+		/* max-width: calc(40rem); */
+	}
 
-    .post-content__content :global(img) {
-        display: block;
-        margin: 2rem auto;
-        width: 100%;
-        object-fit: contain;
-        max-width: 100%;
-        border-radius: 0.5rem;
-    }
+	.post-content__content :global(img) {
+		display: block;
+		margin: 2rem auto;
+		width: 100%;
+		object-fit: contain;
+		max-width: 100%;
+		border-radius: 0.5rem;
+	}
 </style>
