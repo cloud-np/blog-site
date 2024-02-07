@@ -1,18 +1,30 @@
 ---
-import PageLayout from './Page.astro';
-import Container from '../components/Container.astro';
-import { formatDate, slugify } from '../utils/helpers';
-import SharePost from '../components/SharePost.astro';
+import PageLayout from '../../layouts/Page.astro';
+import Container from '../../components/Container.astro';
+import { formatDate, slugify } from '../../utils/helpers';
+import SharePost from '../../components/SharePost.astro';
 import { Picture } from 'astro:assets';
-import type { Post } from '../libs/post';
+import { getPosts, type Post } from '../../libs/post';
 
 interface Props {
 	post: Post;
 }
 
-const { post } = Astro.props;
+export async function getStaticPaths() {
+    console.log("Running getStaticPaths");
 
-console.log(post);
+    const allPosts = await getPosts(undefined);
+    const posts: Post[] = allPosts.filter(post => !!post.personal);
+
+    // map through the categories array
+    return posts.map(post => ({
+		params: { slug: post.slug },
+		props: { post },
+    }));
+}
+const { post } = Astro.props;
+const { Content } = await post.render()
+
 const seo = {
 	title: post.title,
 	// description: post.description,
@@ -39,6 +51,9 @@ const seo = {
 				<p class="post-content__date">
 					<time>{formatDate(post.publishedAt)}</time>
 				</p>
+				<p class="post-content__minsread">
+					<span>{post.minutesRead} read</span>
+				</p>
 
 				{
 					post.titleImage && (
@@ -55,7 +70,8 @@ const seo = {
 				}
 			</div>
 			<div class="post-content__content flow fade-in">
-				<slot />
+				<!-- <slot /> -->
+				<Content/>
 			</div>
 		</article>
 		<SharePost postTitle={post.title} />
@@ -69,15 +85,18 @@ const seo = {
 		align-items: center;
 		text-align: center;
 	}
+
 	.post-content__category {
 		padding: 0.5rem 1rem;
 		font-size: var(--step--1);
 		background-color: var(--theme-surface-1);
 		border-radius: 2rem;
 	}
+
 	.post-content__category a {
 		text-decoration: none;
 	}
+
 	.post-content__category a:hover {
 		opacity: 0.8;
 	}
@@ -86,15 +105,23 @@ const seo = {
 		max-width: 60rem;
 		margin: auto;
 	}
+
 	.post-content__title {
 		margin: 1rem auto;
 		font-size: var(--step-5);
 	}
+
 	.post-content__date {
 		margin: 0 auto;
 		font-size: var(--step--1);
-		color: var(--color-gray);
+		color: var(--c-light-gray);
 	}
+
+	.post-content__minsread {
+		font-size: var(--step--2);
+		color: var(--c-medium-gray);
+	}
+
 	.post-content__img {
 		margin: 3rem 0 2rem 0;
 		max-width: 100%;
@@ -102,6 +129,7 @@ const seo = {
 		height: auto;
 		border-radius: 0.5rem;
 	}
+
 	.post-content__content {
 		font-size: var(--step--1);
 		hyphens: auto;

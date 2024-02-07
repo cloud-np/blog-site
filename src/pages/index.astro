@@ -4,16 +4,13 @@ import Container from "../components/Container.astro";
 import TypeWriter from "../components/TypeWriter.astro";
 import BlogPostsList from "../components/BlogPostsList.astro";
 import { getPosts } from "../libs/post";
-import { Image } from "astro:assets";
 
 const seo = {
     title: "cloud-np",
     description: "A simple blog focused on provided the best",
 };
 
-// const allPosts = await Astro.glob("./content/blog/*.{md,mdx}");
 const allPosts = await getPosts(undefined);
-//const allPosts = await Astro.glob("./blog/*.{md,mdx}");
 const posts = allPosts.filter(post => !!post.personal);
 ---
 

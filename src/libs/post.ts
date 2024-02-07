@@ -22,6 +22,7 @@ export const getPosts = async (limit: number | undefined): Promise<Post[]> => {
             slug: rawPost.slug,
             collection: rawPost.collection,
             href: getRawPostHref(rawPost),
+            render: rawPost.render,
             minutesRead: `${readingTimeMinutes}min`,
         };
 
@@ -57,10 +58,9 @@ const getRawPostHref = (rawPost: CollectionEntry<'blog'>): string => {
     return `/blog/${rawPost.slug}`;
 };
 
-type RawPostWithOutData = Omit<CollectionEntry<'blog'>, 'data' | 'body' | 'render'>;
+type RawPostWithOutData = Omit<CollectionEntry<'blog'>, 'data' | 'body'>;
 
 interface RawPostData {
-    layout: string;
     title: string;
     titleImage: LoadedImage;
     previewImage: LoadedImage;

@@ -1,5 +1,4 @@
 ---
-layout: '../../layouts/Post.astro'
 title: Ep op 
 # previewImage: './median-of-two-sorted-arrays-perf.png'
 previewImage: "../../assets/images/median-of-two-sorted-arrays-perf.png"

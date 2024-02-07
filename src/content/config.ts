@@ -5,7 +5,6 @@ const blog = defineCollection({
 	type: 'content',
 	schema: ({ image }) =>
 		z.object({
-			layout: z.string(),
 			title: z.string().max(80),
 			titleImage: image(),
 			previewImage: image(),
