@@ -1,7 +1,7 @@
 ---
-import BaseHead from "../components/BaseHead.astro";
+import BaseHead from '../components/BaseHead.astro';
 import type { Props as BaseHeadProps } from '../components/BaseHead.astro';
-import ThemeProvider from "../components/ThemeToggleButton/ThemeProvider.astro";
+import ThemeProvider from '../components/ThemeToggleButton/ThemeProvider.astro';
 
 export interface Props {
 	seo?: BaseHeadProps;
@@ -11,67 +11,96 @@ const { seo } = Astro.props;
 ---
 
 <html lang="en">
-  <head>
-    <BaseHead {...seo} />
-    <ThemeProvider/>
-  </head>
-  <body>
-    <slot name="header" />
-    <main class="flow">
-      <slot />
-    </main>
-    <slot name="footer" />
-  </body>
+	<head>
+		<BaseHead {...seo} />
+		<ThemeProvider />
+	</head>
+	<body>
+		<slot name="header" />
+		<main class="flow seperate-from-header">
+			<slot />
+		</main>
+		<slot name="footer" />
+		<style>
+			:root {
+				color-scheme: light;
+
+				--theme-primary: hsl(0, 0%, 5%);
+				--theme-on-primary: hsl(0, 0%, 90%);
+
+				--theme-primary-hover: hsl(0, 0%, 10%);
+
+				--theme-primary-light: hsl(0, 0%, 80%);
+
+				--theme-background: hsl(0, 0%, 98%);
+				--theme-on-background: hsl(0, 0%, 5%);
+
+				--theme-border-color: hsla(0, 0%, 100%, 0.08);
+				--theme-on-border-color: hsla(0, 0%, 0%, 0.08);
+
+				--theme-surface-1: hsl(0, 0%, 93%);
+				--theme-on-surface-1: hsl(0, 0%, 10%);
+
+				--theme-code-background: #1a1a1a;
+				--theme-on-code-background: rgba(245, 245, 245, 0.185);
+				--theme-code-border: rgb(46, 46, 46);
+				--theme-on-code-border: rgb(228, 228, 228);
+			}
+
+			:where(html)[color-scheme='dark'] {
+				color-scheme: dark;
+
+				--theme-primary: hsl(0, 0%, 90%);
+				--theme-on-primary: hsl(0, 0%, 5%);
+
+				--theme-primary-hover: hsl(0, 0%, 80%);
+
+				--theme-primary-light: hsl(0, 0%, 20%);
+
+				--theme-on-background: hsl(0, 0%, 92%);
+				--theme-background: hsl(0, 0%, 8%);
+
+				--theme-surface-1: hsl(0, 0%, 12%);
+				--theme-on-surface-1: hsl(0, 0%, 96%);
+
+				--theme-code-background: #fff;
+				--theme-on-code-background: #1a1a1a;
+
+				--theme-border-color: hsla(0, 0%, 0%, 0.08);
+				--theme-on-border-color: hsla(0, 0%, 100%, 0.08);
+
+				--theme-code-border: rgb(228, 228, 228);
+				--theme-on-code-border: rgb(46, 46, 46);
+			}
+
+			:where(html) {
+				scroll-behavior: smooth;
+			}
+		</style>
+	</body>
 </html>
 
-
 <style>
-  :root {
-    color-scheme: light;
+    body {
+        margin: 0 auto;
+        background-color: var(--theme-background);
+        color: var(--theme-on-background);
+        font-size: var(--step-0);
+        font-family: var(--f-mono);
+        font-weight: 400;
+        line-height: 1.5;
+        /* max-width: var(--lg-container); */
+        max-width: 100vw;
+        position: relative;
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+    }
 
-    --theme-primary: hsl(0, 0%, 5%);
-    --theme-on-primary: hsl(0, 0%, 90%);
+    .flow>*+* {
+        margin-top: var(--flow-space, 1em);
+    }
 
-    --theme-primary-hover: hsl(0, 0%, 10%);
-
-    --theme-primary-light: hsl(0, 0%, 80%);
-
-    --theme-background: hsl(0, 0%, 98%);
-    --theme-on-background: hsl(0, 0%, 5%);
-
-    --theme-surface-1: hsl(0, 0%, 93%);
-    --theme-on-surface-1: hsl(0, 0%, 10%);
-
-    --theme-code-background: #1a1a1a;
-    --theme-on-code-background: rgba(245, 245, 245, 0.185);
-    --theme-code-border: rgb(46, 46, 46);
-    --theme-on-code-border: rgb(228, 228, 228);
-  }
-
-  :where(html)[color-scheme='dark'] {
-    color-scheme: dark;
-
-    --theme-primary: hsl(0, 0%, 90%);
-    --theme-on-primary: hsl(0, 0%, 5%);
-
-    --theme-primary-hover: hsl(0, 0%, 80%);
-
-    --theme-primary-light: hsl(0, 0%, 20%);
-
-    --theme-on-background: hsl(0, 0%, 92%);
-    --theme-background: hsl(0, 0%, 8%);
-
-    --theme-surface-1: hsl(0, 0%, 12%);
-    --theme-on-surface-1: hsl(0, 0%, 96%);
-
-    --theme-code-background: #fff;
-    --theme-on-code-background: #1a1a1a;
-  
-    --theme-code-border: rgb(228, 228, 228);
-    --theme-on-code-border: rgb(46, 46, 46);
-  }
-
-  :where(html) {
-    scroll-behavior: smooth;
-  }
+    .seperate-from-header {
+        margin-top: 7rem;
+    }
 </style>

@@ -32,12 +32,6 @@ export default defineConfig({
 		remarkPlugins: [remarkMath],
 		rehypePlugins: [rehypeKatex]
 	},
-//   markdown: {
-//     rehypePlugins: [rehypeHeadingIds, [rehypeAutolinkHeadings, { behavior: 'wrap' }]],
-//     remarkPlugins: [remarkDirective, remarkAdmonitions],
-//     syntaxHighlight: false,
-//   },
-
 	prefetch: {
 		defaultStrategy: 'hover',
 		prefetchAll: true,

@@ -1,169 +1,203 @@
+/******************************/
+/* TODO: Move these elsewere */
+@font-face {
+	font-family: 'JakartaSans';
+	src: url('./src/assets/fonts/PlusJakartaSans-Light.ttf') format('truetype');
+	font-weight: 300;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'JakartaSans';
+	src: url('./src/assets/fonts/PlusJakartaSans-Regular.ttf') format('truetype');
+	font-weight: 400;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'JakartaSans';
+	src: url('./src/assets/fonts/PlusJakartaSans-Medium.ttf') format('truetype');
+	font-weight: 500;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'JakartaSans';
+	src: url('./src/assets/fonts/PlusJakartaSans-SemiBold.ttf') format('truetype');
+	font-weight: 600;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'JakartaSans';
+	src: url('./src/assets/fonts/PlusJakartaSans-Bold.ttf') format('truetype');
+	font-weight: 700;
+	font-style: normal;
+}
+/******************************/
+
 :root {
-  --c-theme-share: #00d0ff;
-  --c-light-blue: #00d0ff;
+	--c-theme-share: #00d0ff;
+	--c-light-blue: #00d0ff;
 
-  --c-light-gray: rgb(196, 196, 196);
-  --c-medium-gray: rgb(163, 163, 163);
-  --c-gray: rgb(105, 105, 105);
+	--c-light-gray: rgb(196, 196, 196);
+	--c-medium-gray: rgb(163, 163, 163);
+	--c-gray: rgb(105, 105, 105);
 
-  --c-ligther-gray:hsl(240, 19%, 84%);
-  --c-dark-gray: rgb(59, 59, 59);
+	--c-ligther-gray: hsl(240, 19%, 84%);
+	--c-dark-gray: rgb(59, 59, 59);
 
-  --c-selection: #00c3ff6b;
-  --c-blue-100: hsl(240, 19%, 84%); /* Light Blue */
+	--c-selection: #00c3ff6b;
+	--c-blue-100: hsl(240, 19%, 84%);
+	/* Light Blue */
 
-  /* Typography */
- /* @link https://utopia.fyi/type/calculator?c=320,18,1.2,1140,24,1.25,5,2,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l */
+	/* Typography */
+	/* @link https://utopia.fyi/type/calculator?c=320,18,1.2,1140,24,1.25,5,2,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l */
 
-  --step--2: clamp(0.78rem, calc(0.71rem + 0.35vw), 0.96rem);
-  --step--1: clamp(0.94rem, calc(0.84rem + 0.51vw), 1.20rem);
-  --step-0: clamp(1.13rem, calc(0.98rem + 0.73vw), 1.50rem);
-  --step-1: clamp(1.35rem, calc(1.15rem + 1.02vw), 1.88rem);
-  --step-2: clamp(1.62rem, calc(1.34rem + 1.41vw), 2.34rem);
-  --step-3: clamp(1.94rem, calc(1.56rem + 1.92vw), 2.93rem);
-  --step-4: clamp(2.33rem, calc(1.81rem + 2.59vw), 3.66rem);
-  --step-5: clamp(2.80rem, calc(2.11rem + 3.47vw), 4.58rem);
 
-  --f-fallback: ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --f-sans: 'Open Sans', var(--f-fallback);
-  --f-mono: 'Inter', var(--f-fallback);
+	--step--2: clamp(0.78rem, calc(0.71rem + 0.35vw), 0.96rem);
+	--step--1: clamp(0.94rem, calc(0.84rem + 0.51vw), 1.20rem);
+	--step-0: clamp(1.13rem, calc(0.98rem + 0.73vw), 1.50rem);
+	--step-1: clamp(1.35rem, calc(1.15rem + 1.02vw), 1.88rem);
+	--step-2: clamp(1.62rem, calc(1.34rem + 1.41vw), 2.34rem);
+	--step-3: clamp(1.94rem, calc(1.56rem + 1.92vw), 2.93rem);
+	--step-4: clamp(2.33rem, calc(1.81rem + 2.59vw), 3.66rem);
+	--step-5: clamp(2.80rem, calc(2.11rem + 3.47vw), 4.58rem);
 
-  --body-max-width: 1920px;
+	--f-fallback: ui-sans-serif, system-ui, -apple-system, sans-serif;
+	/* --f-sans: 'Open Sans', var(--f-fallback); */
+	--f-sans: JakartaSans, var(--f-fallback);
+	--f-mono: 'Inter', var(--f-fallback);
 
-  /* Container */
-  --con-padding: 0 1rem;
-  --con-max-width: 860px;
+	--body-max-width: 1920px;
 
-  --header-height: 76px;
+	/* Container */
+	--con-padding: 0 1rem;
+	--md-container: 860px;
+	--lg-container: 1296px;
 
-  /* Transitions */
-  --ease-out-soft: cubic-bezier(0.28, 0, 0.49, 1);
-}
+	--header-height: 76px;
 
-body {
-  margin: 0 auto;
-  background-color: var(--theme-background);
-  color: var(--theme-on-background);
-  font-size: var(--step-0);
-  font-family: var(--f-mono);
-  font-weight: 400;
-  line-height: 1.5;
-  max-width: var(--body-max-width);
-  position: relative;
-  display: grid;
-  grid-template-rows: auto 1fr auto;
-}
+	/* Transitions */
+	--ease-out-soft: cubic-bezier(0.28, 0, 0.49, 1);
+	--ease-out-quad: cubic-bezier(0.4, 0.84, 0.44, 1);
+	--mobile-menu-anim-duration: 500ms;
 
-.flow > * + * {
-  margin-top: var(--flow-space, 1em);
+	/* Mask tricks */
+	/* mask-image: radial-gradient(50% 50% at 50% 50%,#fff 60.94%,transparent 100%); */
+	/* mask-size: cover; */
 }
 
 a {
-  color: inherit;
-  -webkit-tap-highlight-color: transparent;
+	color: inherit;
+	-webkit-tap-highlight-color: transparent;
 }
 
 .content__main {
-  padding-top: calc(var(--nav-height) + 2rem);
-  padding-bottom: 4rem;
+	padding-top: calc(var(--nav-height) + 2rem);
+	padding-bottom: 4rem;
 }
 
 /* Typography */
 
 h1 {
-  font-size: var(--step-4);
-  font-family: var(--f-sans);
-  font-weight: 700;
-  line-height: 1.2;
+	font-size: var(--step-4);
+	font-family: var(--f-sans);
+	font-weight: 700;
+	line-height: 1.2;
 }
 
 h2 {
-  font-size: var(--step-3);
-  font-family: var(--f-sans);
-  font-weight: 700;
-  line-height: 1.2;
+	font-size: var(--step-3);
+	font-family: var(--f-sans);
+	font-weight: 700;
+	line-height: 1.2;
 }
 
 h3 {
-  font-size: var(--step-2);
-  font-family: var(--f-sans);
-  font-weight: 500;
-  line-height: 1.2;
+	font-size: var(--step-2);
+	font-family: var(--f-sans);
+	font-weight: 500;
+	line-height: 1.2;
 }
 
 h4 {
-  font-size: var(--step-1);
-  font-family: var(--f-sans);
+	font-size: var(--step-1);
+	font-family: var(--f-sans);
 }
 
 h1,
 h2,
 h3 {
-  max-width: 30ch;
+	max-width: 30ch;
 }
 
 ::selection {
-  background-color: var(--c-selection);
-  color: rgb(0, 181, 212);
+	background-color: var(--c-selection);
+	color: rgb(0, 181, 212);
 }
 
+/*******************************/
+/* TODO: These should be moved elsewhere */
 .code-numbers {
-  color: rgb(0, 181, 212);
+	color: rgb(0, 181, 212);
 }
 
-:where(html[color-scheme='dark']) :not(pre) > code {
-  background-color: var(--c-dark-gray) !important;
+:where(html[color-scheme='dark']) :not(pre)>code {
+	background-color: var(--c-dark-gray) !important;
 
-  color: var(--c-light-gray);
+	color: var(--c-light-gray);
 }
 
-:where(html[color-scheme='light']) :not(pre) > code {
-  background-color: var(--c-light-gray) !important;
+:where(html[color-scheme='light']) :not(pre)>code {
+	background-color: var(--c-light-gray) !important;
 
-  color: var(--c-dark-gray);
+	color: var(--c-dark-gray);
 }
 
-:not(pre) > code {
-  font-size: var(--step--2);
-  padding: 0.23rem;
-  border-radius: 0.5rem;
-  line-height: 1.5rem;
+:not(pre)>code {
+	font-size: var(--step--2);
+	padding: 0.23rem;
+	border-radius: 0.5rem;
+	line-height: 1.5rem;
 }
 
-pre:hover > copy-code-button {
-  opacity: 1;
+pre:hover>copy-code-button {
+	opacity: 1;
 }
 
 copy-code-button {
-  opacity: 0;
-  transition: all .2s ease-in;
+	opacity: 0;
+	transition: all .2s ease-in;
 }
 
 pre copy-code-button {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
+	position: absolute;
+	top: 0.5rem;
+	right: 0.5rem;
 }
+
+/*******************************/
 
 /* Global classes */
 
-.clickable {
-  transition: color .2s ease-in;
+/* .clickable {
+	transition: color .2s ease-in;
 }
 
 .clickable:hover {
-  color: var(--c-light-blue);
-}
+	color:#e0f8ff6b;
+} */
 
 /* Gloal fade in animation */
 
 @media (prefers-reduced-motion: no-preference) {
-  .fade-in[data-state=visible] {
-    transition: transform 700ms cubic-bezier(0.42, 0, 0.32, 1.17), opacity 1000ms cubic-bezier(0.42, 0, 0.32, 1.17) 200ms;
-  }
+	.fade-in[data-state=visible] {
+		transition: transform 700ms cubic-bezier(0.42, 0, 0.32, 1.17), opacity 1000ms cubic-bezier(0.42, 0, 0.32, 1.17) 200ms;
+	}
 
-  .fade-in[data-state=hidden] {
-    transform: translateY(2ex);
-    opacity: 0;
-  }
+	.fade-in[data-state=hidden] {
+		transform: translateY(2ex);
+		opacity: 0;
+	}
 }

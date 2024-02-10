@@ -5,95 +5,303 @@ import SocialList from './SocialList.astro';
 ---
 
 <script>
-  import './ThemeToggleButton/theme-toggle-button';
+	import './ThemeToggleButton/theme-toggle-button';
 </script>
 
-<style>
-  header {
-    height: var(--theme-header-height, 64px);
-    display: flex;
-    align-items: center;
-  }
+<script>
+	function init() {
+		const elementsThatNeedChange = [
+			document.getElementsByClassName("header__nav_links_container")[0],
+			document.getElementsByClassName("socials-container")[0],
+			document.getElementsByClassName("theme-toggle-container")[0]
+		];
 
-  nav {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  ul {
-    display: flex;
-  }
-  li {
-    list-style: none;
-    margin: 1rem;
-  }
-  .header__main_links {
-    display: flex;
-    justify-content: space-between;
-  }
+		const toggleMobileClass = (el, isMobile) =>
+			isMobile 
+				? el.classList.add('mobile')
+				: el.classList.remove('mobile');
 
-  .header__link {
-    margin: 1rem;
-  }
+		// We use function to keep the context for this.
+		(document.getElementById("burger-check") as HTMLInputElement)?.addEventListener("change", function() {
+			this.checked
+				? elementsThatNeedChange.forEach(el => toggleMobileClass(el, true))
+				: elementsThatNeedChange.forEach(el => toggleMobileClass(el, false));
+		});
+	}
+	init();
 
-  a {
-    text-decoration: none;
-    font-size: 1rem;
-    font-style: var(--font-family-heading);
-  }
-
-  .header__logo {
-    margin: 0;
-  }
-  .theme-toggle__container {
-    margin-left: 1rem;
-    position: relative;
-    right: 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-</style>
+	// TODO: Investigate if we can avoid this 'hack'
+	// This is needed to refresh our script after page changes
+	// it could be related to ViewTransitions not sure yet.. 
+	// https://stackoverflow.com/questions/77278507/astro-javascript-is-not-working-on-page-change
+	document.addEventListener('astro:after-swap', () => {
+		init();
+	});
+</script>
 
 <header>
-  <Container>
-    <nav>
-      <a class="header__logo" href="/" title="Navigate Home">
-        <Logo />
-      </a>
-      <ul>
-        <li></li>
-        <li>
-          <div class="header__main_links">
-            <a
-              class="header__link clickable"
-              href="/blog"
-              title="Navigate Home"
-            >
-              Blog
-            </a>
-            <a
-              class="header__link clickable"
-              href="/portofolio"
-              title="Navigate Home"
-            >
-              Portofolio
-            </a>
-            <a
-              class="header__link clickable"
-              href="mailto:cloud-np@outlook.com"
-            >
-              Contact
-            </a>
-          </div>
-        </li>
-      </ul>
-      <SocialList />
-    </nav>
-  </Container>
-  <div class="theme-toggle__container">
-    <!-- I was running into some issues with the Lit integration so I'm using it as a client script for now -->
-    <theme-toggle-button></theme-toggle-button>
-  </div>
+	<Container>
+		<div class="circle"></div>
+		<nav>
+			<a class="header__logo" href="/" title="Navigate Home">
+				<div class="header__logo__wrapper">
+					<Logo />
+					<span class="header__logo_text"> cloud-np</span>
+				</div>
+			</a>
+			<div class="header__nav_links_container">
+				<ul class="header__nav_links">
+					<li>
+						<a class="header__link clickable" href="/blog" title="Navigate Home">
+							Blog
+						</a>
+					</li>
+					<li>
+						<a class="header__link clickable" href="/portofolio" title="Navigate Home">
+							Portofolio
+						</a>
+					</li>
+					<li>
+						<a class="header__link clickable" href="mailto:cloud-np@outlook.com">
+							Contact
+						</a>
+					</li>
+				</ul>
+			</div>
+			<div class="socials-theme-toggler-container">
+				<div class="socials-container">
+					<SocialList />
+				</div>
+				<!-- I was running into some issues with the Lit integration so I'm using it as a client script for now -->
+				<div class="theme-toggle-container">
+					<theme-toggle-button></theme-toggle-button>
+				</div>
+			</div>
+
+			<label class="burger-menu" for="burger-check">
+				<input type="checkbox" id="burger-check" />
+				<span class="line"></span>
+				<span class="line"></span>
+				<span class="line"></span>
+			</label>
+		</nav>
+	</Container>
 </header>
+
+<style>
+	header {
+		height: var(--header-height, 64px);
+		display: flex;
+		align-items: center;
+		position: fixed;
+		width: 100%;
+		max-width: 100vw;
+
+		border-bottom: 1px solid var(--theme-on-border-color);
+		-webkit-backdrop-filter: blur(10px);
+		backdrop-filter: blur(10px);
+	}
+
+	@media (max-width: 640px) {
+		.header__nav_links_container {
+			width: 100vw;
+			height: 100vh;
+			background-color: var(--theme-background);
+			position: absolute;
+			left: 0;
+			top: 0;
+			transform: translateY(-100%);
+			visibility: hidden;
+			transition: all var(--mobile-menu-anim-duration) var(--ease-out-quad);
+		}
+
+		.header__nav_links_container.mobile {
+			margin-top: 76px;
+		}
+
+		.header__nav_links {
+			height: 100%;
+			/* TODO: Yeah I know I'll fix it later.. */
+			margin-top: -76px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			text-align: center;
+			flex-direction: column;
+		}
+
+		.header__link {
+			font-size: 1.5rem;
+			margin: 1rem;
+		}
+
+		nav > .burger-menu {
+			z-index: 1;
+			width: 30px;
+			display: block;
+		}
+
+		.burger-menu > .line {
+			display: block;
+		}
+
+		.socials-container {
+			visibility: hidden;
+			position: absolute;
+			top: 95vh;
+			right: 0;
+
+			opacity: 0;
+			pointer-events: none;
+			transition: opacity var(--mobile-menu-anim-duration) var(--ease-out-quad);
+		}
+
+		.theme-toggle-container {
+			visibility: hidden;
+			position: absolute;
+			top: 11vh;
+			left: 5vw;
+
+			opacity: 0;
+			pointer-events: none;
+			transition: opacity var(--mobile-menu-anim-duration) var(--ease-out-quad);
+		}
+
+		.mobile {
+			transform: translateY(0%);
+			visibility: visible;
+			pointer-events: all;
+			opacity: 1;
+			display: block;
+		}
+
+	}
+
+	.clickable {
+		transition: color 0.2s ease-in;
+	}
+
+	.clickable:hover {
+		color: #e0f8ff6b;
+	}
+
+	nav {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	ul {
+		display: flex;
+	}
+
+	li {
+		list-style: none;
+		margin: 1rem;
+	}
+
+	a {
+		text-decoration: none;
+		font-size: 1rem;
+		font-style: var(--font-family-heading);
+	}
+
+	.header__logo {
+		margin: 0;
+	}
+
+	.header__logo_text {
+		margin-left: 1rem;
+		font-weight: 500;
+	}
+
+	.header__logo__wrapper {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.socials-container {
+		margin-right: 2rem;
+	}
+
+	.socials-theme-toggler-container {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	@keyframes fading {
+		0% {
+			opacity: 1;
+		}
+
+		100% {
+			opacity: 0;
+		}
+	}
+
+	.circle {
+		background: radial-gradient(
+			ellipse 80% 70% at 50% -20%,
+			rgba(128, 216, 209, 0.1),
+			transparent
+		);
+		width: 100%;
+		height: 400px;
+		top: 0;
+		left: 0;
+		position: absolute;
+		z-index: -1;
+		pointer-events: none;
+		animation: fading 5s infinite ease-in-out alternate;
+	}
+
+	.burger-menu {
+		display: none;
+		flex-direction: column;
+		width: 70px;
+		cursor: pointer;
+	}
+
+	.burger-menu .line {
+		background: var(--theme-primary);
+		border-radius: 10px;
+		height: 2px;
+		margin: 5px 0;
+		transition: 0.4s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+	}
+
+	.line:nth-of-type(1) {
+		width: 50%;
+	}
+
+	.line:nth-of-type(2) {
+		width: 100%;
+	}
+
+	.line:nth-of-type(3) {
+		width: 75%;
+	}
+
+	input[type='checkbox'] {
+		display: none;
+	}
+
+	input[type='checkbox']:checked ~ span:nth-of-type(1) {
+		transform-origin: bottom;
+		transform: rotatez(45deg) translate(3px, 0px);
+	}
+
+	input[type='checkbox']:checked ~ span:nth-of-type(2) {
+		transform-origin: top;
+		transform: rotatez(-45deg);
+	}
+
+	input[type='checkbox']:checked ~ span:nth-of-type(3) {
+		transform-origin: bottom;
+		width: 50%;
+		transform: translate(12px, -3px) rotatez(45deg);
+	}
+</style>

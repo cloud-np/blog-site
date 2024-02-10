@@ -4,6 +4,8 @@ import Container from "../components/Container.astro";
 import TypeWriter from "../components/TypeWriter.astro";
 import BlogPostsList from "../components/BlogPostsList.astro";
 import { getPosts } from "../libs/post";
+import img from "../assets/dots.svg";
+// import { Image } from "astro:assets";
 
 const seo = {
     title: "cloud-np",
@@ -16,7 +18,10 @@ const posts = allPosts.filter(post => !!post.personal);
 
 <Layout seo={seo}>
     <Container>
-        <div class="home-hero-text__container">
+        <!-- <div class="ep">
+            <Image src={img} alt="oko" />
+        </div> -->
+        <section class="home-hero-text__container">
             <div class="home-hero-text">
                 <h1>
                     Hi, I'm Nick.<span class="waving">👋🏼</span><br />I like to
@@ -30,30 +35,34 @@ const posts = allPosts.filter(post => !!post.personal);
                     />
                 </h1>
                 <p class="home__main-text">
-                    From dawn to dusk, I'm a software sorcerer, conjuring code
-                    and casting spells to solve intricate puzzles. Other than
+                    From dawn to dusk, I'm a software sorcerer🧙‍♂️, conjuring code
+                    and casting spells 🪄 to solve intricate puzzles. Other than
                     that I enjoy freediving, skiing and playing football with
-                    friends. With an eye for detail and a penchant for problem
-                    solving, I passionately engineer software.
+                    friends.
                 </p>
             </div>
             <h4 class="projects-title fade-in">Latest Projects</h4>
             <BlogPostsList class="latest-projects-container" posts={posts} />
-        </div>
+        </section>
     </Container>
 </Layout>
 
 <style>
+    .ep {
+        position: absolute;
+        z-index: -1;
+    }
+
     .home-hero-text__container {
         padding: 5vh 0;
         display: flex;
         flex-direction: column;
-        /* justify-content: space-between;
-        height: 100vh; */
     }
 
     h1 {
         padding-bottom: 2.5rem;
+        text-align: center;
+        max-width: 100%;
     }
 
     p {
@@ -62,19 +71,17 @@ const posts = allPosts.filter(post => !!post.personal);
 
     .home__main-text {
         font-size: 1.2rem;
+        max-width: var(--md-container);
+        margin: auto;
+        text-align: center;
+        display: flex;
+        justify-content: center;
     }
 
     .waving {
         position: absolute;
         animation: waving-anim 0.5s ease-in-out 5 alternate;
-    }
-
-    h1 {
-        padding-bottom: 2.5rem;
-    }
-
-    p {
-        padding-bottom: 6rem;
+        z-index: -1;
     }
 
     .waving {

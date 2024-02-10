@@ -1,18 +1,16 @@
 ---
 ---
 
-
 <style>
-  .container {
-    width: 100%;
-    margin: 0 auto;
-    max-width: var(--container-max-width, 960px);
-    padding: var(--container-padding, 1rem);
-  }
+	.container {
+		width: 100%;
+		margin: 0 auto;
+		max-width: var(--lg-container, 960px);
+		/* padding: var(--container-padding, 1rem); */
+		padding: 0 var(--step-3);
+	}
 </style>
 
 <div class="container">
-  <slot />
+	<slot />
 </div>
-
-

@@ -40,21 +40,17 @@ const { post } = Astro.props;
 		text-decoration: none;
 	}
 
-	.post-preview__link:hover .post-preview__img {
-		box-shadow: rgba(0, 0, 0, 0.1) 0 10px 20px 0;
-	}
-
 	.post-preview__link:hover .post-preview__text {
-		transform: translateX(0.5rem);
+		transform: scale(1.02);
 	}
 
 	.post-preview__article {
-		display: grid;
-		grid-template-columns: 1fr 1.5fr;
+		display: flex;
 		align-items: center;
 	}
 
 	.post-preview__text {
+		margin-left: 4rem;
 		transition: transform 0.2s ease-in-out;
 	}
 
@@ -88,6 +84,7 @@ const { post } = Astro.props;
 
 	@media (max-width: 768px) {
 		.post-preview__article {
+			display: grid;
 			grid-template-columns: 1fr;
 		}
 
@@ -100,6 +97,7 @@ const { post } = Astro.props;
 
 		.post-preview__text {
 			margin-top: 1rem;
+			margin-left: 0;
 		}
 
 		.post-preview__link:hover .post-preview__img {
