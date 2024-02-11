@@ -4,6 +4,8 @@ export const CATEGORIES = [
     'React',
     'Astro',
     'Frontend',
+    'Backend',
+    'Fullstack',
     'AI & Machine learning',
     'DevOps',
     'Javascript',

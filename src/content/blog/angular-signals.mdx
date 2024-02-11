@@ -1,0 +1,122 @@
+---
+title: Revolutionizing Angular reactivity with signals. 
+previewImage: "../../assets/images/ang-signal-logo.png"
+titleImage: "../../assets/images/ang-signal-logo.png"
+publishedAt: "2024-01-11"
+category: 'Angular'
+searchCategories: ['Angular', 'Frontend', 'Typescript']
+personal: true
+---
+
+import Note from "../../components/Note/Note.astro";
+
+<Note title="Note">
+    This is not a tutorial on signals; there are already many excellent resources available online. 
+    Instead, we'll provide a high-level overview of the benefits signals offer and their integration within the Angular ecosystem.
+</Note>
+
+### Quick history throughback
+
+In 2020, Ryan Carniato introduced SolidJS, a declarative UI framework that distinguished itself from the mainstream use of virtual DOMs
+which was popular at the time. Unlike the conventional approach, Ryan's work emphasized reactivity through the innovative use of signals,
+offering a unique perspective on UI development. And while reactive programming including singals (MobX, Ember auto tracking computing properties)
+has been arround for a while Ryan focused more on performance and simplicity. That made other frameworks quickly recognize the potensial to his approach
+and they started implementing it inside their core libraries (Vue, Preact, Qwik).
+
+### Signals In Angular!
+Angular also evolved, and with Angular v16 last May with three new reactive primitives. The three new primitives where:
+    1. -- Writeable Signals
+```typescript title="signals.ts"
+const count: Writeable<number> = signal(1);
+console.log(count());  // 1
+```
+    2. -- Computed
+```typescript title="signals.ts"
+const count = signal(1);
+
+const doubleCount = computed(() => count() * 2);
+console.log(doubleCount());  // 2
+```
+    3. -- Effects
+```typescript title="signals.ts"
+const count = signal(1);
+
+effect(() =>
+    console.log("Count's new value is: ", count());  // Count's new value is: 1
+);
+```
+These primitives represents Angulars ongoing commitment to provide a better developer experience.
+Just by reading the code we can tell that signals have a clear intent. They seem intuitive (spoiler most of the time they are)
+and they are quite readable.
+
+### But... what are Angular Signals?
+Well let's see what the Angular docs have to say:
+
+![angular-docs-signals](../../assets/angular-signals/angular-docs-signals.png)
+<img src="../../assets/angular-signals/what-no-bg.png" alt="eeep" width="200" />
+
+Well.. lets break this down a bit with an example here:
+![fullname-code-signals-example](../../assets/angular-signals/full-name-code.gif)
+As we can see by the example as well. Signals is indeed a system that allows us to track
+how our application state is used. We can tell that because when we update our `firstName`
+signal our `fullName` is instantly reacting to it. So different parts of our code responds
+dynamically us our state changes.
+
+However, there's a key concept to highlight here: the term `granularly`.
+
+### Granular updates and fine-grained reactivity.
+
+
+Angular Signals are a relatively new addition to the Angular ecosystem, 
+designed to enhance the way developers handle asynchronous events and data streams in their applications. 
+They provide a more intuitive and efficient way to manage state changes, user inputs, and other dynamic data sources within an Angular application. 
+Signals are inspired by reactive programming principles, offering a simplified API for handling data flow without the complexity often 
+associated with Observables and Subjects in RxJS.
+
+```typescript title="example.ts" {2-4}
+const lenSum: number = nums1.length + nums2.length;
+const medianPos: number = Math.floor(lenSum / 2);
+const isCombinedLenEven: boolean = !(lenSum % 2);
+
+let mergedArr: number[] = [];
+```
+```sh frame="code"
+#!/bin/sh
+# my-script.sh
+echo "This is a script file, not a terminal!"
+```
+
+## Problem Statement
+
+Given: Two sorted arrays `nums1` and `nums2` of size `m` and `n` respectively, return the median of the two sorted arrays.
+The overall run time complexity should be `O(log (m+n))`
+##### Example 1:
+
+- Input: `nums1 = [1,3]`, `nums2 = [2]`
+- Output: `2.00000`
+- Explanation: merged array is `[1,2,3]` and median is `2`.
+##### Example 2:
+- Input: `nums1 = [1,2]`, `nums2 = [3,4]`
+- Output: `2.50000`
+- Explanation: merged array is `[1,2,3,4]` and median is `(2 + 3) / 2 = 2.5`.
+
+### Intuition and Approach
+The solution leverages the simple idea that for the median we just have to look for the middle of the merged array of the two sorted arrays.
+So we combine the two sorted arrays into one sorted array named `A`. 
+- If the combined length `n` of these arrays is odd,the median is `A[n / 2]`.
+- If n is even, the median is the average of `A[n / 2]` and `A[n / 2 + 1]`.
+
+With that we can find the length of the two combined arrays as if they were merged and their median position.
+
+```typescript title="example.ts" {2-4}
+const lenSum: number = nums1.length + nums2.length;
+const medianPos: number = Math.floor(lenSum / 2);
+const isCombinedLenEven: boolean = !(lenSum % 2);
+
+let mergedArr: number[] = [];
+```
+<Note title="Note">
+    Even though we will use at first a 
+</Note>
+
+![random-image](https://unsplash.it/400/300)

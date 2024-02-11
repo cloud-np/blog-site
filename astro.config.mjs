@@ -21,7 +21,7 @@ export default defineConfig({
 		// themes: ['material-theme-darker', 'material-theme-lighter'],
 		themes: [monokaiPro, 'vitesse-light'],
 		// themes: [monokaiPro, 'solarized-light'],
-		// useDarkModeMediaQuery: true
+		// useDarkModeMediaQuery: trueo
 	}), mdx(), tailwind(), icon()],
 	vite: {
 		ssr: {
