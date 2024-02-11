@@ -177,6 +177,12 @@ pre copy-code-button {
 	right: 0.5rem;
 }
 
+/* Allows for blog post to have a good spacing */
+.flow>*+* {
+	margin-top: var(--flow-space, 1em);
+}
+
+
 /*******************************/
 
 /* Global classes */

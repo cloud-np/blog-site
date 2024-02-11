@@ -4,8 +4,6 @@ import Container from "../components/Container.astro";
 import TypeWriter from "../components/TypeWriter.astro";
 import BlogPostsList from "../components/BlogPostsList.astro";
 import { getPosts } from "../libs/post";
-import img from "../assets/dots.svg";
-// import { Image } from "astro:assets";
 
 const seo = {
     title: "cloud-np",
@@ -18,9 +16,6 @@ const posts = allPosts.filter(post => !!post.personal);
 
 <Layout seo={seo}>
     <Container>
-        <!-- <div class="ep">
-            <Image src={img} alt="oko" />
-        </div> -->
         <section class="home-hero-text__container">
             <div class="home-hero-text">
                 <h1>
@@ -41,18 +36,13 @@ const posts = allPosts.filter(post => !!post.personal);
                     friends.
                 </p>
             </div>
-            <h4 class="projects-title fade-in">Latest Projects</h4>
+            <h4 class="projects-title fade-in">Latest Posts</h4>
             <BlogPostsList class="latest-projects-container" posts={posts} />
         </section>
     </Container>
 </Layout>
 
 <style>
-    .ep {
-        position: absolute;
-        z-index: -1;
-    }
-
     .home-hero-text__container {
         padding: 5vh 0;
         display: flex;
@@ -76,6 +66,7 @@ const posts = allPosts.filter(post => !!post.personal);
         text-align: center;
         display: flex;
         justify-content: center;
+        margin-bottom: 10rem;
     }
 
     .waving {

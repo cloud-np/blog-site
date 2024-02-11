@@ -52,13 +52,18 @@ import SocialList from './SocialList.astro';
 			<div class="header__nav_links_container">
 				<ul class="header__nav_links">
 					<li>
-						<a class="header__link clickable" href="/blog" title="Navigate Home">
+						<a class="header__link clickable" href="/blog" title="Navigate Blog">
 							Blog
 						</a>
 					</li>
 					<li>
-						<a class="header__link clickable" href="/portofolio" title="Navigate Home">
+						<a class="header__link nonclickable" title="Navigate Portofolio">
 							Portofolio
+						</a>
+					</li>
+					<li>
+						<a class="header__link nonclickable" title="Navigate Demos">
+							Demos	
 						</a>
 					</li>
 					<li>
@@ -175,6 +180,11 @@ import SocialList from './SocialList.astro';
 			display: block;
 		}
 
+	}
+
+	.nonclickable {
+		pointer-events: none;
+		color: #e0f8ffaf;
 	}
 
 	.clickable {

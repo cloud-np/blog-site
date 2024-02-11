@@ -10,30 +10,32 @@ export interface Props {
 const { post } = Astro.props;
 ---
 
-<a class="post-preview__link fade-in" href={post.href}>
-	<article class="post-preview__article">
-		{
-			!!post.previewImage && (
-				<Image
-					src={post.previewImage}
-					alt={`Featured for ${post.title}`}
-					class="post-preview__img"
-					width={250}
-					height={250}
-				/>
-			)
-		}
-		<div class="post-preview__text">
-			<p class="post-preview__category clickable">
-				{post.category}
-			</p>
-			<h2 class="clickable">{post.title}</h2>
-			<p class="post-preview__date">
-				{formatDate(post.publishedAt)}
-			</p>
-		</div>
-	</article>
-</a>
+<div class="post-preview__container">
+	<a class="post-preview__link fade-in" href={post.href}>
+		<article class="post-preview__article">
+			{
+				!!post.previewImage && (
+					<Image
+						src={post.previewImage}
+						alt={`Featured for ${post.title}`}
+						class="post-preview__img"
+						width={250}
+						height={250}
+					/>
+				)
+			}
+			<div class="post-preview__text">
+				<p class="post-preview__category clickable">
+					{post.category}
+				</p>
+				<h2 class="clickable">{post.title}</h2>
+				<p class="post-preview__date">
+					{formatDate(post.publishedAt)}
+				</p>
+			</div>
+		</article>
+	</a>
+</div>
 
 <style>
 	.post-preview__link {
@@ -78,8 +80,17 @@ const { post } = Astro.props;
 	}
 
 	.post-preview__date {
+		margin-top: 0.5rem;
 		font-size: var(--step--1);
 		color: #666;
+	}
+
+	.post-preview__container {
+		max-width: fit-content;
+		padding: 1rem 2rem;
+		background-color: var(--theme-background-card);
+		border: 1px solid var(--theme-on-border-color);
+		border-radius: 10px;
 	}
 
 	@media (max-width: 768px) {

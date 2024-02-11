@@ -13,19 +13,16 @@ const seo = {
 ---
 
 <style>
-    .main_content {
-        padding: 5vh;
-    }
     h1 {
+        padding: 5vh;
         text-align: center;
+        margin: 6rem 0;
     }
 </style>
 
 <Layout seo={seo}>
     <Container>
-        <div class="main_content">
-            <h1>Latest posts</h1>
-        </div>
+        <h1>Blog</h1>
         <BlogPostsList posts={posts} />
     </Container>
 </Layout>

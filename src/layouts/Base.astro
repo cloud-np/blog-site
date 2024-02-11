@@ -35,6 +35,8 @@ const { seo } = Astro.props;
 				--theme-background: hsl(0, 0%, 98%);
 				--theme-on-background: hsl(0, 0%, 5%);
 
+				--theme-background-card: hsl(0, 0%, 90%);
+
 				--theme-border-color: hsla(0, 0%, 100%, 0.08);
 				--theme-on-border-color: hsla(0, 0%, 0%, 0.08);
 
@@ -59,6 +61,8 @@ const { seo } = Astro.props;
 
 				--theme-on-background: hsl(0, 0%, 92%);
 				--theme-background: hsl(0, 0%, 8%);
+
+				--theme-background-card: hsl(0, 0%, 7%);
 
 				--theme-surface-1: hsl(0, 0%, 12%);
 				--theme-on-surface-1: hsl(0, 0%, 96%);
@@ -94,10 +98,6 @@ const { seo } = Astro.props;
         position: relative;
         display: grid;
         grid-template-rows: auto 1fr auto;
-    }
-
-    .flow>*+* {
-        margin-top: var(--flow-space, 1em);
     }
 
     .seperate-from-header {
