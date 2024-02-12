@@ -22,6 +22,7 @@ export async function getStaticPaths() {
 		props: { post },
     }));
 }
+
 const { post } = Astro.props;
 const { Content } = await post.render()
 
@@ -70,7 +71,6 @@ const seo = {
 				}
 			</div>
 			<div class="post-content__content flow fade-in">
-				<!-- <slot /> -->
 				<Content/>
 			</div>
 		</article>
@@ -103,11 +103,11 @@ const seo = {
 	.post-content__article {
 		padding: 5vh 2rem;
 		max-width: 60rem;
-		margin: auto;
 	}
 
 	.post-content__title {
 		margin: 1rem auto;
+		max-width: 100%;
 		font-size: var(--step-5);
 	}
 
@@ -144,5 +144,11 @@ const seo = {
 		object-fit: contain;
 		max-width: 100%;
 		border-radius: 0.5rem;
+	}
+	/* TODO: Change all medias to vars */
+	@media (max-width: 640px) {
+		.post-content__title {
+			font-size: var(--step-3);
+		}
 	}
 </style>

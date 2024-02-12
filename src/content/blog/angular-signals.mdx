@@ -9,6 +9,12 @@ personal: true
 ---
 
 import Note from "../../components/Note/Note.astro";
+import { Image } from "astro:assets";
+import what from "../../assets/angular-signals/what-no-bg.png";
+import defaultCd from "../../assets/angular-signals/default_cd.svg";
+import onPushCd from "../../assets/angular-signals/on_push_cd.svg";
+import signalsCd from "../../assets/angular-signals/on_push_signals_cd.svg";
+
 
 <Note title="Note">
     This is not a tutorial on signals; there are already many excellent resources available online. 
@@ -24,7 +30,7 @@ has been arround for a while Ryan focused more on performance and simplicity. Th
 and they started implementing it inside their core libraries (Vue, Preact, Qwik).
 
 ### Signals In Angular!
-Angular also evolved, and with Angular v16 last May with three new reactive primitives. The three new primitives where:
+Angular also evolved, and with Angular v16 last May, three new reactive primitives were introduced in developers preview. The three new primitives where:
     1. -- Writeable Signals
 ```typescript title="signals.ts"
 const count: Writeable<number> = signal(1);
@@ -53,70 +59,90 @@ and they are quite readable.
 Well let's see what the Angular docs have to say:
 
 ![angular-docs-signals](../../assets/angular-signals/angular-docs-signals.png)
-<img src="../../assets/angular-signals/what-no-bg.png" alt="eeep" width="200" />
+<Image src={what} alt="the office meme what" style={"width: 300px"} />
+
 
 Well.. lets break this down a bit with an example here:
 ![fullname-code-signals-example](../../assets/angular-signals/full-name-code.gif)
-As we can see by the example as well. Signals is indeed a system that allows us to track
-how our application state is used. We can tell that because when we update our `firstName`
-signal our `fullName` is instantly reacting to it. So different parts of our code responds
-dynamically us our state changes.
+Here Signals have a clear intent. Demonstrated by how the `fullName` signal instantly reacts by getting
+recomputed every time the `firstName` signal is updated. By that we can derive that signals are indeed:
+    * -- *"A system that allows us to track how our application state is used"*. 
 
-However, there's a key concept to highlight here: the term `granularly`.
+However, there's a key concept to highlight here that we have mentioned yet: the term `granularly`.
 
 ### Granular updates and fine-grained reactivity.
 
+To get a better idea what Angular docs are reffering to when they say `granularly`, lets see how 
+Angular's Change Detection is currently working in Angular.
 
-Angular Signals are a relatively new addition to the Angular ecosystem, 
-designed to enhance the way developers handle asynchronous events and data streams in their applications. 
-They provide a more intuitive and efficient way to manage state changes, user inputs, and other dynamic data sources within an Angular application. 
-Signals are inspired by reactive programming principles, offering a simplified API for handling data flow without the complexity often 
-associated with Observables and Subjects in RxJS.
+#### 1. Angular's Default Change Detection
 
-```typescript title="example.ts" {2-4}
-const lenSum: number = nums1.length + nums2.length;
-const medianPos: number = Math.floor(lenSum / 2);
-const isCombinedLenEven: boolean = !(lenSum % 2);
+By default Angular's change detection utilizies a library called [Zone.js](https://www.npmjs.com/package/zone.js?activeTab=readme)
+which [monkey patches](https://en.wikipedia.org/wiki/Monkey_patch) asynchronous operations like UI Events, Promises and timeouts.
+With that Zone.js informs Angular that something may have changed inside of one of the components. But it doesn't pintpoint that
+leaving Angular guessing where the change may have occurred.
 
-let mergedArr: number[] = [];
+This meens that Angular has to reside to Change Detection Mechanism called "dirty checking", which means that Angular has to check
+all data bound properties of a component to compare the changes since the last change detection cycle occurred.
+<Image src={defaultCd} style="width: 300px;" alt="default change detection in angular graph" />
+As we can see from the above graph as well Angular is checking the whole component tree to verify that the DOM is in sync with the data.
+Even though our change occurred in one of our components Angular doesn't know which one it is and to verify that everything is synchronized
+it has to check every single one of them. This change detection mechanism in complex applications, it hinders the performance dramatically,
+and to compensate with that Angular gives us another change detection strategy called `OnPush`.
+
+#### 2. Change Detection Strategy **OnPush**
+
+OnPush basically checks only if the input properties of a component have changed (`@Input()`) since the last change detection cycle and if we manually trigger 
+change detection, like this:
+
+```typescript title="onpush.component.ts" {12}
+@Component({
+    selector: 'app-onpush',
+    template: `<!-- our template -->`,
+    changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class OnpushComponent {
+    cdr = inject(ChangeDetectionRef);
+
+    someMethod() {
+        setTimeout(() => {
+            // ... code that changes the component state
+            this.cdr.markForCheck(); // Marks component as "dirty", to be checked.
+        }, 1000);
+    }
+}
 ```
-```sh frame="code"
-#!/bin/sh
-# my-script.sh
-echo "This is a script file, not a terminal!"
+The above example marks the component as "dirty" after one second when we invoke the `someMethod` function. This means
+that the next time Angular will run a Change Detection cycle it will also check that specific component for any changes.
+<Image src={onPushCd} style="width: 300px;" alt="onpush change detection strategy in angular graph" />
+From the graph we can tell that now we have reduced the scope of the change detection cycle, but we also reduce the frequency
+as well. This can improve performance significally and we have much more control over what is being rendered and when.
+But.. there is a drawback. Now this becomes the responsibility of the developer to know exactly when the data is in sync with the UI
+which makes the learning curve of Angular even more steep.
+
+#### 3. Change Detection with Signals 
+With the integration of signals, Angular's change detection becomes even more efficient, targeting updates with precision.
+Change detection now is scoped to the components directly affected by the changes. This means that when a signal is updated
+Angular is equipped to identify the exact location and component that required UI synchronization.
+```html title="signals.component.html" {3}
+<div> ... </div>
+
+<div>{{ count() }}</div> <!-- Only this part of the DOM gets updated. -->
+
+<div> ... </div>
 ```
+This selective rendering ensures that only the necessary parts of the UI are getting updated.
 
-## Problem Statement
+The change detection still happens at the component level.
+<Image src={signalsCd} style="width: 300px;" alt="signals change detection in angular graph" />
 
-Given: Two sorted arrays `nums1` and `nums2` of size `m` and `n` respectively, return the median of the two sorted arrays.
-The overall run time complexity should be `O(log (m+n))`
-##### Example 1:
+But Angular optimizes this process to update only the necessary parts of the DOM. In other words
+we **granularly** update ONLY the parts of the DOM that needs to be udpated.
 
-- Input: `nums1 = [1,3]`, `nums2 = [2]`
-- Output: `2.00000`
-- Explanation: merged array is `[1,2,3]` and median is `2`.
-##### Example 2:
-- Input: `nums1 = [1,2]`, `nums2 = [3,4]`
-- Output: `2.50000`
-- Explanation: merged array is `[1,2,3,4]` and median is `(2 + 3) / 2 = 2.5`.
+Not only that but signals opens us the door for a zoneless future as well.
 
-### Intuition and Approach
-The solution leverages the simple idea that for the median we just have to look for the middle of the merged array of the two sorted arrays.
-So we combine the two sorted arrays into one sorted array named `A`. 
-- If the combined length `n` of these arrays is odd,the median is `A[n / 2]`.
-- If n is even, the median is the average of `A[n / 2]` and `A[n / 2 + 1]`.
-
-With that we can find the length of the two combined arrays as if they were merged and their median position.
-
-```typescript title="example.ts" {2-4}
-const lenSum: number = nums1.length + nums2.length;
-const medianPos: number = Math.floor(lenSum / 2);
-const isCombinedLenEven: boolean = !(lenSum % 2);
-
-let mergedArr: number[] = [];
-```
-<Note title="Note">
-    Even though we will use at first a 
-</Note>
-
-![random-image](https://unsplash.it/400/300)
+This meens that Angular has to reside to Change Detection Mechanism called "dirty checking", which means that Angular has to check
+all data bound properties of a component to compare the changes since the last change detection cycle occurred.
+As we can see from the above graph as well Angular is checking the whole component tree to verify that the DOM is in sync with the data.
+Even though our change occurred in one of our components Angular doesn't know which one it is and to verify that everything is synchronized
+it has to check every single one of them.
