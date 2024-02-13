@@ -7,10 +7,8 @@ import { generateCategoryData } from "../../utils/helpers.js";
 import { type Post, getPosts } from "../../libs/post";
 
 export async function getStaticPaths() {
-    console.log("Running getStaticPaths");
-
     const allPosts = await getPosts(undefined);
-    const posts: Post[] = allPosts.filter(post => !!post.personal);
+    const posts: Post[] = allPosts.filter(post => !post.personal);
 
     const sortedPostsByDate = posts.sort(
         (a, b) => new Date(b.publishedAt).valueOf() - new Date(a.publishedAt).valueOf(),

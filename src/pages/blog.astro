@@ -5,7 +5,7 @@ import BlogPostsList from "../components/BlogPostsList.astro";
 import { getPosts } from "../libs/post";
 
 const allPosts = await getPosts(undefined);
-const posts = allPosts.filter(post => !!post.personal);
+const posts = allPosts.filter(post => !post.personal);
 const seo = {
     title: "cloud-np | Tech Blog",
     description: "A simple blog focused on provided the best",

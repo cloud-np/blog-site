@@ -11,10 +11,8 @@ interface Props {
 }
 
 export async function getStaticPaths() {
-    console.log("Running getStaticPaths");
-
     const allPosts = await getPosts(undefined);
-    const posts: Post[] = allPosts.filter(post => !!post.personal);
+    const posts: Post[] = allPosts.filter(post => !post.personal);
 
     // map through the categories array
     return posts.map(post => ({

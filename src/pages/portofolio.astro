@@ -9,14 +9,8 @@ const seo = {
     description: "A simple blog focused on provided the best",
 };
 
-// const allPosts = await Astro.glob("./blog/*.{md,mdx}");
-// const posts = [];
-// // Change this to map.
-// allPosts.forEach(post => {
-//   if(post.frontmatter.personal) posts.push(post);
-// })
 const allPosts = await getPosts(undefined);
-const posts = allPosts.filter(post => !!post.personal);
+const posts = allPosts.filter(post => !post.personal);
 ---
 
 <style>
