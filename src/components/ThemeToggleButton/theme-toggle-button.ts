@@ -39,7 +39,7 @@ export class ThemeToggleButton extends LitElement {
   private _doc = document.firstElementChild;
 
   @property({ type: String })
-  theme: ThemeType | null = null;
+  theme: ThemeType = ThemeType.dark;
 
   private _getCurrentTheme() {
     // check for a local storage theme first
@@ -57,7 +57,7 @@ export class ThemeToggleButton extends LitElement {
 
   private _setTheme(theme) {
     this.theme = theme;
-    this._doc.setAttribute('color-scheme', theme);
+    this._doc?.setAttribute('color-scheme', theme);
     // (document.getElementById('theme-stylesheet') as HTMLAnchorElement).href = "/src/styles/" + theme + '.theme.scss';
 
     localStorage.setItem(THEME_KEY, theme);
