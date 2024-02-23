@@ -1,9 +1,8 @@
 ---
-import type { Post } from '../libs/post';
+import type { Post } from '../../libs/post';
 import BlogPostPreview from './BlogPostPreview.astro';
 
-export interface Props {
-	class?: string;
+interface Props {
 	posts: Post[];
 }
 
