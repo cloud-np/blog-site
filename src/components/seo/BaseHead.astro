@@ -52,10 +52,6 @@ const image = new URL(Astro.props.image || "./social.png", Astro.site);
 </noscript>
 <!-- For LaTeX -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.css" integrity="sha384-WsHMgfkABRyG494OmuiNmkAOk8nhO1qE+Y6wns6v+EoNoTNxrWxYpl5ZYWFOLPCM" crossorigin="anonymous">
-<!-- TODO: I think this can we removed or at least moved I have themes elsewhere as well.. -->
-<!-- This stylesheet is responsible for changing the themes. When you want to change theme you simply point
-  to different file which just includes different values for the vars. -->
-<link rel="stylesheet" id="theme-stylesheet" href="/src/styles/light.theme.scss">
 <!-- To let javascript handle transitions between pages -->
 <ViewTransitions />
 

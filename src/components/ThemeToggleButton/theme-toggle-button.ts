@@ -58,7 +58,6 @@ export class ThemeToggleButton extends LitElement {
   private _setTheme(theme) {
     this.theme = theme;
     this._doc?.setAttribute('color-scheme', theme);
-    // (document.getElementById('theme-stylesheet') as HTMLAnchorElement).href = "/src/styles/" + theme + '.theme.scss';
 
     localStorage.setItem(THEME_KEY, theme);
   }

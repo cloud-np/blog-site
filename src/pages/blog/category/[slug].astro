@@ -1,0 +1,57 @@
+---
+import Layout from '../../../layouts/Page.astro';
+import Container from '../../../components/containers/Container.astro';
+import BlogPostsList from '../../../components/post/BlogPostsList.astro';
+
+import { generateCategoryData } from '../../../utils/helpers.js';
+import { getPosts, type Post } from '../../../libs/post';
+
+export async function getStaticPaths() {
+	const allPosts = await getPosts(undefined);
+	const posts: Post[] = allPosts.filter((post) => !post.personal);
+
+    const sortedPostsByDate = posts.sort(
+        (a, b) => new Date(b.publishedAt).valueOf() - new Date(a.publishedAt).valueOf(),
+    );
+
+	const allCategoriesUnique = new Set();
+
+	sortedPostsByDate.forEach((post) => {
+		if (post.category) {
+			allCategoriesUnique.add(post.category);
+		}
+	});
+
+	const allCategoriesData = generateCategoryData(allCategoriesUnique);
+	// map through the categories array
+	return allCategoriesData.map((category) => {
+		// filter the posts that match the given category
+		const posts = sortedPostsByDate.filter((post) =>
+			post.category.includes(category.name)
+		);
+		return {
+			params: { slug: category.slug },
+			props: {
+				category: category.name,
+				posts: posts,
+			},
+		};
+	});
+}
+const { category, posts } = Astro.props;
+---
+
+<Layout>
+	<Container>
+		<div class="home-hero-text__container">
+			<h1>{category} Posts</h1>
+		</div>
+		<BlogPostsList posts={posts} />
+	</Container>
+</Layout>
+
+<style>
+	.home-hero-text__container {
+		padding: 5vh 0;
+	}
+</style>
