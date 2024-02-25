@@ -13,20 +13,24 @@
     "@astrojs/check": "^0.4.1",
     "@astrojs/lit": "^4.0.1",
     "@astrojs/mdx": "^2.1.1",
+    "@astrojs/react": "^3.0.10",
     "@astrojs/sitemap": "^3.0.5",
     "astro": "^4.3.1",
+    "clsx": "^2.1.0",
+    "framer-motion": "^11.0.6",
+    "gsap": "^3.12.5",
     "katex": "^0.16.9",
     "reading-time": "^1.5.0",
     "rehype-katex": "^7.0.0",
     "remark-math": "^6.0.0",
     "scss": "^0.2.4",
+    "tailwind-merge": "^2.2.1",
     "typescript": "^5.3.3"
   },
   "devDependencies": {
     "@astrojs/tailwind": "^5.1.0",
     "@iconify-json/mdi": "^1.1.64",
     "astro-expressive-code": "^0.32.4",
-    "astro-icon": "^1.1.0",
-    "sass": "^1.70.0"
+    "astro-icon": "^1.1.0"
   }
 }

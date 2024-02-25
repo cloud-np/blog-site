@@ -44,8 +44,10 @@ import SocialList from '../ui/SocialList.astro';
 		<div class="circle"></div>
 		<nav>
 			<a class="header__logo" href="/" title="Navigate Home">
-				<div class="header__logo__wrapper">
-					<Logo />
+				<div class="header__logo_container">
+					<span class="header__logo_wrapper">
+						<Logo />
+					</span>
 					<span class="header__logo_text"> cloud-np</span>
 				</div>
 			</a>
@@ -226,7 +228,11 @@ import SocialList from '../ui/SocialList.astro';
 		font-weight: 500;
 	}
 
-	.header__logo__wrapper {
+	.header__logo_wrapper {
+		width: 40px;
+	}
+
+	.header__logo_container {
 		display: flex;
 		justify-content: center;
 		align-items: center;

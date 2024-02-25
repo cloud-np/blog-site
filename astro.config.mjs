@@ -6,6 +6,7 @@ import rehypeKatex from 'rehype-katex';
 import remarkMath from 'remark-math';
 import astroExpressiveCode, { ExpressiveCodeTheme } from 'astro-expressive-code';
 import tailwind from '@astrojs/tailwind';
+import react from '@astrojs/react';
 import fs from 'node:fs'
 
 import icon from "astro-icon";
@@ -22,7 +23,7 @@ export default defineConfig({
 		themes: [monokaiPro, 'vitesse-light'],
 		// themes: [monokaiPro, 'solarized-light'],
 		// useDarkModeMediaQuery: trueo
-	}), mdx(), tailwind(), icon()],
+	}), mdx(), tailwind(), icon(), react()],
 	vite: {
 		ssr: {
 			external: ["svgo"]

@@ -1,0 +1,117 @@
+---
+import Logo from "./ui/Logo.astro";
+---
+
+<div class="reveal">
+	<div class="welcome-container">
+		<div class="logo">
+			<Logo />
+		</div>
+		<div class="welcome-text-wrapper">
+			<h3 class="welcome-text">
+				cloud-np
+			</h3>
+		</div>
+	</div>
+</div>
+
+
+
+<script>
+	import gsap from "gsap";
+
+	function init() {
+		const tl = gsap.timeline({ defaults: { ease: 'power4.out', duration: 0.7 }});
+
+		const defaults = { opacity: 0, scale: 1, stagger: .03 };
+		gsap.set('svg', { autoAlpha: 1 });
+		tl
+		.from(".cls-2", { ...defaults, skew: 40, y: 200 })
+		.from(".cls-3", { ...defaults, skew: 40, y: -60 })
+		.from(".cls-4", { ...defaults, skew: 40, y: 60 })
+		.from(".welcome-text", { y: -60 }, "-=0.3")
+		.fromTo(".logo", { filter: "brightness(1)" }, { filter: "brightness(1.75)", duration: 0.7 }, "-=0.6")
+		.to(".logo", { opacity: 0, scale: 2, ease: 'power4.inOut' })
+		.to(".welcome-text", { y: 80 }, "-=0.5")
+		.to(".reveal", { scaleY: 0, transformOrigin: 'top', duration: 1.2, ease: 'power4.inOut' }, "-=0.5");
+
+		window.addEventListener('load', function() {
+			console.log('All resources finished loading!');
+		});
+	}
+	init();
+
+	// document.addEventListener('astro:after-swap', () => {
+	// 	init();
+	// });
+</script>
+
+<style>
+	.reveal {
+		background-color: #111111;
+	}
+	.reveal, .welcome-container {
+		padding: 0;
+		margin: 0;
+		position: fixed;
+		height: 100%;
+		width: 100%;
+		top: 0;
+		left: 0;
+		z-index: 999;
+	}
+
+	.welcome-container {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+	}
+	.logo {
+		width: 12rem;
+		z-index: 3;
+	}
+
+	.cls-1 { 
+		opacity: 0
+	}
+
+	.welcome-text {
+		color: white;
+		margin: 0;
+		padding: 0;
+	}
+
+	.welcome-text-wrapper {
+		z-index: 2;
+		margin-top: -40px;
+		height: 45px;
+		overflow: hidden;
+	}
+</style>
+
+<script>
+	// const elements = document.querySelectorAll('.fade-in');
+	// let observer = new IntersectionObserver(
+	// 	(changes, observer) => {
+	// 		let timeout = 0;
+	// 		changes.forEach((change) => {
+	// 			if (change.intersectionRatio > 0) {
+	// 				timeout += 100;
+	// 				setTimeout(() => {
+	// 					change.target.setAttribute('data-state', 'visible');
+	// 				}, timeout);
+	// 			}
+	// 		});
+	// 	},
+	// 	{
+	// 		root: null,
+	// 		rootMargin: '0px',
+	// 		threshold: 0.2,
+	// 	}
+	// );
+	// elements.forEach((element) => {
+	// 	element.setAttribute('data-state', 'hidden');
+	// 	observer.observe(element);
+	// });
+</script>
