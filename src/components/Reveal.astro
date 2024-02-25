@@ -23,27 +23,25 @@ import Logo from "./ui/Logo.astro";
 	function init() {
 		const tl = gsap.timeline({ defaults: { ease: 'power4.out', duration: 0.7 }});
 
+		document.getElementsByClassName("reveal")[0].style.display = "block";
 		const defaults = { opacity: 0, scale: 1, stagger: .03 };
 		gsap.set('svg', { autoAlpha: 1 });
 		tl
-		.from(".cls-2", { ...defaults, skew: 40, y: 200 })
-		.from(".cls-3", { ...defaults, skew: 40, y: -60 })
-		.from(".cls-4", { ...defaults, skew: 40, y: 60 })
+		.from(".cls-2", { ...defaults, skewX: 40, y: 200 })
+		.from(".cls-3", { ...defaults, y: -60 })
+		.from(".cls-4", { ...defaults, skewY: 40, y: 60 })
 		.from(".welcome-text", { y: -60 }, "-=0.3")
 		.fromTo(".logo", { filter: "brightness(1)" }, { filter: "brightness(1.75)", duration: 0.7 }, "-=0.6")
 		.to(".logo", { opacity: 0, scale: 2, ease: 'power4.inOut' })
 		.to(".welcome-text", { y: 80 }, "-=0.5")
 		.to(".reveal", { scaleY: 0, transformOrigin: 'top', duration: 1.2, ease: 'power4.inOut' }, "-=0.5");
-
-		window.addEventListener('load', function() {
-			console.log('All resources finished loading!');
-		});
 	}
+
 	init();
 
-	document.addEventListener('astro:after-swap', () => {
-		init();
-	});
+	// document.addEventListener('astro:after-swap', () => {
+	// 	init();
+	// });
 </script>
 
 <style>
@@ -53,6 +51,7 @@ import Logo from "./ui/Logo.astro";
 	.reveal, .welcome-container {
 		padding: 0;
 		margin: 0;
+		display: none;
 		position: fixed;
 		height: 100%;
 		width: 100%;
@@ -80,6 +79,7 @@ import Logo from "./ui/Logo.astro";
 		color: white;
 		margin: 0;
 		padding: 0;
+		font-family: var(--f-sans);
 	}
 
 	.welcome-text-wrapper {
