@@ -2,10 +2,12 @@
 import Container from '../containers/Container.astro';
 import Logo from '../ui/Logo.astro';
 import SocialList from '../ui/SocialList.astro';
+
+import { ThemeToggleButton } from '../ThemeToggleButton/ThemeToggleButton';
 ---
 
 <script>
-	import '../ThemeToggleButton/theme-toggle-button';
+	// import '../ThemeToggleButton/theme-toggle-button';
 </script>
 
 <script>
@@ -81,7 +83,8 @@ import SocialList from '../ui/SocialList.astro';
 				</div>
 				<!-- I was running into some issues with the Lit integration so I'm using it as a client script for now -->
 				<div class="theme-toggle-container">
-					<theme-toggle-button></theme-toggle-button>
+					<!-- <theme-toggle-button></theme-toggle-button> -->
+					<ThemeToggleButton />
 				</div>
 			</div>
 

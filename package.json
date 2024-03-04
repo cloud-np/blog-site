@@ -11,10 +11,10 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.4.1",
-    "@astrojs/lit": "^4.0.1",
     "@astrojs/mdx": "^2.1.1",
-    "@astrojs/react": "^3.0.10",
     "@astrojs/sitemap": "^3.0.5",
+    "@builder.io/qwik": "^1.5.0",
+    "@qwikdev/astro": "^0.5.7",
     "astro": "^4.3.1",
     "clsx": "^2.1.0",
     "framer-motion": "^11.0.6",
