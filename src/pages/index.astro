@@ -4,7 +4,7 @@ import Container from '../components/containers/Container.astro';
 import TypeWriter from "../components/ui/TypeWriter.astro";
 import BlogPostsList from "../components/post/BlogPostsList.astro";
 import { getPosts } from "../libs/post";
-import FadeIn from "../components/Reveal.astro";
+import Reveal from "../components/Reveal.astro";
 
 const seo = {
     title: "cloud-np",
@@ -16,7 +16,7 @@ const posts = allPosts.filter(post => !post.personal);
 ---
 
 <Layout seo={seo}>
-    <FadeIn />
+    <Reveal />
     <Container>
         <section class="home-hero-text__container">
             <div class="home-hero-text">
