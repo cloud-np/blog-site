@@ -7,10 +7,6 @@ import { ThemeToggleButton } from '../ThemeToggleButton/ThemeToggleButton';
 ---
 
 <script>
-	// import '../ThemeToggleButton/theme-toggle-button';
-</script>
-
-<script>
 	function init() {
 		const elementsThatNeedChange = [
 			document.getElementsByClassName("header__nav_links_container")[0],
@@ -81,9 +77,7 @@ import { ThemeToggleButton } from '../ThemeToggleButton/ThemeToggleButton';
 				<div class="socials-container">
 					<SocialList />
 				</div>
-				<!-- I was running into some issues with the Lit integration so I'm using it as a client script for now -->
 				<div class="theme-toggle-container">
-					<!-- <theme-toggle-button></theme-toggle-button> -->
 					<ThemeToggleButton />
 				</div>
 			</div>
