@@ -1,106 +1,160 @@
 ---
-import Layout from "../layouts/Page.astro";
+import Layout from '../layouts/Page.astro';
 import Container from '../components/containers/Container.astro';
-import TypeWriter from "../components/ui/TypeWriter.astro";
-import BlogPostsList from "../components/post/BlogPostsList.astro";
-import { getPosts } from "../libs/post";
-import Reveal from "../components/Reveal.astro";
+import BlogPostsList from '../components/post/BlogPostsList.astro';
+import { getPosts } from '../libs/post';
+import Reveal from '../components/Reveal.astro';
+import SceneController from '../components/ui/SceneController/SceneController.astro';
 
 const seo = {
-    title: "cloud-np",
-    description: "A simple blog focused on provided the best",
+	title: 'cloud-np',
+	description: 'A simple blog focused on provided the best',
 };
 
+
 const allPosts = await getPosts(undefined);
-const posts = allPosts.filter(post => !post.personal);
+const posts = allPosts.filter((post) => !post.personal);
 ---
 
 <Layout seo={seo}>
-    <Reveal />
-    <Container>
-        <section class="home-hero-text__container">
-            <div class="home-hero-text">
-                <h1>
-                    Hi, I'm Nick.<span class="waving">👋🏼</span><br />I like to
-                    <TypeWriter
-                        waitPeriod={2000}
-                        messages={[
-                            "develop apps.",
-                            "think creative.",
-                            "keep improving.",
-                        ]}
-                    />
-                </h1>
-                <p class="home__main-text">
-                    From dawn to dusk, I'm a software sorcerer🧙‍♂️, conjuring code
-                    and casting spells 🪄 to solve intricate puzzles. Other than
-                    that I enjoy freediving, skiing and playing football with
-                    friends.
-                </p>
-            </div>
-            <h4 class="projects-title fade-in">Latest Posts</h4>
-            <BlogPostsList class="latest-projects-container" posts={posts} />
-        </section>
-    </Container>
+	<!-- <Reveal /> -->
+    <SceneController />
+	<Container>
+		<section class="home-hero-text__container">
+			<!-- <div class="lightCircle"></div> -->
+			<div class="home-hero-text">
+				<h1 class="home-hero__welcome-text">Hi there! I'm Nick.</h1>
+				<p class="home__main-text">
+					From dawn to dusk, I'm a software sorcere and casting spells
+					solve intricate puzzles. Other than that I enjoy freediving,
+					skiing and playing football with.
+				</p>
+			</div>
+			<h4 class="projects-title fade-in">Latest Posts</h4>
+			<BlogPostsList class="latest-projects-container" posts={posts} />
+		</section>
+	</Container>
 </Layout>
 
 <style>
-    .home-hero-text__container {
-        padding: 5vh 0;
-        display: flex;
-        flex-direction: column;
+	.home-hero__welcome-text::after {
+		content: "Hi there! I'm Nick.";
+		margin-top: -26px;
+		display: flex;
+		text-align: center;
+		justify-content: center;
+		transform: rotateX(180deg);
+        background-image: linear-gradient(180deg, rgba(255, 255, 255, .0) 25%, rgba(255, 255, 255, .1));
+        -webkit-background-clip: text;
+        color: transparent;
+	}
+
+	.myCircle {
+		width: 1000px;
+		height: 1000px;
+		position: absolute;
+		z-index: -2;
+		top: 0;
+		left: 0;
+		margin-top: 50px;
+		border-radius: 50%;
+        /* Smooth gradient like */
+		/* background: radial-gradient(var(--gradsize) var(--gradsize) at 50% 50%, rgba(145,143,190, var(--gradop)) 0%, rgba(103,100,159, var(--gradop)) 20.83%, rgba(59, 58, 75, 0) 100%); */
+        /* box-shadow: 0px 3px 187.5px 7.5px rgba(237, 83, 203, 0.45); */
+		/* background: linear-gradient(
+			rgb( 18, 18, 18) 0%,
+			rgba(18, 18, 18, 0.738) 19%,
+			rgba(18, 18, 18, 0.541) 34%,
+			rgba(18, 18, 18, 0.382) 47%,
+			rgba(18, 18, 18, 0.278) 56.5%,
+			rgba(18, 18, 18, 0.194) 65%,
+			rgba(18, 18, 18, 0.126) 73%,
+			rgba(18, 18, 18, 0.075) 80.2%,
+			rgba(18, 18, 18, 0.042) 86.1%,
+			rgba(18, 18, 18, 0.021) 91%,
+			rgba(18, 18, 18, 0.008) 95.2%,
+			rgba(18, 18, 18, 0.002) 98.2%,
+			rgba(18, 18, 18, 0) 100%
+		); */
+		/* background: linear-gradient(0deg, rgba(17,17,17,1) 25%, 75%, rgba(20,20,20,1));  */
+		/* background-color: rgba(20,20,20,1); */
+		/* mask-image: linear-gradient(to bottom, black 50%, transparent 100%); */
+		/* filter: blur(5px); */
+		/* clip-path: polygon(100% 50% at 50% 0%); */
+		/* clip-path: polygon(0 0, 100% 0, 100% 50%, 0 50%); */
     }
 
-    h1 {
-        padding-bottom: 2.5rem;
-        text-align: center;
-        max-width: 100%;
-    }
+	/* .lightCircle {
+		background: radial-gradient(rgba(19, 161, 130, 0.507), transparent);
+		border-radius: 50%;
+		width: 700px;
+		height: 700px;
+		filter: blur(100px);
+		top: 100;
+		left: 0;
+		transform: translateX(-25%);
+		position: absolute;
+		z-index: -1;
+		pointer-events: none;
+		animation: halfFading 5s infinite ease-in-out alternate;
+	} */
 
-    p {
-        padding-bottom: 6rem;
-    }
+	.home-hero-text__container {
+		padding: 5vh 0;
+		display: flex;
+		flex-direction: column;
+	}
 
-    .home-hero-text {
-        margin-top: 4rem;
-    }
+	h1 {
+		padding-bottom: 2.5rem;
+		text-align: center;
+		max-width: 100%;
+	}
 
-    .home__main-text {
-        font-size: 1.2rem;
-        max-width: var(--md-container);
-        margin: auto;
-        text-align: center;
-        display: flex;
-        justify-content: center;
-        margin-bottom: 10rem;
-    }
+	p {
+		padding-bottom: 6rem;
+	}
 
-    .waving {
-        position: absolute;
-        animation: waving-anim 0.5s ease-in-out 5 alternate;
-        z-index: -1;
-    }
+	.home-hero-text {
+		margin-top: 4rem;
+	}
 
-    .waving {
-        position: absolute;
-        animation: waving-anim 0.5s ease-in-out 5 alternate;
-    }
+	.home__main-text {
+		font-size: 1rem;
+		max-width: min(var(--md-container), 600px);
+		margin: auto;
+		text-align: center;
+		display: flex;
+		justify-content: center;
+		margin-bottom: 10rem;
+	}
 
-    @keyframes waving-anim {
-        from {
-            transform: rotate(15deg);
-        }
-        to {
-            transform: rotate(0deg);
-        }
-    }
+	.waving {
+		position: absolute;
+		animation: waving-anim 0.5s ease-in-out 5 alternate;
+		z-index: -1;
+	}
 
-    .latest-projects-container {
-        padding-top: 2rem;
-    }
+	.waving {
+		position: absolute;
+		animation: waving-anim 0.5s ease-in-out 5 alternate;
+	}
 
-    .projects-title {
-        margin-top: 6rem;
-        margin-bottom: 3rem;
-    }
-</style>
+	@keyframes waving-anim {
+		from {
+			transform: rotate(15deg);
+		}
+		to {
+			transform: rotate(0deg);
+		}
+	}
+
+	.latest-projects-container {
+		padding-top: 2rem;
+	}
+
+	.projects-title {
+		margin-top: 6rem;
+		margin-bottom: 3rem;
+	}
+</style>../components/ui/SceneController/CircleCanvaBg

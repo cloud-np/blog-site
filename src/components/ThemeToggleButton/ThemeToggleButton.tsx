@@ -6,6 +6,8 @@ import { lightThemeIcon, darkThemeIcon } from './icons';
 const THEME_KEY = "theme";
 
 const setTheme = (theme: Signal<ThemeType>) => {
+    // TODO: Could this be wrong since we are not using the libraries way to access the el?
+    // https://qwik.dev/docs/components/overview/#getting-hold-of-dom-element
     document.firstElementChild?.setAttribute('color-scheme', theme.value);
     theme.value = ThemeUtil.getOppositeTheme(theme.value);
     localStorage.setItem(THEME_KEY, theme.value);
