@@ -25,6 +25,14 @@ import { ThemeToggleButton } from '../ThemeToggleButton/ThemeToggleButton';
 				? elementsThatNeedChange.forEach(el => toggleMobileClass(el, true))
 				: elementsThatNeedChange.forEach(el => toggleMobileClass(el, false));
 		});
+
+		// If the scroll position is greater than 100 pixels, show the header
+		const header = document.getElementById('nav-header');
+		window.addEventListener('scroll', () => {
+			if (header) {
+				header.style.transform = `translateY(${window.scrollY > 100 ? '0' : '-100%'})`;
+			}
+		});
 	}
 	init();
 
@@ -37,9 +45,9 @@ import { ThemeToggleButton } from '../ThemeToggleButton/ThemeToggleButton';
 	});
 </script>
 
-<header>
+<header id="nav-header">
 	<Container>
-		<div class="circle"></div>
+		<!-- <div class="circle"></div> -->
 		<nav>
 			<a class="header__logo" href="/" title="Navigate Home">
 				<div class="header__logo_container">
@@ -94,6 +102,8 @@ import { ThemeToggleButton } from '../ThemeToggleButton/ThemeToggleButton';
 
 <style>
 	header {
+		transform: translateY(-100%);
+		transition: transform ease-in 400ms;
 		height: var(--header-height, 64px);
 		display: flex;
 		align-items: center;
@@ -243,6 +253,16 @@ import { ThemeToggleButton } from '../ThemeToggleButton/ThemeToggleButton';
 		display: flex;
 		align-items: center;
 		justify-content: center;
+	}
+
+	@keyframes halfFading {
+		0% {
+			opacity: 1;
+		}
+
+		100% {
+			opacity: 0.5;
+		}
 	}
 
 	@keyframes fading {
