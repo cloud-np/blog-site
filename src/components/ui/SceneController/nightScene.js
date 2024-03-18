@@ -179,7 +179,7 @@ export default function startNightScene(canvas) {
             // Left moon
             circlePainter.drawMoon(0.05, 0.4, 0.2, 0.67);
             // Right moon
-            circlePainter.drawMoon(0.38, 0.8, 1.6, 0.40);
+            circlePainter.drawMoon(3.04, 0, 1.6, 0.40);
 
             for (let i = 0; i < stars.length; i += 1) {
                 let star = stars[i];
