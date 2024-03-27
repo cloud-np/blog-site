@@ -1,0 +1,31 @@
+<script>
+	import startNightScene from "./nightScene";
+
+	const init = () => {
+		const resizeCanvas = () => {
+			const canvas = document.getElementById('scene') as HTMLCanvasElement;
+			if (!canvas) return;
+			canvas.width = window.innerWidth;
+			canvas.height = window.innerHeight;
+			const ctx = canvas.getContext('2d');
+			if (!ctx) return;
+			startNightScene(canvas);
+		};
+		resizeCanvas();
+		window.addEventListener('resize', resizeCanvas);
+	}
+
+	init();
+
+	document.addEventListener('astro:after-swap', init);
+</script>
+
+<canvas id="scene"></canvas>
+
+<style>
+	canvas {
+		top: 0;
+		position: absolute;
+		z-index: -3;
+	}
+</style>

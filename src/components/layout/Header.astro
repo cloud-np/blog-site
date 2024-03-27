@@ -25,6 +25,14 @@ import { ThemeToggleButton } from '../ThemeToggleButton/ThemeToggleButton';
 				? elementsThatNeedChange.forEach(el => toggleMobileClass(el, true))
 				: elementsThatNeedChange.forEach(el => toggleMobileClass(el, false));
 		});
+
+		// If the scroll position is greater than 100 pixels or there is NO scrollbar, show the header
+		const header = document.getElementById('nav-header');
+		if (header) {
+			document.body.scrollHeight > window.innerHeight
+			? window.addEventListener('scroll', () => header.style.transform = `translateY(${window.scrollY > 100 ? '0' : '-100%'})`)
+			: header.style.transform = `translateY(0)`;
+		}
 	}
 	init();
 
@@ -32,14 +40,12 @@ import { ThemeToggleButton } from '../ThemeToggleButton/ThemeToggleButton';
 	// This is needed to refresh our script after page changes
 	// it could be related to ViewTransitions not sure yet.. 
 	// https://stackoverflow.com/questions/77278507/astro-javascript-is-not-working-on-page-change
-	document.addEventListener('astro:after-swap', () => {
-		init();
-	});
+	document.addEventListener('astro:after-swap', init);
 </script>
 
-<header>
+<header id="nav-header">
 	<Container>
-		<div class="circle"></div>
+		<!-- <div class="circle"></div> -->
 		<nav>
 			<a class="header__logo" href="/" title="Navigate Home">
 				<div class="header__logo_container">
@@ -94,6 +100,8 @@ import { ThemeToggleButton } from '../ThemeToggleButton/ThemeToggleButton';
 
 <style>
 	header {
+		transform: translateY(-100%);
+		transition: transform ease-in 400ms;
 		height: var(--header-height, 64px);
 		display: flex;
 		align-items: center;
@@ -243,6 +251,16 @@ import { ThemeToggleButton } from '../ThemeToggleButton/ThemeToggleButton';
 		display: flex;
 		align-items: center;
 		justify-content: center;
+	}
+
+	@keyframes halfFading {
+		0% {
+			opacity: 1;
+		}
+
+		100% {
+			opacity: 0.5;
+		}
 	}
 
 	@keyframes fading {
