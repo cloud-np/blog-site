@@ -25,9 +25,9 @@ const posts = allPosts.filter((post) => !post.personal);
 			<div class="home-hero-text">
 				<h1 class="home-hero__welcome-text">Hi there! I'm Nick.</h1>
 				<p class="home__main-text">
-					From dawn to dusk, I'm a software sorcere and casting spells
-					solve intricate puzzles. Other than that I enjoy freediving,
-					skiing and playing football with.
+					From dawn to dusk, I'm a software sorcerer, casting spells to solve intricate puzzles.
+					I find solace in exploring the digital world. Besides that, I enjoy freediving, skiing,
+					and playing football.
 				</p>
 			</div>
 			<h4 class="projects-title fade-in">Latest Posts</h4>
@@ -39,7 +39,7 @@ const posts = allPosts.filter((post) => !post.personal);
 <style>
 	.home-hero__welcome-text::after {
 		content: "Hi there! I'm Nick.";
-		margin-top: -26px;
+		margin-top: max(-26px, -4vw);
 		display: flex;
 		text-align: center;
 		justify-content: center;
@@ -47,6 +47,7 @@ const posts = allPosts.filter((post) => !post.personal);
         background-image: linear-gradient(180deg, rgba(255, 255, 255, .0) 25%, rgba(255, 255, 255, .1));
         -webkit-background-clip: text;
         color: transparent;
+		white-space: nowrap;
 	}
 
 	.myCircle {
@@ -109,6 +110,8 @@ const posts = allPosts.filter((post) => !post.personal);
 		padding-bottom: 2.5rem;
 		text-align: center;
 		max-width: 100%;
+		font-size: min(3rem, 9vw);
+		white-space: nowrap;
 	}
 
 	p {
@@ -157,4 +160,4 @@ const posts = allPosts.filter((post) => !post.personal);
 		margin-top: 6rem;
 		margin-bottom: 3rem;
 	}
-</style>../components/ui/SceneController/CircleCanvaBg
+</style>
