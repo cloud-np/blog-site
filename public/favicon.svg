@@ -1,18 +1,1 @@
-<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 3000 3000">
-    <defs>
-    <style>.cls-1{fill:#1c85c8;}.cls-2{fill:url(#linear-gradient);}.cls-3{fill:url(#linear-gradient-2);}.cls-4{fill:url(#linear-gradient-3);}</style>
-    <linearGradient id="linear-gradient" x1="552.08" y1="1120.75" x2="1922.21" y2="2450.19" gradientUnits="userSpaceOnUse">
-        <stop offset="0" stop-color="#23aad7"/><stop offset="1" stop-color="#0b59bd"/>
-    </linearGradient>
-    <linearGradient id="linear-gradient-2" x1="-50.63" y1="1759.67" x2="1353.42" y2="2390.47" gradientUnits="userSpaceOnUse"> 
-        <stop offset="0" stop-color="#2179a5"/><stop offset="1" stop-color="#093a85"/>
-    </linearGradient>
-    <linearGradient id="linear-gradient-3" x1="1495.43" y1="612.37" x2="2792.64" y2="2240.26" gradientUnits="userSpaceOnUse">
-    <stop offset="0" stop-color="#3fe1e5"/><stop offset="1" stop-color="#195ef3"/>
-    </linearGradient>
-    </defs>
-    <path class="cls-1" d="M2636.22,1513.26A766.56,766.56,0,0,0,2647,1385.12c0-421-341.26-762.23-762.22-762.23-333.53,0-617,214.24-720.36,512.59a538.38,538.38,0,0,0-270.33-72.3c-268,0-490.5,194.94-533.44,450.77-193.77,44.86-338.19,218.54-338.19,426,0,241.46,195.75,437.21,437.21,437.21H2540.32c241.46,0,437.21-195.75,437.21-437.21C2977.53,1731.38,2831.55,1557,2636.22,1513.26Z"/>
-    <path class="cls-2" d="M894.1,1063.18c-268,0-490.5,194.94-533.44,450.77l-.17,0,1012.7,863.12h963.39l-1172.88-1242A538.46,538.46,0,0,0,894.1,1063.18Z"/>
-    <path class="cls-3" d="M22.47,1939.9c0,241.46,195.75,437.21,437.21,437.21h913.51L360.49,1514C166.81,1558.92,22.47,1732.55,22.47,1939.9Z"/>
-    <path class="cls-4" d="M2636.22,1513.26A766.56,766.56,0,0,0,2647,1385.12c0-421-341.26-762.23-762.22-762.23-333.53,0-617,214.24-720.36,512.59l-.73-.41,1172.88,1242h203.74c241.46,0,437.21-195.75,437.21-437.21C2977.53,1731.38,2831.55,1557,2636.22,1513.26Z"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="Layer_1" data-name="Layer 1" viewBox="0 0 3000 3000"><defs><style>.cls-1{fill:#1c85c8}.cls-2{fill:url(#linear-gradient)}.cls-3{fill:url(#linear-gradient-2)}.cls-4{fill:url(#linear-gradient-3)}</style><linearGradient id="linear-gradient" x1="552.08" x2="1922.21" y1="1120.75" y2="2450.19" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#23aad7"/><stop offset="1" stop-color="#0b59bd"/></linearGradient><linearGradient id="linear-gradient-2" x1="-50.63" x2="1353.42" y1="1759.67" y2="2390.47" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#2179a5"/><stop offset="1" stop-color="#093a85"/></linearGradient><linearGradient id="linear-gradient-3" x1="1495.43" x2="2792.64" y1="612.37" y2="2240.26" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#3fe1e5"/><stop offset="1" stop-color="#195ef3"/></linearGradient></defs><path d="M2636.22,1513.26A766.56,766.56,0,0,0,2647,1385.12c0-421-341.26-762.23-762.22-762.23-333.53,0-617,214.24-720.36,512.59a538.38,538.38,0,0,0-270.33-72.3c-268,0-490.5,194.94-533.44,450.77-193.77,44.86-338.19,218.54-338.19,426,0,241.46,195.75,437.21,437.21,437.21H2540.32c241.46,0,437.21-195.75,437.21-437.21C2977.53,1731.38,2831.55,1557,2636.22,1513.26Z" class="cls-1"/><path d="M894.1,1063.18c-268,0-490.5,194.94-533.44,450.77l-.17,0,1012.7,863.12h963.39l-1172.88-1242A538.46,538.46,0,0,0,894.1,1063.18Z" class="cls-2"/><path d="M22.47,1939.9c0,241.46,195.75,437.21,437.21,437.21h913.51L360.49,1514C166.81,1558.92,22.47,1732.55,22.47,1939.9Z" class="cls-3"/><path d="M2636.22,1513.26A766.56,766.56,0,0,0,2647,1385.12c0-421-341.26-762.23-762.22-762.23-333.53,0-617,214.24-720.36,512.59l-.73-.41,1172.88,1242h203.74c241.46,0,437.21-195.75,437.21-437.21C2977.53,1731.38,2831.55,1557,2636.22,1513.26Z" class="cls-4"/></svg>
