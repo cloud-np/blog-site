@@ -11,24 +11,32 @@ const seo = {
 	description: 'A simple blog focused on provided the best',
 };
 
-
 const allPosts = await getPosts(undefined);
 const posts = allPosts.filter((post) => !post.personal);
 ---
 
 <Layout seo={seo}>
 	<Reveal />
-    <SceneController />
+	<SceneController />
 	<Container>
 		<section class="home-hero-text__container">
-			<!-- <div class="lightCircle"></div> -->
-			<div class="home-hero-text">
-				<h1 class="home-hero__welcome-text">Hi there! I'm Nick.</h1>
-				<p class="home__main-text">
-					From dawn to dusk, I'm a software sorcerer, casting spells to solve intricate puzzles.
-					I find solace in exploring the digital world. Besides that, I enjoy freediving, skiing,
-					and playing football.
-				</p>
+			<div class="moon"></div>
+			<div class="moon moonRight"></div>
+			<div class="m-auto mb-40">
+				<div class="justify-center flex mb-10 overflow-hidden">
+					<h1 class="reveal-text">Hi</h1>
+					<h1 class="reveal-text">there!</h1>
+					<h1 class="reveal-text">I'm</h1>
+					<h1 class="reveal-text">Nick.</h1>
+				</div>
+				<div class="overflow-hidden">
+					<p class="main-text">
+						From dawn to dusk, I'm a software sorcerer, casting
+						spells to solve intricate puzzles. I find solace in
+						exploring the digital world. Besides that, I enjoy
+						freediving, skiing, and playing football.
+					</p>
+				</div>
 			</div>
 			<h4 class="projects-title fade-in">Latest Posts</h4>
 			<BlogPostsList class="latest-projects-container" posts={posts} />
@@ -36,100 +44,106 @@ const posts = allPosts.filter((post) => !post.personal);
 	</Container>
 </Layout>
 
+<script>
+	import gsap from 'gsap';
+
+	function init(delay: number = 0) {
+		gsap.to('.reveal-text', {
+			duration: 0.8,
+			y: 0,
+			stagger: 0.2,
+			delay: delay,
+			ease: 'power2.out',
+		});
+		gsap.to('.main-text', {
+			duration: 0.8,
+			y: 0,
+			delay: delay + 0.6,
+			ease: 'power2.out',
+		});
+	}
+	init(3.7);
+	document.addEventListener('astro:after-swap', () => init());
+</script>
+
 <style>
-	.home-hero__welcome-text::after {
+	/* Mirror effect */
+	/* .home-hero__welcome-text-cont::after {
 		content: "Hi there! I'm Nick.";
 		margin-top: max(-26px, -4vw);
 		display: flex;
 		text-align: center;
 		justify-content: center;
 		transform: rotateX(180deg);
-        background-image: linear-gradient(180deg, rgba(255, 255, 255, .0) 25%, rgba(255, 255, 255, .1));
-        -webkit-background-clip: text;
-        color: transparent;
+		background-image: linear-gradient(
+			180deg,
+			rgba(255, 255, 255, 0) 25%,
+			rgba(255, 255, 255, 0.1)
+		);
+		-webkit-background-clip: text;
+		color: transparent;
 		white-space: nowrap;
-	}
-
-	.myCircle {
-		width: 1000px;
-		height: 1000px;
-		position: absolute;
-		z-index: -2;
-		top: 0;
-		left: 0;
-		margin-top: 50px;
-		border-radius: 50%;
-        /* Smooth gradient like */
-		/* background: radial-gradient(var(--gradsize) var(--gradsize) at 50% 50%, rgba(145,143,190, var(--gradop)) 0%, rgba(103,100,159, var(--gradop)) 20.83%, rgba(59, 58, 75, 0) 100%); */
-        /* box-shadow: 0px 3px 187.5px 7.5px rgba(237, 83, 203, 0.45); */
-		/* background: linear-gradient(
-			rgb( 18, 18, 18) 0%,
-			rgba(18, 18, 18, 0.738) 19%,
-			rgba(18, 18, 18, 0.541) 34%,
-			rgba(18, 18, 18, 0.382) 47%,
-			rgba(18, 18, 18, 0.278) 56.5%,
-			rgba(18, 18, 18, 0.194) 65%,
-			rgba(18, 18, 18, 0.126) 73%,
-			rgba(18, 18, 18, 0.075) 80.2%,
-			rgba(18, 18, 18, 0.042) 86.1%,
-			rgba(18, 18, 18, 0.021) 91%,
-			rgba(18, 18, 18, 0.008) 95.2%,
-			rgba(18, 18, 18, 0.002) 98.2%,
-			rgba(18, 18, 18, 0) 100%
-		); */
-		/* background: linear-gradient(0deg, rgba(17,17,17,1) 25%, 75%, rgba(20,20,20,1));  */
-		/* background-color: rgba(20,20,20,1); */
-		/* mask-image: linear-gradient(to bottom, black 50%, transparent 100%); */
-		/* filter: blur(5px); */
-		/* clip-path: polygon(100% 50% at 50% 0%); */
-		/* clip-path: polygon(0 0, 100% 0, 100% 50%, 0 50%); */
-    }
-
-	/* .lightCircle {
-		background: radial-gradient(rgba(19, 161, 130, 0.507), transparent);
-		border-radius: 50%;
-		width: 700px;
-		height: 700px;
-		filter: blur(100px);
-		top: 100;
-		left: 0;
-		transform: translateX(-25%);
-		position: absolute;
-		z-index: -1;
-		pointer-events: none;
-		animation: halfFading 5s infinite ease-in-out alternate;
 	} */
 
 	.home-hero-text__container {
 		padding: 5vh 0;
 		display: flex;
 		flex-direction: column;
+		color: var(--primary);
+	}
+	/* all .5s cubic-bezier(.76,0,.24,1); */
+
+	.moon {
+		width: min(400px, 30vw);
+		height: min(400px, 30vw);
+		position: absolute;
+		top: 10vh;
+		left: 5vw;
+		border-radius: 50%;
+		z-index: -5;
+		background: linear-gradient(
+			-90deg,
+			rgb(26, 26, 26) 10%,
+			rgb(15, 15, 15)
+		);
+		cursor: none;
+	}
+
+	.moonRight {
+		top: 20vh;
+		left: 80vw;
+		background: linear-gradient(
+			90deg,
+			rgb(26, 26, 26) 10%,
+			rgb(15, 15, 15)
+		);
+	}
+
+	.reveal-text {
+		transform: translateY(100%);
+		margin-right: 13px;
+		z-index: -1;
+	}
+
+	.no-overflowing {
+		overflow: hidden;
+		border: 1px solid green;
 	}
 
 	h1 {
-		padding-bottom: 2.5rem;
 		text-align: center;
 		max-width: 100%;
 		font-size: min(3rem, 9vw);
 		white-space: nowrap;
 	}
 
-	p {
-		padding-bottom: 6rem;
-	}
-
-	.home-hero-text {
-		margin-top: 4rem;
-	}
-
-	.home__main-text {
+	.main-text {
 		font-size: 1rem;
+		transform: translateY(100%);
 		max-width: min(var(--md-container), 600px);
-		margin: auto;
 		text-align: center;
 		display: flex;
 		justify-content: center;
-		margin-bottom: 10rem;
 	}
 
 	.waving {
