@@ -33,8 +33,21 @@ import Logo from "./ui/Logo.astro";
 		.to(".logo", { opacity: 0, scale: 2, ease: 'power4.inOut' })
 		.to(".welcome-text", { y: 80 }, "-=0.5")
 		.to(".reveal", { scaleY: 0, transformOrigin: 'top', duration: 1.2, ease: 'power4.inOut' }, "-=0.7");
+
+		disableScrolling();
+		setTimeout(() => {
+			enableScrolling();
+			// (document.getElementsByClassName("reveal")[0] as HTMLElement).style.display = "none";
+		}, 3500);
 	}
 
+	function disableScrolling(){
+		document.body.style.overflow = 'hidden';
+	}
+
+	function enableScrolling(){
+		document.body.style.overflow = '';
+	}
 	init();
 
 	// TODO: 
