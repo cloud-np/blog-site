@@ -17,7 +17,7 @@ const posts = allPosts.filter((post) => !post.personal);
 ---
 
 <Layout seo={seo}>
-	<Reveal />
+	<!-- <Reveal /> -->
 	<SceneController />
 	<Container>
 		<section class="landing mt-36">
@@ -25,10 +25,10 @@ const posts = allPosts.filter((post) => !post.personal);
 			<div class="moon moonRight"></div>
 			<div class="hero-text-container m-auto mb-16">
 				<div class="justify-center flex mb-10 overflow-hidden">
-					<h1 class="reveal-text">Hi</h1>
-					<h1 class="reveal-text">there!</h1>
-					<h1 class="reveal-text">I'm</h1>
-					<h1 class="reveal-text slow-fade">Nick.</h1>
+					<h1 class="hero-title-text">Hi</h1>
+					<h1 class="hero-title-text">there!</h1>
+					<h1 class="hero-title-text">I'm</h1>
+					<h1 class="hero-title-text slow-fade">Nick.</h1>
 				</div>
 				<div class="overflow-hidden">
 					<p class="flex justify-center hero-text slow-fade">
@@ -43,7 +43,7 @@ const posts = allPosts.filter((post) => !post.personal);
 			</div>
 		</section>
 		<section class="about">
-			<h2 class="reveal-text">Portofolio</h2>
+			<h2 class="hero-title-text">Portofolio</h2>
 		</section>
 		<section>
 			<h4 class="projects-title fade-in">Latest Posts</h4>
@@ -54,52 +54,66 @@ const posts = allPosts.filter((post) => !post.personal);
 
 <script>
 	import gsap from 'gsap';
+	import { ScrollTrigger } from 'gsap/all';
+	import { ScrollController } from '../components/ui/ScrollController/ScrollController';
+
+	gsap.registerPlugin(ScrollTrigger);
 
 	function init(delay: number = 0) {
-		gsap.to('.reveal-text', {
-			duration: 0.8,
-			y: 0,
-			stagger: 0.2,
-			delay: delay,
-			ease: 'power2.out',
+		const tl = gsap.timeline({
+			defaults: { ease: 'power2.out' },
+			// scrollBehavior: "smooth",
 		});
-		gsap.to('.hero-text', {
-			duration: 0.8,
-			y: 0,
-			delay: delay + 0.6,
-			ease: 'power2.out',
-		});
-		gsap.to('.scroll-down-indicator', {
-			duration: 1.8,
-			opacity: 1,
-			delay: delay + 2.6,
-			ease: 'power2.out',
-		});
-		window.addEventListener('scroll', updateOpacityOnScroll);
+		tl.to('.hero-title-text', { duration: 0.8, y: 0, delay: delay })
+			.to('.hero-text', { duration: 0.8, y: 0 }, '-=0.4')
+			.to('.scroll-down-indicator', { duration: 1.2, opacity: 1 });
+		// tl.to('.hero-text-container', {
+		// 	scrollTrigger: {
+		// 		trigger: '.hero-text-container',
+		// 		// start: 'top top',
+		// 		start: 'top 20%',
+		// 		end: 'bottom center',
+		// 		scrub: true,
+		// 		markers: true,
+		// 	},
+		// 	y: 70,
+		// 	scale: 0.5,
+		// 	duration: 2.2,
+		// });
+		// window.addEventListener('scroll', updateOpacityOnScroll);
 	}
 
+	// ScrollController.transformElY('.hero-text-container', "30vw");
+		// const scrollThreshold = window.scrollY - 100;
+		// if (scrollThreshold > 0) {
+		// 	const ep = document.querySelector('.hero-text-container') as HTMLElement;
+		// 	ep.style.scale = (1 - scrollThreshold / 1000).toString();
+		// 	ep.style.transform = `translateY(${scrollThreshold.toString()}px)`;
+		// }
+	ScrollController.smooth('.hero-text-container', {
+		'y': () => window.scrollY
+	});
+	// const sc = new ScrollController();
 	function updateOpacityOnScroll() {
-		const scrollIndicator = document.querySelector('.scroll-down-indicator') as HTMLElement;
+		const scrollIndicator = document.querySelector(
+			'.scroll-down-indicator'
+		) as HTMLElement;
 		if (!scrollIndicator) return;
 
 		const scrollThreshold = window.scrollY - 100;
-		let opacity = 1;
-		let scale = 1;
-
-		if (scrollThreshold >= 0) {
-			opacity = Math.max(1 - scrollThreshold / 20, 0);
-			scale = Math.max(1 + scrollThreshold / 400, 0);
+		if (scrollThreshold > 0) {
+			const ep = document.querySelector('.hero-text-container') as HTMLElement;
+			ep.style.scale = (1 - scrollThreshold / 1000).toString();
+			ep.style.transform = `translateY(${(1 + scrollThreshold).toString()}px)`;
 		}
 
-		// Use GSAP to smoothly adjust the opacity
-		gsap.to(scrollIndicator, {
-			opacity: opacity,
-			scale: scale,
-			duration: 0.5,
-			ease: 'power1.out',
-		});
+		scrollIndicator.style.opacity = (
+			scrollThreshold >= 0 ? Math.max(1 - scrollThreshold / 20, 0) : 1
+		).toString();
 	}
-	init(3.72);
+
+	// init(3.72);
+	init();
 	document.addEventListener('astro:after-swap', () => init());
 </script>
 
@@ -160,7 +174,7 @@ const posts = allPosts.filter((post) => !post.personal);
 		);
 	}
 
-	.reveal-text {
+	.hero-title-text {
 		transform: translateY(100%);
 		margin-right: 13px;
 		z-index: -1;
@@ -187,6 +201,7 @@ const posts = allPosts.filter((post) => !post.personal);
 	}
 
 	.slow-fade {
+		position: relative;
 		mask-image: linear-gradient(115deg, #fff 34%, hsla(0, 0%, 100%, 0) 95%);
 		-webkit-mask-image: linear-gradient(
 			115deg,
@@ -195,10 +210,15 @@ const posts = allPosts.filter((post) => !post.personal);
 		);
 	}
 
+	.hero-text-container {
+		/* transition: all 0.7s cubic-bezier(0.76, 0, 0.24, 1); */
+		transition: all 0.4s ease-in-out;
+	}
+
 	.scroll-down-indicator {
 		margin-top: 40vh;
 		opacity: 0;
-		/* transition: all 5s cubic-bezier(0.76, 0, 0.24, 1); */
+		transition: all 0.5s cubic-bezier(0.76, 0, 0.24, 1);
 	}
 
 	.latest-projects-container {
