@@ -55,7 +55,7 @@ const posts = allPosts.filter((post) => !post.personal);
 <script>
 	import gsap from 'gsap';
 	import { ScrollTrigger } from 'gsap/all';
-	import { ScrollController } from '../components/ui/ScrollController/ScrollController';
+	import { ScrollController, type StyleProp } from '../components/ui/ScrollController/ScrollController';
 
 	gsap.registerPlugin(ScrollTrigger);
 
@@ -83,34 +83,20 @@ const posts = allPosts.filter((post) => !post.personal);
 		// window.addEventListener('scroll', updateOpacityOnScroll);
 	}
 
-	// ScrollController.transformElY('.hero-text-container', "30vw");
-		// const scrollThreshold = window.scrollY - 100;
-		// if (scrollThreshold > 0) {
-		// 	const ep = document.querySelector('.hero-text-container') as HTMLElement;
-		// 	ep.style.scale = (1 - scrollThreshold / 1000).toString();
-		// 	ep.style.transform = `translateY(${scrollThreshold.toString()}px)`;
-		// }
 	ScrollController.smooth('.hero-text-container', {
-		'y': () => window.scrollY
+		start: '',
+		end: 'bottom center',
+		startCondition: y => y > 200,
+		endCondition: y => y > 1000,
+	},{
+		y: () => window.scrollY,
+		scale: () => Math.max(1 - window.scrollY / 1000, 0.5),
 	});
-	// const sc = new ScrollController();
-	function updateOpacityOnScroll() {
-		const scrollIndicator = document.querySelector(
-			'.scroll-down-indicator'
-		) as HTMLElement;
-		if (!scrollIndicator) return;
 
-		const scrollThreshold = window.scrollY - 100;
-		if (scrollThreshold > 0) {
-			const ep = document.querySelector('.hero-text-container') as HTMLElement;
-			ep.style.scale = (1 - scrollThreshold / 1000).toString();
-			ep.style.transform = `translateY(${(1 + scrollThreshold).toString()}px)`;
-		}
-
-		scrollIndicator.style.opacity = (
-			scrollThreshold >= 0 ? Math.max(1 - scrollThreshold / 20, 0) : 1
-		).toString();
-	}
+	// ScrollController.smooth('.scroll-down-indicator', {}, {
+	// 	'opacity': () =>
+	// 		window.scrollY - 100 >= 0 ? Math.max(1 - (window.scrollY - 100) / 20, 0) : 1
+	// });
 
 	// init(3.72);
 	init();
@@ -212,7 +198,7 @@ const posts = allPosts.filter((post) => !post.personal);
 
 	.hero-text-container {
 		/* transition: all 0.7s cubic-bezier(0.76, 0, 0.24, 1); */
-		transition: all 0.4s ease-in-out;
+		transition: all 0.3s ease-out;
 	}
 
 	.scroll-down-indicator {
