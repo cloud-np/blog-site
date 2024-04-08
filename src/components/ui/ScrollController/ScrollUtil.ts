@@ -37,11 +37,11 @@ export namespace ScrollUtil {
         return false;
     }
 
-    export const refineConditionFunc = (conditionFunc: Condition, styleOptions: Record<string, string | number | Function>) => {
+    export const refineCodition = (conditionFunc: Condition, styleOptions: Record<string, string | number | Function>, element: HTMLElement) => {
         const conditionFuncParams = getParameters(conditionFunc).map(param => {
             let value = styleOptions[param];
             if (typeof value === 'function') {
-                value = value();
+                value = refineValueStyleFunction(value, element);
             }
             // We check like this because what if the value is just falsy like 0
             if (value === undefined) throw new Error(`Missing parameter value for ${param}`);
@@ -50,6 +50,20 @@ export namespace ScrollUtil {
         return () => conditionFunc(...conditionFuncParams);
     }
 
+    export const refineValueStyleFunction = (valueFunc: Function, element: HTMLElement, previousStylesValue?: Record<string, string | number>): string | number => {
+        const conditionFuncParams = getParameters(valueFunc).map((param: StyleProp) => {
+            const [styleKey, _] = stylablePropToStyle(param);
+            previousStylesValue ||= {};
+            // if (!element.style[styleKey]) throw new Error(`Missing parameter key for ${param} -> ${styleKey}`);
+            return previousStylesValue[styleKey] || 0;
+            // return previousStylesValue[styleKey] || element.style[styleKey] || 0;
+        });
+        return valueFunc(...conditionFuncParams);
+    }
+
+    const isValueNil = (value: string | number | null | undefined): boolean => {
+        return value === null || value === undefined;
+    }
 
     const getParameters = (func: Function) => {
 		// Convert function to string
@@ -61,8 +75,23 @@ export namespace ScrollUtil {
 		return result === null ? [] : result;
 	}
 
-    export const createScrollFuncId = (funcName: string, cls: string, styleOptions: Record<StyleProp, string | number | Function>, options: ScrollOptions) => {
-        return `${funcName}-${cls}-${styleOptions.toString()}-${options.toString()}`;
+    export const createScrollFuncId = (funcName: string, cls: string, styleOptions: Record<StyleProp, string | number | Function>, options?: ScrollOptions) => {
+        return `${funcName}-${cls}-${styleOptions.toString()}-${(options || {}).toString()}`;
+    }
+
+    export const stylablePropToStyle = (prop: StyleProp, value?: number): [string, string] => {
+        switch (prop) {
+            case 'y':
+                return ['transform', `translateY(${value}px)`];
+            case 'x':
+                return ['transform', `translateX(${value}px)`];
+            case 'scale':
+                return ['scale', `${value}`];
+            case 'opacity':
+                return ['opacity', `${value}`];
+            default:
+                throw new Error('Unsupported property');
+        }
     }
 
 };

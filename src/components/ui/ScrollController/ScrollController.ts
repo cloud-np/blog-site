@@ -1,6 +1,6 @@
 import { transform } from "typescript";
 import { ScrollUtil } from "./ScrollUtil";
-import type { RefinedScrollOptions, ScrollOptions, StyleProp } from "./scroll.model";
+import type { Condition, RefinedScrollOptions, ScrollOptions, StyleProp } from "./scroll.model";
 // function throttle(callback: Function, limit: number) {
 //     let wait = false;
 //     return function () {
@@ -15,80 +15,29 @@ import type { RefinedScrollOptions, ScrollOptions, StyleProp } from "./scroll.mo
 // }
 
 
-function stylablePropToStyle(prop: StyleProp, value: number): [string, string] {
-    switch (prop) {
-        case 'y':
-            return ['transform', `translateY(${value}px)`];
-        case 'x':
-            return ['transform', `translateX(${value}px)`];
-        case 'scale':
-            return ['scale', `${value}`];
-        case 'opacity':
-            return ['opacity', `${value}`];
-        default:
-            throw new Error('Unsupported property');
-    }
-}
+export namespace Scroll {
+    let scrollableElements: Record<string, ScrollableElement> = {};
 
-function updateScrollListener(listeners: Record<string, Function>) {
-    window.addEventListener('scroll', () => {
-        Object.values(listeners).forEach(listener =>
-            listener()
-        );
-    });
-}
-
-let LISTENERS: Record<string, Function> = {};
-
-export class ScrollController {
-    static threshold: number;
-
-    static addAsEventListener(func: Function, funcId: string) {
-        // Update the listeners and add the listener to the global scroll event
-        if (!LISTENERS[funcId]) {
-            LISTENERS[funcId] = func;
-            updateScrollListener(LISTENERS);
-        }
+    export const addAsEventListener = (scrEl: ScrollableElement) => {
+        const listeners = Object.values(scrollableElements).reduce((acc, el) => {
+            acc[el.scrollableElementFuncId] = el.scrollFunc.bind(el);
+            return acc;
+        }, {});
+        updateScrollListener(listeners);
     } 
 
-
-    static smooth(cls: string, options: ScrollOptions, styleOptions: Record<string, string | number | Function>){
-        styleOptions = styleOptions || {};
-        // (() => ScrollUtil.isElementInViewport(cls));
-
-        const startCondition = options.startCondition || (() => true);
-        const endCondition = options.endCondition || (() => false);
-
-        const refinedOptions: RefinedScrollOptions = { 
-            ...options,
-            startCondition: ScrollUtil.refineConditionFunc(startCondition, styleOptions),
-            endCondition: ScrollUtil.refineConditionFunc(endCondition, styleOptions),
-        };
-
-        ScrollController.addAsEventListener(
-            ScrollController.applyStyleOptionsCallback(cls, options, styleOptions),
-            ScrollUtil.createScrollFuncId("smooth", cls, styleOptions, options)
-        );
+    const updateScrollListener = (listeners: Record<string, Function>) => {
+        window.addEventListener('scroll', () => {
+            Object.values(listeners).forEach(listener =>
+                listener()
+            );
+        });
     }
 
-    // This function is getting called continuously on each scroll event.
-    static applyStyleOptionsCallback(cls: string, options: ScrollOptions, styleOptions: Record<StyleProp, string | number | Function>) {
-        return () => {
-            const startCondition = ScrollUtil.refineConditionFunc(options.startCondition || (() => true), styleOptions);
-            const endCondition = ScrollUtil.refineConditionFunc(options.endCondition || (() => false), styleOptions);
-            if (!startCondition() || endCondition()) return;
-
-            for(let [key, value] of Object.entries(styleOptions)) {
-                if (typeof value === 'function') {
-                    value = value();
-                }
-
-                const [styleKey, styleValue] = stylablePropToStyle(key as StyleProp, value as number);
-                document.querySelectorAll(cls).forEach((el: HTMLElement) =>
-                    el.style[styleKey] = styleValue
-                );
-            };
-        }
+    export const el = (cls: string, styleOptions: Record<string, string | number | Function>, options?: ScrollOptions) => {
+        const scrollEl = new ScrollableElement(cls, styleOptions, options);
+        scrollableElements[scrollEl.scrollableElementFuncId] = scrollEl;
+        addAsEventListener(scrollEl);
     }
 
     // static custom(cls: string, func: Function, ...args: any[]) {
@@ -98,8 +47,45 @@ export class ScrollController {
     //     ScrollUtil.createScrollFuncId("custom", cls, {}, { start: 0, end: 0 });
     //     ScrollController.tryToAddAsEventListener(, innerFunc);
     // }
-
-    static setThreshold(threshold: number) {
-        // this.threshold = threshold;
-    }
 }
+
+export class ScrollableElement {
+    elements: NodeListOf<Element>;
+    scrollableElementFuncId: string;
+    previousStylesValue: Record<string, string | number> = {};
+
+    constructor(
+        public cls: string,
+        public styleOptions: Record<string, string | number | Function>,
+        public options?: ScrollOptions,
+    ) { 
+        this.cls = cls;
+        this.elements = document.querySelectorAll(cls);
+        this.styleOptions = styleOptions;
+        this.options = options;
+
+        this.scrollableElementFuncId = ScrollUtil.createScrollFuncId("smooth", this.cls, this.styleOptions, this.options);
+    }
+
+    // This function is getting called continuously on each scroll event.
+    scrollFunc() {
+        this.elements.forEach((el: HTMLElement) => {
+            if (this.options) {
+                const startCondition = ScrollUtil.refineCodition(this.options.startCondition || (() => true), this.styleOptions, el);
+                const endCondition = ScrollUtil.refineCodition(this.options.endCondition || (() => false), this.styleOptions, el);
+                if (!startCondition() || endCondition()) return;
+            }
+
+            for(let [key, value] of Object.entries(this.styleOptions)) {
+                const [styleKey, ] = ScrollUtil.stylablePropToStyle(key as StyleProp);
+                if (typeof value === 'function') {
+                    value = ScrollUtil.refineValueStyleFunction(value, el, this.previousStylesValue);
+                    this.previousStylesValue[styleKey] = value;
+                }
+                const [, styleValue] = ScrollUtil.stylablePropToStyle(key as StyleProp, value as number);
+
+                el.style[styleKey] = styleValue;
+            };
+        });
+    }
+} 

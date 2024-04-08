@@ -20,7 +20,7 @@ const posts = allPosts.filter((post) => !post.personal);
 	<!-- <Reveal /> -->
 	<SceneController />
 	<Container>
-		<section class="landing mt-36">
+		<section class="landing mt-28">
 			<div class="moon"></div>
 			<div class="moon moonRight"></div>
 			<div class="hero-text-container m-auto mb-16">
@@ -37,12 +37,11 @@ const posts = allPosts.filter((post) => !post.personal);
 					</p>
 				</div>
 			</div>
-			<!-- <button class="rounded-full"> -->
 			<div class="m-auto scroll-down-indicator">
 				<ScrollDown />
 			</div>
 		</section>
-		<section class="about">
+		<section class="about bg-white w-max h-max">
 			<h2 class="hero-title-text">Portofolio</h2>
 		</section>
 		<section>
@@ -55,7 +54,7 @@ const posts = allPosts.filter((post) => !post.personal);
 <script>
 	import gsap from 'gsap';
 	import { ScrollTrigger } from 'gsap/all';
-	import { ScrollController, type StyleProp } from '../components/ui/ScrollController/ScrollController';
+	import { ScrollableElement, Scroll } from '../components/ui/ScrollController/ScrollController';
 
 	gsap.registerPlugin(ScrollTrigger);
 
@@ -83,20 +82,24 @@ const posts = allPosts.filter((post) => !post.personal);
 		// window.addEventListener('scroll', updateOpacityOnScroll);
 	}
 
-	ScrollController.smooth('.hero-text-container', {
-		start: '',
-		end: 'bottom center',
-		startCondition: y => y > 200,
-		endCondition: y => y > 1000,
-	},{
-		y: () => window.scrollY,
-		scale: () => Math.max(1 - window.scrollY / 1000, 0.5),
-	});
+	// Scroll.el('.hero-text-container',
+	// 	{
+	// 		y: () => window.scrollY,
+	// 		scale: () => 1 - window.scrollY / 3200
+	// 	},
+	// 	{
+	// 		startCondition: (y) => y > 100,
+	// 		endCondition: (y) => y > 1000,
+	// 	}
+	// );
 
-	// ScrollController.smooth('.scroll-down-indicator', {}, {
-	// 	'opacity': () =>
-	// 		window.scrollY - 100 >= 0 ? Math.max(1 - (window.scrollY - 100) / 20, 0) : 1
+	// Scroll.el('.scroll-down-indicator', {
+    //     opacity: () => window.scrollY - 100 >= 0 ? Math.max(1 - (window.scrollY - 100) / 20, 0) : 1
 	// });
+
+	Scroll.el('.about', {
+        y: (y) => y - 5,
+    });
 
 	// init(3.72);
 	init();
@@ -202,7 +205,9 @@ const posts = allPosts.filter((post) => !post.personal);
 	}
 
 	.scroll-down-indicator {
-		margin-top: 40vh;
+		position: absolute;
+		top: 85%;
+		left: 50%;
 		opacity: 0;
 		transition: all 0.5s cubic-bezier(0.76, 0, 0.24, 1);
 	}
