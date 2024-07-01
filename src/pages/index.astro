@@ -1,15 +1,14 @@
 ---
-import Layout from '../layouts/Page.astro';
-import Container from '../components/containers/Container.astro';
-import BlogPostsList from '../components/post/BlogPostsList.astro';
-import { getPosts } from '../libs/post';
-import Reveal from '../components/Reveal.astro';
-import ScrollDown from '../components/ui/ScrollDown.astro';
-import SceneController from '../components/ui/SceneController/SceneController.astro';
+import Layout from "../layouts/Page.astro";
+import BlogPostsList from "../components/post/BlogPostsList.astro";
+import { getPosts } from "../libs/post";
+import Reveal from "../components/Reveal.astro";
+import ScrollDown from "../components/ui/ScrollDown.astro";
+import SceneController from "../components/ui/SceneController/SceneController.astro";
 
 const seo = {
-	title: 'cloud-np',
-	description: 'A simple blog focused on provided the best',
+	title: "cloud-np",
+	description: "A simple blog focused on provided the best",
 };
 
 const allPosts = await getPosts(undefined);
@@ -19,20 +18,21 @@ const posts = allPosts.filter((post) => !post.personal);
 <Layout seo={seo}>
 	<!-- <Reveal /> -->
 	<SceneController />
-	<Container>
-		<section class="landing mt-28">
+	<div class="container">
+		<section class="landing px-3">
 			<div class="moon"></div>
 			<div class="moon moonRight"></div>
-			<div class="hero-text-container m-auto mb-16">
-				<div class="justify-center flex mb-10 overflow-hidden">
+			<!-- TODO: Tailwind not working -->
+			<div class="hero-text-container mb-16">
+				<div class="hero-title-text-container justify-center flex mb-10 overflow-hidden">
 					<h1 class="hero-title-text">Hi</h1>
 					<h1 class="hero-title-text">there!</h1>
 					<h1 class="hero-title-text">I'm</h1>
-					<h1 class="hero-title-text slow-fade">Nick.</h1>
+					<h1 class="hero-title-text slow-fade">Nick</h1>
 				</div>
 				<div class="overflow-hidden">
 					<p class="flex justify-center hero-text slow-fade">
-						Elegance in code, boldness in design. Transforming
+						With elegance in code and boldness in design. I enjoy transforming
 						visions into reality with some frontend wizardry.
 					</p>
 				</div>
@@ -41,78 +41,64 @@ const posts = allPosts.filter((post) => !post.personal);
 				<ScrollDown />
 			</div>
 		</section>
-		<section class="about bg-zinc-200 flex justify-center">
-            <div class="w-4 h-16"></div>
-			<!-- <h2 class="hero-title-text text-gray-900">Portofolio</h2> -->
+		<section class="about bg-zinc-900 w-max h-max flex justify-center">
+			<h2 class="about-title text-sky-400 p-16">Portofolio</h2>
+			<div></div>
 		</section>
 		<section>
 			<h4 class="projects-title fade-in">Latest Posts</h4>
 			<BlogPostsList class="latest-projects-container" posts={posts} />
 		</section>
-	</Container>
+	</div>
 </Layout>
 
 <script>
-	import gsap from 'gsap';
-	import { ScrollTrigger } from 'gsap/all';
-	import { Scroll } from '../components/ui/ScrollController/ScrollController';
+	import gsap from "gsap";
+	import { ScrollTrigger } from "gsap/all";
+	import { Scroll } from "../components/ui/ScrollController/ScrollController";
 
+	const REVEAL_DELAY = 3.72;
 	gsap.registerPlugin(ScrollTrigger);
 
 	function init(delay: number = 0) {
 		const tl = gsap.timeline({
-			defaults: { ease: 'power2.out' },
+			defaults: { ease: "power2.out" },
 			scrollBehavior: "smooth",
 		});
-		tl.to('.hero-title-text', { duration: 0.8, y: 0, delay: delay })
-			.to('.hero-text', { duration: 0.8, y: 0 }, '-=0.4')
-			.to('.scroll-down-indicator', { duration: 1.2, opacity: 1 })
-            .to('.about', {
-                scrollTrigger: {
-                    trigger: '.hero-text',
-                    start: 'top top',
-                    end: 'bottom center',
-                    scrub: true,
-                    markers: true
-                },
-                y: -300,
-                scale: 1.10,
-                width: "100%"
-            })
-		// tl.to('.hero-text-container', {
-		// 	scrollTrigger: {
-		// 		trigger: '.hero-text-container',
-		// 		// start: 'top top',
-		// 		start: 'top 20%',
-		// 		end: 'bottom center',
-		// 		scrub: true,
-		// 		markers: true,
-		// 	},
-		// 	y: 70,
-		// 	scale: 0.5,
-		// 	duration: 2.2,
-		// });
+		tl.to(".hero-title-text", { duration: 0.8, y: 0, delay: delay }).to(
+			".hero-text",
+			{ duration: 0.8, y: 0 },
+			"-=0.4",
+		);
+		tl.to(".about", {
+			scrollTrigger: {
+				trigger: ".about",
+				start: "top-=500 center",
+				end: "bottom-=300 center",
+				scrub: true,
+				markers: true,
+			},
+			y: -300,
+			width: "85%",
+			duration: 2.2,
+		});
 		// window.addEventListener('scroll', updateOpacityOnScroll);
 	}
 
-	// Scroll.el('.hero-text-container',
-	// 	{
-	// 		y: () => window.scrollY,
-	// 		scale: () => 1 - window.scrollY / 3200
-	// 	},
-	// 	{
-	// 		startCondition: (y) => y > 100,
-	// 		endCondition: (y) => y > 1000,
-	// 	}
-	// );
+	// Scroll.el(".about", {
+	// 	y: (y, direction) => y + -1 * direction * 5,
+	// });
 
-	Scroll.el('.scroll-down-indicator', {
-        opacity: () => window.scrollY - 100 >= 0 ? Math.max(1 - (window.scrollY - 100) / 20, 0) : 1
+	Scroll.el(".scroll-down-indicator", {
+		opacity: () =>
+			window.scrollY - 100 >= 0
+				? Math.max(1 - (window.scrollY - 100) / 20, 0)
+				: 1,
 	});
 
-	// init(3.72);
+	// init(REVEAL_DELAY);
 	init();
-	document.addEventListener('astro:after-swap', () => init());
+	document.addEventListener("astro:after-swap", () => init());
 </script>
 
 <style>
@@ -138,16 +124,22 @@ const posts = allPosts.filter((post) => !post.personal);
 		padding: 5vh 0;
 		display: flex;
 		flex-direction: column;
+		overflow-x: hidden;
+		height: 85vh;
 		color: var(--primary);
 	}
 	/* all .5s cubic-bezier(.76,0,.24,1); */
 
 	.about {
-		margin-top: 60vh;
-        transition: all 0.5s 
-        /* cubic-bezier(0.075, 0.82, 0.165, 1); */
-/* cubic-bezier(.76,0,.24,1); */
-        cubic-bezier(0.25, 0.1, 0.25, 1);
+		margin-top: 5vh;
+		height: 500px;
+		border-radius: 5px;
+		transition: all 0.3s ease-out;
+	}
+
+	.about-title {
+		text-align: center;
+		transition: all 0.3s ease-out;
 	}
 
 	.moon {
@@ -169,6 +161,7 @@ const posts = allPosts.filter((post) => !post.personal);
 	.moonRight {
 		top: 20vh;
 		left: 80vw;
+		overflow-x: hidden;
 		background: linear-gradient(
 			90deg,
 			rgb(26, 26, 26) 10%,
@@ -176,9 +169,18 @@ const posts = allPosts.filter((post) => !post.personal);
 		);
 	}
 
+	@media (max-width: 768px) {
+		.moonRight {
+			display: none;
+		}
+	}
+
+	.hero-title-text-container .hero-title-text:not(:last-child) {
+		margin-right: 13px;
+	}
+
 	.hero-title-text {
 		transform: translateY(100%);
-		margin-right: 13px;
 		z-index: -1;
 	}
 
@@ -232,5 +234,19 @@ const posts = allPosts.filter((post) => !post.personal);
 	.projects-title {
 		margin-top: 6rem;
 		margin-bottom: 3rem;
+	}
+
+	.container {
+		width: 100%;
+		margin: 0 auto;
+		max-width: var(--lg-container, 960px);
+		/* padding: var(--container-padding, 1rem); */
+	}
+
+	@media (max-width: 768px) {
+		.container {
+			display: flex;
+			flex-direction: column;
+		}
 	}
 </style>

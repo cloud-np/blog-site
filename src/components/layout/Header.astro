@@ -7,6 +7,7 @@ import SocialList from '../ui/SocialList.astro';
 ---
 
 <script>
+	const SHOW_NAV_FROM_Y = 0;
 	function init() {
 		const elementsThatNeedChange = [
 			document.getElementsByClassName("header__nav_links_container")[0],
@@ -31,7 +32,7 @@ import SocialList from '../ui/SocialList.astro';
 		const header = document.getElementById('nav-header');
 		if (header) {
 			document.body.scrollHeight > window.innerHeight
-			? window.addEventListener('scroll', () => header.style.transform = `translateY(${window.scrollY > 100 ? '0' : '-100%'})`)
+			? window.addEventListener('scroll', () => header.style.transform = `translateY(${window.scrollY > SHOW_NAV_FROM_Y ? '0' : '-100%'})`)
 			: header.style.transform = `translateY(0)`;
 		}
 	}

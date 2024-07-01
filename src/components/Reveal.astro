@@ -48,7 +48,19 @@ import Logo from "./ui/Logo.astro";
 	function enableScrolling(){
 		document.body.style.overflow = '';
 	}
+
 	init();
+
+	// TODO: Just disable anything after the initial load.
+	// document.addEventListener('DOMContentLoaded', () => {
+	// 	const reveal = (document.getElementsByClassName("reveal")[0] as HTMLElement);
+	// 	console.log("m here", reveal);
+	// 	if (reveal) {
+	// 		console.log("I am here");
+	// 		enableScrolling();
+	// 		reveal.style.display = 'none';
+	// 	}
+	// });
 
 	// TODO: 
 	// https://docs.astro.build/en/guides/view-transitions/#astrobefore-preparation

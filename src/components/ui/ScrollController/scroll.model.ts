@@ -1,5 +1,11 @@
 export type StyleProp = 'y' | 'x' | 'scale' | 'opacity';
 
+export const STYLE_PROPS = ['y', 'x', 'scale', 'opacity'];
+
+export type UniqProp = 'direction';
+
+export const UNIQ_PROPS = ['direction'];
+
 export type Condition = (...args: any[]) => boolean;
 
 export interface ScrollOptions {

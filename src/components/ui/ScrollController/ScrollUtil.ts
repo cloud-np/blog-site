@@ -1,4 +1,4 @@
-import type { Condition, ScrollOptions, StyleProp } from "./scroll.model";
+import { UNIQ_PROPS, type Condition, type ScrollOptions, type StyleProp, type UniqProp, STYLE_PROPS } from "./scroll.model";
 
 export namespace ScrollUtil {
     export const convertToNumber = (value: string | number): number => {
@@ -37,35 +37,35 @@ export namespace ScrollUtil {
         return false;
     }
 
-    export const refineCodition = (conditionFunc: Condition, styleOptions: Record<string, string | number | Function>, element: HTMLElement) => {
-        const conditionFuncParams = getParameters(conditionFunc).map(param => {
-            let value = styleOptions[param];
-            if (typeof value === 'function') {
-                value = refineValueStyleFunction(value, element);
-            }
-            // We check like this because what if the value is just falsy like 0
-            if (value === undefined) throw new Error(`Missing parameter value for ${param}`);
-            return value;
-        });
-        return () => conditionFunc(...conditionFuncParams);
-    }
+    // export const applyParamsAndGetValue = (valueFunc: Function,
+    //     previousStylesValue: Record<StyleProp, string | number>,
+    //     uniqProps?: Record<UniqProp, number>): [StyleProp | undefined, string | number] => {
 
-    export const refineValueStyleFunction = (valueFunc: Function, element: HTMLElement, previousStylesValue?: Record<string, string | number>): string | number => {
-        const conditionFuncParams = getParameters(valueFunc).map((param: StyleProp) => {
-            const [styleKey, _] = stylablePropToStyle(param);
-            previousStylesValue ||= {};
-            // if (!element.style[styleKey]) throw new Error(`Missing parameter key for ${param} -> ${styleKey}`);
-            return previousStylesValue[styleKey] || 0;
-            // return previousStylesValue[styleKey] || element.style[styleKey] || 0;
-        });
-        return valueFunc(...conditionFuncParams);
-    }
+    //     let stylePropFound: string | undefined = undefined;
+    //     const conditionFuncParams = getParameters(valueFunc).map((param: StyleProp | UniqProp) => {
+    //         const uniqProp = uniqProps && uniqProps[param];
+    //         if (uniqProp) {
+    //             return uniqProp;
+    //         }
+    //         if (stylePropFound) {
+    //             throw new Error('ONLY one style prop per value style function');
+    //         }
+    //         stylePropFound = param;
 
-    const isValueNil = (value: string | number | null | undefined): boolean => {
-        return value === null || value === undefined;
-    }
+    //         // console.log(param, previousStylesValue[param]);
+    //         // if (!element.style[styleKey]) throw new Error(`Missing parameter key for ${param} -> ${styleKey}`);
+    //         return previousStylesValue[param] || 0;
+    //         // return previousStylesValue[styleKey] || element.style[styleKey] || 0;
+    //     });
+    //     const fvalue: number = valueFunc(...conditionFuncParams);
+    //     // NOTE: He may not use any STYLE PROPS
+    //     if (stylePropFound) {
+    //         previousStylesValue[stylePropFound as string] = fvalue;
+    //     }
+    //     return [stylePropFound, fvalue];
+    // }
 
-    const getParameters = (func: Function) => {
+    export const getParameters = (func: Function): RegExpMatchArray | [] => {
 		// Convert function to string
 		const funcStr = func.toString();
 		// Extract parameter names using regex
@@ -76,7 +76,11 @@ export namespace ScrollUtil {
 	}
 
     export const createScrollFuncId = (funcName: string, cls: string, styleOptions: Record<StyleProp, string | number | Function>, options?: ScrollOptions) => {
-        return `${funcName}-${cls}-${styleOptions.toString()}-${(options || {}).toString()}`;
+        return `${funcName}-${cls}-${objToString(styleOptions)}-${objToString(options|| {})}`;
+    }
+
+    const objToString = (obj: Object) => {
+        return Object.entries(obj).map((key, val) => `${key}${val}`).toString();
     }
 
     export const stylablePropToStyle = (prop: StyleProp, value?: number): [string, string] => {
@@ -90,8 +94,16 @@ export namespace ScrollUtil {
             case 'opacity':
                 return ['opacity', `${value}`];
             default:
-                throw new Error('Unsupported property');
+                throw new Error('Unsupported style property', prop);
         }
+    }
+
+    export const isUniqProp = (param: any): param is UniqProp => {
+        return UNIQ_PROPS.includes(param);
+    }
+
+    export const isStyleProp = (param: any): param is UniqProp => {
+        return STYLE_PROPS.includes(param);
     }
 
 };
