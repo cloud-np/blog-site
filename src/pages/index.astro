@@ -5,6 +5,8 @@ import { getPosts } from "../libs/post";
 import Reveal from "../components/Reveal.astro";
 import ScrollDown from "../components/ui/ScrollDown.astro";
 import SceneController from "../components/ui/SceneController/SceneController.astro";
+import { BackgroundBeams } from "../components/react/background-beams";
+import Logo from "../components/ui/Logo.astro";
 
 const seo = {
 	title: "cloud-np",
@@ -18,13 +20,16 @@ const posts = allPosts.filter((post) => !post.personal);
 <Layout seo={seo}>
 	<!-- <Reveal /> -->
 	<SceneController />
+	<BackgroundBeams client:load />
 	<div class="container flex flex-col">
 		<section class="landing px-3">
 			<div class="moon"></div>
 			<div class="moon moonRight"></div>
 			<!-- TODO: Tailwind not working -->
 			<div class="hero-text-container mb-16">
-				<div class="hero-title-text-container justify-center flex mb-10 overflow-hidden">
+				<div
+					class="hero-title-text-container justify-center flex mb-10 overflow-hidden"
+				>
 					<h1 class="hero-title-text">Hi</h1>
 					<h1 class="hero-title-text">there!</h1>
 					<h1 class="hero-title-text">I'm</h1>
@@ -32,8 +37,9 @@ const posts = allPosts.filter((post) => !post.personal);
 				</div>
 				<div class="overflow-hidden">
 					<p class="flex justify-center hero-text slow-fade">
-						With elegance in code and boldness in design. I enjoy transforming
-						visions into reality with some frontend wizardry.
+						With elegance in code and boldness in design. I enjoy
+						transforming visions into reality with some frontend
+						wizardry.
 					</p>
 				</div>
 			</div>
@@ -41,8 +47,19 @@ const posts = allPosts.filter((post) => !post.personal);
 				<ScrollDown />
 			</div>
 		</section>
-		<section class="about bg-zinc-900 w-max h-max flex justify-center self-center">
-			<h2 class="about-title py-4">Portofolio</h2>
+		<section
+			class="about w-max h-max flex self-center flex-col items-center"
+		>
+			<span class="w-16 mt-20">
+				<Logo />
+			</span>
+			<h2 class="text-center transition-all duration-300 ease-out py-4">
+				My portofolio and past projects
+			</h2>
+			<p class="text-center mt-2 w-120 text-base">
+				Explore a small selection of my projects and past work showcasing diverse skills,
+				creativity, and dedication to quality.
+			</p>
 			<div></div>
 		</section>
 		<section>
@@ -78,7 +95,6 @@ const posts = allPosts.filter((post) => !post.personal);
 				scrub: true,
 				markers: true,
 			},
-			y: -300,
 			width: "100vw",
 			duration: 2.2,
 		});
@@ -116,12 +132,7 @@ const posts = allPosts.filter((post) => !post.personal);
 		margin-top: 5vh;
 		height: 800px;
 		border-radius: 5px;
-		transition: all 0.3s ease-out;
-	}
-
-	.about-title {
-		text-align: center;
-		margin-top: -3rem;
+		background: linear-gradient(0deg, rgb(20, 20, 20) 40%, rgb(14, 14, 14));
 		transition: all 0.3s ease-out;
 	}
 

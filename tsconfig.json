@@ -5,6 +5,5 @@
     "experimentalDecorators": true,
     "useDefineForClassFields": false,
     "jsx": "react-jsx",
-    "jsxImportSource": "@builder.io/qwik"
   }
 }
