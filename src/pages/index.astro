@@ -25,15 +25,14 @@ const posts = allPosts.filter((post) => !post.personal);
 		<section class="landing px-3">
 			<div class="moon"></div>
 			<div class="moon moonRight"></div>
-			<!-- TODO: Tailwind not working -->
 			<div class="hero-text-container mb-16">
 				<div
-					class="hero-title-text-container justify-center flex mb-10 overflow-hidden"
+					class="hero-title-container justify-center flex mb-10 overflow-hidden"
 				>
-					<h1 class="hero-title-text">Hi</h1>
-					<h1 class="hero-title-text">there!</h1>
-					<h1 class="hero-title-text">I'm</h1>
-					<h1 class="hero-title-text slow-fade">Nick</h1>
+					<h1 class="hero-title">Hi</h1>
+					<h1 class="hero-title">there!</h1>
+					<h1 class="hero-title">I'm</h1>
+					<h1 class="hero-title slow-fade">Nick</h1>
 				</div>
 				<div class="overflow-hidden">
 					<p class="flex justify-center hero-text slow-fade">
@@ -50,16 +49,26 @@ const posts = allPosts.filter((post) => !post.personal);
 		<section
 			class="about w-max h-max flex self-center flex-col items-center"
 		>
-			<span class="w-16 mt-20">
-				<Logo />
-			</span>
-			<h2 class="text-center transition-all duration-300 ease-out py-4">
-				My portofolio and past projects
-			</h2>
-			<p class="text-center mt-2 w-120 text-base">
-				Explore a small selection of my projects and past work showcasing diverse skills,
-				creativity, and dedication to quality.
-			</p>
+			<div class="logo-container mb-4">
+				<div class="grad absolute"></div>
+				<div class="w-28">
+					<Logo />
+				</div>
+			</div>
+			<div
+				class="overflow-hidden h-18 flex justify-center"
+			>
+				<h2 class="portofolio-title translate-y-full text-center transition-all duration-300 ease-out">
+					My portofolio and past projects
+				</h2>
+			</div>
+			<div class="overflow-hidden h-10 flex justify-center">
+				<p class="portofolio-text translate-y-full text-center mt-2 w-120 text-base">
+					Explore a small selection of my projects and past work
+					showcasing diverse skills, creativity, and dedication to
+					quality.
+				</p>
+			</div>
 			<div></div>
 		</section>
 		<section>
@@ -82,7 +91,16 @@ const posts = allPosts.filter((post) => !post.personal);
 			defaults: { ease: "power2.out" },
 			scrollBehavior: "smooth",
 		});
-		tl.to(".hero-title-text", { duration: 0.8, y: 0, delay: delay }).to(
+		const portofolioTl = gsap.timeline({
+			defaults: { ease: "power2.out" },
+			scrollBehavior: "smooth",
+			paused: true
+		});
+		portofolioTl
+		.to(".portofolio-title", { duration: 0.8, y: 0, })
+		.to(".portofolio-text", { duration: 0.8, y: 0 }, "-=0.4");
+
+		tl.to(".hero-title", { duration: 0.8, y: 0, delay }).to(
 			".hero-text",
 			{ duration: 0.8, y: 0 },
 			"-=0.4",
@@ -93,10 +111,18 @@ const posts = allPosts.filter((post) => !post.personal);
 				start: "top-=500 center",
 				end: "center-=300 center",
 				scrub: true,
-				markers: true,
 			},
 			width: "100vw",
 			duration: 2.2,
+		});
+		tl.to(".portofolio-title", {
+			scrollTrigger: {
+				trigger: ".about",
+				start: "top center",
+				end: "center center",
+				scrub: true,
+				onEnter: () => portofolioTl.play(),
+			},
 		});
 		// window.addEventListener('scroll', updateOpacityOnScroll);
 	}
@@ -125,6 +151,34 @@ const posts = allPosts.filter((post) => !post.personal);
 		overflow-x: hidden;
 		height: 95vh;
 		color: var(--primary);
+	}
+
+	.logo-container {
+		margin-top: -3.5rem;
+	}
+
+	.grad {
+		width: 40px;
+		height: 40px;
+		margin-top: 25px;
+		left: 50%;
+		background: radial-gradient(circle, #41b4e9, #4dedff);
+		border-radius: 50%;
+		filter: blur(10px);
+		mix-blend-mode: color-dodge;
+		animation: glow 6s infinite ease-in-out;
+	}
+
+	@keyframes glow {
+		0% {
+			opacity: 0.5;
+		}
+		50% {
+			opacity: 1;
+		}
+		100% {
+			opacity: 0.5;
+		}
 	}
 	/* all .5s cubic-bezier(.76,0,.24,1); */
 
@@ -169,11 +223,12 @@ const posts = allPosts.filter((post) => !post.personal);
 		}
 	}
 
-	.hero-title-text-container .hero-title-text:not(:last-child) {
+	/* Do not include margin to the last char for small devices */
+	.hero-title-container .hero-title:not(:last-child) {
 		margin-right: 13px;
 	}
 
-	.hero-title-text {
+	.hero-title {
 		transform: translateY(100%);
 		z-index: -1;
 	}

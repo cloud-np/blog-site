@@ -19,7 +19,6 @@ export namespace Scroll {
 
     export const addAsEventListener = () => {
         const listeners = Object.values(scrollableElements).reduce((acc, el) => {
-            console.log("ee: ", el.funcId);
             acc[el.funcId] = el.scrollFunc.bind(el);
             return acc;
         }, {});
