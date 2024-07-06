@@ -55,21 +55,36 @@ const posts = allPosts.filter((post) => !post.personal);
 					<Logo />
 				</div>
 			</div>
-			<div
-				class="overflow-hidden h-18 flex justify-center"
-			>
-				<h2 class="portofolio-title translate-y-full text-center transition-all duration-300 ease-out">
+			<div class="overflow-hidden h-18 flex justify-center">
+				<h2
+					class="portofolio-title translate-y-full text-center transition-all duration-300 ease-out"
+				>
 					My portofolio and past projects
 				</h2>
 			</div>
-			<div class="overflow-hidden h-10 flex justify-center">
-				<p class="portofolio-text translate-y-full text-center mt-2 w-120 text-base">
+			<div class="overflow-hidden h-10 flex justify-center mt-6">
+				<p
+					class="portofolio-text translate-y-full text-center w-120 text-base"
+				>
 					Explore a small selection of my projects and past work
 					showcasing diverse skills, creativity, and dedication to
 					quality.
 				</p>
 			</div>
-			<div></div>
+			<div class="grid grid-cols-1 lg:grid-cols-3 gap-2 py-10">
+				<div
+					class="lg:col-span-2 p-8 rounded-xl border border-[rgba(255,255,255,0.10)] bg-[rgba(40,40,40,0.30)] shadow-[2px_4px_16px_0px_rgba(248,248,248,0.06)_inset] group"
+				>
+					<h3 class="text-lg font-semibold text-white py-2">
+						Post to multiple platforms at once
+					</h3>
+					<p class="text-sm font-normal text-neutral-400 max-w-sm">
+						With our AI-powered platform, you can post to multiple
+						platforms at once, saving you time and effort.
+					</p>
+				</div>
+				<!-- <Image /> -->
+			</div>
 		</section>
 		<section>
 			<h4 class="projects-title fade-in">Latest Posts</h4>
@@ -94,11 +109,11 @@ const posts = allPosts.filter((post) => !post.personal);
 		const portofolioTl = gsap.timeline({
 			defaults: { ease: "power2.out" },
 			scrollBehavior: "smooth",
-			paused: true
+			paused: true,
 		});
 		portofolioTl
-		.to(".portofolio-title", { duration: 0.8, y: 0, })
-		.to(".portofolio-text", { duration: 0.8, y: 0 }, "-=0.4");
+			.to(".portofolio-title", { duration: 0.8, y: 0 })
+			.to(".portofolio-text", { duration: 0.8, y: 0 }, "-=0.4");
 
 		tl.to(".hero-title", { duration: 0.8, y: 0, delay }).to(
 			".hero-text",
