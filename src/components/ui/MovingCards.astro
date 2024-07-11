@@ -1,0 +1,51 @@
+---
+interface Props {
+    speed: number;
+}
+const { speed } = Astro.props;
+---
+
+<div class="wrapper">
+    <div class="inner">
+        <section
+            class="images-container flex content-center justify-center"
+            style={{ "--speed": `${speed}ms` }}
+        >
+            <slot />
+        </section>
+    </div>
+</div>
+
+<script>
+    // TOOD: https://ui.aceternity.com/components/infinite-moving-cards
+    // Translate the above from React to vanilla.
+    const imagesEl =
+        document.getElementsByClassName("images-container")[0].children;
+    // imagesEl
+</script>
+
+<style>
+    .wrapper {
+        width: 100%;
+        display: flex;
+        position: relative;
+        justify-content: center;
+        align-items: center;
+        flex-direction: row;
+        overflow: hidden;
+    }
+
+    .images-container {
+        animation: swipe var(--speed) linear infinite backwards;
+    }
+
+    @keyframes swipe {
+        0% {
+            transform: translate(0);
+        }
+
+        100% {
+            transform: translate(-100%);
+        }
+    }
+</style>

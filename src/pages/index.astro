@@ -7,6 +7,9 @@ import ScrollDown from "../components/ui/ScrollDown.astro";
 import SceneController from "../components/ui/SceneController/SceneController.astro";
 import { BackgroundBeams } from "../components/react/background-beams";
 import Logo from "../components/ui/Logo.astro";
+import MovingCards from "../components/ui/MovingCards.astro";
+import ep from "../assets/about-me-effect.png";
+import { Image } from "astro:assets";
 
 const seo = {
 	title: "cloud-np",
@@ -75,22 +78,34 @@ const posts = allPosts.filter((post) => !post.personal);
 				<div
 					class="lg:col-span-2 p-8 rounded-xl border border-[rgba(255,255,255,0.10)] bg-[rgba(40,40,40,0.30)] shadow-[2px_4px_16px_0px_rgba(248,248,248,0.06)_inset] group"
 				>
+					<div class="max-w-2xl">
+						<MovingCards speed={3999}>
+							{[ep, ep, ep, ep, ep].map((img, index) =>
+								<Image 
+									class:list={['max-h-80', 'object-cover']}
+									src={img}
+									alt={`moving-img-${index}`}
+								/>
+							)}
+						</MovingCards>
+					</div>
 					<h3 class="text-lg font-semibold text-white py-2">
-						Post to multiple platforms at once
+						Freelancing
 					</h3>
 					<p class="text-sm font-normal text-neutral-400 max-w-sm">
-						With our AI-powered platform, you can post to multiple
-						platforms at once, saving you time and effort.
+						With a perfect score when it comes to customer
+						satisfaction, I pride my self delivering what my client
+						needs exactly.
 					</p>
 				</div>
-				<!-- <Image /> -->
 			</div>
-		</section>
-		<section>
-			<h4 class="projects-title fade-in">Latest Posts</h4>
-			<BlogPostsList class="latest-projects-container" posts={posts} />
+			<!-- <Image /> -->
 		</section>
 	</div>
+	<section>
+		<h4 class="projects-title fade-in">Latest Posts</h4>
+		<BlogPostsList class="latest-projects-container" posts={posts} />
+	</section>
 </Layout>
 
 <script>
