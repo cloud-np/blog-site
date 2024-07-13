@@ -1,15 +1,15 @@
 ---
 interface Props {
-    speed: number;
+    duration: number;
 }
-const { speed } = Astro.props;
+const { duration } = Astro.props;
 ---
 
 <div class="wrapper">
-    <div class="inner">
+    <div class="inner max-w-7xl">
         <section
-            class="images-container flex content-center justify-center"
-            style={{ "--speed": `${speed}ms` }}
+            class="scroller-container flex min-w-full shrink-0 w-max flex-nowrap"
+            style={{ "--duration": `${duration}ms` }}
         >
             <slot />
         </section>
@@ -19,33 +19,49 @@ const { speed } = Astro.props;
 <script>
     // TOOD: https://ui.aceternity.com/components/infinite-moving-cards
     // Translate the above from React to vanilla.
-    const imagesEl =
-        document.getElementsByClassName("images-container")[0].children;
+    const imagesContainer =
+        document.getElementsByClassName("scroller-container")[0];
+    // if (!imagesContainer?.children) {
+    //     return;
+    // }
+
+    Array.from(imagesContainer.children).forEach((el) => {
+        const clonedEl = el.cloneNode(true);
+        console.log("I am here");
+        imagesContainer.appendChild(clonedEl);
+    });
+
     // imagesEl
 </script>
 
 <style>
     .wrapper {
         width: 100%;
-        display: flex;
         position: relative;
+        display: flex;
         justify-content: center;
         align-items: center;
         flex-direction: row;
         overflow: hidden;
     }
 
-    .images-container {
-        animation: swipe var(--speed) linear infinite backwards;
+    /* .inner {
+        overflow: hidden;
+    } */
+
+    .scroller-container {
+        position: relative;
+        animation: swipe var(--duration) linear infinite forwards;
     }
 
     @keyframes swipe {
         0% {
-            transform: translate(0);
+            transform: translateX(0);
         }
 
         100% {
-            transform: translate(-100%);
+            transform: translate(calc(-50% - 0.5rem));
+            /* transform: translate(-100%); */
         }
     }
 </style>

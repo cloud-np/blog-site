@@ -69,24 +69,24 @@ const posts = allPosts.filter((post) => !post.personal);
 				<p
 					class="portofolio-text translate-y-full text-center w-120 text-base"
 				>
-					Explore a small selection of my projects and past work
-					showcasing diverse skills, creativity, and dedication to
-					quality.
+					Explore a small collection of my work showcasing some skills, creativity, but most importantly dedication to quality.
 				</p>
 			</div>
 			<div class="grid grid-cols-1 lg:grid-cols-3 gap-2 py-10">
 				<div
 					class="lg:col-span-2 p-8 rounded-xl border border-[rgba(255,255,255,0.10)] bg-[rgba(40,40,40,0.30)] shadow-[2px_4px_16px_0px_rgba(248,248,248,0.06)_inset] group"
 				>
-					<div class="max-w-2xl">
-						<MovingCards speed={3999}>
-							{[ep, ep, ep, ep, ep].map((img, index) =>
-								<Image 
-									class:list={['max-h-80', 'object-cover']}
-									src={img}
-									alt={`moving-img-${index}`}
-								/>
-							)}
+					<div class="max-w-[550px]">
+						<MovingCards duration={10000}>
+							<div class="flex flex-nowrap flex-shrink-0 content-center justify-center">
+								{[ep, ep, ep, ep, ep].map((img, index) =>
+									<Image 
+										class:list={['max-h-80', 'object-cover', "m-4", 'w-64']}
+										src={img}
+										alt={`moving-img-${index}`}
+									/>
+								)}
+							</div>
 						</MovingCards>
 					</div>
 					<h3 class="text-lg font-semibold text-white py-2">
@@ -99,7 +99,6 @@ const posts = allPosts.filter((post) => !post.personal);
 					</p>
 				</div>
 			</div>
-			<!-- <Image /> -->
 		</section>
 	</div>
 	<section>
