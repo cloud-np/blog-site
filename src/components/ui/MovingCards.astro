@@ -16,21 +16,31 @@ const { duration } = Astro.props;
     </div>
 </div>
 
-<script>
+<script define:vars={{ duration }}>
     // TOOD: https://ui.aceternity.com/components/infinite-moving-cards
     // Translate the above from React to vanilla.
-    const imagesContainer =
-        document.getElementsByClassName("scroller-container")[0];
-    // if (!imagesContainer?.children) {
-    //     return;
-    // }
+    function init() {
+        const imagesContainer = document.getElementsByClassName("scroller-container")[0];
+        if (!imagesContainer?.children) {
+            return;
+        }
 
-    Array.from(imagesContainer.children).forEach((el) => {
-        const clonedEl = el.cloneNode(true);
-        console.log("I am here");
-        imagesContainer.appendChild(clonedEl);
-    });
+        Array.from(imagesContainer.children).forEach((el) => {
+            const clonedEl = el.cloneNode(true);
+            imagesContainer.appendChild(clonedEl);
+        });
 
+        imagesContainer.addEventListener("mouseover", () => {
+            imagesContainer.style.animationPlayState = 'paused';
+        });
+
+        imagesContainer.addEventListener("mouseout", () => {
+            imagesContainer.style.animationPlayState = 'running';
+        });
+    }
+
+	init();
+	document.addEventListener("astro:after-swap", () => init());
     // imagesEl
 </script>
 
@@ -45,10 +55,6 @@ const { duration } = Astro.props;
         overflow: hidden;
     }
 
-    /* .inner {
-        overflow: hidden;
-    } */
-
     .scroller-container {
         position: relative;
         animation: swipe var(--duration) linear infinite forwards;
@@ -61,7 +67,6 @@ const { duration } = Astro.props;
 
         100% {
             transform: translate(calc(-50% - 0.5rem));
-            /* transform: translate(-100%); */
         }
     }
 </style>
