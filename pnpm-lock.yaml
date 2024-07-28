@@ -13,28 +13,28 @@ importers:
         version: 0.4.1(typescript@5.3.3)
       '@astrojs/mdx':
         specifier: ^2.1.1
-        version: 2.1.1(astro@4.3.1)
+        version: 2.1.1(astro@4.3.1(@types/node@17.0.45)(typescript@5.3.3))
       '@astrojs/react':
         specifier: ^3.6.0
-        version: 3.6.0(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@18.3.1)(react@18.3.1)(vite@5.1.5)
+        version: 3.6.0(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(vite@5.0.12(@types/node@17.0.45))
       '@astrojs/sitemap':
         specifier: ^3.0.5
         version: 3.0.5
       '@builder.io/qwik':
         specifier: ^1.5.0
-        version: 1.5.0(undici@6.7.0)
+        version: 1.5.0(@types/node@17.0.45)(undici@6.7.0)
       '@qwikdev/astro':
         specifier: ^0.5.7
-        version: 0.5.7(@builder.io/qwik@1.5.0)(astro@4.3.1)(typescript@5.3.3)(vite@5.1.5)
+        version: 0.5.7(@builder.io/qwik@1.5.0(@types/node@17.0.45)(undici@6.7.0))(astro@4.3.1(@types/node@17.0.45)(typescript@5.3.3))(typescript@5.3.3)(vite@5.0.12(@types/node@17.0.45))
       astro:
         specifier: ^4.3.1
-        version: 4.3.1(typescript@5.3.3)
+        version: 4.3.1(@types/node@17.0.45)(typescript@5.3.3)
       clsx:
         specifier: ^2.1.0
         version: 2.1.0
       framer-motion:
         specifier: ^11.0.6
-        version: 11.0.6(react-dom@18.3.1)(react@18.3.1)
+        version: 11.0.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       gsap:
         specifier: ^3.12.5
         version: 3.12.5
@@ -71,13 +71,13 @@ importers:
     devDependencies:
       '@astrojs/tailwind':
         specifier: ^5.1.0
-        version: 5.1.0(astro@4.3.1)(tailwindcss@3.4.3)
+        version: 5.1.0(astro@4.3.1(@types/node@17.0.45)(typescript@5.3.3))(tailwindcss@3.4.3)
       '@iconify-json/mdi':
         specifier: ^1.1.64
         version: 1.1.64
       astro-expressive-code:
         specifier: ^0.32.4
-        version: 0.32.4(astro@4.3.1)
+        version: 0.32.4(astro@4.3.1(@types/node@17.0.45)(typescript@5.3.3))
       astro-icon:
         specifier: ^1.1.0
         version: 1.1.0
@@ -954,8 +954,8 @@ packages:
     resolution: {integrity: sha512-xlx1yCK2Oc1APsPXDL2LdlNP6+uu8OCDdhOBSVT279M/S+y75O30C2VuD8T2ogdePBBl7PfPF4504tnLgX3zfw==}
     engines: {node: '>=14.16'}
 
-  caniuse-lite@1.0.30001583:
-    resolution: {integrity: sha512-acWTYaha8xfhA/Du/z4sNZjHUWjkiuoAi2LM+T/aL+kemKQgPT1xBb/YKjlQ0Qo8gvbHsGNplrEJ+9G3gL7i4Q==}
+  caniuse-lite@1.0.30001643:
+    resolution: {integrity: sha512-ERgWGNleEilSrHM6iUz/zJNSQTP8Mr21wDWpdgvRwcTXGAq6jMtOUPP4dqFPTdKqZ2wKTdtB+uucZ3MRpAUSmg==}
 
   ccount@2.0.1:
     resolution: {integrity: sha512-eyrF0jiFpY+3drT6383f1qhkbGsLSifNAjA61IUjZjmLCWjItY6LB9ft9YhoDgwfmclB2zhu51Lc7+95b8NRAg==}
@@ -3011,12 +3011,12 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@astrojs/mdx@2.1.1(astro@4.3.1)':
+  '@astrojs/mdx@2.1.1(astro@4.3.1(@types/node@17.0.45)(typescript@5.3.3))':
     dependencies:
       '@astrojs/markdown-remark': 4.2.1
       '@mdx-js/mdx': 3.0.0
       acorn: 8.11.3
-      astro: 4.3.1(typescript@5.3.3)
+      astro: 4.3.1(@types/node@17.0.45)(typescript@5.3.3)
       es-module-lexer: 1.4.1
       estree-util-visit: 2.0.0
       github-slugger: 2.0.0
@@ -3036,11 +3036,11 @@ snapshots:
     dependencies:
       prismjs: 1.29.0
 
-  '@astrojs/react@3.6.0(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@18.3.1)(react@18.3.1)(vite@5.1.5)':
+  '@astrojs/react@3.6.0(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(vite@5.0.12(@types/node@17.0.45))':
     dependencies:
       '@types/react': 18.3.3
       '@types/react-dom': 18.3.0
-      '@vitejs/plugin-react': 4.3.1(vite@5.1.5)
+      '@vitejs/plugin-react': 4.3.1(vite@5.0.12(@types/node@17.0.45))
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
       ultrahtml: 1.5.3
@@ -3053,9 +3053,9 @@ snapshots:
       sitemap: 7.1.1
       zod: 3.22.4
 
-  '@astrojs/tailwind@5.1.0(astro@4.3.1)(tailwindcss@3.4.3)':
+  '@astrojs/tailwind@5.1.0(astro@4.3.1(@types/node@17.0.45)(typescript@5.3.3))(tailwindcss@3.4.3)':
     dependencies:
-      astro: 4.3.1(typescript@5.3.3)
+      astro: 4.3.1(@types/node@17.0.45)(typescript@5.3.3)
       autoprefixer: 10.4.17(postcss@8.4.33)
       postcss: 8.4.33
       postcss-load-config: 4.0.2(postcss@8.4.33)
@@ -3369,11 +3369,11 @@ snapshots:
       '@babel/helper-validator-identifier': 7.24.7
       to-fast-properties: 2.0.0
 
-  '@builder.io/qwik@1.5.0(undici@6.7.0)':
+  '@builder.io/qwik@1.5.0(@types/node@17.0.45)(undici@6.7.0)':
     dependencies:
       csstype: 3.1.3
       undici: 6.7.0
-      vite: 5.1.5
+      vite: 5.1.5(@types/node@17.0.45)
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -3613,13 +3613,13 @@ snapshots:
   '@pkgjs/parseargs@0.11.0':
     optional: true
 
-  '@qwikdev/astro@0.5.7(@builder.io/qwik@1.5.0)(astro@4.3.1)(typescript@5.3.3)(vite@5.1.5)':
+  '@qwikdev/astro@0.5.7(@builder.io/qwik@1.5.0(@types/node@17.0.45)(undici@6.7.0))(astro@4.3.1(@types/node@17.0.45)(typescript@5.3.3))(typescript@5.3.3)(vite@5.0.12(@types/node@17.0.45))':
     dependencies:
-      '@builder.io/qwik': 1.5.0(undici@6.7.0)
-      astro-integration-kit: 0.2.1(astro@4.3.1)
+      '@builder.io/qwik': 1.5.0(@types/node@17.0.45)(undici@6.7.0)
+      astro-integration-kit: 0.2.1(astro@4.3.1(@types/node@17.0.45)(typescript@5.3.3))
       fs-extra: 11.2.0
       typescript: 5.3.3
-      vite-tsconfig-paths: 4.3.1(typescript@5.3.3)(vite@5.1.5)
+      vite-tsconfig-paths: 4.3.1(typescript@5.3.3)(vite@5.0.12(@types/node@17.0.45))
     transitivePeerDependencies:
       - astro
       - supports-color
@@ -3762,14 +3762,14 @@ snapshots:
 
   '@ungap/structured-clone@1.2.0': {}
 
-  '@vitejs/plugin-react@4.3.1(vite@5.1.5)':
+  '@vitejs/plugin-react@4.3.1(vite@5.0.12(@types/node@17.0.45))':
     dependencies:
       '@babel/core': 7.24.7
       '@babel/plugin-transform-react-jsx-self': 7.24.7(@babel/core@7.24.7)
       '@babel/plugin-transform-react-jsx-source': 7.24.7(@babel/core@7.24.7)
       '@types/babel__core': 7.20.5
       react-refresh: 0.14.2
-      vite: 5.1.5
+      vite: 5.0.12(@types/node@17.0.45)
     transitivePeerDependencies:
       - supports-color
 
@@ -3874,9 +3874,9 @@ snapshots:
 
   astring@1.8.6: {}
 
-  astro-expressive-code@0.32.4(astro@4.3.1):
+  astro-expressive-code@0.32.4(astro@4.3.1(@types/node@17.0.45)(typescript@5.3.3)):
     dependencies:
-      astro: 4.3.1(typescript@5.3.3)
+      astro: 4.3.1(@types/node@17.0.45)(typescript@5.3.3)
       hast-util-to-html: 8.0.4
       remark-expressive-code: 0.32.4
 
@@ -3888,12 +3888,12 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  astro-integration-kit@0.2.1(astro@4.3.1):
+  astro-integration-kit@0.2.1(astro@4.3.1(@types/node@17.0.45)(typescript@5.3.3)):
     dependencies:
-      astro: 4.3.1(typescript@5.3.3)
+      astro: 4.3.1(@types/node@17.0.45)(typescript@5.3.3)
       pathe: 1.1.2
 
-  astro@4.3.1(typescript@5.3.3):
+  astro@4.3.1(@types/node@17.0.45)(typescript@5.3.3):
     dependencies:
       '@astrojs/compiler': 2.5.2
       '@astrojs/internal-helpers': 0.2.1
@@ -3954,8 +3954,8 @@ snapshots:
       tsconfck: 3.0.1(typescript@5.3.3)
       unist-util-visit: 5.0.0
       vfile: 6.0.1
-      vite: 5.0.12
-      vitefu: 0.2.5(vite@5.0.12)
+      vite: 5.0.12(@types/node@17.0.45)
+      vitefu: 0.2.5(vite@5.0.12(@types/node@17.0.45))
       which-pm: 2.1.1
       yargs-parser: 21.1.1
       zod: 3.22.4
@@ -3975,7 +3975,7 @@ snapshots:
   autoprefixer@10.4.17(postcss@8.4.33):
     dependencies:
       browserslist: 4.22.3
-      caniuse-lite: 1.0.30001583
+      caniuse-lite: 1.0.30001643
       fraction.js: 4.3.7
       normalize-range: 0.1.2
       picocolors: 1.0.0
@@ -4035,7 +4035,7 @@ snapshots:
 
   browserslist@4.22.3:
     dependencies:
-      caniuse-lite: 1.0.30001583
+      caniuse-lite: 1.0.30001643
       electron-to-chromium: 1.4.655
       node-releases: 2.0.14
       update-browserslist-db: 1.0.13(browserslist@4.22.3)
@@ -4057,7 +4057,7 @@ snapshots:
 
   camelcase@7.0.1: {}
 
-  caniuse-lite@1.0.30001583: {}
+  caniuse-lite@1.0.30001643: {}
 
   ccount@2.0.1: {}
 
@@ -4456,13 +4456,13 @@ snapshots:
 
   fraction.js@4.3.7: {}
 
-  framer-motion@11.0.6(react-dom@18.3.1)(react@18.3.1):
+  framer-motion@11.0.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
       tslib: 2.6.2
     optionalDependencies:
       '@emotion/is-prop-valid': 0.8.8
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
 
   fs-constants@1.0.0:
     optional: true
@@ -5659,14 +5659,16 @@ snapshots:
   postcss-load-config@4.0.2(postcss@8.4.33):
     dependencies:
       lilconfig: 3.0.0
-      postcss: 8.4.33
       yaml: 2.3.4
+    optionalDependencies:
+      postcss: 8.4.33
 
   postcss-load-config@4.0.2(postcss@8.4.35):
     dependencies:
       lilconfig: 3.0.0
-      postcss: 8.4.35
       yaml: 2.3.4
+    optionalDependencies:
+      postcss: 8.4.35
 
   postcss-nested@6.0.1(postcss@8.4.33):
     dependencies:
@@ -6233,7 +6235,7 @@ snapshots:
   ts-interface-checker@0.1.13: {}
 
   tsconfck@3.0.1(typescript@5.3.3):
-    dependencies:
+    optionalDependencies:
       typescript: 5.3.3
 
   tslib@2.6.2: {}
@@ -6395,65 +6397,70 @@ snapshots:
       unist-util-stringify-position: 4.0.0
       vfile-message: 4.0.2
 
-  vite-tsconfig-paths@4.3.1(typescript@5.3.3)(vite@5.1.5):
+  vite-tsconfig-paths@4.3.1(typescript@5.3.3)(vite@5.0.12(@types/node@17.0.45)):
     dependencies:
       debug: 4.3.4
       globrex: 0.1.2
       tsconfck: 3.0.1(typescript@5.3.3)
-      vite: 5.1.5
+    optionalDependencies:
+      vite: 5.0.12(@types/node@17.0.45)
     transitivePeerDependencies:
       - supports-color
       - typescript
 
-  vite@5.0.12:
+  vite@5.0.12(@types/node@17.0.45):
     dependencies:
       esbuild: 0.19.12
       postcss: 8.4.33
       rollup: 4.9.6
     optionalDependencies:
+      '@types/node': 17.0.45
       fsevents: 2.3.3
 
-  vite@5.1.5:
+  vite@5.1.5(@types/node@17.0.45):
     dependencies:
       esbuild: 0.19.12
       postcss: 8.4.35
       rollup: 4.9.6
     optionalDependencies:
+      '@types/node': 17.0.45
       fsevents: 2.3.3
 
-  vitefu@0.2.5(vite@5.0.12):
-    dependencies:
-      vite: 5.0.12
+  vitefu@0.2.5(vite@5.0.12(@types/node@17.0.45)):
+    optionalDependencies:
+      vite: 5.0.12(@types/node@17.0.45)
 
   volar-service-css@0.0.17(@volar/language-service@1.11.1):
     dependencies:
-      '@volar/language-service': 1.11.1
       vscode-css-languageservice: 6.2.12
       vscode-uri: 3.0.8
+    optionalDependencies:
+      '@volar/language-service': 1.11.1
 
   volar-service-emmet@0.0.17(@volar/language-service@1.11.1):
     dependencies:
-      '@volar/language-service': 1.11.1
       '@vscode/emmet-helper': 2.9.2
       volar-service-html: 0.0.17(@volar/language-service@1.11.1)
+    optionalDependencies:
+      '@volar/language-service': 1.11.1
 
   volar-service-html@0.0.17(@volar/language-service@1.11.1):
     dependencies:
-      '@volar/language-service': 1.11.1
       vscode-html-languageservice: 5.1.2
       vscode-uri: 3.0.8
+    optionalDependencies:
+      '@volar/language-service': 1.11.1
 
   volar-service-prettier@0.0.17(@volar/language-service@1.11.1):
-    dependencies:
+    optionalDependencies:
       '@volar/language-service': 1.11.1
 
   volar-service-typescript-twoslash-queries@0.0.17(@volar/language-service@1.11.1):
-    dependencies:
+    optionalDependencies:
       '@volar/language-service': 1.11.1
 
   volar-service-typescript@0.0.17(@volar/language-service@1.11.1)(@volar/typescript@1.11.1):
     dependencies:
-      '@volar/language-service': 1.11.1
       '@volar/typescript': 1.11.1
       path-browserify: 1.0.1
       semver: 7.5.4
@@ -6461,6 +6468,8 @@ snapshots:
       vscode-languageserver-textdocument: 1.0.11
       vscode-nls: 5.2.0
       vscode-uri: 3.0.8
+    optionalDependencies:
+      '@volar/language-service': 1.11.1
 
   vscode-css-languageservice@6.2.12:
     dependencies:

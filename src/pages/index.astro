@@ -16,6 +16,10 @@ import aktis from "../assets/aktis.jpg";
 import oino8eh from "../assets/oino8eh.png";
 import bentoBox from "../assets/bento-box.gif";
 import betterNetflix from "../assets/better-netflix.png";
+import fromHome from "../assets/fromHome.png";
+import igame from "../assets/igame.png";
+import chessnp from "../assets/chesser.png";
+import publication from "../assets/publication.png";
 import { Image } from "astro:assets";
 
 const seo = {
@@ -56,9 +60,7 @@ const posts = allPosts.filter((post) => !post.personal);
 				<ScrollDown />
 			</div>
 		</section>
-		<section
-			class="about w-max h-max flex self-center flex-col items-center"
-		>
+		<section class="about w-max flex self-center flex-col items-center">
 			<div class="logo-container mb-4">
 				<div class="grad absolute"></div>
 				<div class="w-28">
@@ -66,27 +68,28 @@ const posts = allPosts.filter((post) => !post.personal);
 				</div>
 			</div>
 			<div class="overflow-hidden h-18 flex justify-center">
-				<h2
-					class="portofolio-title translate-y-full text-center transition-all duration-300 ease-out"
-				>
+				<h2 class="portofolio-title translate-y-full text-center transition-all duration-300 ease-out">
 					My portofolio and past projects
 				</h2>
 			</div>
 			<div class="overflow-hidden h-10 flex justify-center mt-6">
-				<p
-					class="portofolio-text translate-y-full text-center w-120 text-base"
-				>
+				<p class="portofolio-text translate-y-full text-center w-120 text-base">
 					Explore a small collection of my work showcasing some skills, creativity, but most importantly dedication to quality.
 				</p>
 			</div>
-			<div class="grid grid-cols-1 lg:grid-cols-3 gap-2 py-10">
-				<div
-					class="lg:col-span-2 p-8 rounded-xl border border-[rgba(255,255,255,0.10)] bg-[rgba(40,40,40,0.30)] shadow-[2px_4px_16px_0px_rgba(248,248,248,0.06)_inset] group"
-				>
-					<div class="max-w-[550px]">
+			<div class="grid grid-cols-1 lg:grid-cols-3 gap-2 my-10">
+				<div class="lg:col-span-2 p-8 rounded-xl border border-[rgba(255,255,255,0.10)] bg-[rgba(40,40,40,0.30)] shadow-[2px_4px_16px_0px_rgba(248,248,248,0.06)_inset] group">
+					<h3 class="text-lg font-semibold text-white py-2">Freelancing and web design</h3>
+					<p class="text-sm font-normal text-neutral-400 max-w-sm">
+						With a perfect score when it comes to customer satisfaction,
+						I pride my self delivering only best for my clients.
+					</p>
+					<div class="max-w-[900px] relative">
+						<!-- TODO: This can be fade effect to not have hard edges -->
+						<!-- <div class="pointer-events-none absolute inset-y-0 top-0 w-60 bg-gradient-to-r from-[#1A1A1A]"></div> -->
 						<MovingCards duration={45000}>
 							<div class="images-container flex flex-nowrap flex-shrink-0 content-center justify-center">
-								{[zed, pumkin, abyss, aktis, oino8eh, betterNetflix, bentoBox, yang].map((img, index) =>
+								{[zed, pumkin, abyss, aktis, oino8eh, betterNetflix, fromHome, igame, bentoBox, yang].map((img, index) =>
 									<Image 
 										class:list={['object-cover', "m-2", 'w-64', 'moving-card-img']}
 										src={img}
@@ -96,21 +99,45 @@ const posts = allPosts.filter((post) => !post.personal);
 							</div>
 						</MovingCards>
 					</div>
-					<h3 class="text-lg font-semibold text-white py-2">
-						Freelancing
-					</h3>
+				</div>
+
+				<div class="lg:col-span-1 p-8 rounded-xl border border-[rgba(255,255,255,0.10)] bg-[rgba(40,40,40,0.30)] shadow-[2px_4px_16px_0px_rgba(248,248,248,0.06)_inset] group">
+					<h3 class="text-lg font-semibold text-white py-2">Deep dive into the 'Multiple Workflow Scheduling Problem'</h3>
 					<p class="text-sm font-normal text-neutral-400 max-w-sm">
-						With a perfect score when it comes to customer satisfaction,
-						I pride my self delivering only best for my clients.
+						Under the guidance of Dr. Panagiotis Oikonomopoulos, I researched MWSP which is a NP-hard problem with conflicting
+						optimization goals. Our proposed algorithm achieved up to a 9% improvement and unveiled various trade-offs 
+						depending on the specific characteristics of each workflow.
 					</p>
+
+					<div class="mt-4 h-[20rem] z-40 bg-[rgba(40,40,40,0.30)] [mask-image:radial-gradient(80%_80%_at_50%_50%,white_0%,transparent_100%)]">
+						<a href="https://dl.acm.org/doi/10.1145/3503823.3503876" target="_blank">
+							<Image src={publication} alt="multiple workflow scheduling problem" />
+						</a>
+					</div>
+				</div>
+
+				<div class="lg:col-span-1 p-8 rounded-xl border border-[rgba(255,255,255,0.10)] bg-[rgba(40,40,40,0.30)] shadow-[2px_4px_16px_0px_rgba(248,248,248,0.06)_inset] group">
+					<h3 class="text-lg font-semibold text-white">chessnp.com</h3>
+					<p class="text-sm inline">🚧</p>
+					<p class="text-sm inline italic text-neutral-200 pb-2">Under Construction</p>
+
+					<p class="text-sm font-normal text-neutral-400 max-w-sm">
+						chessnp.com lets users replay famous historical chess matches and play against a custom chess engine and AI built entirely from scratch using Go.
+					</p>
+
+					<div class="mt-4 h-[20rem] z-40 bg-[rgba(40,40,40,0.30)] [mask-image:radial-gradient(80%_80%_at_50%_50%,white_0%,transparent_100%)]">
+						<a href="https://dl.acm.org/doi/10.1145/3503823.3503876" target="_blank">
+							<Image src={chessnp} alt="chess np site" />
+						</a>
+					</div>
 				</div>
 			</div>
 		</section>
 	</div>
-	<section>
+	<!-- <section>
 		<h4 class="projects-title fade-in">Latest Posts</h4>
 		<BlogPostsList class="latest-projects-container" posts={posts} />
-	</section>
+	</section> -->
 </Layout>
 
 <script>
