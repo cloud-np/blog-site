@@ -16,26 +16,51 @@ const { duration } = Astro.props;
     </div>
 </div>
 
-<script define:vars={{ duration }}>
+<div id="display"></div>
+
+<script>
     // TOOD: https://ui.aceternity.com/components/infinite-moving-cards
     // Translate the above from React to vanilla.
+    // function previewImage(index) {
+    //     const dis = document.getElementById("display");
+    //     if (!dis) {
+    //         return;
+    //     }
+
+    //     const img = Array.from(dis.children)[index] as HTMLElement;
+    //     img.style.height = "100%";
+    //     img.style.width = "100%";
+    //     // clonedImg.style.height = clonedImg.naturalHeight;
+    //     // clonedImg.style.width = clonedImg.naturalWdith;
+    //     // document.getElementById("display")?.replaceChildren(clonedImg);
+    // }
+
     function init() {
-        const imagesContainer = document.getElementsByClassName("scroller-container")[0];
-        if (!imagesContainer?.children) {
+        const scrollerContainer = document.getElementsByClassName("scroller-container")[0] as HTMLElement;
+        const imagesContainer = document.getElementsByClassName("images-container")[0] as HTMLElement;
+
+        if (!scrollerContainer?.children) {
             return;
         }
 
-        Array.from(imagesContainer.children).forEach((el) => {
-            const clonedEl = el.cloneNode(true);
-            imagesContainer.appendChild(clonedEl);
+        // These are the display images that will be shown when hovering the regular ones.
+        // document.getElementById("display")?.replaceChildren(scrollerContainer.cloneNode(true));
+        
+        // For each image add the ability to preview it.
+        // Array.from(imagesContainer.children).forEach((child, index) => {
+        //     child.addEventListener("mouseover", () => previewImage(index));
+        // });
+
+        // This is needed it for the animation to be appear more flawless.
+        const clonedEl = imagesContainer.cloneNode(true);
+        scrollerContainer.appendChild(clonedEl);
+
+        scrollerContainer.addEventListener("mouseover", () => {
+            scrollerContainer.style.animationPlayState = 'paused';
         });
 
-        imagesContainer.addEventListener("mouseover", () => {
-            imagesContainer.style.animationPlayState = 'paused';
-        });
-
-        imagesContainer.addEventListener("mouseout", () => {
-            imagesContainer.style.animationPlayState = 'running';
+        scrollerContainer.addEventListener("mouseout", () => {
+            scrollerContainer.style.animationPlayState = 'running';
         });
     }
 
@@ -60,6 +85,10 @@ const { duration } = Astro.props;
         animation: swipe var(--duration) linear infinite forwards;
     }
 
+    .scroller-container {
+        max-height: 20rem;
+    }
+
     @keyframes swipe {
         0% {
             transform: translateX(0);
@@ -69,4 +98,14 @@ const { duration } = Astro.props;
             transform: translate(calc(-50% - 0.5rem));
         }
     }
+/* 
+    #display {
+        transition: all ease 2s;
+        width: 50%;
+        position: absolute;
+        height: 50%;
+        left: 0;
+        z-index: 100;
+    } */
+
 </style>

@@ -14,6 +14,8 @@ import abyss from "../assets/abyss.jpg";
 import yang from "../assets/yang.gif";
 import aktis from "../assets/aktis.jpg";
 import oino8eh from "../assets/oino8eh.png";
+import bentoBox from "../assets/bento-box.gif";
+import betterNetflix from "../assets/better-netflix.png";
 import { Image } from "astro:assets";
 
 const seo = {
@@ -82,11 +84,11 @@ const posts = allPosts.filter((post) => !post.personal);
 					class="lg:col-span-2 p-8 rounded-xl border border-[rgba(255,255,255,0.10)] bg-[rgba(40,40,40,0.30)] shadow-[2px_4px_16px_0px_rgba(248,248,248,0.06)_inset] group"
 				>
 					<div class="max-w-[550px]">
-						<MovingCards duration={30000}>
-							<div class="flex flex-nowrap flex-shrink-0 content-center justify-center">
-								{[zed, pumkin, abyss, aktis, oino8eh, yang].map((img, index) =>
+						<MovingCards duration={45000}>
+							<div class="images-container flex flex-nowrap flex-shrink-0 content-center justify-center">
+								{[zed, pumkin, abyss, aktis, oino8eh, betterNetflix, bentoBox, yang].map((img, index) =>
 									<Image 
-										class:list={['max-h-80', 'object-cover', "m-4", 'w-64']}
+										class:list={['object-cover', "m-2", 'w-64', 'moving-card-img']}
 										src={img}
 										alt={`moving-img-${index}`}
 									/>
@@ -330,5 +332,9 @@ const posts = allPosts.filter((post) => !post.personal);
 			display: flex;
 			flex-direction: column;
 		}
+	}
+
+	.moving-card-img {
+		transition: all ease 2s;
 	}
 </style>
