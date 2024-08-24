@@ -4,13 +4,12 @@ interface Props {
     // TODO: We may be able to avoid this with more clean?
     hasFooter: boolean;
     reverse?: boolean;
-    colSpan?: number;
+    colSpan?: string;
 }
 const { title, hasFooter, colSpan, reverse } = Astro.props;
 ---
 
-<div class={`lg:col-span-${colSpan ?? 1} flex ${reverse ? 'flex-col-reverse' : 'flex-col'} p-8 rounded-xl border border-[rgba(255,255,255,0.10)] bg-[rgba(40,40,40,0.30)] shadow-[2px_4px_16px_0px_rgba(248,248,248,0.06)_inset] group`}>
-    <!-- {reverse ? } -->
+<div class={`lg:col-span-${colSpan ?? "1"} flex ${reverse ? 'flex-col-reverse' : 'flex-col'} p-8 rounded-xl border border-[rgba(255,255,255,0.10)] bg-[rgba(40,40,40,0.30)] shadow-[2px_4px_16px_0px_rgba(248,248,248,0.06)_inset] group`}>
     <div>
         <h3 class="text-lg font-semibold text-white my-3">
             {title}

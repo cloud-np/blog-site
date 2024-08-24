@@ -87,7 +87,7 @@ const posts = allPosts.filter((post) => !post.personal);
 				</p>
 			</div>
 			<div class="grid grid-cols-1 lg:grid-cols-3 gap-2 m-10 max-w-7xl">
-				<BentoCard title="betsson" hasFooter={true} colSpan={2} reverse>
+				<BentoCard title="betsson" hasFooter={true} colSpan="2" reverse>
 					<div slot="subTitle">
 						<p class="text-sm italic text-neutral-200 pb-2">
 							<Image
@@ -147,10 +147,7 @@ const posts = allPosts.filter((post) => !post.personal);
 					from scratch using Go.
 					<Image slot="footer" src={chessnp} alt="chess np site" />
 				</BentoCard>
-				<BentoCard
-					title="Freelancing and web design"
-					hasFooter={true}
-					colSpan={2}
+				<BentoCard title="Freelancing and web design" hasFooter={true} colSpan="2"
 				>
 					With a perfect score when it comes to customer satisfaction,
 					I pride my self delivering only best for my clients.
