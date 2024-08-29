@@ -1,7 +1,7 @@
 ---
 import Layout from "../layouts/Page.astro";
-import BlogPostsList from "../components/post/BlogPostsList.astro";
-import { getPosts } from "../libs/post";
+// import BlogPostsList from "../components/post/BlogPostsList.astro";
+// import { getPosts } from "../libs/post";
 import Reveal from "../components/Reveal.astro";
 import ScrollDown from "../components/ui/ScrollDown.astro";
 import SceneController from "../components/ui/SceneController/SceneController.astro";
@@ -30,28 +30,26 @@ const seo = {
 	description: "A simple blog focused on provided the best",
 };
 
-const allPosts = await getPosts(undefined);
-const posts = allPosts.filter((post) => !post.personal);
+// const allPosts = await getPosts(undefined);
+// const posts = allPosts.filter((post) => !post.personal);
 ---
 
 <Layout seo={seo}>
 	<Reveal />
 	<SceneController />
-	<BackgroundBeams client:load />
+	<BackgroundBeams client:visible />
 	<div class="container flex flex-col">
-		<section class="landing px-3">
+		<section class="landing px-3 overflow-hidden">
 			<div class="moon"></div>
 			<div class="moon moonRight"></div>
 			<div class="hero-text-container mb-16">
-				<div
-					class="hero-title-container justify-center flex mb-10 overflow-hidden"
-				>
+				<div class="hero-title-container justify-center flex mb-10 overflow-hidden">
 					<h1 class="hero-title">Hi</h1>
 					<h1 class="hero-title">there!</h1>
 					<h1 class="hero-title">I'm</h1>
 					<h1 class="hero-title slow-fade">Nick</h1>
 				</div>
-				<div class="overflow-hidden">
+				<div class="overflow-hidden mx-6">
 					<p class="flex justify-center hero-text slow-fade">
 						With elegance in code and boldness in design. I enjoy
 						transforming visions into reality with some frontend
@@ -70,17 +68,13 @@ const posts = allPosts.filter((post) => !post.personal);
 					<Logo />
 				</div>
 			</div>
-			<div class="overflow-hidden h-18 flex justify-center">
-				<h2
-					class="portofolio-title translate-y-full text-center transition-all duration-300 ease-out"
-				>
+			<div class="overflow-hidden h-18 flex justify-center mx-4">
+				<h2 class="portofolio-title translate-y-full text-center transition-all duration-300 ease-out">
 					My portofolio and past projects
 				</h2>
 			</div>
-			<div class="overflow-hidden h-10 flex justify-center mt-6">
-				<p
-					class="portofolio-text translate-y-full text-center w-120 text-base"
-				>
+			<div class="overflow-hidden h-auto flex justify-center mt-6 mb-5 mx-4">
+				<p class="portofolio-text translate-y-full text-center w-120 text-base">
 					Explore a small collection of my work showcasing some
 					skills, creativity, but most importantly dedication to
 					quality.
@@ -157,7 +151,7 @@ const posts = allPosts.filter((post) => !post.personal);
 						<MovingCards duration={45000}>
 							<div class="images-container flex flex-nowrap flex-shrink-0 content-center justify-center">
 								{[zed, pumkin, abyss, aktis, oino8eh, betterNetflix, fromHome, igame, bentoBox, yang].map((img, index) => (
-									<Image class:list={["object-cover", "m-2", "w-64", "moving-card-img"]} src={img} alt={`moving-img-${index}`}/>
+									<Image loading="lazy" class:list={["object-cover", "m-2", "w-64", "moving-card-img"]} src={img} alt={`moving-img-${index}`}/>
 								))}
 							</div>
 						</MovingCards>
@@ -242,7 +236,6 @@ const posts = allPosts.filter((post) => !post.personal);
 		padding: 5vh 0;
 		display: flex;
 		flex-direction: column;
-		overflow-x: hidden;
 		height: 95vh;
 		color: var(--primary);
 	}
