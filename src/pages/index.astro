@@ -1,7 +1,7 @@
 ---
 import Layout from "../layouts/Page.astro";
-// import BlogPostsList from "../components/post/BlogPostsList.astro";
-// import { getPosts } from "../libs/post";
+import BlogPostsList from "../components/post/BlogPostsList.astro";
+import { getPosts } from "../libs/post";
 import Reveal from "../components/Reveal.astro";
 import ScrollDown from "../components/ui/ScrollDown.astro";
 import SceneController from "../components/ui/SceneController/SceneController.astro";
@@ -30,8 +30,8 @@ const seo = {
 	description: "A simple blog focused on provided the best",
 };
 
-// const allPosts = await getPosts(undefined);
-// const posts = allPosts.filter((post) => !post.personal);
+const allPosts = await getPosts(undefined);
+const posts = allPosts.filter((post) => !post.personal);
 ---
 
 <Layout seo={seo}>
@@ -160,10 +160,10 @@ const seo = {
 			</div>
 		</section>
 	</div>
-	<!-- <section>
+	<section class="mx-6">
 		<h4 class="projects-title fade-in">Latest Posts</h4>
 		<BlogPostsList class="latest-projects-container" posts={posts} />
-	</section> -->
+	</section>
 </Layout>
 
 <script>

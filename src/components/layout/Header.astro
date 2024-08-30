@@ -59,6 +59,11 @@ import SocialList from '../ui/SocialList.astro';
 			</a>
 			<div class="header__nav_links_container">
 				<ul class="header__nav_links">
+					<li class="header__home_link">
+						<a class="header__link clickable" href="/" title="Navigate Home">
+							Home
+						</a>
+					</li>
 					<li>
 						<a class="header__link clickable" href="/blog" title="Navigate Blog">
 							Blog
@@ -135,10 +140,8 @@ import SocialList from '../ui/SocialList.astro';
 
 		.header__nav_links {
 			height: 100%;
-			/* TODO: Yeah I know I'll fix it later.. */
-			margin-top: -76px;
 			display: flex;
-			justify-content: center;
+			padding-top: 150px;
 			align-items: center;
 			text-align: center;
 			flex-direction: column;
@@ -147,6 +150,10 @@ import SocialList from '../ui/SocialList.astro';
 		.header__link {
 			font-size: 1.5rem;
 			margin: 1rem;
+		}
+
+		.header__home_link {
+			display: block;
 		}
 
 		nav > .burger-menu {
@@ -189,6 +196,10 @@ import SocialList from '../ui/SocialList.astro';
 			display: block;
 		}
 
+	}
+
+	.header__home_link {
+		display: block;
 	}
 
 	.nonclickable {
