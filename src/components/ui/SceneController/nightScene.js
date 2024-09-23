@@ -58,8 +58,8 @@ export default function startNightScene(canvas) {
 
     //Helpers
     function lineToAngle(x1, y1, length, radians) {
-        const x2 = x1 + length * Math.cos(radians);
-        const y2 = y1 + length * Math.sin(radians);
+        var x2 = x1 + length * Math.cos(radians),
+            y2 = y1 + length * Math.sin(radians);
         return { x: x2, y: y2 };
     }
 
@@ -125,7 +125,7 @@ export default function startNightScene(canvas) {
             { speed: 0.03, scale: 0.5, count: 50 },
             { speed: 0.05, scale: 0.75, count: 30 }
         ],
-        starsAngle = 36,
+        starsAngle = 145,
         shootingStarSpeed = {
             min: 15,
             max: 20
@@ -285,7 +285,7 @@ export default function startNightScene(canvas) {
     //Run
     update();
 
-    // Shooting stars
+    //Shooting stars
     // setInterval(function () {
     //     if (paused) return;
     //     createShootingStar();

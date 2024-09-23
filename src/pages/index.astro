@@ -5,7 +5,6 @@ import { getPosts } from "../libs/post";
 import Reveal from "../components/Reveal.astro";
 import ScrollDown from "../components/ui/ScrollDown.astro";
 import SceneController from "../components/ui/SceneController/SceneController.astro";
-import { BackgroundBeams } from "../components/react/background-beams";
 import Logo from "../components/ui/Logo.astro";
 import MovingCards from "../components/ui/MovingCards.astro";
 import zed from "../assets/zed.jpg";
@@ -24,6 +23,7 @@ import { Image } from "astro:assets";
 import BentoCard from "../components/ui/BentoCard.astro";
 import betsson from "../assets/betsson.png";
 import presentation from "../assets/presentation.jpeg";
+import { BackgroundBeams } from "../components/react/background-beams";
 
 const seo = {
 	title: "cloud-np",
@@ -228,7 +228,11 @@ const posts = allPosts.filter((post) => !post.personal);
 
 	// init(REVEAL_DELAY);
 	init();
-	document.addEventListener("astro:after-swap", () => init());
+	document.addEventListener("astro:after-swap", () => {
+		if (window.location.pathname === '/' || window.location.pathname === '') {
+			init();
+		}
+	});
 </script>
 
 <style>

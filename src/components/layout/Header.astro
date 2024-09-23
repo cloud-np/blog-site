@@ -1,13 +1,12 @@
 ---
-import Container from '../containers/Container.astro';
-import Logo from '../ui/Logo.astro';
-import SocialList from '../ui/SocialList.astro';
+import Container from "../containers/Container.astro";
+import Logo from "../ui/Logo.astro";
+import SocialList from "../ui/SocialList.astro";
 
 // import { ThemeToggleButton } from '../ThemeToggleButton/ThemeToggleButton';
 ---
 
 <script>
-	const SHOW_NAV_FROM_Y = 0;
 	function init() {
 		const elementsThatNeedChange = [
 			document.getElementsByClassName("header__nav_links_container")[0],
@@ -17,35 +16,43 @@ import SocialList from '../ui/SocialList.astro';
 		];
 
 		const toggleMobileClass = (el, isMobile) =>
-			isMobile 
-				? el.classList.add('mobile')
-				: el.classList.remove('mobile');
+			isMobile
+				? el.classList.add("mobile")
+				: el.classList.remove("mobile");
 
-		// We use function to keep the context for this.
+		// We use 'function' to keep the context for this.
 		(document.getElementById("burger-check") as HTMLInputElement)?.addEventListener("change", function() {
 			this.checked
-				? elementsThatNeedChange.forEach(el => toggleMobileClass(el, true))
-				: elementsThatNeedChange.forEach(el => toggleMobileClass(el, false));
+				? elementsThatNeedChange.forEach((el) => toggleMobileClass(el, true))
+				: elementsThatNeedChange.forEach((el) => toggleMobileClass(el, false));
 		});
-
-		// If the scroll position is greater than 100 pixels or there is NO scrollbar, show the header
-		const header = document.getElementById('nav-header');
-		if (header) {
-			document.body.scrollHeight > window.innerHeight
-			? window.addEventListener('scroll', () => header.style.transform = `translateY(${window.scrollY > SHOW_NAV_FROM_Y ? '0' : '-100%'})`)
-			: header.style.transform = `translateY(0)`;
-		}
 	}
+
 	init();
 
 	// TODO: Investigate if we can avoid this 'hack'
 	// This is needed to refresh our script after page changes
-	// it could be related to ViewTransitions not sure yet.. 
+	// it could be related to ViewTransitions not sure yet..
 	// https://stackoverflow.com/questions/77278507/astro-javascript-is-not-working-on-page-change
-	document.addEventListener('astro:after-swap', init);
+	document.addEventListener("astro:after-swap", init);
 </script>
 
-<header id="nav-header" class="z-10">
+<!-- {showHeaderOnScroll 
+	&& 
+	<script>
+		function initShowHeaderOnScroll() {
+			const SHOW_HEADER_FROM_Y = 0;
+			const header = document.getElementById("nav-header");
+			if (header && document.body.scrollHeight > window.innerHeight) {
+				console.log("im here");
+				window.addEventListener("scroll", () => header.style.transform = `translateY(${window.scrollY > SHOW_HEADER_FROM_Y ? "0" : "-100%"})`)
+			}
+		}
+		document.addEventListener('DOMContentLoaded', initShowHeaderOnScroll);
+	</script>
+} -->
+
+<header id="nav-header" class=`z-10`>
 	<Container>
 		<!-- <div class="circle"></div> -->
 		<nav>
@@ -107,7 +114,6 @@ import SocialList from '../ui/SocialList.astro';
 
 <style>
 	header {
-		transform: translateY(-100%);
 		transition: transform ease-in 400ms;
 		height: var(--header-height, 64px);
 		display: flex;
@@ -195,7 +201,6 @@ import SocialList from '../ui/SocialList.astro';
 			opacity: 1;
 			display: block;
 		}
-
 	}
 
 	.header__home_link {
@@ -329,21 +334,21 @@ import SocialList from '../ui/SocialList.astro';
 		width: 75%;
 	}
 
-	input[type='checkbox'] {
+	input[type="checkbox"] {
 		display: none;
 	}
 
-	input[type='checkbox']:checked ~ span:nth-of-type(1) {
+	input[type="checkbox"]:checked ~ span:nth-of-type(1) {
 		transform-origin: bottom;
 		transform: rotatez(45deg) translate(3px, 0px);
 	}
 
-	input[type='checkbox']:checked ~ span:nth-of-type(2) {
+	input[type="checkbox"]:checked ~ span:nth-of-type(2) {
 		transform-origin: top;
 		transform: rotatez(-45deg);
 	}
 
-	input[type='checkbox']:checked ~ span:nth-of-type(3) {
+	input[type="checkbox"]:checked ~ span:nth-of-type(3) {
 		transform-origin: bottom;
 		width: 50%;
 		transform: translate(12px, -3px) rotatez(45deg);
