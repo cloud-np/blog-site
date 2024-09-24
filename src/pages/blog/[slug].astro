@@ -1,28 +1,28 @@
 ---
-import PageLayout from '../../layouts/Page.astro';
-import Container from '../../components/containers/Container.astro';
-import { formatDate, slugify } from '../../utils/helpers';
-import SharePost from '../../components/post/SharePost.astro';
-import { Picture } from 'astro:assets';
-import { getPosts, type Post } from '../../libs/post';
+import PageLayout from "../../layouts/Page.astro";
+import Container from "../../components/containers/Container.astro";
+import { formatDate, slugify } from "../../utils/helpers";
+import SharePost from "../../components/post/SharePost.astro";
+import { Picture } from "astro:assets";
+import { getPosts, type Post } from "../../libs/post";
 
 interface Props {
 	post: Post;
 }
 
 export async function getStaticPaths() {
-    const allPosts = await getPosts(undefined);
-    const posts: Post[] = allPosts.filter(post => !post.personal);
+	const allPosts = await getPosts(undefined);
+	const posts: Post[] = allPosts.filter((post) => !post.personal);
 
-    // map through the categories array
-    return posts.map(post => ({
+	// map through the categories array
+	return posts.map((post) => ({
 		params: { slug: post.slug },
 		props: { post },
-    }));
+	}));
 }
 
 const { post } = Astro.props;
-const { Content } = await post.render()
+const { Content } = await post.render();
 
 const seo = {
 	title: post.title,
@@ -58,8 +58,8 @@ const seo = {
 					post.titleImage && (
 						<Picture
 							src={post.titleImage}
-                            alt={`Featured for ${post.title}`}
-							formats={['webp', 'png']}
+							alt={`Featured for ${post.title}`}
+							formats={["webp", "png"]}
 							class="post-content__img"
 							loading="eager"
 							width="1200"
@@ -69,7 +69,7 @@ const seo = {
 				}
 			</div>
 			<div class="post-content__content flow fade-in">
-				<Content/>
+				<Content />
 			</div>
 		</article>
 		<SharePost postTitle={post.title} />
@@ -130,8 +130,16 @@ const seo = {
 	.post-content__content {
 		font-size: var(--step--1);
 		hyphens: auto;
-		/* max-width: min(100%, 600px); */
-		/* max-width: calc(40rem); */
+		/* align-items: center; */
+		max-width: 42.875rem;
+		display: flex;
+		-webkit-box-pack: center;
+		justify-content: center;
+		flex-direction: column;
+		margin: auto;
+		line-height: 1.5; 
+		text-wrap: pretty;
+		word-break: auto-phrase;
 	}
 
 	.post-content__content :global(img) {
@@ -142,6 +150,7 @@ const seo = {
 		max-width: 100%;
 		border-radius: 0.5rem;
 	}
+
 	/* TODO: Change all medias to vars */
 	@media (max-width: 640px) {
 		.post-content__title {

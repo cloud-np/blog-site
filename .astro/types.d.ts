@@ -192,6 +192,13 @@ declare module 'astro:content' {
   collection: "blog";
   data: InferEntrySchema<"blog">
 } & { render(): Render[".mdx"] };
+"git-bisect.mdx": {
+	id: "git-bisect.mdx";
+  slug: "git-bisect";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
 "median-of-two-sorted-arrays.mdx": {
 	id: "median-of-two-sorted-arrays.mdx";
   slug: "median-of-two-sorted-arrays";

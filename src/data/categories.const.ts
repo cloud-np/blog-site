@@ -9,5 +9,7 @@ export const CATEGORIES = [
     'AI & Machine learning',
     'DevOps',
     'Javascript',
-    'Typescript'
+    'Typescript',
+    'Git',
+    'Tooling'
 ] as const;
