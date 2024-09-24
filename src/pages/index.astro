@@ -61,7 +61,7 @@ const posts = allPosts.filter((post) => !post.personal);
 				<ScrollDown />
 			</div>
 		</section>
-		<section class="about w-max flex self-center flex-col items-center max-w-full">
+		<section class="about w-max flex self-center flex-col items-center">
 			<div class="logo-container mb-4">
 				<div class="grad absolute"></div>
 				<div class="w-28">
@@ -160,7 +160,7 @@ const posts = allPosts.filter((post) => !post.personal);
 			</div>
 		</section>
 	</div>
-	<section class="mx-6">
+	<section class="mx-6 flex flex-col justify-center items-center">
 		<h4 class="projects-title fade-in">Latest Posts</h4>
 		<BlogPostsList class="latest-projects-container" posts={posts} />
 	</section>
