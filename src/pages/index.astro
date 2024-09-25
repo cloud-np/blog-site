@@ -43,17 +43,16 @@ const posts = allPosts.filter((post) => !post.personal);
 			<div class="moon"></div>
 			<div class="moon moonRight"></div>
 			<div class="hero-text-container mb-16">
-				<div class="hero-title-container justify-center flex mb-10 overflow-hidden">
+				<div class="hero-title-container justify-center flex mb-10 overflow-hidden slow-fade">
 					<h1 class="hero-title">Hi</h1>
 					<h1 class="hero-title">there!</h1>
 					<h1 class="hero-title">I'm</h1>
-					<h1 class="hero-title slow-fade">Nick</h1>
+					<h1 class="hero-title">Nick</h1>
 				</div>
 				<div class="overflow-hidden mx-6">
 					<p class="flex justify-center hero-text slow-fade">
-						With elegance in code and boldness in design. I enjoy
-						transforming visions into reality with some frontend
-						wizardry.
+						I enjoy transforming visions into reality with some frontend wizardry,
+						elegance in code and boldness in design. 
 					</p>
 				</div>
 			</div>
@@ -70,7 +69,7 @@ const posts = allPosts.filter((post) => !post.personal);
 			</div>
 			<div class="overflow-hidden h-18 flex justify-center mx-4">
 				<h2 class="portofolio-title translate-y-full text-center transition-all duration-300 ease-out">
-					My portofolio and past projects
+					Portofolio and past projects
 				</h2>
 			</div>
 			<div class="overflow-hidden h-auto flex justify-center mt-6 mb-5 mx-4">
@@ -212,7 +211,31 @@ const posts = allPosts.filter((post) => !post.personal);
 				onEnter: () => portofolioTl.play(),
 			},
 		});
-		// window.addEventListener('scroll', updateOpacityOnScroll);
+
+		const elements = document.querySelectorAll('.slow-fade') as NodeListOf<HTMLElement>;
+		document.addEventListener('mousemove', (e) => {
+			elements.forEach(el => {
+				const rect = el.getBoundingClientRect();
+				const x = e.clientX - rect.left;
+				const y = e.clientY - rect.top;
+				
+				// Calculate the position in percentages
+				const xPercent = (x / rect.width) * 100;
+				const yPercent = (y / rect.height) * 100;
+				
+				// Apply radial gradient mask effect
+				const maskImage = `radial-gradient(
+					circle at ${xPercent}% ${yPercent}%,
+					rgba(255, 255, 255, 1) 0%,
+					rgba(255, 255, 255, 0.9) 20%,
+					rgba(255, 255, 255, 0.7) 40%,
+					rgba(255, 255, 255, 0.5) 60%
+				)`;
+				
+				el.style.maskImage = maskImage;
+			});
+		});
+
 	}
 
 	// Scroll.el(".about", {

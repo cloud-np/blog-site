@@ -1,16 +1,14 @@
 ---
 title: Using Git Bisect to find Bugs Fast
-previewImage: "../../assets/images/ang-signal-logo.png"
-titleImage: "../../assets/images/ang-signal-logo.png"
+previewImage: "../../assets/images/git-bisect-logo.png"
+titleImage: "../../assets/images/git-bisect-logo.png"
 publishedAt: "2024-09-24"
 category: 'Git'
 searchCategories: ['Git', 'Tooling', 'Fullstack']
 personal: false
 ---
 
-import siteWorking from "../../assets/git-bisect/site-working.png";
-import siteBroken from "../../assets/git-bisect/site-broken.png";
-import differences from "../../assets/git-bisect/differences.png";
+import hellYeah from "../../assets/git-bisect/hell-yeah.gif";
 import amazedFace from "../../assets/git-bisect/amazed-face.gif";
 import sadCat from "../../assets/git-bisect/sadcat.png";
 import Note from "../../components/ui/Note.astro";
@@ -34,15 +32,15 @@ one until you locate the problematic change.
 Let's consider a scenario where we travel back in time and our website used to look like this:
 
 #### Our good state
-<Image src={siteWorking} alt="the site working initially" style={"width: 100%"} />
+![the site working initially](../../assets/git-bisect/site-working.png)
 And let's assume that this state was back in some random commit with hash `e4824da`.
 
 #### All hell broke loose 
 Some time passes by, more commits are coming in and everything is working. However after a while we notice that the site looks like this...
-<Image src={siteBroken} alt="the site that is now broken" style={"width: 100%"} />
+![the site that is now broken](../../assets/git-bisect/site-broken.png)
 
 We notice that there are two new bugs appearing compared to the old version:
-<Image src={differences} alt="differences" style={"width: 100%"} />
+![differences](../../assets/git-bisect/differences.png)
 
 We are puzzled by how long these issues had persisted and which specific commit might 
 have introduced them. Its time to use `git bisect` <Image src={amazedFace} alt="amazed face" style={"width: 35px;display: inline;margin: 0; transform: scaleX(-1)"} />
@@ -164,7 +162,7 @@ Successfully rebased and updated refs/heads/master.
 ```
 Let's check now our site again while on `master` branch:
 ![site-working-one-bug-left](../../assets/git-bisect/site-working-one-bug-left.png)
-Nice! We got our styles back. However our title is still wrong <Image src={sadCat} alt="sad cat" style={"width: 35px;display: inline;margin: 0;"} />
+Nice! We got our styles back. However our title is still wrong... <Image src={sadCat} alt="sad cat" style={"width: 35px;display: inline;margin: 0;"} />
 <br/>
 
 ### Automating git bisect
@@ -248,3 +246,29 @@ Date:   Tue Sep 24 13:25:48 2024 +0200
 bisect found first bad commit
 ############################
 ```
+As demonstrated above, `git bisect run` executed the command we provided, multiple times across different commits in the repository's history.
+This automated process efficiently identified the first commit where our test succeeded, indicating that the commit immediately preceding it
+was the first "bad" commit that introduced the issue.
+
+Now we can remove this faulty commit the same way we did before:
+```sh 
+> git rebase -i 687e5eb387387eb6476e4bf59b348e14159217a8^
+```
+
+Finally let's again our site again:
+![site working again](../../assets/git-bisect/site-working.png)
+
+
+Nice! <Image src={hellYeah} alt="amazed face" style={"width: 35px;display: inline;margin: 0;"} />
+We not only tackled the actual bug but also automated the process, minimizing both our effort and the potential for any human error.
+
+### Conclusion
+Git bisect is a really useful tool for efficiently tracking down bugs in large codebases.
+Although in these trivial examples above it could not be that obvious straight away. By leveraging its binary
+search algorithm, we can save time and frustration when debugging. Whether used manually
+or with automation, `git bisect` could be a very usefull toolkit especially when you need to indentify which commit
+to revert fast.
+
+Remember, the key to effective debugging is not just finding the bug, but understanding why it occurred.
+Once we've identified the problematic commit with `git bisect` and resolve the issue, we can take the time to analyze the changes and
+prevent similar issues in the future.
