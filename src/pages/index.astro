@@ -35,7 +35,7 @@ const posts = allPosts.filter((post) => !post.personal);
 ---
 
 <Layout seo={seo}>
-	<Reveal />
+	<!-- <Reveal /> -->
 	<SceneController />
 	<BackgroundBeams client:visible />
 	<div class="container flex flex-col">
@@ -60,7 +60,7 @@ const posts = allPosts.filter((post) => !post.personal);
 				<ScrollDown />
 			</div>
 		</section>
-		<section class="about flex self-center flex-col items-center portofolio-container">
+		<section class="flex self-center flex-col items-center portofolio-details">
 			<div class="logo-container mb-4">
 				<div class="grad absolute"></div>
 				<div class="w-28">
@@ -79,85 +79,85 @@ const posts = allPosts.filter((post) => !post.personal);
 					quality.
 				</p>
 			</div>
-			<div class="grid grid-cols-1 lg:grid-cols-3 gap-2 m-10 max-w-7xl">
-				<BentoCard title="betsson" hasFooter={true} colSpan reverse>
-					<div slot="subTitle">
-						<p class="text-sm italic text-neutral-200 pb-2">
-							<Image
-								src={betsson}
-								class="w-6 inline mr-1"
-								alt="betson-logo"
-							/>
-							Senior Software Engineer
-						</p>
-					</div>
-					<b>Feature Development:</b> Spearheaded  the development of critical features
-					that enhanced and refactored essential functionalities 
-					for millions of customers worldwide. This included integrating 
-					new API providers, which successfully expanded our market offerings
-					and capabilities while ensuring an optimal user experience.
-					</br>
-					<b>Performance Optimization:</b> One of the main developers
-					at upgrading, maintaining performance-critical
-					sportsbook app accessed by millions worldwide,
-					utilizing Angular, NgRx, and Nx for both B2B, B2C,
-					mobile, desktop and native.
-					</br>
-					<b>Mentorship and Guidance:</b> Provide assistance to
-					mid-level developers and collaborate with tech leads
-					to establish guidelines for new Angular features
-					<Image slot="footer" class="mb-10" src={presentation} alt="photo from my presentation in Hungary regarding Angular signals" />
-				</BentoCard>
-				<BentoCard
-					title="Deep dive into the 'Multiple Workflow Scheduling Problem'"
-					hasFooter={true}
-				>
-					Under the guidance of Dr. Panagiotis Oikonomou, I researched
-					MWSP which is a NP-hard problem with conflicting
-					optimization goals. Our proposed algorithm achieved up to a
-					9% improvement and unveiled various trade-offs depending on
-					the specific characteristics of each workflow.
-					<a
-						href="https://dl.acm.org/doi/10.1145/3503823.3503876"
-						target="_blank"
-						slot="footer"
-					>
-						<Image
-							src={publication}
-							alt="multiple workflow scheduling problem"
-						/>
-					</a>
-				</BentoCard>
-				<BentoCard title="chessnp.com" hasFooter={true} reverse>
-					<div slot="subTitle">
-						<p class="text-sm inline">🚧</p>
-						<p class="text-sm inline italic text-neutral-200 pb-2">
-							Under Construction
-						</p>
-					</div>
-					chessnp.com lets users replay famous historical chess matches
-					and play against a custom chess engine and AI built entirely
-					from scratch using Go.
-					<Image slot="footer" src={chessnp} alt="chess np site" />
-				</BentoCard>
-				<BentoCard title="Freelancing and web design" hasFooter={true} colSpan
-				>
-					With a perfect score when it comes to customer satisfaction,
-					I pride my self delivering only best for my clients.
-					<div slot="footer" class="max-w-[900px] relative">
-						<!-- TODO: This can be fade effect to not have hard edges -->
-						<!-- <div class="pointer-events-none absolute inset-y-0 top-0 w-60 bg-gradient-to-r from-[#1A1A1A]"></div> -->
-						<MovingCards duration={45000}>
-							<div class="images-container flex flex-nowrap flex-shrink-0 content-center justify-center">
-								{[zed, pumkin, abyss, aktis, oino8eh, betterNetflix, fromHome, igame, bentoBox, yang].map((img, index) => (
-									<Image loading="lazy" class:list={["object-cover", "m-2", "w-64", "moving-card-img"]} src={img} alt={`moving-img-${index}`}/>
-								))}
-							</div>
-						</MovingCards>
-					</div>
-				</BentoCard>
-			</div>
 		</section>
+		<div class="grid grid-cols-1 lg:grid-cols-3 gap-2 m-10 max-w-7xl">
+			<BentoCard title="betsson" hasFooter={true} colSpan reverse>
+				<div slot="subTitle">
+					<p class="text-sm italic text-neutral-200 pb-2">
+						<Image
+							src={betsson}
+							class="w-6 inline mr-1"
+							alt="betson-logo"
+						/>
+						Senior Software Engineer
+					</p>
+				</div>
+				<b>Feature Development:</b> Spearheaded  the development of critical features
+				that enhanced and refactored essential functionalities 
+				for millions of customers worldwide. This included integrating 
+				new API providers, which successfully expanded our market offerings
+				and capabilities while ensuring an optimal user experience.
+				</br>
+				<b>Performance Optimization:</b> One of the main developers
+				at upgrading, maintaining performance-critical
+				sportsbook app accessed by millions worldwide,
+				utilizing Angular, NgRx, and Nx for both B2B, B2C,
+				mobile, desktop and native.
+				</br>
+				<b>Mentorship and Guidance:</b> Provide assistance to
+				mid-level developers and collaborate with tech leads
+				to establish guidelines for new Angular features
+				<Image slot="footer" class="mb-10" src={presentation} alt="photo from my presentation in Hungary regarding Angular signals" />
+			</BentoCard>
+			<BentoCard
+				title="Deep dive into the 'Multiple Workflow Scheduling Problem'"
+				hasFooter={true}
+			>
+				Under the guidance of Dr. Panagiotis Oikonomou, I researched
+				MWSP which is a NP-hard problem with conflicting
+				optimization goals. Our proposed algorithm achieved up to a
+				9% improvement and unveiled various trade-offs depending on
+				the specific characteristics of each workflow.
+				<a
+					href="https://dl.acm.org/doi/10.1145/3503823.3503876"
+					target="_blank"
+					slot="footer"
+				>
+					<Image
+						src={publication}
+						alt="multiple workflow scheduling problem"
+					/>
+				</a>
+			</BentoCard>
+			<BentoCard title="chessnp.com" hasFooter={true} reverse>
+				<div slot="subTitle">
+					<p class="text-sm inline">🚧</p>
+					<p class="text-sm inline italic text-neutral-200 pb-2">
+						Under Construction
+					</p>
+				</div>
+				chessnp.com lets users replay famous historical chess matches
+				and play against a custom chess engine and AI built entirely
+				from scratch using Go.
+				<Image slot="footer" src={chessnp} alt="chess np site" />
+			</BentoCard>
+			<BentoCard title="Freelancing and web design" hasFooter={true} colSpan
+			>
+				With a perfect score when it comes to customer satisfaction,
+				I pride my self delivering only best for my clients.
+				<div slot="footer" class="max-w-[900px] relative">
+					<!-- TODO: This can be fade effect to not have hard edges -->
+					<!-- <div class="pointer-events-none absolute inset-y-0 top-0 w-60 bg-gradient-to-r from-[#1A1A1A]"></div> -->
+					<MovingCards duration={45000}>
+						<div class="images-container flex flex-nowrap flex-shrink-0 content-center justify-center">
+							{[zed, pumkin, abyss, aktis, oino8eh, betterNetflix, fromHome, igame, bentoBox, yang].map((img, index) => (
+								<Image loading="lazy" class:list={["object-cover", "m-2", "w-64", "moving-card-img"]} src={img} alt={`moving-img-${index}`}/>
+							))}
+						</div>
+					</MovingCards>
+				</div>
+			</BentoCard>
+		</div>
 	</div>
 	<section class="mx-6 flex flex-col justify-center items-center">
 		<h4 class="projects-title fade-in">Latest Posts</h4>
@@ -192,9 +192,9 @@ const posts = allPosts.filter((post) => !post.personal);
 			{ duration: 0.8, y: 0 },
 			"-=0.4",
 		);
-		tl.to(".about", {
+		tl.to(".portofolio-details", {
 			scrollTrigger: {
-				trigger: ".about",
+				trigger: ".portofolio-details",
 				start: "top-=500 center",
 				end: "center-=300 center",
 				scrub: true,
@@ -204,7 +204,7 @@ const posts = allPosts.filter((post) => !post.personal);
 		});
 		tl.to(".portofolio-title", {
 			scrollTrigger: {
-				trigger: ".about",
+				trigger: ".portofolio-details",
 				start: "top center",
 				end: "center center",
 				scrub: true,
@@ -238,7 +238,7 @@ const posts = allPosts.filter((post) => !post.personal);
 
 	}
 
-	// Scroll.el(".about", {
+	// Scroll.el(".portofolio-details", {
 	// 	y: (y, direction) => y + -1 * direction * 5,
 	// });
 
@@ -296,7 +296,7 @@ const posts = allPosts.filter((post) => !post.personal);
 	}
 	/* all .5s cubic-bezier(.76,0,.24,1); */
 
-	.about {
+	.portofolio-details {
 		margin-top: 5vh;
 		border-radius: 5px;
 		background: linear-gradient(0deg, rgb(20, 20, 20) 40%, rgb(14, 14, 14));
@@ -333,8 +333,6 @@ const posts = allPosts.filter((post) => !post.personal);
 	@media (max-width: 768px) {
 		.moonRight {
 			display: none;
-		}
-		.portofolio-container {
 		}
 	}
 
