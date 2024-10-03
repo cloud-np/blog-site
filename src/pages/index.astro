@@ -24,6 +24,7 @@ import BentoCard from "../components/ui/BentoCard.astro";
 import betsson from "../assets/betsson.png";
 import presentation from "../assets/presentation.jpeg";
 import { BackgroundBeams } from "../components/react/background-beams";
+import { Swipper } from "../components/react/swipper";
 
 const seo = {
 	title: "cloud-np",
@@ -51,8 +52,8 @@ const posts = allPosts.filter((post) => !post.personal);
 				</div>
 				<div class="overflow-hidden mx-6">
 					<p class="flex justify-center hero-text slow-fade">
-						I enjoy transforming visions into reality with some frontend wizardry,
-						elegance in code and boldness in design. 
+						I enjoy coding, solving complex problems, and giving my best in everything I do.
+						Other than that I enjoy nature and freediving.
 					</p>
 				</div>
 			</div>
@@ -80,6 +81,17 @@ const posts = allPosts.filter((post) => !post.personal);
 				</p>
 			</div>
 		</section>
+		<Swipper client:visible
+			images={[
+				'https://random.imagecdn.app/150/150?random=1',
+				'https://random.imagecdn.app/150/150?random=2',
+				'https://random.imagecdn.app/150/150?random=3',
+				'https://random.imagecdn.app/150/150?random=4',
+				'https://random.imagecdn.app/150/150?random=5',
+				'https://random.imagecdn.app/150/150?random=6',
+			]} 
+			categories={["Multiple Workflow Scheduling", "Freelancing", "Chessnp", "Senior Software Engineer"]}
+		/>
 		<div class="grid grid-cols-1 lg:grid-cols-3 gap-2 m-10 max-w-7xl">
 			<BentoCard title="betsson" hasFooter={true} colSpan reverse>
 				<div slot="subTitle">
