@@ -3,7 +3,7 @@ import Layout from "../../layouts/Page.astro";
 import Container from "../../components/containers/Container.astro";
 import BlogPostsList from "../../components/post/BlogPostsList.astro";
 
-import { generateCategoryData } from "../../utils/helpers.js";
+import { Helpers } from "../../utils/helpers.ts";
 import { type Post, getPosts } from "../../libs/post";
 
 export async function getStaticPaths() {
@@ -20,7 +20,7 @@ export async function getStaticPaths() {
             .map(post => post.category),
     );
 
-    const allCategoriesData = generateCategoryData(allCategoriesUnique);
+    const allCategoriesData = Helpers.generateCategoryData(allCategoriesUnique);
 
     // map through the categories array
     return allCategoriesData.map((category) => {

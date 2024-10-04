@@ -24,7 +24,7 @@ import BentoCard from "../components/ui/BentoCard.astro";
 import betsson from "../assets/betsson.png";
 import presentation from "../assets/presentation.jpeg";
 import { BackgroundBeams } from "../components/react/background-beams";
-import { Swipper } from "../components/react/swipper";
+import { Slider } from "../components/react/slider";
 
 const seo = {
 	title: "cloud-np",
@@ -81,7 +81,7 @@ const posts = allPosts.filter((post) => !post.personal);
 				</p>
 			</div>
 		</section>
-		<Swipper client:visible
+		<Slider client:visible
 			images={[
 				'https://random.imagecdn.app/150/150?random=1',
 				'https://random.imagecdn.app/150/150?random=2',
@@ -91,6 +91,7 @@ const posts = allPosts.filter((post) => !post.personal);
 				'https://random.imagecdn.app/150/150?random=6',
 			]} 
 			categories={["Multiple Workflow Scheduling", "Freelancing", "Chessnp", "Senior Software Engineer"]}
+			initialXOffset={400}
 		/>
 		<div class="grid grid-cols-1 lg:grid-cols-3 gap-2 m-10 max-w-7xl">
 			<BentoCard title="betsson" hasFooter={true} colSpan reverse>

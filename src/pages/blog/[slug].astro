@@ -1,7 +1,7 @@
 ---
 import PageLayout from "../../layouts/Page.astro";
 import Container from "../../components/containers/Container.astro";
-import { formatDate, slugify } from "../../utils/helpers";
+import { Helpers } from "../../utils/helpers";
 import SharePost from "../../components/post/SharePost.astro";
 import { Picture } from "astro:assets";
 import { getPosts, type Post } from "../../libs/post";
@@ -39,7 +39,7 @@ const seo = {
 					post.category && (
 						<p class="post-content__category">
 							<a
-								href={`/blog/category/${slugify(post.category)}`}
+								href={`/blog/category/${Helpers.slugify(post.category)}`}
 							>
 								{post.category}
 							</a>
@@ -48,7 +48,7 @@ const seo = {
 				}
 				<h1 class="post-content__title">{post.title}</h1>
 				<p class="post-content__date">
-					<time>{formatDate(post.publishedAt)}</time>
+					<time>{Helpers.formatDate(post.publishedAt)}</time>
 				</p>
 				<p class="post-content__minsread">
 					<span>{post.minutesRead} read</span>

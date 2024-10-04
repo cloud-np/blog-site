@@ -1,6 +1,6 @@
 ---
 import { type Post } from '../../libs/post';
-import { formatDate } from '../../utils/helpers';
+import { Helpers } from '../../utils/helpers';
 import { Image } from 'astro:assets';
 
 export interface Props {
@@ -30,7 +30,7 @@ const { post } = Astro.props;
 				</p>
 				<h2 class="clickable">{post.title}</h2>
 				<p class="post-preview__date">
-					{formatDate(post.publishedAt)}
+					{Helpers.formatDate(post.publishedAt)}
 				</p>
 			</div>
 		</article>
