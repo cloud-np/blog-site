@@ -1,22 +1,38 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import "./slider.css";
-import { Helpers } from "../../utils/helpers";
 
 interface SliderProps {
     images: string[];
     categories: string[];
-    initialXOffset: number;
+    initialXOffset?: number;
+    slideTimer?: number;
 }
 
-export const Slider: React.FC<SliderProps> = ({ images, categories, initialXOffset }) => {
-    const [currentCategory, setCurrentCategory] = useState<string>(categories[0]);
-    const [xSlide, setXSlide] = useState<number>(initialXOffset);
-    
+interface SliderState {
+    currentCategory: string;
+    xTransition: number;
+}
+
+export const Slider: React.FC<SliderProps> = ({ images, categories, initialXOffset = 0, slideTimer = 10_000 }) => {
+    const [sliderState, setSliderState] = useState<SliderState>({
+        currentCategory: categories[0],
+        xTransition: initialXOffset,
+    });
     const sliderWrapperRef = useRef<HTMLDivElement>(null);
 
-    const clickedCategory = (categoryClicked: string, targetIndex: number) => {
-        const currentIndex = categories.indexOf(currentCategory);
+    useEffect(() => {
+        const interval = setInterval(() => {
+            const currentIndex = categories.indexOf(sliderState.currentCategory);
+            const nextIndex = (currentIndex + 1) % categories.length;
+            goToCategory(categories[nextIndex], nextIndex);
+        }, slideTimer);
+
+        return () => clearInterval(interval);
+    }, [sliderState.currentCategory, categories, slideTimer]);
+
+    const goToCategory = (destinationCategory: string, targetIndex: number) => {
+        const currentIndex = categories.indexOf(sliderState.currentCategory);
         if (currentIndex === targetIndex) return;
         if (!sliderWrapperRef.current) return;
 
@@ -27,26 +43,33 @@ export const Slider: React.FC<SliderProps> = ({ images, categories, initialXOffs
         const rect = lis[targetIndex].getBoundingClientRect();
         const elementCenterX = rect.left + rect.width / 2;
         const dist = elementCenterX - screenCenterX;
+        const newX = sliderState.xTransition + (-1 * dist);
 
-        setCurrentCategory(categoryClicked);
-        setXSlide(xSlide + (-1 * dist));
-    }
+        setSliderState(prevSliderState => 
+            ({
+                ...prevSliderState,
+                xTransition: newX,
+                currentCategory: destinationCategory,
+                isDragging: false
+            })
+        );
+    };
 
     return (
         <>
-            <div ref={sliderWrapperRef} style={{ transform: `translate3d(${xSlide}px, 0, 0)` }} className="slider-wrapper flex items-center justify-center my-0 mx-auto">
+            <div 
+                ref={sliderWrapperRef}
+                style={{ transform: `translate3d(${sliderState.xTransition}px, 0, 0)` }}
+                className="slider-wrapper flex items-center justify-center my-0 mx-auto"
+            >
                 <ul className="flex flex-row gap-10">
                     {categories.map((cat, index) =>
                         <li key={cat}>
-                            <h2 onClick={() => clickedCategory(cat, index)} className="whitespace-nowrap">{cat}</h2>
+                            <h2 onClick={() => goToCategory(cat, index)} className="whitespace-nowrap cursor-pointer">{cat}</h2>
                         </li>
                     )}
                 </ul>
-                {/* <button onClick={goToPrevious}>Previous</button>
-            <button onClick={goToNext}>Next</button> */}
-                {/* <img className="max-w-full h-auto" src={images[currentIndex]} alt={`Slide ${currentIndex + 1}`} /> */}
             </div>
-            <h1> {currentCategory} </h1>
         </>
     );
 };

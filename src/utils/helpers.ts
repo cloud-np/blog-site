@@ -36,26 +36,4 @@ export namespace Helpers {
 		return nonNormalIndex;
 	}
 
-	export const getStyle = (el: Element, styleProp: string): string => {
-		let value;
-		debugger
-		const defaultView = el.ownerDocument.defaultView;
-		// W3C standard way:
-		if (defaultView && defaultView.getComputedStyle) {
-			// sanitize property name to css notation (hypen separated words eg. font-Size)
-			styleProp = styleProp.replace(/([A-Z])/g, '-$1').toLowerCase();
-			const ox = defaultView.getComputedStyle(el, null);
-			const xp = ox.getPropertyValue(styleProp);
-			return xp;
-		} else if (el['currentStyle']) { // IE
-			// sanitize property name to camelCase
-			styleProp = styleProp.replace(/\-(\w)/g, function (str, letter) {
-				return letter.toUpperCase();
-			});
-			value = el['currentStyle'][styleProp];
-			return value;
-		}
-
-		return '';
-	}
 }
