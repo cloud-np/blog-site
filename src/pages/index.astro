@@ -81,18 +81,15 @@ const posts = allPosts.filter((post) => !post.personal);
 				</p>
 			</div>
 		</section>
-		<Slider client:visible
-			images={[
-				'https://random.imagecdn.app/150/150?random=1',
-				'https://random.imagecdn.app/150/150?random=2',
-				'https://random.imagecdn.app/150/150?random=3',
-				'https://random.imagecdn.app/150/150?random=4',
-				'https://random.imagecdn.app/150/150?random=5',
-				'https://random.imagecdn.app/150/150?random=6',
-			]} 
-			categories={["Multiple Workflow Scheduling", "Freelancing", "Chessnp", "Senior Software Engineer"]}
-			initialXOffset={400}
-		/>
+		<div class="slider-container">
+			<div class="slider-hiding-el-left"></div>
+
+			<!-- <Slider client:visible
+				categories={["Multiple Workflow Scheduling", "Freelancing", "Chessnp", "Senior Software Engineer"]}
+				initialXOffset={400}
+			/> -->
+			<div class="slider-hiding-el-right"></div>
+		</div>
 		<div class="grid grid-cols-1 lg:grid-cols-3 gap-2 m-10 max-w-7xl">
 			<BentoCard title="betsson" hasFooter={true} colSpan reverse>
 				<div slot="subTitle">
@@ -416,6 +413,31 @@ const posts = allPosts.filter((post) => !post.personal);
 		margin: 0 auto;
 		max-width: var(--lg-container, 960px);
 		/* padding: var(--container-padding, 1rem); */
+	}
+
+	.slider-container {
+		max-width: var(--lg-container, 960px);
+		overflow: hidden;
+	}
+
+	.slider-hiding-el-left,
+	.slider-hiding-el-right {
+		pointer-events: none;
+		width: 12rem;
+		height: 4rem;
+		position: relative;
+		z-index: 2;
+	}
+
+	.slider-hiding-el-right {
+		background: linear-gradient(to left, #141414, #141414 70%, transparent);
+		margin-top: -64px;
+		float: right;
+	}
+
+	.slider-hiding-el-left {
+		background: linear-gradient(to right, #141414, #141414 70%, transparent);
+		float: left;
 	}
 
 	@media (max-width: 768px) {

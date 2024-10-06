@@ -3,7 +3,6 @@ import React, { useEffect, useRef, useState } from "react";
 import "./slider.css";
 
 interface SliderProps {
-    images: string[];
     categories: string[];
     initialXOffset?: number;
     slideTimer?: number;
@@ -14,7 +13,7 @@ interface SliderState {
     xTransition: number;
 }
 
-export const Slider: React.FC<SliderProps> = ({ images, categories, initialXOffset = 0, slideTimer = 10_000 }) => {
+export const Slider: React.FC<SliderProps> = ({ categories, initialXOffset = 0, slideTimer = 10_000 }) => {
     const [sliderState, setSliderState] = useState<SliderState>({
         currentCategory: categories[0],
         xTransition: initialXOffset,
