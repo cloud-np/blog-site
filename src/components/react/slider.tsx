@@ -49,7 +49,6 @@ export const Slider: React.FC<SliderProps> = ({ categories, initialXOffset = 0, 
                 ...prevSliderState,
                 xTransition: newX,
                 currentCategory: destinationCategory,
-                isDragging: false
             })
         );
     };
