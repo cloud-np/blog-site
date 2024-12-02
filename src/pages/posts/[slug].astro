@@ -24,7 +24,6 @@ export async function getStaticPaths() {
 
     // map through the categories array
     return allCategoriesData.map((category) => {
-        console.log(category);
         return {
         params: { slug: category.slug },
         props: {

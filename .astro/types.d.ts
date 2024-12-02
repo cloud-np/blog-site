@@ -192,6 +192,13 @@ declare module 'astro:content' {
   collection: "blog";
   data: InferEntrySchema<"blog">
 } & { render(): Render[".mdx"] };
+"async-angular-signals.mdx": {
+	id: "async-angular-signals.mdx";
+  slug: "async-angular-signals";
+  body: string;
+  collection: "blog";
+  data: InferEntrySchema<"blog">
+} & { render(): Render[".mdx"] };
 "git-bisect.mdx": {
 	id: "git-bisect.mdx";
   slug: "git-bisect";
