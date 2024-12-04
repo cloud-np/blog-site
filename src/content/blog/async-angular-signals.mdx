@@ -1,5 +1,5 @@
 ---
-title: Asynchronous operations with signals. 
+title: Asynchronous operations with (Angular) signals. 
 previewImage: "../../assets/images/async-ang-signals.png"
 titleImage: "../../assets/images/async-ang-signals.png"
 publishedAt: "2024-12-02"
@@ -13,31 +13,27 @@ import { Image } from "astro:assets";
 import carniatoWebComponents from "../../assets/async-angular-signals/carniato-web-components.png";
 import richHarrisWebComponents from "../../assets/async-angular-signals/rich-harris-web-components.png";
 import htmxLogo from "../../assets/async-angular-signals/htmx-logo.png";
-import defaultCd from "../../assets/angular-signals/default_cd.svg";
-import onPushCd from "../../assets/angular-signals/on_push_cd.svg";
-import signalsCd from "../../assets/angular-signals/on_push_signals_cd.svg";
-import butTheresMore from "../../assets/angular-signals/but-theres-more.webp";
 
 
-### Reflections on the Frontend Ecosystem
+### The Frontend Ecosystem lately
 
 The world of frontend development is always buzzing with new ideas, tools, and frameworks. It's like a giant playground where everyone’s trying out cool new toys.
 But slowly over the past years, something surprising has been happening: the authors behind these frameworks are starting to agree on some key ideas. Shocking, right?
 
-For example: 
-* -- Components Everywhere
+For example many agree on:
+* -- Server-side rendering (SSR) is a must
+
+Many frameworks keep pushing the boundaries of what is possible with SSR. And since it boosts performance and SEO, it’s become the “must-have” feature.
+
+* -- Components over templating
 
 It’s all about components now! Forget templating, component based architecture is the new standard. Almost everyone’s on board. (Okay, maybe not everyone, but close enough. <Image src={htmxLogo} alt="htmx logo" style={"width: 35px;display: inline;margin: 0;"} />)
-
-* -- Server-side rendering (SSR)
-
-Many frameworks keep pushing the boundaries of what is possible with SSR. And with its boosts to performance and SEO, it’s become the “must-have” feature.
 
 * -- Web Components Are… Not Fun?
 
 Let’s just say web components haven’t won the popularity contest. Most devs agree they’re tricky to use, so you’d better have a pretty convincing reason to pick them over regular frameworks.
 
-<div style={"display: flex;gap: 5px;justify-content: space-between"}>
+<div class="flex gap-5 justify-between">
     <a href="https://dev.to/ryansolid/web-components-are-not-the-future-48bh">
         <Image src={carniatoWebComponents} alt="carniato web components blog post" style={"width: 320px;"} />
     </a>
@@ -46,283 +42,286 @@ Let’s just say web components haven’t won the popularity contest. Most devs 
     </a>
 </div>
 
-### Signals for reactivity!
+* -- Signals everywhere
 
-Angular also evolved, and with Angular v16 last May, three new reactive primitives were introduced in developers preview. The three new primitives where:
-    1. -- Writeable Signals
-```typescript title="signals.ts"
-const count: Writeable<number> = signal(1);
-console.log(count());  // 1
+Signals ha’ve taken the community by storm, and for good reason!
+Like I mentioned in a <a class="underline" href="/blog/angular-signals" target="_blank">previous post</a> signals are becoming the new "must-have feature". <a class="underline" href="https://x.com/ryancarniato" target="_blank">Ryan Carniato</a>
+popularized the idea of them through <a class="underline" href="https://www.solidjs.com/" target="_blank">SolidJS</a>. Soon after many frameworks followed like Svelte5, Angular, Vue, Preact, Qwik.
+
+### Why do we need signals?
+The short answer is: we don't. Just like we don't need a Virtual DOM, component-based architectures, or even an SPA framework to deliver a better UX.
+What signals offer is a fresh perspective: simplicity, readability, ease of use, and direct dependency tracking.
+They allow you to reduce complexity and manage reactivity in a more intuitive, straightforward way, and all of this natively!
+
+### Understanding signals.
+Using the actual definition of signals from <a class="underline" href="https://angular.dev/" target="_blank">Angular</a>
+in particular *(although the underlying concept should be the same for the rest)* we get:
+
+![signals definition](../../assets/async-angular-signals/signals-definition.png)
+
+The key takeaways from the above is that signals:
+* -- Help the framework to **optimize** rendering updates.
+
+Signals ensure that whenever you access their values, **you always** get the latest values. Moreover `computed` signals
+are **lazily evaluated**. This also guarantees glitch-free UI synchronization.
+* -- **Granularly** track our state.
+
+Signals operate at a fine-grained level, allowing you for more precise control over updates and reactivity.
+
+#### All signals operations are synchronous!
+Updating a signal happens synchronously, and any `computed` signal dependent on it will immediately reflect the change.
+Watchers are also notified synchronously as well.
+
+<Note title="Note">
+    The `effect`'s primitives that many frameworks provide us by wrapping these watchers, allows the framework to control when they execute.
+    This means that effects are **always asynchronous**, as their execution is scheduled rather than immediate.
+</Note>
+
+### Leveraging signals for asynchronous operations.
+![async signals](../../assets/async-angular-signals/async-flow.png)
+Since we've established that all signal operations are synchronous, how can we leverage their benefits for asynchronous operations?
+There are some approaches and some best practices when using signals for that.
+
+So we will see a small demo of an app and try to replicate it with different approaches and explain why some of them preferable and some are not.
+
+#### Demo App
+Our objective is to implement a lightweight asynchronous feature: fetching the astronomy picture of the day from NASA's API for a specified date.
+When the date changes, it should trigger a new fetch, and any ongoing requests should be canceled to handle updates efficiently.
+![demo nasa app](../../assets/async-angular-signals/nasa-demo.gif)
+<a href="https://api.nasa.gov/planetary/apod?api_key=API_KEY&date=${date}&concept_tags=True" target="_blank" class="subtitle text-xs">*NASA's endpoint*</a>
+
+### Rxjs focused approach
+First, let's explore a more traditional RxJS-focused approach. By using a `Subject` combined with `switchMap`, we can initiate and cancel ongoing requests efficiently.
+
+```typescript title="traditional-rxjs.ts"
+dateSubject = new BehaviorSubject<Date | undefined>(undefined);
+pictureOfTheDayService = inject(PictureOfTheDayService);
+
+pictureOfTheDay = signal<PictureOfTheDay | undefined>(undefined);
+
+constructor() {
+    // I prefer to use a subject over `toObservable` because
+    // the latter is using an `effect` underneath.
+    this.dateSubject.pipe(
+        switchMap(date => this.pictureOfTheDayService.get(date)),
+        takeUntilDestroyed()
+    ).subscribe(pictureData => this.pictureOfTheDay.set(pictureData))
+    // Using only signals to synchronize UI with component state--^
+}
 ```
-    2. -- Computed
-```typescript title="signals.ts"
-const count = signal(1);
+There couple things we can note here. Not only we take advantage of powerful RxJS operators but the
+key benefit here is that we maintain a unidirectional state pattern by seting our state at the end of our asynchronous flow. 
+This means we have a signle state of truth that always remains immutable and only then we ensure UI consistency as well by leveraging the
+power of signals to seamlessly synchronize the UI.
 
-const doubleCount = computed(() => count() * 2);
-console.log(doubleCount());  // 2
+However we have a small drawback here, we need to break our declarative paradigm since we need to `subscribe`, imperativly set our data, and
+handle the subscription itself.
+
+### Naive signals approach
+In this case, our date signal triggers the effect, and inside the effect, we store the data using again the pictureOfTheDay signal.
+```typescript title="naive-signals.ts"
+date = model<Date>();
+pictureOfTheDayService = inject(PictureOfTheDayService);
+
+pictureOfTheDay = signal<PictureOfTheDay | undefined>(undefined);
+
+fetchPicture = effect(async () => {
+    const pictureData = await this.pictureOfTheDayService.getAsPromise(this.date());
+    this.pictureOfTheDay.set(pictureData); // I'm the trigger of this flow ---^ 
+}, { allowSignalWrites: true }); // Not longer needed after Angular19
 ```
-    3. -- Effects
-```typescript title="signals.ts"
-const count = signal(1);
+But our example above lacks the functionality of a `switchMap` like before.
+Also we are setting a signal within an `effect` block.
 
-effect(() =>
-    console.log("Count's new value is: ", count());  // Count's new value is: 1
-);
+#### Seting a signal within an effect.
+Seting a signal within an effect can create couple issues. Depending on the implementation
+it can create "glitches" since it is scheduled by the framework and the timing of some operations may not
+be so intuitive at first *(will elaborate later)*, also it could produce an infinite loop:
+```typescript title="infinite-fun.ts" {5}
+myNum = signal<number>(0);
+
+myDeadlyCycle = effect(() => {
+    console.log("My number is: ", this.myNum()); // I'm a depedancy of this effect
+    this.myNum.update(num => ++num); // I'm triggering my dependants 
+});
 ```
-These primitives represents Angulars ongoing commitment to provide a better developer experience.
-Just by reading the code we can tell that signals have a clear intent. They seem intuitive (spoiler most of the time they are)
-and they are quite readable.
+If you cannot avoid the above pattern for whatever reason you could utilize the `untracked` API provided
+by the Angular team.
+```typescript title="end-infinite-fun.ts :("
+myNum = signal<number>(0);
 
-### But... what are Angular Signals?
-Well let's see what the Angular docs have to say:
+myNotSoDeadlyCycle = effect(() => {
+    untracked(() => {
+        console.log("My number is: ", this.myNum()); // I'm NO longer a depedancy of this effect
+    })
+    this.myNum.update(num => ++num); // I'm triggering my dependants 
+});
+```
+And while we could utilize `untracked` to make our previous example more readable and have more depedancy control,
+we would still lack the `switchMap` behavior.
 
-![angular-docs-signals](../../assets/angular-signals/angular-docs-signals.png)
+### Use of third party libs
+We bridge this gap between our signals and Rxjs we could utilize third party libraries like: `ngxtension`.
+From that we could use `derivedAsync` API which brings the best of both worlds:
+```typescript title="ngxtension-derived-async.ts"
+date = model<Date>();
+pictureOfTheDayService = inject(PictureOfTheDayService);
 
-Well.. lets break this down a bit with an example here:
-![fullname-code-signals-example](../../assets/angular-signals/full-name-code.gif)
-Here Signals have a clear intent. Demonstrated by how the `fullName` signal instantly reacts by getting
-recomputed every time the `firstName` signal is updated. By that we can derive that signals are indeed:
-    * -- *"A system that allows us to track how our application state is used"*. 
+pictureOfTheDay: Signal<PictureOfTheDay | undefined> =
+    derivedAsync(
+        () => this.pictureOfTheDayService.get(this.date()),
+        { behavior: 'switch' } // this is the default behavior if not provided
+    );
+```
+Here `derivedAsync` makes the asynchronous call, provides us with back a `Signal` type, and it also manages to use the 
+Rxjs operators. How does it achieve all of this?
 
-However, there's a key concept to highlight here that we have mentioned yet: the term `granularly`.
+Well if we check parts of its source code:
+```typescript title="derived-async.ts"
+...
+assertInjector(derivedAsync, options?.injector, () => {
+    ...
+    effect(() => {
+        // we need to have an untracked() here because we don't want to register the sourceValue as a dependency
+        // otherwise, we would have an infinite loop.
+        // this is needed for previousValue feature to work
+        const currentValue = untracked(() => {
+            const currentSourceValue = sourceValue();
+            return currentSourceValue.kind === StateKind.Value
+                ? currentSourceValue.value
+                : undefined;
+        });
 
-### Granular updates and fine-grained reactivity.
+        ...
 
-To get a better idea what Angular docs are reffering to when they say `granularly`, lets see how 
-Angular's Change Detection is currently working in Angular.
+        untracked(() => {
+            sourceEvent$.next(
+                isObservable(newSource) || isPromise(newSource)
+                    ? newSource
+                    : of(newSource as T),
+            );
+        });
+    });
+    ...
+}
+```
+<a href="https://github.com/ngxtension/ngxtension-platform/blob/main/libs/ngxtension/derived-async/src/derived-async.ts#L197" target="_blank" class="subtitle text-xs">
+    *Source code of `derivedAsync`*
+</a>
 
-#### 1. Angular's Default Change Detection
+We notice the following:
+* -- Uses the `effect` block to schedule the asynchronous operation.
 
-By default Angular's change detection utilizies a library called [Zone.js](https://www.npmjs.com/package/zone.js?activeTab=readme)
-which [monkey patches](https://en.wikipedia.org/wiki/Monkey_patch) asynchronous operations like UI Events, Promises and timeouts.
-With that Zone.js informs Angular that something may have changed inside of one of the components. But it doesn't pintpoint that
-leaving Angular guessing where the change may have occurred.
+* -- Forces the user to run the `effect` inside an injector context.
 
-This meens that Angular has to reside to Change Detection Mechanism called "dirty checking", which means that Angular has to check
-all data bound properties of a component to compare the changes since the last change detection cycle occurred.
-<Image src={defaultCd} style="width: 300px;" alt="default change detection in angular graph" />
-As we can see from the above graph as well Angular is checking the whole component tree to verify that the DOM is in sync with the data.
-Even though our change occurred in one of our components Angular doesn't know which one it is and to verify that everything is synchronized
-it has to check every single one of them. This change detection mechanism in complex applications, it hinders the performance dramatically,
-and to compensate with that Angular gives us another change detection strategy called `OnPush`.
+This is because the `effect` uses the `DestroyRef` service to `unsubcribe`.
+* -- Makes use of the `untracked` API to ensure to avoid an infinite loop.
+* -- Utilizes a Subject instead of a signal.
 
-#### 2. Change Detection Strategy **OnPush**
+This is happening for two reasons. First of all it uses `pipe()` into the Rxjs operators,
+and most imporantly (although not the case here) its to ensure that all the events will be **eagerly propageted** to the system.
 
-OnPush basically checks only if the input properties of a component have changed (`@Input()`) since the last change detection cycle and if we manually trigger 
-change detection, like this:
+### Native solution.
+Thankfully now with <a href="https://blog.angular.dev/meet-angular-v19-7b29dfd05b84" class="underline" target="_blank">Angular19</a> we do not need to use **any** external
+library to achieve this behavior not even Rxjs! Especially for newcomers I think this is a great selling point.
+#### Resources object.
+With <a href="https://blog.angular.dev/meet-angular-v19-7b29dfd05b84" class="underline" target="_blank">Angular19</a> we also get the `resources()` API.
+Which although still experimental its proven very promising.
+```typescript title="resources.ts"
+date = model<Date>();
+pictureOfTheDayService = inject(PictureOfTheDayService);
 
-```typescript title="onpush.component.ts" {12}
-@Component({
-    selector: 'app-onpush',
-    template: `<!-- our template -->`,
-    changeDetection: ChangeDetectionStrategy.OnPush
+pictureOfTheDayResource = resources({
+    request: this.date, // when I change I trigger the callback below.
+    loader: async ({ request: date }) => // this callback runs inside an effect!
+        await this.pictureOfTheDayService.getAsPromise(
+            date
+        ),
 })
-export class OnpushComponent {
-    cdr = inject(ChangeDetectionRef);
+```
+With this approach all we need to do is pass a callback to the `loader` property and also give it the `request` property which
+basically tells the resource object to repond to changes from the provided signal.
+<Note title="Note">
+Not passing anything as a request and simple calling the signal in the callback, is also useful and can be used to fetch **once** the resource.
+```typescript title="resources-fetch-once.ts"
+    pictureOfTheDayResource = resources({
+        loader: async () => // I will run once
+            await this.pictureOfTheDayService.getAsPromise(
+                this.date() // I'm calling the actual signal now
+            ),
+    })
+```
+</Note>
 
-    someMethod() {
-        setTimeout(() => {
-            // ... code that changes the component state
-            this.cdr.markForCheck(); // Marks component as "dirty", to be checked.
-        }, 1000);
-    }
+Not only that but it will also cancel any on-going HTTP calls using an `AbortSignal`, so we can have the same functionality we had with a `switchMap` operator!
+
+Creating a resource object will provide us with other usefull signals as well:
+```typescript title="resource.ts"
+export interface Resource<T> {
+    readonly error: Signal<unknown>;
+    readonly isLoading: Signal<boolean>;
+    readonly status: Signal<ResourceStatus>;
+    readonly value: Signal<T | undefined>;
+    ...
 }
 ```
-The above example marks the component as "dirty" after one second when we invoke the `someMethod` function. This means
-that the next time Angular will run a Change Detection cycle it will also check that specific component for any changes.
-<Image src={onPushCd} style="width: 300px;" alt="onpush change detection strategy in angular graph" />
-From the graph we can tell that now we have reduced the scope of the change detection cycle, but we also reduce the frequency
-as well. This can improve performance significally and we have much more control over what is being rendered and when.
-But.. there is a drawback. Now this becomes the responsibility of the developer to know exactly when the data is in sync with the UI
-which makes the learning curve of Angular even more steep.
+### Linking signals.
+Lets try now to expand our app by adding a gallery for favorite days. With this feature, you can save specific days to local storage and later view them,
+along with their descriptions, without needing to fetch them again.
 
-#### 3. Change Detection with Signals 
-With the integration of signals, Angular's change detection becomes even more efficient, targeting updates with precision.
-Change detection now is scoped to the components directly affected by the changes. This means that when a signal is updated
-Angular is equipped to identify the exact location and component that required UI synchronization.
-```html title="signals.component.html" {3}
-<div> ... </div>
+![demo nasa app bug](../../assets/async-angular-signals/gallery-select-bug.gif)
 
-<div>{{ count() }}</div> <!-- Only this part of the DOM gets updated. -->
+So our feature is working great, except from the fact that when we update our `date()` signal **after** we have selected a picture from our
+gallery doesn't seem to show our newly fetched picture.
 
-<div> ... </div>
-```
-This selective rendering ensures that only the necessary parts of the UI are getting updated.
-
-The change detection still happens at the component level.
-<Image src={signalsCd} style="width: 300px;" alt="signals change detection in angular graph" />
-
-But Angular optimizes this process to update only the necessary parts of the DOM. In other words
-we **granularly** update ONLY the parts of the DOM that needs to be udpated.
-
-Not only that but signals opens us the door for a zoneless future as well.
-Now we can build using a signal based reactivity model. This model does not rely on Zone.js
-for change detection. Instead, it uses signals to explicitly notify the Angular framework 
-when the model changes. There will still be backward compatibility with Zone.js but making it optional
-is another step to the right direction.
-
-### The true power of signals.
-<Image src={butTheresMore} style="width: 500px;" alt="but theres more meme" />
-The other reasons that signals are so welcomed by the community are the following:
-    * -- Simplicity & ease of use 
-    * -- Readability
-    * -- Direct depedency tracking
-
-```typescript title="signals.component.ts"
-firstName = signal("Bob");
-lastName = signal("Smith");
-
-fullName = computed(() => `${this.firstName()} ${this.lastName()}`);
-
-isFullNmaeLengthy = computed(() => this.fullName().length > 10);
-```
-As we can see by the example as well signals have a clear intent. They directly
-represent the values and their changes, making the flow of data more transparent
-and overall easier to follow. Moreover with signals its easier to see and understand
-how values depend on each other, as we explicity define the depedencies in the computed
-properties:
-```typescript
-fullName = computed(() => `${this.firstName()} ${this.lastName()}`);
-```
-I also didn't need to handle a subscription to access my value, and all the depedencies
-were automatically tracked and updated for me with efficiently.
-
-But most imporantly I didn't have to be an Rxjs wisard to start implementing reactivity
-to my Angular application... and actually I don't even to know anything regarding RxJs
-or its operators to have reactivity. I believe this fact to be a great selling point
-especially for newcomers that may feel intimidated learning Angular and its declerative
-paradigm because of its learning curve and complexity.
-
-### The Diamond problem
-
-Signals helps us solve another issue named: *The Diamond problem*.
-To understand The Diamond problem lets first look a signal implementation:
-
-#### 1. Signals
-```typescript title="signals.ts"
-firstName = signal("Bob");
-lastName = signal("Smith");
-
-fullName = computed(() => `${this.firstName()} ${this.lastName()}`);
-
-updateFullName() {
-    this.firstName.set("John");
-    this.lastName.set("Smith");
+If we check our implementation it makes sense since in our template:
+```html title="aod.html"
+<!-- We always try to render the selectedPicture() if it exists -->
+@if (selectedPicture()); as selectedPicture) {
+    <app-picture-of-the-day (saveClick)="onSave($event)">
+    </app-picture-of-the-day>
+} @else if (pictureOfTheDayResource.value()) {
+    <app-picture-of-the-day (saveClick)="onSave($event)">
+    </app-picture-of-the-day>
 }
 ```
-In the above example when we initially load the component `fullName` will hold the value
-'Bob Smith' then when we trigger the `updateFullname` function the value will be re-computed
-to 'John Lee'.
+Well one obvious solution to our issue it would be to maybe reset our `selectedPicture` when our `date` changes.
+```typescript title="avoid-this-effect-use.ts"
+resetEffect = effect(() => {
+    this.date(); // trigger the callback
 
-#### 2. RxJs
-With RxJs is not that simple. There couple things we have to keep in mind. First of all
-we are dealing with `Observables` which means that inpput streams could not hold a value.
-Additionally we also need to keep in mind that `combineLatest` operator will emit a value
-only when all the input streams have at least one value. But most imporstantly when we
-invoke `updateFullName` function because we push to `firstName$` observable first we `combineLatest`
-will emit a the new value for `firstName$` but it will emit all the previous values from the rest
-of the streams. Then shortly after it will emit again the updated values for both of the Observables.
-This means for a very short amount of time we have a transient state were the data is not synchronized
-with the UI and the emition is not correct. Here is a demonstration to make this clearer:
-
-![the diamond problem](../../assets/angular-signals/diamond-problem.gif)
-
-### No silver bullet.
-In programming, no single solution fits all scenarios, a principle that applies when comparing signals
-with RxJS. Signals offer a more accessible syntax and operation for simpler synchronization tasks but fall
-short in handling asynchronous reactivity. RxJS, with its comprehensive suite of operators like `debounceTime`,
-`distinctUntilChanged`, and others, excels in managing complex asynchronous data streams.
-
-To illustrate how signals lag in this aspect, let's examine implementations of a search functionality using both RxJS and signals.
-```typescript title="rxjs.ts"
-http = inject(HttpClient);
-firstName$ = new Subject<string>();
-
-// The users$ observable will listen to the firstName$ changes.
-users$ = this.firstName$.pipe(
-    debounceTime(200),
-    distinctUntilChanged(),
-    switchMap((firstName) =>
-        this.http.get<User[]>(`${BASE_URL}/users?firstName=${firstName}`)
-    )
-);
-
-search(event: Event) {
-    const value = (event.target as HTMLInputElement).value;
-    this.firstName$.next(value);
-}
+    this.selectedPicture.set(undefined);
+})
 ```
-RxJS operators showcase their power and directness through high-level abstractions and the 
-capability to handle complex operations. Specifically, the switchMap operator stands out by
-canceling previous subscriptions and emitting only the latest values. Attempting to replicate
-this behavior with signals presents an interesting challenge:
-```typescript title="signals.ts"
+And while the above works for our usecase, its a bad idea because like we mentioned already `effect`'s are scheduled
+which means that we have sometime between our `date` signal being set and our actual `effect` being scheduled to run.
+This can create glitches to the user, if not careful enough.
 
-http = inject(HttpClient);
-lastSearch = ''; // Track the last search term to mimic `distinctUntilChanged`.
-searchTimeout: any = null; // For debouncing
-
-users: User[] = []; // This will store the fetched users
-
-// Mimicking `debounceTime` and `distinctUntilChanged`
-search(event: Event) {
-    const value = (event.target as HTMLInputElement).value;
-    if (value === this.lastSearch) return; // mimic `distinctUntilChanged`
-    this.lastSearch = value;
-
-    if (this.searchTimeout) clearTimeout(this.searchTimeout); // Clear previous debounce timer
-
-    this.searchTimeout = setTimeout(() => {
-        this.fetchUsers(value);
-    }, 200); // Debounce time of 200ms
-}
-
-fetchUsers(firstName: string) {
-    this.http.get<User[]>(`${BASE_URL}/users?firstName=${firstName}`).subscribe((users) => {
-        this.users = users;
-    });
-}
+What would you do instead is this:
+```typescript title="reactivly-linking-signals.ts"
+state = computed(() => ({
+    date: this.date(),
+    selectedPicture: signal<PictureOfTheDay | undefined>(undefined)
+}));
 ```
-Attempting to replicate RxJS operators with signals proves challenging, affects readability, and
-importantly, deviates from the declarative paradigm, leading to excessive imperative coding for
-similar results. 
+we could shift our perspective and initialize a completely new signal directly when we receive a new value. This way, we eliminate
+the need for resetting and ensure the signal is updated reactively and consistently.
 
-Additionally, this approach risks creating race conditions due to varying server responses and the
-lack of mechanisms for canceling previous subscriptions, a feature `switchMap` efficiently manages.
-```typescript {2}
-fetchUsers() {
-    this.http.get<User[]>(`${BASE_URL}/users?firstName=${firstName}`).subscribe((users) => {
-        this.users = users;
-    });
-}
+Alternativly you could use a new experimental API called `linkedSignal`:
+```typescript title="linked-signals.ts"
+selectedPicture: WritableSignal<PictureOfTheDay | undefined> = linkedSignal({
+    source: this.date,
+    computation: () => undefined
+});
 ```
 
-### RxJs + Signals
-
-The optimal strategy involves using RxJS and signals in tandem, aligning with the Angular team's recommended approach.
-```typescript title="rxjs-signals.ts"
-http = inject(HttpClient);
-#search = signal<string>('');
-users$ = toObservable(this.#search).pipe(
-    debounceTime(200),
-    distinctUntilChanged(),
-    switchMap((firstName) =>
-        this.http.get<User[]>(`${BASE_URL}/users?firstname_like=${firstName}`
-    )
-));
-
-users = toSignal(this.users$);
-
-search(event: Event) {
-    const value = (event.target as HTMLInputElement).value;
-    this.#search.set(value);
-}
-```
-The Angular team provides two functions for this integration: `toObservable`, which converts a signal into
-an Observable, and `toSignal`, which transforms an Observable into a signal.
-
-#### Why use them together?
-Combining them harnesses the strengths of both methods. RxJS shines in managing asynchronous operations with
-its sophisticated abstractions for events, HTTP requests, and timers. Signals, on the other hand, excel in simpler
-tasks, enhancing state management's simplicity and readability without the complexity of RxJS observables. Integrating
-them improves performance, readability, and scalability, overall leading to the development of more robust applications.
+### ✨ TLDR ✨
+In conclusion its worth keeping in mind the following:
+* -- ✅ Use signals if it alleviates complexity.
+* -- ✅ Use signals for UI synchronization. 
+* -- ❌ Avoid signals for very complex asynchronous operations. (case dependant ofc)
+* -- 👉 Signals when accessed are always providing the latest value. 
+* -- 👉  `computed` signals are lazily evaluated.
+* -- 👉 Effects are primitive wrappers of `watchers` signals.
+* -- 👉 Effects are always asynchronous and framework dependant.
+* -- ❌ Do NOT use `effect` to synchronize the state or other signals.
