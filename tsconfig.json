@@ -5,5 +5,12 @@
     "experimentalDecorators": true,
     "useDefineForClassFields": false,
     "jsx": "react-jsx",
+    "baseUrl": ".",
+    "paths": {
+      "@styles/*": ["src/styles/*"],
+      "@components/*": ["src/components/*"],
+      "@layouts/*": ["src/layouts/*"],
+      // "@fonts/*": ["src/styles/*"]
+    }
   }
 }

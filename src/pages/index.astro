@@ -1,5 +1,5 @@
 ---
-import Layout from "../layouts/Page.astro";
+import PageLayout from "../layouts/PageLayout.astro";
 import BlogPostsList from "../components/post/BlogPostsList.astro";
 import { getPosts } from "../libs/post";
 import Reveal from "../components/Reveal.astro";
@@ -27,14 +27,14 @@ import { Slider } from "../components/react/slider";
 
 const seo = {
 	title: "cloud-np",
-	description: "A simple blog focused on provided the best",
+	description: "A programming focused blog.",
 };
 
 const allPosts = await getPosts(undefined);
 const posts = allPosts.filter((post) => !post.personal);
 ---
 
-<Layout seo={seo}>
+<PageLayout seo={seo}>
 	<!-- <Reveal /> -->
 	<SceneController />
 	<div class="container flex flex-col">

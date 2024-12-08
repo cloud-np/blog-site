@@ -1,7 +1,7 @@
 ---
-import Layout from '../../../layouts/Page.astro';
-import Container from '../../../components/containers/Container.astro';
-import BlogPostsList from '../../../components/post/BlogPostsList.astro';
+import PageLayout from '@layouts/PageLayout.astro';
+import Container from '@components/containers/Container.astro';
+import BlogPostsList from '@components/post/BlogPostsList.astro';
 
 import { Helpers } from '../../../utils/helpers.ts';
 import { getPosts, type Post } from '../../../libs/post';
@@ -42,14 +42,14 @@ export async function getStaticPaths() {
 const { category, posts } = Astro.props;
 ---
 
-<Layout>
+<PageLayout>
 	<Container>
 		<div class="home-hero-text__container">
 			<h1>{category} Posts</h1>
 		</div>
 		<BlogPostsList posts={posts} />
 	</Container>
-</Layout>
+</PageLayout>
 
 <style>
 	.home-hero-text__container {

@@ -2,35 +2,35 @@
 /* TODO: Move these elsewere */
 @font-face {
 	font-family: 'JakartaSans';
-	src: url('./src/assets/fonts/PlusJakartaSans-Light.ttf') format('truetype');
+	src: url('/fonts/PlusJakartaSans-Light.ttf') format('truetype');
 	font-weight: 300;
 	font-style: normal;
 }
 
 @font-face {
 	font-family: 'JakartaSans';
-	src: url('./src/assets/fonts/PlusJakartaSans-Regular.ttf') format('truetype');
+	src: url('/fonts/PlusJakartaSans-Regular.ttf') format('truetype');
 	font-weight: 400;
 	font-style: normal;
 }
 
 @font-face {
 	font-family: 'JakartaSans';
-	src: url('./src/assets/fonts/PlusJakartaSans-Medium.ttf') format('truetype');
+	src: url('/fonts/PlusJakartaSans-Medium.ttf') format('truetype');
 	font-weight: 500;
 	font-style: normal;
 }
 
 @font-face {
 	font-family: 'JakartaSans';
-	src: url('./src/assets/fonts/PlusJakartaSans-SemiBold.ttf') format('truetype');
+	src: url('/fonts/PlusJakartaSans-SemiBold.ttf') format('truetype');
 	font-weight: 600;
 	font-style: normal;
 }
 
 @font-face {
 	font-family: 'JakartaSans';
-	src: url('./src/assets/fonts/PlusJakartaSans-Bold.ttf') format('truetype');
+	src: url('/fonts/PlusJakartaSans-Bold.ttf') format('truetype');
 	font-weight: 700;
 	font-style: normal;
 }
@@ -65,7 +65,6 @@
 	--step-5: clamp(2.80rem, calc(2.11rem + 3.47vw), 4.58rem);
 
 	--f-fallback: ui-sans-serif, system-ui, -apple-system, sans-serif;
-	/* --f-sans: 'Open Sans', var(--f-fallback); */
 	--f-sans: JakartaSans, var(--f-fallback);
 	--f-mono: 'Inter', var(--f-fallback);
 

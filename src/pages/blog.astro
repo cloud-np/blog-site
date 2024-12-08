@@ -1,7 +1,7 @@
 ---
-import Layout from "../layouts/Page.astro";
-import Container from '../components/containers/Container.astro';
-import BlogPostsList from "../components/post/BlogPostsList.astro";
+import PageLayout from "@layouts/PageLayout.astro";
+import Container from '@components/containers/Container.astro';
+import BlogPostsList from "@components/post/BlogPostsList.astro";
 import { getPosts } from "../libs/post";
 
 const allPosts = await getPosts(undefined);
@@ -20,9 +20,9 @@ const seo = {
     }
 </style>
 
-<Layout seo={seo}>
+<PageLayout seo={seo}>
     <Container>
         <h1>Blog</h1>
         <BlogPostsList posts={posts} />
     </Container>
-</Layout>
+</PageLayout>

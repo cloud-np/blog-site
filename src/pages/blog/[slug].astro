@@ -1,8 +1,8 @@
 ---
-import PageLayout from "../../layouts/Page.astro";
-import Container from "../../components/containers/Container.astro";
+import PostLayout from "@layouts/PostLayout.astro";
+import Container from "@components/containers/Container.astro";
 import { Helpers } from "../../utils/helpers";
-import SharePost from "../../components/post/SharePost.astro";
+import SharePost from "@components/post/SharePost.astro";
 import { Picture } from "astro:assets";
 import { getPosts, type Post } from "../../libs/post";
 
@@ -31,7 +31,7 @@ const seo = {
 };
 ---
 
-<PageLayout seo={seo}>
+<PostLayout seo={seo}>
 	<Container>
 		<article class="post-content__article">
 			<div class="post-content__top fade-in">
@@ -74,7 +74,7 @@ const seo = {
 		</article>
 		<SharePost postTitle={post.title} />
 	</Container>
-</PageLayout>
+</PostLayout>
 
 <style>
 	.post-content__top {

@@ -1,7 +1,7 @@
 ---
-import Layout from "../layouts/Page.astro";
-import Container from "../components/containers/Container.astro";
-import PortofolioPostsList from "../components/post/PortofolioPostsList.astro";
+import PageLayout from "@layouts/PageLayout.astro";
+import Container from "@components/containers/Container.astro";
+import PortofolioPostsList from "@components/post/PortofolioPostsList.astro";
 import { getPosts } from "../libs/post";
 
 const seo = {
@@ -28,7 +28,7 @@ const posts = allPosts.filter(post => !post.personal);
     }
 </style>
 
-<Layout seo={seo}>
+<PageLayout seo={seo}>
     <Container>
         <div class="home-hero-text__container">
             <div>
@@ -41,4 +41,4 @@ const posts = allPosts.filter(post => !post.personal);
             <PortofolioPostsList posts={posts}/>
         </div>
     </Container>
-</Layout>
+</PageLayout>

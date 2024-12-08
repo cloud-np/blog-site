@@ -5,9 +5,10 @@ export const shareSocials = [
 		icon: 'mdi:facebook',
 	},
 	{
-		name: 'Share to Twitter.',
-		url: 'https://twitter.com/share?url=[post-url]&text=[post-title]',
-		icon: 'mdi:twitter',
+		name: 'Share to X.',
+		url: 'https://x.com/share?url=[post-url]&text=[post-title]',
+		icon: 'mdi:twitter', // TODO: Still waiting for material design icons to update this
+							 // https://pictogrammers.com/library/mdi/
 	},
 	// {
 	//   name: 'Share to Pinterest.',
