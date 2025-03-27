@@ -1,0 +1,67 @@
+---
+title: Use wsl2 with corporate VPN
+previewImage: "../../assets/images/use-wsl2-with-corporate-vpn.png"
+titleImage: "../../assets/images/use-wsl2-with-corporate-vpn.png"
+publishedAt: "2025-03-25"
+category: 'DevOps'
+searchCategories: ['DevOps', 'Tooling', 'Fullstack']
+personal: false
+---
+
+### Taming DNS on wsl2 under a Corporate VPN 🦁
+Working under a corporate VPN can unleash DNS chaos for your underlying VMs/services. This is especially true with wsl2,
+leaving it (and us) confused how to resolve addresses when your DNS is pointing to corporate servers. Here's your rescue mission to restore DNS sanity:
+
+### The Problem
+When you connect to your corporate VPN, wsl2 tries to inherit Windows DNS configuration but often falls, leaving your Linux distro lost in the domain name wilderness.
+
+### The simple 4️⃣  step Solution
+#### 1. In Windows, open Command Prompt and run:
+```cmd
+ipconfig /all | findstr "DNS"
+```
+    Take note of these fields:
+    -- `DNS Suffix Search List` (e.g: `yourcompany.local`)
+
+    -- `DNS Servers` (could be either a IPv4 or IPv6 address)
+
+#### 2. In your wsl2 distro, edit the `/etc/resolv.conf` file:
+
+```bash
+# /etc/resolv.conf
+search yourcompany.local
+nameserver SOME_IPV4_OR_IPV6
+nameserver ANOTHER_ONE
+
+# Fallbacks for when corporate DNS might be unavailable
+nameserver 1.1.1.1  # Cloudflare DNS typically slightly faster than Google
+nameserver 8.8.8.8  # Google DNS
+nameserver 8.8.4.4  # Google's sidekick
+```
+
+#### 3. **Important** step, wsl2 loves to regenerate the above file on restart! To make sure we "foil" its
+plans we can specify to **not** regenerate it in a `/etc/wls.conf` file:
+
+```bash
+# /etc/wls.conf
+[network]
+generateResolvConf = false
+```
+
+#### 4. Then finally reboot your wsl2 manually through the cmd:
+```cmd
+wsl --shutdown
+```
+
+### Test your Wizardry 🧙‍♂️
+After applying these changes, you can test DNS resolution by running in bash:
+```bash
+nslookup internal-company-resource.yourcompany.local
+nslookup google.com
+
+# You can also ping if `nslookup` is not available for whatever reason
+ping internal-company-resource.yourcompany.local
+ping google.com
+```
+Both internal and external domains should now resolve correctly, **even when connected** to your corporate VPN. 🎉
+

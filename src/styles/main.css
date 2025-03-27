@@ -49,12 +49,9 @@
 
 	--c-selection: #00c3ff6b;
 	--c-blue-100: hsl(240, 19%, 84%);
-	/* Light Blue */
 
 	/* Typography */
 	/* @link https://utopia.fyi/type/calculator?c=320,18,1.2,1140,24,1.25,5,2,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l */
-
-
 	--step--2: clamp(0.78rem, calc(0.71rem + 0.35vw), 0.96rem);
 	--step--1: clamp(0.94rem, calc(0.84rem + 0.51vw), 1.20rem);
 	--step-0: clamp(1.13rem, calc(0.98rem + 0.73vw), 1.50rem);
@@ -161,7 +158,7 @@ h3 {
 }
 
 :not(pre)>code {
-	font-size: var(--step--2);
+	font-size: calc(1em * 0.85);
 	padding: 0.23rem;
 	border-radius: 0.5rem;
 	line-height: 1.5rem;
@@ -200,7 +197,7 @@ pre copy-code-button {
 	color:#e0f8ff6b;
 } */
 
-/* Gloal fade in animation */
+/* Global fade in animation */
 
 @media (prefers-reduced-motion: no-preference) {
 	.fade-in[data-state=visible] {

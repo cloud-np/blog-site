@@ -77,6 +77,7 @@ const seo = {
 </PostLayout>
 
 <style>
+
 	.post-content__top {
 		display: flex;
 		flex-direction: column;
@@ -140,6 +141,15 @@ const seo = {
 		line-height: 1.5; 
 		text-wrap: pretty;
 		word-break: auto-phrase;
+
+		/* This is to override the tailwind defaults
+		instead of changing the theme at least here its more explicit. */
+		ul {
+			@apply list-disc;
+		}
+		ol {
+			@apply list-decimal;
+		}
 	}
 
 	.post-content__content :global(.expressive-code) {
