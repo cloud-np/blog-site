@@ -35,17 +35,13 @@ const seo = {
 	<Container>
 		<article class="post-content__article">
 			<div class="post-content__top fade-in">
-				{
-					post.category && (
-						<p class="post-content__category">
-							<a
-								href={`/blog/category/${Helpers.slugify(post.category)}`}
-							>
-								{post.category}
-							</a>
-						</p>
-					)
-				}
+				{post.category && (
+					<p class="post-content__category">
+						<a href={`/blog/category/${Helpers.slugify(post.category)}`}>
+							{post.category}
+						</a>
+					</p>
+				)}
 				<h1 class="post-content__title">{post.title}</h1>
 				<p class="post-content__date">
 					<time>{Helpers.formatDate(post.publishedAt)}</time>
@@ -54,19 +50,17 @@ const seo = {
 					<span>{post.minutesRead} read</span>
 				</p>
 
-				{
-					post.titleImage && (
-						<Picture
-							src={post.titleImage}
-							alt={`Featured for ${post.title}`}
-							formats={["webp", "png"]}
-							class="post-content__img"
-							loading="eager"
-							width={post.titleImage.width}
-							height={post.titleImage.height}
-						/>
-					)
-				}
+				{post.titleImage && (
+					<Picture
+						src={post.titleImage}
+						alt={`Featured for ${post.title}`}
+						formats={["webp", "png"]}
+						class="post-content__img"
+						loading="eager"
+						width={post.titleImage.width}
+						height={post.titleImage.height}
+					/>
+				)}
 			</div>
 			<div class="post-content__content flow fade-in">
 				<Content />

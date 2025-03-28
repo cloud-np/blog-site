@@ -13,9 +13,9 @@ import { Image } from "astro:assets";
 import carniatoWebComponents from "../../assets/async-angular-signals/carniato-web-components.png";
 import richHarrisWebComponents from "../../assets/async-angular-signals/rich-harris-web-components.png";
 import htmxLogo from "../../assets/async-angular-signals/htmx-logo.png";
+import { H3, H4 } from "../../components/mdx/HeadingWithAnchor.tsx";
 
-
-### The Frontend Ecosystem lately
+<H3 title="The Frontend Ecosystem lately" />
 
 The world of frontend development is always buzzing with new ideas, tools, and frameworks. It's like a giant playground where everyone’s trying out cool new toys.
 But slowly over the past years, something surprising has been happening: the authors behind these frameworks are starting to agree on some key ideas. Shocking, right?
@@ -48,12 +48,12 @@ Signals ha’ve taken the community by storm, and for good reason!
 Like I mentioned in a <a class="underline" href="/blog/angular-signals" target="_blank">previous post</a> signals are becoming the new "must-have feature". <a class="underline" href="https://x.com/ryancarniato" target="_blank">Ryan Carniato</a>
 popularized the idea of them through <a class="underline" href="https://www.solidjs.com/" target="_blank">SolidJS</a>. Soon after many frameworks followed like Svelte5, Angular, Vue, Preact, Qwik.
 
-### Why do we need signals?
+<H3 title="Why do we need signals?" />
 The short answer is: we don't. Just like we don't need a Virtual DOM, component-based architectures, or even an SPA framework to deliver a better UX.
 What signals offer is a fresh perspective: simplicity, readability, ease of use, and direct dependency tracking.
 They allow you to reduce complexity and manage reactivity in a more intuitive, straightforward way, and all of this natively!
 
-### Understanding signals.
+<H3 title="Understanding signals." />
 Using the actual definition of signals from <a class="underline" href="https://angular.dev/" target="_blank">Angular</a>
 in particular *(although the underlying concept should be the same for the rest)* we get:
 
@@ -68,7 +68,7 @@ are **lazily evaluated**. This also guarantees glitch-free UI synchronization.
 
 Signals operate at a fine-grained level, allowing you for more precise control over updates and reactivity.
 
-#### All signals operations are synchronous!
+<H4 title="All signals operations are synchronous!" />
 Updating a signal happens synchronously, and any `computed` signal dependent on it will immediately reflect the change.
 Watchers are also notified synchronously as well.
 
@@ -77,20 +77,20 @@ Watchers are also notified synchronously as well.
     This means that effects are **always asynchronous**, as their execution is scheduled rather than immediate.
 </Note>
 
-### Leveraging signals for asynchronous operations.
+<H3 title="Leveraging signals for asynchronous operations." />
 ![async signals](../../assets/async-angular-signals/async-flow.png)
 Since we've established that all signal operations are synchronous, how can we leverage their benefits for asynchronous operations?
 There are some approaches and some best practices when using signals for that.
 
 So we will see a small demo of an app and try to replicate it with different approaches and explain why some of them preferable and some are not.
 
-#### Demo App
+<H4 title="Demo App" />
 Our objective is to implement a lightweight asynchronous feature: fetching the astronomy picture of the day from NASA's API for a specified date.
 When the date changes, it should trigger a new fetch, and any ongoing requests should be canceled to handle updates efficiently.
 ![demo nasa app](../../assets/async-angular-signals/nasa-demo.gif)
 <a href="https://api.nasa.gov/planetary/apod?api_key=API_KEY&date=${date}&concept_tags=True" target="_blank" class="subtitle text-xs">*NASA's endpoint*</a>
 
-### Rxjs focused approach
+<H3 title="Rxjs focused approach" />
 First, let's explore a more traditional RxJS-focused approach. By using a `Subject` combined with `switchMap`, we can initiate and cancel ongoing requests efficiently.
 
 ```typescript title="traditional-rxjs.ts"
@@ -117,7 +117,7 @@ power of signals to seamlessly synchronize the UI.
 However we have a small drawback here, we need to break our declarative paradigm since we need to `subscribe`, imperativly set our data, and
 handle the subscription itself.
 
-### Naive signals approach
+<H3 title="Naive signals approach" />
 In this case, our date signal triggers the effect, and inside the effect, we store the data using again the pictureOfTheDay signal.
 ```typescript title="naive-signals.ts"
 date = model<Date>();
@@ -133,7 +133,7 @@ fetchPicture = effect(async () => {
 But our example above lacks the functionality of a `switchMap` like before.
 Also we are setting a signal within an `effect` block.
 
-#### Seting a signal within an effect.
+<H4 title="Seting a signal within an effect." />
 Seting a signal within an effect can create couple issues. Depending on the implementation
 it can create "glitches" since it is scheduled by the framework and the timing of some operations may not
 be so intuitive at first *(will elaborate later)*, also it could produce an infinite loop:
@@ -160,7 +160,7 @@ myNotSoDeadlyCycle = effect(() => {
 And while we could utilize `untracked` to make our previous example more readable and have more depedancy control,
 we would still lack the `switchMap` behavior.
 
-### Use of third party libs
+<H3 title="Use of third party libs" />
 We bridge this gap between our signals and Rxjs we could utilize third party libraries like: `ngxtension`.
 From that we could use `derivedAsync` API which brings the best of both worlds:
 ```typescript title="ngxtension-derived-async.ts"
@@ -221,10 +221,10 @@ We notice the following:
 This is happening for two reasons. First of all it uses `pipe()` into the Rxjs operators,
 and most imporantly (although not the case here) its to ensure that all the events will be **eagerly propageted** to the system.
 
-### Native solution.
+<H3 title="Native solution." />
 Thankfully now with <a href="https://blog.angular.dev/meet-angular-v19-7b29dfd05b84" class="underline" target="_blank">Angular19</a> we do not need to use **any** external
 library to achieve this behavior not even Rxjs! Especially for newcomers I think this is a great selling point.
-#### Resources object.
+<H4 title="Resources object." />
 With <a href="https://blog.angular.dev/meet-angular-v19-7b29dfd05b84" class="underline" target="_blank">Angular19</a> we also get the `resources()` API.
 Which although still experimental its proven very promising.
 ```typescript title="resources.ts"
@@ -265,7 +265,7 @@ export interface Resource<T> {
     ...
 }
 ```
-### Linking signals.
+<H3 title="Linking signals." />
 Lets try now to expand our app by adding a gallery for favorite days. With this feature, you can save specific days to local storage and later view them,
 along with their descriptions, without needing to fetch them again.
 
@@ -315,7 +315,7 @@ selectedPicture: WritableSignal<PictureOfTheDay | undefined> = linkedSignal({
 });
 ```
 
-### ✨ TLDR ✨
+<H3 title="✨ TLDR ✨" />
 In conclusion its worth keeping in mind the following:
 * ✅ Use signals if it alleviates complexity.
 * ✅ Use signals for UI synchronization.

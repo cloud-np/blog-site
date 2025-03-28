@@ -6,53 +6,7 @@ import SocialList from "@components/ui/SocialList.astro";
 // import { ThemeToggleButton } from '../ThemeToggleButton/ThemeToggleButton';
 ---
 
-<script>
-	function init() {
-		const elementsThatNeedChange = [
-			document.getElementsByClassName("header__nav_links_container")[0],
-			document.getElementsByClassName("socials-container")[0],
-			// Theme toggle is disabled for now
-			// document.getElementsByClassName("theme-toggle-container")[0]
-		];
-
-		const toggleMobileClass = (el, isMobile) =>
-			isMobile
-				? el.classList.add("mobile")
-				: el.classList.remove("mobile");
-
-		// We use 'function' to keep the context for this.
-		(document.getElementById("burger-check") as HTMLInputElement)?.addEventListener("change", function() {
-			this.checked
-				? elementsThatNeedChange.forEach((el) => toggleMobileClass(el, true))
-				: elementsThatNeedChange.forEach((el) => toggleMobileClass(el, false));
-		});
-	}
-
-	init();
-
-	// TODO: Investigate if we can avoid this 'hack'
-	// This is needed to refresh our script after page changes
-	// it could be related to ViewTransitions not sure yet..
-	// https://stackoverflow.com/questions/77278507/astro-javascript-is-not-working-on-page-change
-	document.addEventListener("astro:after-swap", init);
-</script>
-
-<!-- {showHeaderOnScroll 
-	&& 
-	<script>
-		function initShowHeaderOnScroll() {
-			const SHOW_HEADER_FROM_Y = 0;
-			const header = document.getElementById("nav-header");
-			if (header && document.body.scrollHeight > window.innerHeight) {
-				console.log("im here");
-				window.addEventListener("scroll", () => header.style.transform = `translateY(${window.scrollY > SHOW_HEADER_FROM_Y ? "0" : "-100%"})`)
-			}
-		}
-		document.addEventListener('DOMContentLoaded', initShowHeaderOnScroll);
-	</script>
-} -->
-
-<header id="nav-header" class=`z-10`>
+<header id="nav-header" class="z-10">
 	<Container>
 		<!-- <div class="circle"></div> -->
 		<nav>
@@ -83,7 +37,7 @@ import SocialList from "@components/ui/SocialList.astro";
 					</li>
 					<li>
 						<a class="header__link nonclickable" title="Navigate Demos">
-							Demos	
+							Demos
 						</a>
 					</li>
 					<li>
@@ -239,7 +193,7 @@ import SocialList from "@components/ui/SocialList.astro";
 	a {
 		text-decoration: none;
 		font-size: 1rem;
-		font-style: var(--font-family-heading);
+		font-style: var(--f-sans);
 	}
 
 	.header__logo {
@@ -354,3 +308,34 @@ import SocialList from "@components/ui/SocialList.astro";
 		transform: translate(12px, -3px) rotatez(45deg);
 	}
 </style>
+
+<script>
+	function init() {
+		const elementsThatNeedChange = [
+			document.getElementsByClassName("header__nav_links_container")[0],
+			document.getElementsByClassName("socials-container")[0],
+			// Theme toggle is disabled for now
+			// document.getElementsByClassName("theme-toggle-container")[0]
+		];
+
+		const toggleMobileClass = (el, isMobile) =>
+			isMobile
+				? el.classList.add("mobile")
+				: el.classList.remove("mobile");
+
+		// We use 'function' to keep the context for this.
+		(document.getElementById("burger-check") as HTMLInputElement)?.addEventListener("change", function() {
+			this.checked
+				? elementsThatNeedChange.forEach((el) => toggleMobileClass(el, true))
+				: elementsThatNeedChange.forEach((el) => toggleMobileClass(el, false));
+		});
+	}
+
+	init();
+
+	// TODO: Investigate if we can avoid this 'hack'
+	// This is needed to refresh our script after page changes
+	// it could be related to ViewTransitions not sure yet..
+	// https://stackoverflow.com/questions/77278507/astro-javascript-is-not-working-on-page-change
+	document.addEventListener("astro:after-swap", init);
+</script>

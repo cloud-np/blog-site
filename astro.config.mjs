@@ -4,26 +4,24 @@ import sitemap from "@astrojs/sitemap";
 import mdx from "@astrojs/mdx";
 import rehypeKatex from 'rehype-katex';
 import remarkMath from 'remark-math';
-import astroExpressiveCode, { ExpressiveCodeTheme } from 'astro-expressive-code';
+import astroExpressiveCode from 'astro-expressive-code';
 import qwikdev from "@qwikdev/astro";
 import tailwind from '@astrojs/tailwind';
 import react from '@astrojs/react';
-import fs from 'node:fs';
 import icon from "astro-icon";
-
-// Load your saved theme JSONC file here and create a theme from it
-const jsoncString = fs.readFileSync(new URL(`./dark-theme.jsonc`, import.meta.url), 'utf-8');
-const monokaiPro = ExpressiveCodeTheme.fromJSONString(jsoncString);
+import { getExpressiveCodeConfig } from "./config/astro-expressive-code.config.js";
 
 export default defineConfig({
 	site: settings.url,
-	integrations: [sitemap(), astroExpressiveCode({
-		themeCssSelector: theme => `[color-scheme='${theme.type}']`,
-		// themes: ['material-theme-darker', 'material-theme-lighter'],
-		themes: [monokaiPro, 'vitesse-light']
-		// themes: [monokaiPro, 'solarized-light'],
-		// useDarkModeMediaQuery: trueo
-	}), mdx(), tailwind(), icon(), qwikdev({ include: ['**/qwik/*']}), react({ include: ['**/react/*']})],
+	integrations: [
+		sitemap(),
+		astroExpressiveCode(getExpressiveCodeConfig()),
+		mdx(),
+		tailwind(),
+		icon(),
+		qwikdev({ include: ['**/qwik/*'] }),
+		react({ include: ['**/react/*'] })
+	],
 	vite: {
 		ssr: {
 			external: ["svgo"]

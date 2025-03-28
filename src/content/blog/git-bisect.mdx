@@ -13,6 +13,7 @@ import amazedFace from "../../assets/git-bisect/amazed-face.gif";
 import sadCat from "../../assets/git-bisect/sadcat.png";
 import Note from "../../components/ui/Note.astro";
 import { Image } from "astro:assets";
+import { H2, H3, H4 } from "../../components/mdx/HeadingWithAnchor.tsx";
 
 Recently at work, I encountered a couple of complex bugs with unclear origins,
 making it difficult to pinpoint exactly when they first appeared. In general
@@ -21,21 +22,21 @@ become increasingly challenging. Fortunately, Git provides a powerful tool calle
 `git bisect` that can help pinpoint the exact commit that introduced a bug.
 In this post, we'll see how to use git bisect effectively to save a lot of time and streamline your debugging process.
 
-## What is Git Bisect?
+<H2 title="What is Git Bisect?" />
 
 Git bisect is a binary search tool that helps you find the commit that introduced
 a bug in your project. By marking known "good" and "bad" commits, git bisect can
 automatically checkout commits between those points, allowing you to test each
 one until you locate the problematic change.
 
-### Example use
+<H3 title="Example use" />
 Let's consider a scenario where we travel back in time and our website used to look like this:
 
-#### Our good state
+<H4 title="Our good state" />
 ![the site working initially](../../assets/git-bisect/site-working.png)
 And let's assume that this state was back in some random commit with hash `e4824da`.
 
-#### All hell broke loose 
+<H4 title="All hell broke loose" />
 Some time passes by, more commits are coming in and everything is working. However after a while we notice that the site looks like this...
 ![the site that is now broken](../../assets/git-bisect/site-broken.png)
 
@@ -165,7 +166,7 @@ Let's check now our site again while on `master` branch:
 Nice! We got our styles back. However our title is still wrong... <Image src={sadCat} alt="sad cat" style={"width: 35px;display: inline;margin: 0;"} />
 <br/>
 
-### Automating git bisect
+<H3 title="Automating git bisect" />
 Let's try now to find the faulty commit again but this time make git do the check for us based on a "condition" we give it.
 ```sh
 > git bisect start
@@ -262,7 +263,7 @@ Finally let's again our site again:
 Nice! <Image src={hellYeah} alt="amazed face" style={"width: 35px;display: inline;margin: 0;"} />
 We not only tackled the actual bug but also automated the process, minimizing both our effort and the potential for any human error.
 
-### Conclusion
+<H3 title="Conclusion" />
 Git bisect is a really useful tool for efficiently tracking down bugs in large codebases.
 Although in these trivial examples above it could not be that obvious straight away. By leveraging its binary
 search algorithm, we can save time and frustration when debugging. Whether used manually

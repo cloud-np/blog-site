@@ -15,6 +15,7 @@ import defaultCd from "../../assets/angular-signals/default_cd.svg";
 import onPushCd from "../../assets/angular-signals/on_push_cd.svg";
 import signalsCd from "../../assets/angular-signals/on_push_signals_cd.svg";
 import butTheresMore from "../../assets/angular-signals/but-theres-more.webp";
+import { H3, H4 } from "../../components/mdx/HeadingWithAnchor.tsx";
 
 
 <Note title="Note">
@@ -22,7 +23,7 @@ import butTheresMore from "../../assets/angular-signals/but-theres-more.webp";
     Instead, we'll provide a high-level overview of the benefits signals offer and their integration within the Angular ecosystem.
 </Note>
 
-### Quick history throughback
+<H3 title="Quick history throughback" />
 
 In 2020, Ryan Carniato introduced SolidJS, a declarative UI framework that distinguished itself from the mainstream use of virtual DOMs
 which was popular at the time. Unlike the conventional approach, Ryan's work emphasized reactivity through the innovative use of signals,
@@ -30,7 +31,7 @@ offering a unique perspective on UI development. And while reactive programming 
 has been arround for a while Ryan focused more on performance and simplicity. That made other frameworks quickly recognize the potensial to his approach
 and they started implementing it inside their core libraries (Vue, Preact, Qwik).
 
-### Signals In Angular!
+<H3 title="Signals In Angular!" />
 Angular also evolved, and with Angular v16 last May, three new reactive primitives were introduced in developers preview. The three new primitives where:
     1. Writeable Signals
 ```typescript title="signals.ts"
@@ -56,7 +57,7 @@ These primitives represents Angulars ongoing commitment to provide a better deve
 Just by reading the code we can tell that signals have a clear intent. They seem intuitive (spoiler most of the time they are)
 and they are quite readable.
 
-### But... what are Angular Signals?
+<H3 title="But... what are Angular Signals?" />
 Well let's see what the Angular docs have to say:
 
 ![angular-docs-signals](../../assets/angular-signals/angular-docs-signals.png)
@@ -72,12 +73,11 @@ recomputed every time the `firstName` signal is updated. By that we can derive t
 
 However, there's a key concept to highlight here that we have mentioned yet: the term `granularly`.
 
-### Granular updates and fine-grained reactivity.
-
+<H3 title="Granular updates and fine-grained reactivity." />
 To get a better idea what Angular docs are reffering to when they say `granularly`, lets see how 
 Angular's Change Detection is currently working in Angular.
 
-#### 1. Angular's Default Change Detection
+<H4 title="1. Angular's Default Change Detection" />
 
 By default Angular's change detection utilizies a library called [Zone.js](https://www.npmjs.com/package/zone.js?activeTab=readme)
 which [monkey patches](https://en.wikipedia.org/wiki/Monkey_patch) asynchronous operations like UI Events, Promises and timeouts.
@@ -92,7 +92,7 @@ Even though our change occurred in one of our components Angular doesn't know wh
 it has to check every single one of them. This change detection mechanism in complex applications, it hinders the performance dramatically,
 and to compensate with that Angular gives us another change detection strategy called `OnPush`.
 
-#### 2. Change Detection Strategy **OnPush**
+<H4 title="2. Change Detection Strategy **OnPush**" />
 
 OnPush basically checks only if the input properties of a component have changed (`@Input()`) since the last change detection cycle and if we manually trigger 
 change detection, like this:
@@ -122,7 +122,7 @@ as well. This can improve performance significally and we have much more control
 But.. there is a drawback. Now this becomes the responsibility of the developer to know exactly when the data is in sync with the UI
 which makes the learning curve of Angular even more steep.
 
-#### 3. Change Detection with Signals 
+<H4 title="3. Change Detection with Signals" />
 With the integration of signals, Angular's change detection becomes even more efficient, targeting updates with precision.
 Change detection now is scoped to the components directly affected by the changes. This means that when a signal is updated
 Angular is equipped to identify the exact location and component that required UI synchronization.
@@ -147,7 +147,7 @@ for change detection. Instead, it uses signals to explicitly notify the Angular 
 when the model changes. There will still be backward compatibility with Zone.js but making it optional
 is another step to the right direction.
 
-### The true power of signals.
+<H3 title="The true power of signals." />
 <Image src={butTheresMore} style="width: 500px;" alt="but theres more meme" />
 The other reasons that signals are so welcomed by the community are the following:
     * Simplicity & ease of use
@@ -179,12 +179,12 @@ or its operators to have reactivity. I believe this fact to be a great selling p
 especially for newcomers that may feel intimidated learning Angular and its declerative
 paradigm because of its learning curve and complexity.
 
-### The Diamond problem
+<H3 title="The Diamond problem" />
 
 Signals helps us solve another issue named: *The Diamond problem*.
 To understand The Diamond problem lets first look a signal implementation:
 
-#### 1. Signals
+<H4 title="1. Signals" />
 ```typescript title="signals.ts"
 firstName = signal("Bob");
 lastName = signal("Smith");
@@ -200,7 +200,7 @@ In the above example when we initially load the component `fullName` will hold t
 'Bob Smith' then when we trigger the `updateFullname` function the value will be re-computed
 to 'John Lee'.
 
-#### 2. RxJs
+<H4 title="2. RxJs" />
 With RxJs is not that simple. There couple things we have to keep in mind. First of all
 we are dealing with `Observables` which means that inpput streams could not hold a value.
 Additionally we also need to keep in mind that `combineLatest` operator will emit a value
@@ -213,7 +213,7 @@ with the UI and the emition is not correct. Here is a demonstration to make this
 
 ![the diamond problem](../../assets/angular-signals/diamond-problem.gif)
 
-### No silver bullet.
+<H3 title="No silver bullet." />
 In programming, no single solution fits all scenarios, a principle that applies when comparing signals
 with RxJS. Signals offer a more accessible syntax and operation for simpler synchronization tasks but fall
 short in handling asynchronous reactivity. RxJS, with its comprehensive suite of operators like `debounceTime`,
@@ -283,7 +283,7 @@ fetchUsers() {
 }
 ```
 
-### RxJs + Signals
+<H3 title="RxJs + Signals" />
 
 The optimal strategy involves using RxJS and signals in tandem, aligning with the Angular team's recommended approach.
 ```typescript title="rxjs-signals.ts"
@@ -307,7 +307,7 @@ search(event: Event) {
 The Angular team provides two functions for this integration: `toObservable`, which converts a signal into
 an Observable, and `toSignal`, which transforms an Observable into a signal.
 
-#### Why use them together?
+<H4 title="Why use them together?" />
 Combining them harnesses the strengths of both methods. RxJS shines in managing asynchronous operations with
 its sophisticated abstractions for events, HTTP requests, and timers. Signals, on the other hand, excel in simpler
 tasks, enhancing state management's simplicity and readability without the complexity of RxJS observables. Integrating

@@ -84,6 +84,12 @@
 	/* mask-size: cover; */
 }
 
+:where(html) {
+	/* To compesate for the fixed header when clicking a navigatable anchor */
+	scroll-padding-top: calc(var(--header-height) + 10px);
+	scroll-behavior: smooth;
+}
+
 a {
 	color: inherit;
 	-webkit-tap-highlight-color: transparent;
@@ -162,6 +168,7 @@ h3 {
 	padding: 0.23rem;
 	border-radius: 0.5rem;
 	line-height: 1.5rem;
+	background-color: var(--c-dark-gray);
 }
 
 pre:hover>copy-code-button {

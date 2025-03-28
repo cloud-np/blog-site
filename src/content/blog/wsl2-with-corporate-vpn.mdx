@@ -7,23 +7,25 @@ category: 'DevOps'
 searchCategories: ['DevOps', 'Tooling', 'Fullstack']
 personal: false
 ---
+import { H3 } from "../../components/mdx/HeadingWithAnchor.tsx";
 
-### Taming DNS on wsl2 under a Corporate VPN 🦁
+<H3 title="Taming DNS on wsl2 under a Corporate VPN 🦁" />
 Working under a corporate VPN can unleash DNS chaos for your underlying VMs/services. This is especially true with wsl2,
 leaving it (and us) confused how to resolve addresses when your DNS is pointing to corporate servers. Here's your rescue mission to restore DNS sanity:
 
-### The Problem
+<H3 title="The Problem" />
 When you connect to your corporate VPN, wsl2 tries to inherit Windows DNS configuration but often falls, leaving your Linux distro lost in the domain name wilderness.
 
-### The simple 4️⃣  step Solution
+<H3 title="The simple 4️⃣  step Solution" />
 #### 1. In Windows, open Command Prompt and run:
 ```cmd
 ipconfig /all | findstr "DNS"
 ```
     Take note of these fields:
-    -- `DNS Suffix Search List` (e.g: `yourcompany.local`)
 
-    -- `DNS Servers` (could be either a IPv4 or IPv6 address)
+    -- "DNS Suffix Search List" (e.g: `yourcompany.local`)
+
+    -- "DNS Servers" (could be either a IPv4 or IPv6 address)
 
 #### 2. In your wsl2 distro, edit the `/etc/resolv.conf` file:
 
@@ -53,7 +55,7 @@ generateResolvConf = false
 wsl --shutdown
 ```
 
-### Test your Wizardry 🧙‍♂️
+<H3 title="Test your Wizardry 🧙‍♂️" />
 After applying these changes, you can test DNS resolution by running in bash:
 ```bash
 nslookup internal-company-resource.yourcompany.local
@@ -64,4 +66,3 @@ ping internal-company-resource.yourcompany.local
 ping google.com
 ```
 Both internal and external domains should now resolve correctly, **even when connected** to your corporate VPN. 🎉
-
