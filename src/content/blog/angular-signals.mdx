@@ -32,19 +32,19 @@ and they started implementing it inside their core libraries (Vue, Preact, Qwik)
 
 ### Signals In Angular!
 Angular also evolved, and with Angular v16 last May, three new reactive primitives were introduced in developers preview. The three new primitives where:
-    1. -- Writeable Signals
+    1. Writeable Signals
 ```typescript title="signals.ts"
 const count: Writeable<number> = signal(1);
 console.log(count());  // 1
 ```
-    2. -- Computed
+    2. Computed
 ```typescript title="signals.ts"
 const count = signal(1);
 
 const doubleCount = computed(() => count() * 2);
 console.log(doubleCount());  // 2
 ```
-    3. -- Effects
+    3. Effects
 ```typescript title="signals.ts"
 const count = signal(1);
 
@@ -67,7 +67,8 @@ Well.. lets break this down a bit with an example here:
 ![fullname-code-signals-example](../../assets/angular-signals/full-name-code.gif)
 Here Signals have a clear intent. Demonstrated by how the `fullName` signal instantly reacts by getting
 recomputed every time the `firstName` signal is updated. By that we can derive that signals are indeed:
-    * -- *"A system that allows us to track how our application state is used"*. 
+
+    -- *"A system that allows us to track how our application state is used"*.
 
 However, there's a key concept to highlight here that we have mentioned yet: the term `granularly`.
 
@@ -149,9 +150,9 @@ is another step to the right direction.
 ### The true power of signals.
 <Image src={butTheresMore} style="width: 500px;" alt="but theres more meme" />
 The other reasons that signals are so welcomed by the community are the following:
-    * -- Simplicity & ease of use 
-    * -- Readability
-    * -- Direct depedency tracking
+    * Simplicity & ease of use
+    * Readability
+    * Direct depedency tracking
 
 ```typescript title="signals.component.ts"
 firstName = signal("Bob");

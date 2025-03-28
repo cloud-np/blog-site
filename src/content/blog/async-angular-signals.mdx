@@ -21,15 +21,15 @@ The world of frontend development is always buzzing with new ideas, tools, and f
 But slowly over the past years, something surprising has been happening: the authors behind these frameworks are starting to agree on some key ideas. Shocking, right?
 
 For example many agree on:
-* -- Server-side rendering (SSR) is a must
+* Server-side rendering (SSR) is a must
 
 Many frameworks keep pushing the boundaries of what is possible with SSR. And since it boosts performance and SEO, it’s become the “must-have” feature.
 
-* -- Components over templating
+* Components over templating
 
 It’s all about components now! Forget templating, component based architecture is the new standard. Almost everyone’s on board. (Okay, maybe not everyone, but close enough. <Image src={htmxLogo} alt="htmx logo" style={"width: 35px;display: inline;margin: 0;"} />)
 
-* -- Web Components Are… Not Fun?
+* Web Components Are… Not Fun?
 
 Let’s just say web components haven’t won the popularity contest. Most devs agree they’re tricky to use, so you’d better have a pretty convincing reason to pick them over regular frameworks.
 
@@ -42,7 +42,7 @@ Let’s just say web components haven’t won the popularity contest. Most devs 
     </a>
 </div>
 
-* -- Signals everywhere
+* Signals everywhere
 
 Signals ha’ve taken the community by storm, and for good reason!
 Like I mentioned in a <a class="underline" href="/blog/angular-signals" target="_blank">previous post</a> signals are becoming the new "must-have feature". <a class="underline" href="https://x.com/ryancarniato" target="_blank">Ryan Carniato</a>
@@ -60,11 +60,11 @@ in particular *(although the underlying concept should be the same for the rest)
 ![signals definition](../../assets/async-angular-signals/signals-definition.png)
 
 The key takeaways from the above is that signals:
-* -- Help the framework to **optimize** rendering updates.
+-- Help the framework to **optimize** rendering updates.
 
 Signals ensure that whenever you access their values, **you always** get the latest values. Moreover `computed` signals
 are **lazily evaluated**. This also guarantees glitch-free UI synchronization.
-* -- **Granularly** track our state.
+-- **Granularly** track our state.
 
 Signals operate at a fine-grained level, allowing you for more precise control over updates and reactivity.
 
@@ -210,13 +210,13 @@ assertInjector(derivedAsync, options?.injector, () => {
 </a>
 
 We notice the following:
-* -- Uses the `effect` block to schedule the asynchronous operation.
+1. Uses the `effect` block to schedule the asynchronous operation.
 
-* -- Forces the user to run the `effect` inside an injector context.
+2. Forces the user to run the `effect` inside an injector context.
+<small>*This is because the `effect` uses the `DestroyRef` service to `unsubcribe`.*</small>
 
-This is because the `effect` uses the `DestroyRef` service to `unsubcribe`.
-* -- Makes use of the `untracked` API to ensure to avoid an infinite loop.
-* -- Utilizes a Subject instead of a signal.
+3. Makes use of the `untracked` API to ensure to avoid an infinite loop.
+4. Utilizes a Subject instead of a signal.
 
 This is happening for two reasons. First of all it uses `pipe()` into the Rxjs operators,
 and most imporantly (although not the case here) its to ensure that all the events will be **eagerly propageted** to the system.
@@ -317,11 +317,11 @@ selectedPicture: WritableSignal<PictureOfTheDay | undefined> = linkedSignal({
 
 ### ✨ TLDR ✨
 In conclusion its worth keeping in mind the following:
-* -- ✅ Use signals if it alleviates complexity.
-* -- ✅ Use signals for UI synchronization. 
-* -- ❌ Avoid signals for very complex asynchronous operations. (case dependant ofc)
-* -- 👉 Signals when accessed are always providing the latest value. 
-* -- 👉  `computed` signals are lazily evaluated.
-* -- 👉 Effects are primitive wrappers of `watchers` signals.
-* -- 👉 Effects are always asynchronous and framework dependant.
-* -- ❌ Do NOT use `effect` to synchronize the state or other signals.
+* ✅ Use signals if it alleviates complexity.
+* ✅ Use signals for UI synchronization.
+* ❌ Avoid signals for very complex asynchronous operations. (case dependant ofc)
+* 👉 Signals when accessed are always providing the latest value.
+* 👉  `computed` signals are lazily evaluated.
+* 👉 Effects are primitive wrappers of `watchers` signals.
+* 👉 Effects are always asynchronous and framework dependant.
+* ❌ Do NOT use `effect` to synchronize the state or other signals.
