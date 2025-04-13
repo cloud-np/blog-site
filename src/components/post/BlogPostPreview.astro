@@ -14,10 +14,10 @@ const { post } = Astro.props;
 	<a class="post-preview__link fade-in" href={post.href}>
 		<article class="post-preview__article">
 			{
-				!!post.previewImage && (
+				!!post.data.previewImage && (
 					<Image
-						src={post.previewImage}
-						alt={`Featured for ${post.title}`}
+						src={post.data.previewImage}
+						alt={`Featured for ${post.data.title}`}
 						class="post-preview__img"
 						width={250}
 						height={250}
@@ -26,11 +26,11 @@ const { post } = Astro.props;
 			}
 			<div class="post-preview__text">
 				<p class="post-preview__category clickable">
-					{post.category}
+					{post.data.category}
 				</p>
-				<h2 class="clickable">{post.title}</h2>
+				<h2 class="clickable">{post.data.title}</h2>
 				<p class="post-preview__date">
-					{Helpers.formatDate(post.publishedAt)}
+					{Helpers.formatDate(post.data.publishedAt)}
 				</p>
 			</div>
 		</article>

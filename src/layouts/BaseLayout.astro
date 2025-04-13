@@ -1,7 +1,7 @@
 ---
 import BaseHead from '../components/BaseHead.astro';
 import type { Props as BaseHeadProps } from '../components/BaseHead.astro';
-import ThemeProvider from '../components/qwik/ThemeToggleButton/ThemeProvider.astro';
+// import ThemeProvider from '../components/qwik/ThemeToggleButton/ThemeProvider.astro';
 
 export interface Props {
 	seo?: BaseHeadProps;
@@ -13,7 +13,7 @@ const { seo } = Astro.props;
 <html lang="en">
 	<head>
 		<BaseHead {...seo} />
-		<ThemeProvider />
+		<!--<ThemeProvider />-->
 		<slot name="head"/>
 	</head>
 	<body>

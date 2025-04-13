@@ -8,18 +8,18 @@ import { getPosts, type Post } from '../../../libs/post';
 
 export async function getStaticPaths() {
 	const allPosts = await getPosts(undefined);
-	const posts: Post[] = allPosts.filter((post) => !post.personal);
+	const posts: Post[] = allPosts.filter((post) => !post.data.personal);
 
     const sortedPostsByDate = posts.sort(
-        (a, b) => new Date(b.publishedAt).valueOf() - new Date(a.publishedAt).valueOf(),
+        (a, b) => new Date(b.data.publishedAt).valueOf() - new Date(a.data.publishedAt).valueOf(),
     );
 
 	const allCategoriesUnique = new Set<string>();
 
 	// TODO: Could be done with reduce or filter/map for readability
 	sortedPostsByDate.forEach(post => {
-		if (post.category) {
-			allCategoriesUnique.add(post.category);
+		if (post.data.category) {
+			allCategoriesUnique.add(post.data.category);
 		}
 	});
 
@@ -28,7 +28,7 @@ export async function getStaticPaths() {
 	return allCategoriesData.map((category) => {
 		// filter the posts that match the given category
 		const posts = sortedPostsByDate.filter((post) =>
-			post.category.includes(category.name)
+			post.data.category.includes(category.name)
 		);
 		return {
 			params: { slug: category.slug },

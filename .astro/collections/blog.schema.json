@@ -1,0 +1,84 @@
+{
+  "$ref": "#/definitions/blog",
+  "definitions": {
+    "blog": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "maxLength": 80
+        },
+        "titleImage": {
+          "type": "string"
+        },
+        "previewImage": {
+          "type": "string"
+        },
+        "publishedAt": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "integer",
+                  "format": "unix-time"
+                }
+              ]
+            }
+          ]
+        },
+        "category": {
+          "type": "string",
+          "enum": [
+            "Leetcode",
+            "Angular",
+            "React",
+            "Astro",
+            "Frontend",
+            "Backend",
+            "Fullstack",
+            "AI & Machine learning",
+            "DevOps",
+            "Javascript",
+            "Typescript",
+            "Git",
+            "Tooling"
+          ]
+        },
+        "searchCategories": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "personal": {
+          "type": "boolean"
+        },
+        "$schema": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "title",
+        "titleImage",
+        "previewImage",
+        "publishedAt",
+        "category",
+        "searchCategories",
+        "personal"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

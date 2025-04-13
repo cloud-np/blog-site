@@ -1,64 +1,61 @@
 ---
-import PostLayout from "@layouts/PostLayout.astro";
 import Container from "@components/containers/Container.astro";
 import { Helpers } from "../../utils/helpers";
 import SharePost from "@components/post/SharePost.astro";
 import { Picture } from "astro:assets";
 import { getPosts, type Post } from "../../libs/post";
-
-interface Props {
-	post: Post;
-}
+import {type CollectionEntry, render} from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
 
 export async function getStaticPaths() {
 	const allPosts = await getPosts(undefined);
-	const posts: Post[] = allPosts.filter((post) => !post.personal);
+	const posts: Post[] = allPosts.filter(post => !post.data.personal);
 
 	// map through the categories array
-	return posts.map((post) => ({
+	return posts.map(post => ({
 		params: { slug: post.slug },
 		props: { post },
 	}));
 }
 
 const { post } = Astro.props;
-const { Content } = await post.render();
+const { Content, headings } = await render(post as CollectionEntry<'blog'>);
 
 const seo = {
-	title: post.title,
+	title: post.data.title,
 	// description: post.description,
-	image: post.titleImage.src,
+	image: post.data.titleImage.src,
 };
 ---
 
-<PostLayout seo={seo}>
+<BaseLayout seo={seo}>
 	<Container>
 		<article class="post-content__article">
 			<div class="post-content__top fade-in">
-				{post.category && (
+				{post.data.category && (
 					<p class="post-content__category">
-						<a href={`/blog/category/${Helpers.slugify(post.category)}`}>
-							{post.category}
+						<a href={`/blog/category/${Helpers.slugify(post.data.category)}`}>
+							{post.data.category}
 						</a>
 					</p>
 				)}
-				<h1 class="post-content__title">{post.title}</h1>
+				<h1 class="post-content__title">{post.data.title}</h1>
 				<p class="post-content__date">
-					<time>{Helpers.formatDate(post.publishedAt)}</time>
+					<time>{Helpers.formatDate(post.data.publishedAt)}</time>
 				</p>
 				<p class="post-content__minsread">
 					<span>{post.minutesRead} read</span>
 				</p>
 
-				{post.titleImage && (
+				{post.data.titleImage && (
 					<Picture
-						src={post.titleImage}
-						alt={`Featured for ${post.title}`}
+						src={post.data.titleImage}
+						alt={`Featured for ${post.data.title}`}
 						formats={["webp", "png"]}
 						class="post-content__img"
 						loading="eager"
-						width={post.titleImage.width}
-						height={post.titleImage.height}
+						width={post.data.titleImage.width}
+						height={post.data.titleImage.height}
 					/>
 				)}
 			</div>
@@ -66,12 +63,11 @@ const seo = {
 				<Content />
 			</div>
 		</article>
-		<SharePost postTitle={post.title} />
+		<SharePost postTitle={post.data.title} />
 	</Container>
-</PostLayout>
+</BaseLayout>
 
 <style>
-
 	.post-content__top {
 		display: flex;
 		flex-direction: column;
@@ -132,7 +128,7 @@ const seo = {
 		justify-content: center;
 		flex-direction: column;
 		margin: auto;
-		line-height: 1.5; 
+		line-height: 1.5;
 		text-wrap: pretty;
 		word-break: auto-phrase;
 

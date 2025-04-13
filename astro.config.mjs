@@ -25,7 +25,7 @@ export default defineConfig({
 	vite: {
 		ssr: {
 			external: ["svgo"]
-		}
+		},
 	},
 	markdown: {
 		remarkPlugins: [remarkMath],
@@ -34,5 +34,6 @@ export default defineConfig({
 	prefetch: {
 		defaultStrategy: 'hover',
 		prefetchAll: true
-	}
+	},
+	output: 'static',
 });

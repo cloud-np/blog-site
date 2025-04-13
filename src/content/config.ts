@@ -1,8 +1,13 @@
 import { defineCollection, z } from 'astro:content';
 import { CATEGORIES } from '../data/categories.const';
+import { glob } from "astro/loaders";
 
 const blog = defineCollection({
-	type: 'content',
+	loader: glob({
+		pattern: "**/*.(md|mdx)",
+		base: "./src/content/blog",
+		// slug: (entry) => entry.id.replace(/\.[^.]+$/, '')
+	}),
 	schema: ({ image }) =>
 		z.object({
 			title: z.string().max(80),

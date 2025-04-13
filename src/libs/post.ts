@@ -6,46 +6,52 @@ import readingTime from "reading-time";
 export const getPosts = async (limit: number | undefined): Promise<Post[]> => {
 
     const rawPosts = await getCollection("blog");
-    const sortedPosts = rawPosts.sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime())
+    const sortedRawPosts = rawPosts.sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime())
 
-    const posts = sortedPosts.map((rawPost, index) => {
-        const postData = rawPost.data as RawPostData;
-        let readingTimeMinutes = Math.floor(readingTime(rawPost.body).minutes);
+    const normalizedPosts = sortedRawPosts.map(rawPost => {
+        // const { data, ...restOfRawPost } = rawPost;
+        let readingTimeMinutes = Math.floor(readingTime(rawPost.body ?? "").minutes);
 
         if (readingTimeMinutes < 1) {
             readingTimeMinutes = 1;
         }
 
+        const slug = generateSlug(rawPost.data.title);
         const post: Post = {
-            ...postData,
+            ...rawPost,
+            // ...data as RawPostData,
             id: rawPost.id,
-            slug: rawPost.slug,
+            slug,
             collection: rawPost.collection,
-            href: getRawPostHref(rawPost),
-            render: rawPost.render,
+            href: getRawPostHref(slug),
             minutesRead: `${readingTimeMinutes}min`,
         };
+        return post;
+    });
 
-        const prevPost = sortedPosts[index + 1];
+    const posts = normalizedPosts.map((normPost, index) => {
+        const post = {
+            ...normPost
+        };
 
+        const prevPost = normalizedPosts[index + 1];
         if (prevPost) {
             post.next = {
-                href: getRawPostHref(prevPost),
+                href: getRawPostHref(prevPost.slug),
                 title: prevPost.data.title,
             }
         }
 
-        const nextPost = sortedPosts[index - 1];
+        const nextPost = normalizedPosts[index - 1];
 
         if (nextPost) {
             post.prev = {
-                href: getRawPostHref(nextPost),
+                href: getRawPostHref(nextPost.slug),
                 title: nextPost.data.title,
             }
         }
-
         return post;
-    })
+    });
 
     if (limit) {
         return posts.slice(0, limit);
@@ -54,9 +60,18 @@ export const getPosts = async (limit: number | undefined): Promise<Post[]> => {
 
 };
 
-const getRawPostHref = (rawPost: CollectionEntry<'blog'>): string => {
-    return `/blog/${rawPost.slug}`;
+const getRawPostHref = (slug: string): string => {
+    return `/blog/${slug}`;
 };
+
+export function generateSlug(title: string) {
+    return title
+        .toLowerCase()
+        .replace(/[^\w\s-]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-')
+        .trim();
+}
 
 type RawPostWithOutData = Omit<CollectionEntry<'blog'>, 'data' | 'body'>;
 
@@ -70,9 +85,11 @@ interface RawPostData {
     personal: boolean;
 };
 
-export interface Post extends RawPostData, RawPostWithOutData { 
+export interface Post extends RawPostWithOutData {
     href: string;
+    data: RawPostData;
     minutesRead: string;
+    slug: string;
     next?: PostLink;
     prev?: PostLink;
 };
@@ -82,9 +99,9 @@ export interface PostLink {
     href: string;
 };
 
-export interface LoadedImage { 
+export interface LoadedImage {
     src: string;
     width: number;
     height: number;
-    format: "png" | "jpg" | "jpeg" | "tiff" | "webp" | "gif" | "svg" | "avif"; 
+    format: "png" | "jpg" | "jpeg" | "tiff" | "webp" | "gif" | "svg" | "avif";
 }

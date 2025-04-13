@@ -1,27 +1,22 @@
 ---
-import BaseLayout from './BaseLayout.astro';
-import type { Post } from '../libs/post';
 import Header from './components/Header.astro';
 import Footer from './components/Footer.astro';
-import type { Props as BaseHeadProps } from "../components/BaseHead.astro";
-
-interface Props {
-	seo?: BaseHeadProps;
-}
-
-const { seo } = Astro.props;
 ---
 
-<BaseLayout seo={seo}>
-	<slot name="head">
-		<!-- For LaTeX -->
-		<!-- this resolves to /public/styles/katex.css -->
-		<link rel="preload"
-			href="/styles/katex.css"
-			as="style" onload="this.onload=null;this.rel='stylesheet'" />
-		<noscript><link rel="stylesheet" href="/styles/katex.css" /></noscript>
-	</slot>
-	<Header slot="header" />
-	<slot />
-	<Footer slot="footer" />
-</BaseLayout>
+<!--
+	Need to be careful since PageLayout used to contain BaseLayout if then would we try
+	to use <Content /> (which we should) to render the post everything will be
+	rendered inside there meaning the <meta> tags will be in there
+	instead of the <head> causing all sort of issues like not rendering UTF-8 chars.
+ -->
+<slot name="head">
+	<!-- For LaTeX -->
+	<!-- this resolves to /public/styles/katex.css -->
+	<link rel="preload"
+		href="/styles/katex.css"
+		as="style" onload="this.onload=null;this.rel='stylesheet'" />
+	<noscript><link rel="stylesheet" href="/styles/katex.css" /></noscript>
+</slot>
+<Header slot="header" />
+<slot />
+<Footer slot="footer" />

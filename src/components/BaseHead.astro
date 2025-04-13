@@ -3,7 +3,7 @@ import { settings } from "../data/settings.const";
 
 import "@styles/reset.css";
 import "@styles/main.css";
-import { ViewTransitions } from "astro:transitions";
+import { ClientRouter } from "astro:transitions";
 
 export interface Props {
 	title?: string;
@@ -45,7 +45,7 @@ const image = new URL(Astro.props.image || "./social.png", Astro.site);
 <link rel="canonical" href={canonicalURL} />
 
 <!-- To let javascript handle transitions between pages -->
-<ViewTransitions />
+<ClientRouter />
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website" />

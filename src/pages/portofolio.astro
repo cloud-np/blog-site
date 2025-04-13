@@ -10,7 +10,7 @@ const seo = {
 };
 
 const allPosts = await getPosts(undefined);
-const posts = allPosts.filter(post => !post.personal);
+const posts = allPosts.filter(post => !post.data.personal);
 ---
 
 <style>
