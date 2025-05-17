@@ -31,12 +31,12 @@ import SocialList from "@components/ui/SocialList.astro";
 						</a>
 					</li>
 					<li>
-						<a class="header__link nonclickable" title="Navigate Portofolio">
+						<a class="header__link non-clickable" title="Navigate Portofolio">
 							Portofolio
 						</a>
 					</li>
 					<li>
-						<a class="header__link nonclickable" title="Navigate Demos">
+						<a class="header__link non-clickable" title="Navigate Demos">
 							Demos
 						</a>
 					</li>
@@ -95,13 +95,12 @@ import SocialList from "@components/ui/SocialList.astro";
 		}
 
 		.header__nav_links_container.mobile {
-			margin-top: 76px;
+			margin-top: 4.75rem;
 		}
 
 		.header__nav_links {
 			height: 100%;
 			display: flex;
-			padding-top: 150px;
 			align-items: center;
 			text-align: center;
 			flex-direction: column;
@@ -161,7 +160,7 @@ import SocialList from "@components/ui/SocialList.astro";
 		display: block;
 	}
 
-	.nonclickable {
+	.non-clickable {
 		pointer-events: none;
 		color: #e0f8ffaf;
 	}
@@ -203,6 +202,7 @@ import SocialList from "@components/ui/SocialList.astro";
 	.header__logo_text {
 		margin-left: 1rem;
 		font-weight: 500;
+		white-space: nowrap;
 	}
 
 	.header__logo_wrapper {
