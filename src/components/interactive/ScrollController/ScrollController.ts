@@ -1,5 +1,5 @@
-import { ScrollUtil } from "./ScrollUtil";
-import type { Condition, ScrollOptions, StyleProp, UniqProp } from "./scroll.model";
+import { ScrollUtil } from "./ScrollUtil.ts";
+import type { Condition, ScrollOptions, StyleProp, UniqProp } from "./scroll.model.ts";
 // function throttle(callback: Function, limit: number) {
 //     let wait = false;
 //     return function () {

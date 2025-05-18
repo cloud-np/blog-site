@@ -1,4 +1,4 @@
-import { UNIQ_PROPS, type Condition, type ScrollOptions, type StyleProp, type UniqProp, STYLE_PROPS } from "./scroll.model";
+import { UNIQ_PROPS, type Condition, type ScrollOptions, type StyleProp, type UniqProp, STYLE_PROPS } from "./scroll.model.ts";
 
 export namespace ScrollUtil {
     export const convertToNumber = (value: string | number): number => {

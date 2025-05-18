@@ -3,10 +3,10 @@ import PageLayout from "../layouts/PageLayout.astro";
 import BlogPostsList from "../components/post/BlogPostsList.astro";
 import { getPosts } from "../libs/post";
 import Reveal from "../components/Reveal.astro";
-import ScrollDown from "../components/ui/ScrollDown.astro";
-import SceneController from "../components/ui/SceneController/SceneController.astro";
-import Logo from "../components/ui/Logo.astro";
-import MovingCards from "../components/ui/MovingCards.astro";
+import ScrollDown from "../components/interactive/ScrollDown.astro";
+import SceneController from "../components/interactive/SceneController/SceneController.astro";
+import Logo from "../components/common/Logo.astro";
+import MovingCards from "../components/interactive/MovingCards.astro";
 import zed from "../assets/zed.jpg";
 import pumkin from "../assets/pumkin.jpg";
 import abyss from "../assets/abyss.jpg";
@@ -20,7 +20,7 @@ import igame from "../assets/igame.png";
 import chessnp from "../assets/chesser.png";
 import publication from "../assets/publication.png";
 import { Image } from "astro:assets";
-import BentoCard from "../components/ui/BentoCard.astro";
+import BentoCard from "../components/content/BentoCard.astro";
 import betsson from "../assets/betsson.png";
 import presentation from "../assets/presentation.jpeg";
 import { Slider } from "../components/react/slider";
@@ -31,10 +31,148 @@ const seo = {
 };
 
 const allPosts = await getPosts(undefined);
-const posts = allPosts.filter((post) => !post.personal);
+const posts = allPosts.filter((post) => !post.personal); // TODO: personal exists address this type issue
 ---
 
+<PageLayout seo={seo}>
+	<!-- <Reveal /> -->
+	<SceneController />
+	<div class="container flex flex-col">
+		<section class="landing px-3 overflow-hidden">
+			<div class="moon"></div>
+			<div class="moon moonRight"></div>
+			<div class="hero-text-container mb-16">
+				<div class="hero-title-container justify-center flex mb-10 overflow-hidden slow-fade">
+					<h1 class="hero-title">Hi</h1>
+					<h1 class="hero-title">there!</h1>
+					<h1 class="hero-title">I'm</h1>
+					<h1 class="hero-title">Nick</h1>
+				</div>
+				<div class="overflow-hidden mx-6">
+					<p class="flex justify-center hero-text slow-fade">
+						I enjoy coding, solving complex problems, and giving my best in everything I do.
+						Other than that I enjoy nature and freediving.
+					</p>
+				</div>
+			</div>
+			<div class="m-auto scroll-down-indicator">
+				<ScrollDown />
+			</div>
+		</section>
+		<section class="flex self-center flex-col items-center portofolio-details">
+			<div class="logo-container mb-4">
+				<div class="grad absolute"></div>
+				<div class="w-28">
+					<Logo />
+				</div>
+			</div>
+			<div class="overflow-hidden h-18 flex justify-center mx-4">
+				<h2 class="portofolio-title translate-y-full text-center transition-all duration-300 ease-out">
+					Portofolio and past projects
+				</h2>
+			</div>
+			<div class="overflow-hidden h-auto flex justify-center mt-6 mb-5 mx-4">
+				<p class="portofolio-text translate-y-full text-center w-120 text-base">
+					Explore a small collection of my work showcasing some
+					skills, creativity, but most importantly dedication to
+					quality.
+				</p>
+			</div>
+		</section>
+		<!--<div class="slider-container">-->
+		<!--	<div class="slider-hiding-el-left"></div>-->
+		<!--	<Slider client:visible-->
+		<!--		categories={["Multiple Workflow Scheduling", "Freelancing", "Chessnp", "Senior Software Engineer"]}-->
+		<!--		initialXOffset={400}-->
+		<!--	/>-->
+		<!--	<div class="slider-hiding-el-right"></div>-->
+		<!--</div>-->
+		<div class="bentobox-container grid grid-cols-1 lg:grid-cols-3 gap-2 m-10 max-w-7xl">
+			<!-- <?xml version="1.0" encoding="UTF-8"?> <svg xmlns="http://www.w3.org/2000/svg" width="1440" height="1073" viewBox="0 0 1440 1073" fill="none"><g opacity="0.1" filter="url(#filter0_f_1687_32290)"><mask id="mask0_1687_32290" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="237" width="1440" height="792"><rect x="1440" y="237.003" width="791.722" height="1440" rx="395.861" transform="rotate(90 1440 237.003)" fill="white"></rect></mask><g mask="url(#mask0_1687_32290)"><rect x="1440" y="227.198" width="174.032" height="1440" rx="87.0159" transform="rotate(90 1440 227.198)" fill="#FF4444"></rect><rect x="1440" y="401.23" width="174.032" height="1440" rx="87.0159" transform="rotate(90 1440 401.23)" fill="#AD44FF"></rect><rect x="1440" y="575.262" width="174.032" height="1440" rx="87.0159" transform="rotate(90 1440 575.262)" fill="#448FFF"></rect><rect x="1440" y="749.293" width="174.032" height="1440" rx="87.0159" transform="rotate(90 1440 749.293)" fill="#44D2FF"></rect><rect x="1440" y="886.558" width="174.032" height="1440" rx="87.0159" transform="rotate(90 1440 886.558)" fill="#8BFF44"></rect></g></g><defs><filter id="filter0_f_1687_32290" x="-255.6" y="-18.5971" width="1951.2" height="1302.92" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood><feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"></feBlend><feGaussianBlur stdDeviation="127.8" result="effect1_foregroundBlur_1687_32290"></feGaussianBlur></filter></defs></svg>  -->
+			<BentoCard title="betsson" hasFooter={true} colSpan reverse>
+				<div slot="subTitle">
+					<p class="text-sm italic text-neutral-200 pb-2">
+						<Image
+							src={betsson}
+							class="w-6 inline mr-1"
+							alt="betson-logo"
+						/>
+						Senior Software Engineer
+					</p>
+				</div>
+				<b>Feature Development:</b> Spearheaded the development of critical features
+				that enhanced and refactored essential functionalities 
+				for millions of customers worldwide. This included integrating 
+				new API providers, successfully expanded our market offerings
+				and increasing our app capabilities while ensuring an optimal user experience.
+				</br>
+				<b>Performance Optimization:</b> One of the main developers
+				at upgrading, maintaining performance-critical sportsbook app,
+				utilizing Angular, NgRx, and Nx for both B2B, B2C, mobile, desktop and native.
+				</br>
+				<b>Mentorship and Guidance:</b> Provide assistance to
+				junior and mid-level developers while collaborate with tech leads
+				to establish guidelines for new Angular features.
+				<Image slot="footer" class="mb-10" src={presentation} alt="photo from my presentation in Hungary regarding Angular signals" />
+			</BentoCard>
+			<BentoCard
+				title="Deep dive into the 'Multiple Workflow Scheduling Problem'"
+				hasFooter={true}
+			>
+				Under the guidance of Dr. Panagiotis Oikonomou, I researched
+				MWSP which is a NP-hard problem with conflicting
+				optimization goals. Our proposed algorithm achieved up to a
+				9% improvement and unveiled various trade-offs depending on
+				the specific characteristics of each workflow.
+				<a
+					href="https://dl.acm.org/doi/10.1145/3503823.3503876"
+					target="_blank"
+					slot="footer"
+				>
+					<Image
+						src={publication}
+						alt="multiple workflow scheduling problem"
+					/>
+				</a>
+			</BentoCard>
+			<BentoCard title="chessnp.com" hasFooter={true} reverse>
+				<div slot="subTitle">
+					<p class="text-sm inline">🚧</p>
+					<p class="text-sm inline italic text-neutral-200 pb-2">
+						Under Construction
+					</p>
+				</div>
+				chessnp.com lets users replay famous historical chess matches
+				and play against a custom AI chess engine built entirely
+				from scratch using Go.
+				<Image slot="footer" src={chessnp} alt="chess np site" />
+			</BentoCard>
+			<BentoCard title="Freelancing and web design" hasFooter={true} colSpan
+			>
+				With a perfect score when it comes to customer satisfaction,
+				I pride my self delivering only best for my clients.
+				<div slot="footer" class="max-w-[900px] relative">
+					<!-- TODO: This can be fade effect to not have hard edges -->
+					<!-- <div class="pointer-events-none absolute inset-y-0 top-0 w-60 bg-gradient-to-r from-[#1A1A1A]"></div> -->
+					<MovingCards duration={45000}>
+						<div class="images-container flex flex-nowrap flex-shrink-0 content-center justify-center">
+							{[zed, pumkin, abyss, aktis, oino8eh, betterNetflix, fromHome, igame, bentoBox, yang].map((img, index) => (
+								<Image loading="lazy" class:list={["object-cover", "m-2", "w-64", "moving-card-img"]} src={img} alt={`moving-img-${index}`}/>
+							))}
+						</div>
+					</MovingCards>
+				</div>
+			</BentoCard>
+		</div>
+	</div>
+	<section class="mx-6 flex flex-col justify-center items-center">
+		<h4 class="projects-title fade-in">Latest Posts</h4>
+		<BlogPostsList class="latest-projects-container" posts={posts} />
+	</section>
+</PageLayout>
+
 <style>
+	/* TODO: Styles need to come after HTML otherwise BentoCard breaks, look into this... */
 	.landing {
 		padding: 5vh 0;
 		display: flex;
@@ -223,147 +361,11 @@ const posts = allPosts.filter((post) => !post.personal);
 	} */
 </style>
 
-<PageLayout seo={seo}>
-	<!-- <Reveal /> -->
-	<SceneController />
-	<div class="container flex flex-col">
-		<section class="landing px-3 overflow-hidden">
-			<div class="moon"></div>
-			<div class="moon moonRight"></div>
-			<div class="hero-text-container mb-16">
-				<div class="hero-title-container justify-center flex mb-10 overflow-hidden slow-fade">
-					<h1 class="hero-title">Hi</h1>
-					<h1 class="hero-title">there!</h1>
-					<h1 class="hero-title">I'm</h1>
-					<h1 class="hero-title">Nick</h1>
-				</div>
-				<div class="overflow-hidden mx-6">
-					<p class="flex justify-center hero-text slow-fade">
-						I enjoy coding, solving complex problems, and giving my best in everything I do.
-						Other than that I enjoy nature and freediving.
-					</p>
-				</div>
-			</div>
-			<div class="m-auto scroll-down-indicator">
-				<ScrollDown />
-			</div>
-		</section>
-		<section class="flex self-center flex-col items-center portofolio-details">
-			<div class="logo-container mb-4">
-				<div class="grad absolute"></div>
-				<div class="w-28">
-					<Logo />
-				</div>
-			</div>
-			<div class="overflow-hidden h-18 flex justify-center mx-4">
-				<h2 class="portofolio-title translate-y-full text-center transition-all duration-300 ease-out">
-					Portofolio and past projects
-				</h2>
-			</div>
-			<div class="overflow-hidden h-auto flex justify-center mt-6 mb-5 mx-4">
-				<p class="portofolio-text translate-y-full text-center w-120 text-base">
-					Explore a small collection of my work showcasing some
-					skills, creativity, but most importantly dedication to
-					quality.
-				</p>
-			</div>
-		</section>
-		<!-- <div class="slider-container">
-			<div class="slider-hiding-el-left"></div>
-			<Slider client:visible
-				categories={["Multiple Workflow Scheduling", "Freelancing", "Chessnp", "Senior Software Engineer"]}
-				initialXOffset={400}
-			/>
-			<div class="slider-hiding-el-right"></div>
-		</div> -->
-		<div class="bentobox-container grid grid-cols-1 lg:grid-cols-3 gap-2 m-10 max-w-7xl">
-			<!-- <?xml version="1.0" encoding="UTF-8"?> <svg xmlns="http://www.w3.org/2000/svg" width="1440" height="1073" viewBox="0 0 1440 1073" fill="none"><g opacity="0.1" filter="url(#filter0_f_1687_32290)"><mask id="mask0_1687_32290" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="237" width="1440" height="792"><rect x="1440" y="237.003" width="791.722" height="1440" rx="395.861" transform="rotate(90 1440 237.003)" fill="white"></rect></mask><g mask="url(#mask0_1687_32290)"><rect x="1440" y="227.198" width="174.032" height="1440" rx="87.0159" transform="rotate(90 1440 227.198)" fill="#FF4444"></rect><rect x="1440" y="401.23" width="174.032" height="1440" rx="87.0159" transform="rotate(90 1440 401.23)" fill="#AD44FF"></rect><rect x="1440" y="575.262" width="174.032" height="1440" rx="87.0159" transform="rotate(90 1440 575.262)" fill="#448FFF"></rect><rect x="1440" y="749.293" width="174.032" height="1440" rx="87.0159" transform="rotate(90 1440 749.293)" fill="#44D2FF"></rect><rect x="1440" y="886.558" width="174.032" height="1440" rx="87.0159" transform="rotate(90 1440 886.558)" fill="#8BFF44"></rect></g></g><defs><filter id="filter0_f_1687_32290" x="-255.6" y="-18.5971" width="1951.2" height="1302.92" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood><feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"></feBlend><feGaussianBlur stdDeviation="127.8" result="effect1_foregroundBlur_1687_32290"></feGaussianBlur></filter></defs></svg>  -->
-			<BentoCard title="betsson" hasFooter={true} colSpan reverse>
-				<div slot="subTitle">
-					<p class="text-sm italic text-neutral-200 pb-2">
-						<Image
-							src={betsson}
-							class="w-6 inline mr-1"
-							alt="betson-logo"
-						/>
-						Senior Software Engineer
-					</p>
-				</div>
-				<b>Feature Development:</b> Spearheaded the development of critical features
-				that enhanced and refactored essential functionalities 
-				for millions of customers worldwide. This included integrating 
-				new API providers, successfully expanded our market offerings
-				and increasing our app capabilities while ensuring an optimal user experience.
-				</br>
-				<b>Performance Optimization:</b> One of the main developers
-				at upgrading, maintaining performance-critical sportsbook app,
-				utilizing Angular, NgRx, and Nx for both B2B, B2C, mobile, desktop and native.
-				</br>
-				<b>Mentorship and Guidance:</b> Provide assistance to
-				junior and mid-level developers while collaborate with tech leads
-				to establish guidelines for new Angular features.
-				<Image slot="footer" class="mb-10" src={presentation} alt="photo from my presentation in Hungary regarding Angular signals" />
-			</BentoCard>
-			<BentoCard
-				title="Deep dive into the 'Multiple Workflow Scheduling Problem'"
-				hasFooter={true}
-			>
-				Under the guidance of Dr. Panagiotis Oikonomou, I researched
-				MWSP which is a NP-hard problem with conflicting
-				optimization goals. Our proposed algorithm achieved up to a
-				9% improvement and unveiled various trade-offs depending on
-				the specific characteristics of each workflow.
-				<a
-					href="https://dl.acm.org/doi/10.1145/3503823.3503876"
-					target="_blank"
-					slot="footer"
-				>
-					<Image
-						src={publication}
-						alt="multiple workflow scheduling problem"
-					/>
-				</a>
-			</BentoCard>
-			<BentoCard title="chessnp.com" hasFooter={true} reverse>
-				<div slot="subTitle">
-					<p class="text-sm inline">🚧</p>
-					<p class="text-sm inline italic text-neutral-200 pb-2">
-						Under Construction
-					</p>
-				</div>
-				chessnp.com lets users replay famous historical chess matches
-				and play against a custom AI chess engine built entirely
-				from scratch using Go.
-				<Image slot="footer" src={chessnp} alt="chess np site" />
-			</BentoCard>
-			<BentoCard title="Freelancing and web design" hasFooter={true} colSpan
-			>
-				With a perfect score when it comes to customer satisfaction,
-				I pride my self delivering only best for my clients.
-				<div slot="footer" class="max-w-[900px] relative">
-					<!-- TODO: This can be fade effect to not have hard edges -->
-					<!-- <div class="pointer-events-none absolute inset-y-0 top-0 w-60 bg-gradient-to-r from-[#1A1A1A]"></div> -->
-					<MovingCards duration={45000}>
-						<div class="images-container flex flex-nowrap flex-shrink-0 content-center justify-center">
-							{[zed, pumkin, abyss, aktis, oino8eh, betterNetflix, fromHome, igame, bentoBox, yang].map((img, index) => (
-								<Image loading="lazy" class:list={["object-cover", "m-2", "w-64", "moving-card-img"]} src={img} alt={`moving-img-${index}`}/>
-							))}
-						</div>
-					</MovingCards>
-				</div>
-			</BentoCard>
-		</div>
-	</div>
-	<section class="mx-6 flex flex-col justify-center items-center">
-		<h4 class="projects-title fade-in">Latest Posts</h4>
-		<BlogPostsList class="latest-projects-container" posts={posts} />
-	</section>
-</Layout>
 
 <script>
 	import gsap from "gsap";
 	import { ScrollTrigger } from "gsap/all";
-	import { Scroll } from "../components/ui/ScrollController/ScrollController";
+	import { Scroll } from "../components/interactive/ScrollController/ScrollController";
 
 	const REVEAL_DELAY = 3.72;
 	gsap.registerPlugin(ScrollTrigger);
