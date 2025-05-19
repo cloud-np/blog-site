@@ -7,7 +7,7 @@ export type BrowserType =
     | "Internet Eplorer"
     | "Unknown Browser";
 
-export const getUserBroswerName = (): BrowserType | undefined => {
+export function getUserBroswerName(): BrowserType | undefined {
     if (typeof window === undefined) {
         return undefined;
     }
@@ -27,4 +27,20 @@ export const getUserBroswerName = (): BrowserType | undefined => {
     } else {
         return "Unknown Browser";
     }
+}
+
+export function setCookie(name: string, value: string, days: number = 7, path: string = "/"): void {
+    const expires = new Date(Date.now() + days * 864e5).toUTCString();
+    document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=${path}; SameSite=Lax`;
+}
+
+export function getCookie(name: string): string | null {
+    return document.cookie.split("; ").reduce((r, v) => {
+        const parts = v.split("=");
+        return parts[0] === name ? decodeURIComponent(parts[1]) : r;
+    }, '');
+}
+
+export function deleteCookie(name: string, path: string = "/"): void {
+    setCookie(name, "", -1, path);
 }

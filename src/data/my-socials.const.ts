@@ -2,11 +2,11 @@ export const socials = [
     {
         name: 'LinkedIn',
         url: 'https://www.linkedin.com/in/cloud-np/',
-        icon: 'mdi:linkedin'
+        icon: 'linkedin'
     },
     {
         name: 'GitHub',
         url: 'https://github.com/cloud-np',
-        icon: 'mdi:github'
+        icon: 'github'
     }
 ] as const;

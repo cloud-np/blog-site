@@ -1,29 +1,30 @@
 ---
-import PageLayout from "../layouts/PageLayout.astro";
-import BlogPostsList from "../components/post/BlogPostsList.astro";
-import { getPosts } from "../libs/post";
-import Reveal from "../components/Reveal.astro";
-import ScrollDown from "../components/interactive/ScrollDown.astro";
-import SceneController from "../components/interactive/SceneController/SceneController.astro";
-import Logo from "../components/common/Logo.astro";
-import MovingCards from "../components/interactive/MovingCards.astro";
-import zed from "../assets/zed.jpg";
-import pumkin from "../assets/pumkin.jpg";
-import abyss from "../assets/abyss.jpg";
-import yang from "../assets/yang.gif";
-import aktis from "../assets/aktis.jpg";
-import oino8eh from "../assets/oino8eh.png";
-import bentoBox from "../assets/bento-box.gif";
-import betterNetflix from "../assets/better-netflix.png";
-import fromHome from "../assets/fromHome.png";
-import igame from "../assets/igame.png";
-import chessnp from "../assets/chesser.png";
-import publication from "../assets/publication.png";
+import PageLayout from "@layouts/PageLayout.astro";
+import BlogPostsList from "@components/post/BlogPostsList.astro";
+import { getPosts } from "@libs/post";
+import Reveal from "@components/Reveal.astro";
+import ScrollDown from "@components/interactive/ScrollDown.astro";
+import SceneController from "@components/interactive/SceneController/SceneController.astro";
+import Logo from "@components/common/Logo.astro";
+import MovingCards from "@components/interactive/MovingCards.astro";
+import zed from "../assets/home-page/bento-box-section/zed.jpg";
+import pumkin from "../assets/home-page/bento-box-section/pumkin.jpg";
+import abyss from "../assets/home-page/bento-box-section/abyss.jpg";
+import yang from "../assets/home-page/bento-box-section/yang.gif";
+import aktis from "../assets/home-page/bento-box-section/aktis.jpg";
+import oino8eh from "../assets/home-page/bento-box-section/oino8eh.png";
+import bentoBox from "../assets/home-page/bento-box-section/bento-box.gif";
+import betterNetflix from "../assets/home-page/bento-box-section/better-netflix.png";
+import fromHome from "../assets/home-page/bento-box-section/fromHome.png";
+import igame from "../assets/home-page/bento-box-section/igame.png";
+import chessnp from "../assets/home-page/chesser.png";
+import publication from "../assets/home-page/publication.png";
 import { Image } from "astro:assets";
-import BentoCard from "../components/content/BentoCard.astro";
-import betsson from "../assets/betsson.png";
-import presentation from "../assets/presentation.jpeg";
-import { Slider } from "../components/react/slider";
+import BentoCard from "@components/content/BentoCard.astro";
+import betsson from "../assets/home-page/betsson.png";
+import presentation from "../assets/home-page/presentation.jpeg";
+import CookieConsent from "@components/common/CookieConsent.astro";
+import { Slider } from "@components/react/slider";
 
 const seo = {
 	title: "cloud-np",
@@ -36,6 +37,7 @@ const posts = allPosts.filter((post) => !post.personal); // TODO: personal exist
 
 <PageLayout seo={seo}>
 	<!-- <Reveal /> -->
+	<CookieConsent />
 	<SceneController />
 	<div class="container flex flex-col">
 		<section class="landing px-3 overflow-hidden">

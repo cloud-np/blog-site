@@ -1,0 +1,111 @@
+---
+import { Icon } from 'astro-icon/components';
+---
+
+<div id="cookie-consent" class="cookie-banner w-4/5 mb-6 m-auto rounded-full">
+    <Icon name="cookie" class="w-16 h-16 absolute -top-5" />
+    <div class="cookie-content p-4 justify-around items-center gap-4">
+        <p class="text-center">
+            This website uses cookies to ensure you get the best experience.<br>
+            Of course they are turned off by default. <a class="underline" href="/privacy-policy">Learn more</a>
+        </p>
+        <div class="cookie-buttons">
+            <!--<button></button>-->
+            <button class="rounded-md bg-slate-800 py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none" type="button">
+                Preference
+            </button>
+            <button class="rounded-md bg-slate-800 py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none" type="button">
+                Reject Non-Essential
+            </button>
+            <button class="rounded-md bg-slate-800 py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none" type="button">
+                Accept All
+            </button>
+        </div>
+    </div>
+</div>
+
+<style>
+    .cookie-banner {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        max-width: 80%;
+        background-color: var(--primary-light);
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+    }
+
+    .cookie-content {
+        font-size: 1rem;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        //gap: 1rem;
+    }
+
+    .cookie-buttons {
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    button {
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    #accept-cookies {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    #reject-cookies {
+        background-color: #f1f1f1;
+        color: #333;
+    }
+
+    @media (max-width: 768px) {
+        .cookie-content {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+    }
+</style>
+
+<script>
+    import { getCookie, setCookie } from "../../utils/browser";
+
+    const init = () => {
+        const consentBanner = document.getElementById('cookie-consent');
+        if (!consentBanner) return;
+        const acceptButton = document.getElementById('accept-cookies');
+        const rejectButton = document.getElementById('reject-cookies');
+
+        // Check if user has already made a choice
+        const cookieConsent = getCookie('cookie-consent');
+
+        if (cookieConsent) {
+            consentBanner.style.display = 'none';
+        }
+
+        // Set up event listeners
+        acceptButton?.addEventListener('click', () => {
+            setCookie('cookie-consent', 'accepted', 365);
+            setCookie('analytics-cookies', 'accepted', 365);
+            consentBanner.style.display = 'none';
+
+            // initializeAnalytics();
+        });
+
+        rejectButton?.addEventListener('click', () => {
+            setCookie('cookie-consent', 'rejected', 365);
+            setCookie('analytics-cookies', 'rejected', 365);
+            consentBanner.style.display = 'none';
+
+            // Ensure analytics aren't running
+        });
+    }
+</script>

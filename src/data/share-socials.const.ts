@@ -2,13 +2,12 @@ export const shareSocials = [
     {
         name: 'Share to Facebook.',
         url: 'https://www.facebook.com/sharer.php?u=[post-url]',
-        icon: 'mdi:facebook',
+        icon: 'facebook',
     },
     {
         name: 'Share to X.',
         url: 'https://x.com/share?url=[post-url]&text=[post-title]',
-        icon: 'mdi:twitter', // TODO: Still waiting for material design icons to update this
-                             // https://pictogrammers.com/library/mdi/
+        icon: 'x',
     },
     // {
     //   name: 'Share to Pinterest.',
@@ -18,12 +17,12 @@ export const shareSocials = [
     {
         name: 'Share to LinkedIn.',
         url: 'https://www.linkedin.com/shareArticle?url=[post-url]&title=[post-title]',
-        icon: 'mdi:linkedin',
+        icon: 'linkedin',
     },
     {
         name: 'Share to Reddit.',
         url: 'https://reddit.com/submit?url=[post-url]&title=[post-title]',
-        icon: 'mdi:reddit',
+        icon: 'reddit',
     },
     // {
     //   name: 'Share to Telegram.',

@@ -1,20 +1,20 @@
 ---
-layout: '../../layouts/PostLayout.astro'
+layout: '@layouts/PostLayout.astro'
 title: Using Git Bisect to find Bugs Fast
-previewImage: "../../assets/images/git-bisect-logo.png"
-titleImage: "../../assets/images/git-bisect-logo.png"
+previewImage: "@assets/git-bisect/git-bisect-logo.png"
+titleImage: "@assets/git-bisect/git-bisect-logo.png"
 publishedAt: "2024-09-24"
 category: 'Git'
 searchCategories: ['Git', 'Tooling', 'Fullstack']
 personal: false
 ---
 
-import hellYeah from "../../assets/git-bisect/hell-yeah.gif";
-import amazedFace from "../../assets/git-bisect/amazed-face.gif";
-import sadCat from "../../assets/git-bisect/sadcat.png";
-import Note from "../../components/content/Note.astro";
+import hellYeah from "@assets/git-bisect/hell-yeah.gif";
+import amazedFace from "@assets/git-bisect/amazed-face.gif";
+import sadCat from "@assets/git-bisect/sadcat.png";
+import Note from "@components/content/Note.astro";
 import { Image } from "astro:assets";
-import { H2, H3, H4 } from "../../components/content/HeadingWithAnchor.tsx";
+import { H2, H3, H4 } from "@components/content/HeadingWithAnchor.tsx";
 
 Recently at work, I encountered a couple of complex bugs with unclear origins,
 making it difficult to pinpoint exactly when they first appeared. In general

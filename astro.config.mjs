@@ -18,7 +18,9 @@ export default defineConfig({
 		astroExpressiveCode(getExpressiveCodeConfig()),
 		mdx(),
 		tailwind(),
-		icon(),
+		icon({
+			iconDir: 'src/assets/icons',
+		}),
 		qwikdev({ include: ['**/qwik/*'] }),
 		react({ include: ['**/react/*'] })
 	],

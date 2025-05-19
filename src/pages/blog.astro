@@ -2,7 +2,7 @@
 import PageLayout from "@layouts/PageLayout.astro";
 import Container from '@components/containers/Container.astro';
 import BlogPostsList from "@components/post/BlogPostsList.astro";
-import { getPosts } from "../libs/post";
+import { getPosts } from "@libs/post";
 
 const allPosts = await getPosts(undefined);
 const posts = allPosts.filter(post => !post.data.personal);

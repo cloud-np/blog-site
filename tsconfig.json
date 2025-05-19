@@ -8,6 +8,10 @@
     "baseUrl": ".",
     "paths": {
       "@styles/*": ["src/styles/*"],
+      "@assets/*": ["src/assets/*"],
+      "@libs/*": ["src/libs/*"],
+      "@data/*": ["src/data/*"],
+      "@utils/*": ["src/utils/*"],
       "@components/*": ["src/components/*"],
       "@layouts/*": ["src/layouts/*"],
       // "@fonts/*": ["src/styles/*"]
