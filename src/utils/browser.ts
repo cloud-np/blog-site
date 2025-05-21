@@ -7,6 +7,8 @@ export type BrowserType =
     | "Internet Eplorer"
     | "Unknown Browser";
 
+export type CookieValue = 'accepted' | 'rejected';
+
 export function getUserBroswerName(): BrowserType | undefined {
     if (typeof window === undefined) {
         return undefined;

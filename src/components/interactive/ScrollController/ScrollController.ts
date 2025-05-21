@@ -12,70 +12,68 @@ import type { Condition, ScrollOptions, StyleProp, UniqProp } from "./scroll.mod
 //         }
 //     }
 // }
-export namespace Scroll {
-    let scrollableElements: Record<string, ScrollableElement> = {};
-    let lastPosition: number = 0;
-    let direction = 0;
+let scrollableElements: Record<string, ScrollableElement> = {};
+let lastPosition: number = 0;
+let direction = 0;
 
-    export const addAsEventListener = () => {
-        const listeners = Object.values(scrollableElements).reduce((acc, el) => {
-            acc[el.funcId] = el.scrollFunc.bind(el);
-            return acc;
-        }, {});
-        updateScrollListener(listeners);
-    } 
-
-    const updateScrollListener = (listeners: Record<string, Function>) => {
-        window.addEventListener('scroll', () => {
-            updateScrollDirection();
-            Object.values(listeners).forEach(listener =>
-                listener()
-            );
-        });
-    }
-
-    export const el = (cls: string, styleOptions: Record<string, string | number | Function>, options?: ScrollOptions) => {
-        const scrollEl = new ScrollableElement(cls, styleOptions, options);
-        scrollableElements[scrollEl.funcId] = scrollEl;
-        addAsEventListener();
-    }
-
-    export const custom = (cls: string, func: Function) => {
-        const funcId = func.toString();
-    }
-
-    const updateScrollDirection = (): void => {
-        // Get the current scroll position
-        const currentScrollPosition = window.scrollY || document.documentElement.scrollTop;
-        
-        // Determine the scroll direction
-        if (currentScrollPosition > lastPosition) {
-            direction = 1;
-        } else if (currentScrollPosition < lastPosition) {
-            direction = -1;
-        } else {
-            direction = 0;
-        }
-        // Update the last scroll position
-        lastPosition = currentScrollPosition;
-    }
-
-    export const getDirection = (): number => {
-        return direction;
-    }
-
-    export const uniqPropsMap: Record<UniqProp, () => number> = {
-        direction: getDirection
-    };
-
-    // static custom(cls: string, func: Function, ...args: any[]) {
-    //     const innerFunc = () => {
-    //         func.bind(null, args)();
-    //     }
-    //     ScrollUtil.createScrollFuncId("custom", cls, {}, { start: 0, end: 0 });
-    //     ScrollController.tryToAddAsEventListener(, innerFunc);
-    // }
+export const addAsEventListener = () => {
+    const listeners = Object.values(scrollableElements).reduce((acc, el) => {
+        acc[el.funcId] = el.scrollFunc.bind(el);
+        return acc;
+    }, {});
+    updateScrollListener(listeners);
 }
+
+const updateScrollListener = (listeners: Record<string, Function>) => {
+    window.addEventListener('scroll', () => {
+        updateScrollDirection();
+        Object.values(listeners).forEach(listener =>
+            listener()
+        );
+    });
+}
+
+export const scrollEl = (cls: string, styleOptions: Record<string, string | number | Function>, options?: ScrollOptions) => {
+    const scrollEl = new ScrollableElement(cls, styleOptions, options);
+    scrollableElements[scrollEl.funcId] = scrollEl;
+    addAsEventListener();
+}
+
+export const custom = (cls: string, func: Function) => {
+    const funcId = func.toString();
+}
+
+const updateScrollDirection = (): void => {
+    // Get the current scroll position
+    const currentScrollPosition = window.scrollY || document.documentElement.scrollTop;
+
+    // Determine the scroll direction
+    if (currentScrollPosition > lastPosition) {
+        direction = 1;
+    } else if (currentScrollPosition < lastPosition) {
+        direction = -1;
+    } else {
+        direction = 0;
+    }
+    // Update the last scroll position
+    lastPosition = currentScrollPosition;
+}
+
+export const getDirection = (): number => {
+    return direction;
+}
+
+export const uniqPropsMap: Record<UniqProp, () => number> = {
+    direction: getDirection
+};
+
+// static custom(cls: string, func: Function, ...args: any[]) {
+//     const innerFunc = () => {
+//         func.bind(null, args)();
+//     }
+//     ScrollUtil.createScrollFuncId("custom", cls, {}, { start: 0, end: 0 });
+//     ScrollController.tryToAddAsEventListener(, innerFunc);
+// }
 
 export class ScrollableElement {
     elements: NodeListOf<Element>;
@@ -86,7 +84,7 @@ export class ScrollableElement {
         public cls: string,
         public styleOptions: Record<string, string | number | Function>,
         public options?: ScrollOptions,
-    ) { 
+    ) {
         this.cls = cls;
         this.elements = document.querySelectorAll(cls);
         this.styleOptions = styleOptions;
@@ -104,22 +102,23 @@ export class ScrollableElement {
                 if (!startCondition() || endCondition()) return;
             }
 
-            for(let [key, value] of Object.entries(this.styleOptions)) {
+            for (let [key, value] of Object.entries(this.styleOptions)) {
                 if (typeof value === 'function') {
                     value = this.applyParamsAndGetValue(value);
                 }
                 const [styleKey, styleValue] = ScrollUtil.stylablePropToStyle(key as StyleProp, value as number);
 
                 el.style[styleKey] = styleValue;
-            };
+            }
+            ;
         });
     }
 
-    applyParamsAndGetValue (valueFunc: Function): number {
+    applyParamsAndGetValue(valueFunc: Function): number {
         let styleKey = undefined;
         const conditionFuncParams = ScrollUtil.getParameters(valueFunc).map((param: StyleProp | UniqProp) => {
             if (ScrollUtil.isUniqProp(param)) {
-                return Scroll.uniqPropsMap[param]();
+                return uniqPropsMap[param]();
             }
 
             if (ScrollUtil.isStyleProp(param)) {
@@ -149,5 +148,4 @@ export class ScrollableElement {
         });
         return () => conditionFunc(...conditionFuncParams);
     }
-
-} 
+}

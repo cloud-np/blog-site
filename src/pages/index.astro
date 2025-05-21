@@ -23,7 +23,8 @@ import { Image } from "astro:assets";
 import BentoCard from "@components/content/BentoCard.astro";
 import betsson from "../assets/home-page/betsson.png";
 import presentation from "../assets/home-page/presentation.jpeg";
-import CookieConsent from "@components/common/CookieConsent.astro";
+// import CookieConsent from "@components/common/CookieConsent.astro";
+import { CookieConsent } from "@components/qwik/CookieConsent/CookieConsent";
 import { Slider } from "@components/react/slider";
 
 const seo = {
@@ -367,7 +368,7 @@ const posts = allPosts.filter((post) => !post.personal); // TODO: personal exist
 <script>
 	import gsap from "gsap";
 	import { ScrollTrigger } from "gsap/all";
-	import { Scroll } from "../components/interactive/ScrollController/ScrollController";
+	import { scrollEl } from "../components/interactive/ScrollController/ScrollController";
 
 	const REVEAL_DELAY = 3.72;
 	gsap.registerPlugin(ScrollTrigger);
@@ -441,7 +442,7 @@ const posts = allPosts.filter((post) => !post.personal); // TODO: personal exist
 	// 	y: (y, direction) => y + -1 * direction * 5,
 	// });
 
-	Scroll.el(".scroll-down-indicator", {
+	scrollEl(".scroll-down-indicator", {
 		opacity: () =>
 			window.scrollY - 100 >= 0
 				? Math.max(1 - (window.scrollY - 100) / 20, 0)
