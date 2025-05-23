@@ -3,7 +3,6 @@ dist/
 
 # dependencies
 node_modules/
-cookie.md
 
 # logs
 npm-debug.log*

@@ -61,3 +61,22 @@ const image = new URL(Astro.props.image || "./social.png", Astro.site);
 <meta property="twitter:title" content={title} />
 <meta property="twitter:description" content={description} />
 <meta property="twitter:image" content={image} />
+
+
+<!-- Partytown installs 3rd party libs using a WebWorker so we don't mind loading this first -->
+<script is:inline type="text/partytown" src="https://www.googletagmanager.com/gtag/js?id=G-M15C6XZPBR" />
+
+<!-- Google Analytics - Always load but with denied consent by default -->
+<script is:inline type="text/partytown">
+    // Define dataLayer and the gtag function.
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function gtag() {window.dataLayer.push(arguments);};
+    window.gtag('consent', 'default', {
+      'ad_storage': 'denied',           // Controls ad-related cookies
+      'ad_user_data': 'denied',         // Controls user data for ads
+      'ad_personalization': 'denied',   // Controls ad personalization
+      'analytics_storage': 'denied'     // Controls ALL GA cookies (_ga, _gid, etc.)
+    });
+    window.gtag('js', new Date());
+    window.gtag('config', 'G-M15C6XZPBR');
+</script>

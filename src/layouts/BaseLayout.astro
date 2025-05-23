@@ -1,6 +1,7 @@
 ---
 import BaseHead from '../components/core/BaseHead.astro';
 import type { Props as BaseHeadProps } from '../components/core/BaseHead.astro';
+import { CookieConsent } from "../components/qwik/CookieConsent/CookieConsent";
 // import ThemeProvider from '../components/qwik/ThemeToggleButton/ThemeProvider.astro';
 
 export interface Props {
@@ -20,6 +21,7 @@ const { seo } = Astro.props;
 		<slot name="header" />
 		<main class="flow seperate-from-header">
 			<slot />
+			<CookieConsent />
 		</main>
 		<slot name="footer" />
 		<style>
