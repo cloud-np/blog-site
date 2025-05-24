@@ -21,7 +21,13 @@ const { seo } = Astro.props;
 		<slot name="header" />
 		<main class="flow seperate-from-header">
 			<slot />
-			<CookieConsent />
+
+			<!--
+			TODO: There is a bug in the Qwik + Astro integration given you use ClientRouter from Astro it prevents
+				Qwik components to re-render even after their useVisibleTask$ triggers and their state has been updated successfully.
+				As a workaround we can pass a prop to this component to set the initial value of the state.
+			-->
+			<!--<CookieConsent />-->
 		</main>
 		<slot name="footer" />
 		<style>
