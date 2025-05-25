@@ -2,6 +2,7 @@ import { $, component$, Slot, useSignal } from '@builder.io/qwik';
 
 interface AccordionItemProps {
     title: string;
+    subTitle?: string;
     isOpen?: boolean;
     onToggle?: () => void;
 }
@@ -18,34 +19,31 @@ interface AccordionProps {
     accordionData: AccordionData[];
 }
 
-export const AccordionItem = component$<AccordionItemProps>(({title, isOpen = false, onToggle}) => {
+export const AccordionItem = component$<AccordionItemProps>(({title, subTitle = undefined, isOpen = false, onToggle}) => {
     const contentRef = useSignal<HTMLDivElement>();
 
     return (
-        <div class="border border-gray-200 rounded-lg mb-2 overflow-hidden">
-            <button
-                class={[
-                    "w-full px-4 py-3 text-left bg-gray-50 hover:bg-gray-100 transition-colors duration-200",
-                    "flex items-center justify-between font-medium text-gray-900",
+        <div class="border border-gray-200 rounded-lg mb-2">
+            <div class="flex flex-col">
+                <h6 class={[
+                    "w-full px-4 py-3 text-left cursor-pointer",
+                    "flex items-center font-medium text-gray-400",
                     "focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-inset"
                 ]}
-                onClick$={onToggle}
-                aria-expanded={isOpen}
-                type="button"
-            >
-                <span>{title}</span>
-                <svg
-                    class={[
-                        "w-5 h-5 transition-transform duration-200",
-                        isOpen ? "transform rotate-180" : ""
-                    ]}
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
+                        onClick$={onToggle}
+                        aria-expanded={isOpen}
+                        type="button"
                 >
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                </svg>
-            </button>
+                    <svg class={[
+                        "w-4 h-4 transition-transform transform duration-200 mr-2 -rotate-90",
+                        isOpen ? "rotate-0" : ""
+                    ]} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                    <button>{title}</button>
+                </h6>
+                {subTitle && <span>{subTitle}</span>}
+            </div>
 
             <div
                 ref={contentRef}

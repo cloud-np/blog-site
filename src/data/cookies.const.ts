@@ -23,7 +23,7 @@ interface CookieCategory {
     isActive: boolean;
 }
 
-const COOKIES: CookieCategory[] = [
+export const COOKIES_CATEGORIES: CookieCategory[] = [
     {
         type: "Necessary",
         description: "Essential cookies power this site's core functions, enabling secure logins and remembering your privacy choices. These cookies never collect or store your personal information.",
