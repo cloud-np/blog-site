@@ -30,9 +30,9 @@ export const AccordionItem = component$<AccordionItemProps>(({title, subTitle = 
                     "flex items-center font-medium text-gray-400",
                     "focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-inset"
                 ]}
-                        onClick$={onToggle}
-                        aria-expanded={isOpen}
-                        type="button"
+                    onClick$={onToggle}
+                    aria-expanded={isOpen}
+                    type="button"
                 >
                     <svg class={[
                         "w-4 h-4 transition-transform transform duration-200 mr-2 -rotate-90",
