@@ -9,6 +9,7 @@ import qwikdev from "@qwikdev/astro";
 import tailwind from '@astrojs/tailwind';
 import icon from "astro-icon";
 import { getExpressiveCodeConfig } from "./config/astro-expressive-code.config.js";
+import svelte from '@astrojs/svelte';
 
 import partytown from '@astrojs/partytown';
 
@@ -24,6 +25,7 @@ export default defineConfig({
       }),
       // qwikdev({ include: ['**/qwik/*'] }),
       // react({ include: ['**/react/*'] }),
+      svelte({ extensions: ['.svelte'] }), // Yet another FE framework #this-is-fine
       qwikdev(),
       partytown({
           config: {
@@ -35,6 +37,9 @@ export default defineConfig({
         ssr: {
             external: ["svgo"]
         },
+        resolve: {
+            conditions: ["browser"]
+        }
     },
     markdown: {
         remarkPlugins: [remarkMath],

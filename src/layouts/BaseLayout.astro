@@ -1,7 +1,8 @@
 ---
 import BaseHead from '../components/core/BaseHead.astro';
 import type { Props as BaseHeadProps } from '../components/core/BaseHead.astro';
-import { CookieConsent } from "../components/interactive/CookieConsent/CookieConsent";
+// import { CookieConsent } from "../components/interactive/CookieConsent/CookieConsent";
+import CookieConsent from "../components/interactive/CookieConsent/CookieConsent.svelte";
 // import ThemeProvider from '../components/qwik/ThemeToggleButton/ThemeProvider.astro';
 
 export interface Props {
@@ -27,7 +28,8 @@ const { seo } = Astro.props;
 				Qwik components to re-render even after their useVisibleTask$ triggers and their state has been updated successfully.
 				As a workaround we can pass a prop to this component to set the initial value of the state.
 			-->
-			<CookieConsent />
+			<!--<CookieConsent client:only="svelte" />-->
+			<CookieConsent client:idle />
 		</main>
 		<slot name="footer" />
 		<style>
