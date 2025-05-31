@@ -1,9 +1,12 @@
-<script>
+<script lang="ts">
     import CookieIcon from '@assets/icons/cookie.svg?raw';
+    import Buttons from './Buttons.svelte';
+    import { slide } from 'svelte/transition';
+    import Preferences from "@components/interactive/CookieConsent/Preferences.svelte";
 
     // Reactive state using Svelte 5 runes
     let state = $state({
-        isPreferenceActive: false,
+        isPreferenceActive: true,
         isVisible: true
     });
 
@@ -22,9 +25,6 @@
         state.isVisible = false;
     }
 </script>
-<style>
-    @import './cookie-consent.css';
-</style>
 
 <div class={[
   state.isPreferenceActive ? "" : "overflow-hidden",
@@ -42,25 +42,28 @@
                 This website uses cookies to ensure you get the best experience.<br/>
                 Of course they are turned off by default. <a class="underline" href="/privacy-policy">Learn more</a>
             </p>
-            <!--            <CookieButtons-->
-            <!--                    onPreference={handlePreference}-->
-            <!--                    onReject={handleReject}-->
-            <!--                    onAccept={handleAccept}-->
-            <!--            />-->
+            <Buttons
+                onPreference={handlePreference}
+                onReject={handleReject}
+                onAccept={handleAccept}
+            />
         </div>
     </div>
 
-    <div class={[
-    "cookie-banner cookie-pref",
-    state.isPreferenceActive ? "cookie-pref-active" : ""
-  ].join(" ")}>
-        <div class="cookie-pref-content">
-            <!--            <Preferences />-->
+    {#if state.isPreferenceActive}
+        <div transition:slide class="cookie-banner cookie-pref">
+            <div class="cookie-pref-content">
+                <Preferences />
+            </div>
+            <Buttons
+                    onPreference={handlePreference}
+                    onReject={handleReject}
+                    onAccept={handleAccept}
+            />
         </div>
-        <!--        <CookieButtons-->
-        <!--                onPreference={handlePreference}-->
-        <!--                onReject={handleReject}-->
-        <!--                onAccept={handleAccept}-->
-        <!--        />-->
-    </div>
+    {/if}
 </div>
+
+<style>
+    @import './cookie-consent.css';
+</style>

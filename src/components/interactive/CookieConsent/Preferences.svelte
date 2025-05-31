@@ -1,6 +1,12 @@
 <script>
-    import ShowMore from './ShowMore.svelte';
-    import CookiesAccordion from './CookiesAccordion.svelte';
+    import ShowMore from '../ShowMore.svelte';
+    import Accordion from "../Accordion/Accordion.svelte";
+    import { COOKIES_CATEGORIES } from "@data/cookies.const.ts";
+
+    const createField = (label, value) => `<div class="flex justify-items-start gap-8 text-gray-500">
+        <p class="text-sm font-bold min-w-16 mb-2">${label}</p>
+        <p class="text-sm text-left">${value}</p>
+    </div>`;
 </script>
 
 <h3>Cookies Preferences</h3>
@@ -16,9 +22,20 @@
         your preferences, and deliver relevant content and ads. These cookies will only be
         stored if you give permission.
         <br/>
-        <br/>
         You have full control to enable or disable any cookies, though turning off certain ones
         might impact how you experience our website.
     </p>
 </ShowMore>
-<CookiesAccordion />
+<Accordion accordionData={COOKIES_CATEGORIES.map(cat => ({
+    title: cat.type,
+    subTitle: cat.description,
+    content: `<ul class="flex flex-col mb-2 border-b border-gray-400 border-opacity-70">
+        ${cat.cookies.map(cookie =>
+            `<li class="pb-4">
+                ${createField('Cookie', cookie.name)}
+                ${createField('Duration', cookie.duration)}
+                ${createField('Description', cookie.description)}
+            </li>`
+        ).join('')}
+    </ul>`
+}))} />

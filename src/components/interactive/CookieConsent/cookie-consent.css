@@ -72,20 +72,11 @@ button {
     p {
         font-size: 1rem;
     }
-    opacity: 0;
     max-height: 900px;
-    overflow: hidden;
-    transform: translateY(100%);
-    transition: all ease-in-out 0.4s;
 }
 
 .cookie-pref-content {
     overflow: auto;
     flex: 1;
     max-height: 500px;
-}
-
-.cookie-pref-active {
-    opacity: 1;
-    transform: translateY(0%);
 }
