@@ -1,8 +1,10 @@
 <script lang="ts">
     import CookieIcon from '@assets/icons/cookie.svg?raw';
+    import CloseIcon from '@assets/icons/close.svg?raw';
     import Buttons from './Buttons.svelte';
     import { slide } from 'svelte/transition';
     import Preferences from "@components/interactive/CookieConsent/Preferences.svelte";
+    import {deleteAllCookiesExceptConsent, disableGa, enableGa, setCookie} from "@utils/browser";
 
     // Reactive state using Svelte 5 runes
     let state = $state({
@@ -16,13 +18,18 @@
     }
 
     function handleReject() {
-        // Add your reject logic here
+        setCookie('cookie-consent', 'rejected', 365);
+        setCookie('analytics-cookies', 'rejected', 365);
         state.isVisible = false;
+        deleteAllCookiesExceptConsent();
+        disableGa();
     }
 
     function handleAccept() {
-        // Add your accept logic here
+        setCookie('cookie-consent', 'accepted', 365);
+        setCookie('analytics-cookies', 'accepted', 365);
         state.isVisible = false;
+        enableGa();
     }
 </script>
 
@@ -52,6 +59,12 @@
 
     {#if state.isPreferenceActive}
         <div transition:slide class="cookie-banner cookie-pref">
+            <div class="flex justify-between items-center mb-4">
+                <h3>Cookies Preferences</h3>
+                <button type="button" onclick={handlePreference}>
+                    {@html CloseIcon }
+                </button>
+            </div>
             <div class="cookie-pref-content">
                 <Preferences />
             </div>

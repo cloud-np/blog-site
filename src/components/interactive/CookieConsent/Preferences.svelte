@@ -9,14 +9,12 @@
     </div>`;
 </script>
 
-<h3>Cookies Preferences</h3>
 <ShowMore startingHeightClass="max-h-28">
-    <p class="mt-6">
+    <p class="mt-4">
         We use cookies to enhance your website experience. These digital tools help with
         navigation and enable important features.
         "Necessary" cookies are automatically saved to your browser as they're essential for the
         site to function properly.
-        <br/>
         <br/>
         Additionally, we employ third-party cookies to analyze your usage patterns, remember
         your preferences, and deliver relevant content and ads. These cookies will only be
