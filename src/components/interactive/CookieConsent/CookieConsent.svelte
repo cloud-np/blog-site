@@ -8,7 +8,7 @@
 
     // Reactive state using Svelte 5 runes
     let state = $state({
-        isPreferenceActive: true,
+        isPreferenceActive: false,
         isVisible: true
     });
 

@@ -31,3 +31,22 @@ src/
 ├── pages/
 └── utils/
 ```
+
+
+Experience Summary
+As a Senior Software Engineer, I have successfully led feature development for high-traffic
+platforms serving millions of users worldwide, demonstrating proven ability to scale applications from
+500 to 6000 concurrent operations while maintaining optimal performance and user experience.
+
+My background combines deep technical knowledge in modern web technologies (Angular, React, Node.js)
+with full-stack development expertise. I have experience working with AI/ML technologies,
+including developing applications that leverage NLP models for text analysis and contextual information extraction.
+
+My academic foundation includes specialized coursework in Optimization Theory, Algorithms,
+and Scientific Computing, complemented by published research in workflow scheduling algorithms and visualization techniques.
+This research experience in algorithmic optimization and data visualization provides a strong foundation for developing scalable,
+intelligent applications.
+
+Having mentored developers and maintained code quality standards across large-scale applications,
+I bring both technical leadership and a systematic approach to software development. My experience spans the full development
+lifecycle from conception to deployment, ensuring delivery of production-ready solutions that can serve diverse market needs across Europe.
