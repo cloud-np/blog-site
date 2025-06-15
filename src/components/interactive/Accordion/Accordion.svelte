@@ -1,18 +1,18 @@
-<script lang="ts">
+<script lang="ts" generics="T">
 	import AccordionItem from './AccordionItem.svelte';
+	import type { Snippet } from "svelte";
 
-    // Props interface
-    let {
-        allowMultiple = false,
-        defaultOpenItems = [0],
-        accordionData = []
-    } = $props();
+    let { title, content, allowMultiple = false, defaultOpenItems = [0], accordionData = [] }: {
+		title: Snippet<[T]>;
+		content: Snippet<[T]>;
+		allowMultiple?: boolean;
+		defaultOpenItems?: number[];
+		accordionData: T[];
+	} = $props();
 
-    // State using Svelte 5 runes
     let openItems = $state(new Set(defaultOpenItems));
 
-    // Toggle item function
-    function toggleItem(index) {
+    function toggleItem(index: number) {
         const newOpenItems = new Set(openItems);
 
         if (newOpenItems.has(index)) {
@@ -27,8 +27,7 @@
         openItems = newOpenItems;
     }
 
-    // Check if item is open
-    function isOpen(index) {
+    function isOpen(index: number) {
         return openItems.has(index);
     }
 </script>
@@ -37,13 +36,12 @@
 	<div class="space-y-2">
 		{#each accordionData as item, index (index)}
 			<AccordionItem
-                title={item.title}
-                subTitle={item.subTitle}
+				item={item}
+				{title}
+				{content}
                 isOpen={isOpen(index)}
                 onToggle={() => toggleItem(index)}
-			>
-				{@html item.content}
-			</AccordionItem>
+			/>
 		{/each}
 	</div>
 </div>

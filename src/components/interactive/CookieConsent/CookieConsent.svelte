@@ -4,7 +4,7 @@
     import Buttons from './Buttons.svelte';
     import { slide } from 'svelte/transition';
     import Preferences from "@components/interactive/CookieConsent/Preferences.svelte";
-    import {deleteAllCookiesExceptConsent, disableGa, enableGa, setCookie} from "@utils/browser";
+    import { deleteAllCookiesExceptConsent, disableGa, enableGa, setCookie } from "@utils/browser";
 
     // Reactive state using Svelte 5 runes
     let state = $state({
@@ -14,7 +14,15 @@
 
     // Event handlers
     function handlePreference() {
-        state.isPreferenceActive = !state.isPreferenceActive;
+        if (!state.isPreferenceActive) {
+            state.isPreferenceActive = true;
+            return;
+        }
+
+    }
+
+    function handleClose() {
+        state.isPreferenceActive = false;
     }
 
     function handleReject() {
@@ -50,9 +58,9 @@
                 Of course they are turned off by default. <a class="underline" href="/privacy-policy">Learn more</a>
             </p>
             <Buttons
-                onPreference={handlePreference}
-                onReject={handleReject}
-                onAccept={handleAccept}
+                    onPreference={handlePreference}
+                    onReject={handleReject}
+                    onAccept={handleAccept}
             />
         </div>
     </div>
@@ -61,14 +69,15 @@
         <div transition:slide class="cookie-banner cookie-pref">
             <div class="flex justify-between items-center mb-4">
                 <h3>Cookies Preferences</h3>
-                <button type="button" onclick={handlePreference}>
+                <button type="button" onclick={handleClose}>
                     {@html CloseIcon }
                 </button>
             </div>
             <div class="cookie-pref-content">
-                <Preferences />
+                <Preferences/>
             </div>
             <Buttons
+                    isPreferenceActive={true}
                     onPreference={handlePreference}
                     onReject={handleReject}
                     onAccept={handleAccept}

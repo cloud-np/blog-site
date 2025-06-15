@@ -23,7 +23,7 @@ const COOKIE_DURATION_MAP: Record<CookieDuration, Date | null> = {
     "never": new Date(new Date().getTime() + 10 * 365 * 24 * 60 * 60 * 1000) // 10 years (effectively "never")
 };
 
-interface CookieCategory {
+export interface CookieCategory {
     type: CookieCategoryType;
     description: string;
     cookies: Cookie[];

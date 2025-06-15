@@ -1,19 +1,21 @@
-<script>
-    import { onMount } from 'svelte';
+<script lang="ts">
+    import { onMount, type Snippet } from 'svelte';
 
-    // Props interface
     let {
         startingHeightClass,
+        content,
         buttonLabels = { more: 'Show more', less: 'Show less' }
+    }: {
+        startingHeightClass: string;
+        content: Snippet;
+        buttonLabels?: { more: string, less: string };
     } = $props();
 
-    // State using Svelte 5 runes
     let contentRef = $state();
     let contentHeight = $state(0);
     let isExpanded = $state(false);
     let showToggle = $state(false);
 
-    // Toggle expanded state
     function toggleExpand() {
         isExpanded = !isExpanded;
     }
@@ -30,8 +32,8 @@
 <div bind:this={contentRef}
     class="relative text-base inline-flex overflow-hidden text-ellipsis {isExpanded ? 'max-h-full' : startingHeightClass}"
 >
-    <slot />
+    {@render content()}
 </div>
-<p class="underline text-base cursor-pointer my-4" onclick={toggleExpand} >
+<button class="underline text-base cursor-pointer my-4" onclick={toggleExpand} >
     {isExpanded ? buttonLabels.less : buttonLabels.more}
-</p>
+</button>
