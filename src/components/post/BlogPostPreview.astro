@@ -133,3 +133,31 @@ const { post } = Astro.props;
 		}
 	}
 </style>
+
+<script>
+	// Create intersection observer for sliding animation
+	const createSlideInObserver = () => {
+		const slideInElements = document.querySelectorAll('.post-slide-in');
+
+		const observer = new IntersectionObserver((entries) => {
+			entries.forEach((entry) => {
+				if (entry.isIntersecting) {
+					entry.target.classList.add('slide-in-visible');
+				}
+			});
+		}, {
+			threshold: 0.1,
+			rootMargin: '0px 0px -50px 0px'
+		});
+
+		slideInElements.forEach((element) => {
+			observer.observe(element);
+		});
+	};
+
+	// Initialize on page load
+	document.addEventListener('DOMContentLoaded', createSlideInObserver);
+
+	// Re-initialize on Astro page transitions
+	document.addEventListener('astro:after-swap', createSlideInObserver);
+</script>
