@@ -10,7 +10,7 @@ export interface Props {
 const { post } = Astro.props;
 ---
 
-<div class="post-preview__container">
+<div class="post-preview__container post-slide-in">
 	<a class="post-preview__link fade-in" href={post.href}>
 		<article class="post-preview__article">
 			{
@@ -59,7 +59,9 @@ const { post } = Astro.props;
 	.post-preview__category {
 		width: fit-content;
 		padding: 0.25rem 0.75rem;
-		background-color: var(--surface-1);
+		background-color: rgba(255, 255, 255, 0.8);
+		color: #7c3aed;
+		font-weight: 600;
 		border-radius: 2rem;
 		margin-bottom: 0.5rem;
 		font-size: var(--step--2);
@@ -67,6 +69,7 @@ const { post } = Astro.props;
 
 	.post-preview__text h2 {
 		font-size: var(--step-1);
+		color: #1f2937;
 	}
 
 	.post-preview__img {
@@ -82,15 +85,28 @@ const { post } = Astro.props;
 	.post-preview__date {
 		margin-top: 0.5rem;
 		font-size: var(--step--1);
-		color: #666;
+		color: #6b7280;
 	}
 
 	.post-preview__container {
 		max-width: 100%;
 		padding: 1rem 2rem;
-		background-color: var(--background-card);
-		border: 1px solid var(--on-border-color);
+		background: linear-gradient(135deg, #fce7f3, #f3e8ff, #fce7f3);
+		border: 1px solid #f9a8d4;
 		border-radius: 10px;
+		box-shadow: 0 4px 15px rgba(249, 168, 212, 0.2);
+	}
+
+	.post-slide-in {
+		opacity: 0;
+		transform: translateX(-50px);
+		transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+		transition-delay: var(--animation-delay, 0s);
+	}
+
+	.post-slide-in.slide-in-visible {
+		opacity: 1;
+		transform: translateX(0);
 	}
 
 	@media (max-width: 768px) {
@@ -121,3 +137,31 @@ const { post } = Astro.props;
 		}
 	}
 </style>
+
+<script>
+	// Create intersection observer for sliding animation
+	const createSlideInObserver = () => {
+		const slideInElements = document.querySelectorAll('.post-slide-in');
+
+		const observer = new IntersectionObserver((entries) => {
+			entries.forEach((entry) => {
+				if (entry.isIntersecting) {
+					entry.target.classList.add('slide-in-visible');
+				}
+			});
+		}, {
+			threshold: 0.1,
+			rootMargin: '0px 0px -50px 0px'
+		});
+
+		slideInElements.forEach((element) => {
+			observer.observe(element);
+		});
+	};
+
+	// Initialize on page load
+	document.addEventListener('DOMContentLoaded', createSlideInObserver);
+
+	// Re-initialize on Astro page transitions
+	document.addEventListener('astro:after-swap', createSlideInObserver);
+</script>

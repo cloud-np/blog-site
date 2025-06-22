@@ -12,8 +12,8 @@ const { posts } = Astro.props;
 
 <ul>
 	{
-		posts.map((post) => (
-			<li>
+		posts.map((post, index) => (
+			<li style={`--animation-delay: ${index * 0.1}s`}>
 				<BlogPostPreview post={post} />
 			</li>
 		))
