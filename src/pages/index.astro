@@ -31,7 +31,7 @@ const seo = {
 };
 
 const allPosts = await getPosts(undefined);
-const posts = allPosts.filter((post) => !post.personal);
+const posts = allPosts.filter((post) => !post.data.personal);
 ---
 
 <PageLayout seo={seo}>
@@ -101,8 +101,8 @@ const posts = allPosts.filter((post) => !post.personal);
 					</p>
 				</div>
 				<b>Feature Development:</b> Spearheaded the development of critical features
-				that enhanced and refactored essential functionalities 
-				for millions of customers worldwide. This included integrating 
+				that enhanced and refactored essential functionalities
+				for millions of customers worldwide. This included integrating
 				new API providers, successfully expanded our market offerings
 				and increasing our app capabilities while ensuring an optimal user experience.
 				</br>
@@ -224,11 +224,11 @@ const posts = allPosts.filter((post) => !post.personal);
 				const rect = el.getBoundingClientRect();
 				const x = mouseEvent.pageX - rect.left;
 				const y = mouseEvent.pageY - rect.top;
-				
+
 				// Calculate the position in percentages
 				const xPercent = (x / rect.width) * 100;
 				const yPercent = (y / rect.height) * 100;
-				
+
 				// Apply radial gradient mask effect
 				const maskImage = `radial-gradient(
 					circle at ${xPercent}% ${yPercent}%,
@@ -237,7 +237,7 @@ const posts = allPosts.filter((post) => !post.personal);
 					rgba(255, 255, 255, 0.7) 40%,
 					rgba(255, 255, 255, 0.5) 60%
 				)`;
-				
+
 				el.style.maskImage = maskImage;
 			});
 		});
