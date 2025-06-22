@@ -101,6 +101,7 @@ const { post } = Astro.props;
 		opacity: 0;
 		transform: translateX(-50px);
 		transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+		transition-delay: var(--animation-delay, 0s);
 	}
 
 	.post-slide-in.slide-in-visible {
