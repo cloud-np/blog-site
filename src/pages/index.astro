@@ -22,7 +22,7 @@ import publication from "../assets/publication.png";
 import { Image } from "astro:assets";
 import BentoCard from "../components/ui/BentoCard.astro";
 import betsson from "../assets/betsson.png";
-import presentation from "../assets/presentation.jpeg";
+import presentation from "../assets/presentation1.jpeg";
 import { Slider } from "../components/react/slider";
 
 const seo = {
@@ -31,7 +31,7 @@ const seo = {
 };
 
 const allPosts = await getPosts(undefined);
-const posts = allPosts.filter((post) => !post.personal);
+const posts = allPosts.filter((post) => !(post as any).personal);
 ---
 
 <PageLayout seo={seo}>
@@ -349,6 +349,7 @@ const posts = allPosts.filter((post) => !post.personal);
 
 	.hero-title {
 		transform: translateY(100%);
+		font-size: min(6rem, 9vw);
 		z-index: -1;
 	}
 

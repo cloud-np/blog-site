@@ -5,6 +5,7 @@
 	src: url('/fonts/PlusJakartaSans-Light.ttf') format('truetype');
 	font-weight: 300;
 	font-style: normal;
+	font-display: swap;
 }
 
 @font-face {
@@ -12,6 +13,7 @@
 	src: url('/fonts/PlusJakartaSans-Regular.ttf') format('truetype');
 	font-weight: 400;
 	font-style: normal;
+	font-display: swap;
 }
 
 @font-face {
@@ -19,6 +21,7 @@
 	src: url('/fonts/PlusJakartaSans-Medium.ttf') format('truetype');
 	font-weight: 500;
 	font-style: normal;
+	font-display: swap;
 }
 
 @font-face {
@@ -26,6 +29,7 @@
 	src: url('/fonts/PlusJakartaSans-SemiBold.ttf') format('truetype');
 	font-weight: 600;
 	font-style: normal;
+	font-display: swap;
 }
 
 @font-face {
@@ -33,6 +37,7 @@
 	src: url('/fonts/PlusJakartaSans-Bold.ttf') format('truetype');
 	font-weight: 700;
 	font-style: normal;
+	font-display: swap;
 }
 /******************************/
 
@@ -215,4 +220,9 @@ pre copy-code-button {
 		transform: translateY(2ex);
 		opacity: 0;
 	}
+}
+
+:where(h1) {
+	margin-block: 0.67em;
+	font-size: 2em; 
 }
