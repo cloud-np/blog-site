@@ -1,91 +1,89 @@
 <script lang="ts">
-    import CookieIcon from '@assets/icons/cookie.svg?raw';
-    import CloseIcon from '@assets/icons/close.svg?raw';
-    import Buttons from './Buttons.svelte';
-    import { slide } from 'svelte/transition';
-    import Preferences from "@components/interactive/CookieConsent/Preferences.svelte";
-    import { deleteAllCookiesExceptConsent, disableGa, enableGa, setCookie } from "@utils/browser";
+	import CloseIcon from "@assets/icons/close.svg?raw";
+	import Buttons from "./Buttons.svelte";
+	import { slide, fade } from "svelte/transition";
+	import { quintOut } from "svelte/easing";
+	import Preferences from "@components/interactive/CookieConsent/Preferences.svelte";
+	import { deleteAllCookiesExceptConsent, disableGa, enableGa, getCookie, setCookie } from "@utils/browser";
+	import { useTranslations } from "@i18n/utils";
+	import { onMount } from "svelte";
 
-    // Reactive state using Svelte 5 runes
-    let state = $state({
-        isPreferenceActive: false,
-        isVisible: true
-    });
+	// Receive language as prop from Astro
+	let { lang } = $props();
+	const t = useTranslations(lang);
 
-    // Event handlers
-    function handlePreference() {
-        if (!state.isPreferenceActive) {
-            state.isPreferenceActive = true;
-            return;
-        }
+	// Reactive state using Svelte 5 runes
+	let state = $state({
+		isPreferenceActive: false,
+		isVisible: false,
+	});
 
-    }
+	onMount(() => state.isVisible = !getCookie('consent'));
 
-    function handleClose() {
-        state.isPreferenceActive = false;
-    }
+	// Event handlers
+	function handlePreference() {
+		if (!state.isPreferenceActive) {
+			state.isPreferenceActive = true;
+			return;
+		}
+	}
 
-    function handleReject() {
-        setCookie('cookie-consent', 'rejected', 365);
-        setCookie('analytics-cookies', 'rejected', 365);
-        state.isVisible = false;
-        deleteAllCookiesExceptConsent();
-        disableGa();
-    }
+	function handleClose() {
+		state.isPreferenceActive = false;
+	}
 
-    function handleAccept() {
-        setCookie('cookie-consent', 'accepted', 365);
-        setCookie('analytics-cookies', 'accepted', 365);
-        state.isVisible = false;
-        enableGa();
-    }
+	function handleReject() {
+		setCookie("consent", "rejected", 365);
+		setCookie("analytics-consent", "rejected", 365);
+		state.isVisible = false;
+		deleteAllCookiesExceptConsent();
+		disableGa();
+	}
+
+	function handleAccept() {
+		setCookie("consent", "accepted", 365);
+		setCookie("analytics-consent", "accepted", 365);
+		state.isVisible = false;
+		enableGa();
+	}
 </script>
 
-<div class={[
-  state.isPreferenceActive ? "" : "overflow-hidden",
-  state.isVisible ? "" : "hidden"
-].join(" ")}>
-    <div class={[
-    "cookie-normal cookie-banner rounded-full",
-    state.isPreferenceActive ? "cookie-normal-pref-active" : ""
-  ].join(" ")}>
-        <span class="cookie w-16 h-16 absolute -top-5">
-            {@html CookieIcon}
-        </span>
-        <div class="cookie-content p-4 justify-around items-center gap-4">
-            <p class="text-center mx-12">
-                This website uses cookies to ensure you get the best experience.<br/>
-                Of course they are turned off by default. <a class="underline" href="/privacy-policy">Learn more</a>
-            </p>
-            <Buttons
-                    onPreference={handlePreference}
-                    onReject={handleReject}
-                    onAccept={handleAccept}
-            />
-        </div>
-    </div>
-
-    {#if state.isPreferenceActive}
-        <div transition:slide class="cookie-banner cookie-pref">
-            <div class="flex justify-between items-center mb-4">
-                <h3>Cookies Preferences</h3>
-                <button type="button" onclick={handleClose}>
-                    {@html CloseIcon }
-                </button>
-            </div>
-            <div class="cookie-pref-content">
-                <Preferences/>
-            </div>
-            <Buttons
-                    isPreferenceActive={true}
-                    onPreference={handlePreference}
-                    onReject={handleReject}
-                    onAccept={handleAccept}
-            />
-        </div>
-    {/if}
-</div>
-
-<style>
-    @import './cookie-consent.css';
-</style>
+{#if state.isVisible}
+	<div class="fixed bottom-0 left-0 w-full p-4 sm:w-auto z-10 text-white">
+		{#if state.isPreferenceActive}
+			<div
+				in:slide={{ duration: 400, easing: quintOut }}
+				out:fade={{ duration: 300 }}
+				class="shadow-[0_-2px_10px_rgba(0,0,0,0.1)] bg-neutral-800 p-4 max-h-[80vh] flex flex-col">
+				<div class="flex justify-between items-center mb-4">
+					<h3>{t('cookie.title')}</h3>
+					<button class="cursor-pointer" type="button" onclick={handleClose}>
+						{@html CloseIcon}
+					</button>
+				</div>
+				<div class="overflow-y-auto flex-1 max-h-[calc(80vh-120px)]">
+					<Preferences {lang} />
+				</div>
+				<Buttons
+					isPreferenceActive={true}
+					onPreference={handlePreference}
+					onReject={handleReject}
+					onAccept={handleAccept}
+					{t} />
+			</div>
+		{:else}
+			<div
+				in:slide={{ duration: 400, easing: quintOut }}
+				out:fade={{ duration: 300 }}
+				class="translate-y-0 visible opacity-100 bottom-4 transition-all duration-400 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] max-h-[90vh] overflow-y-auto shadow-[0_-2px_10px_rgba(0,0,0,0.1)] bg-neutral-800 max-w-120 rounded-md">
+				<div class="text-base my-0 mx-auto flex items-center flex-wrap md:flex-col md:items-center md:pt-8 p-4 gap-4">
+					<p class="mx-4">
+						{t('cookie.description')}
+						<a class="underline" href="/privacy-policy">{t('cookie.learn-more')}</a>
+					</p>
+					<Buttons onPreference={handlePreference} onReject={handleReject} onAccept={handleAccept} {t} />
+				</div>
+			</div>
+		{/if}
+	</div>
+{/if}

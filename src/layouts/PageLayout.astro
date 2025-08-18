@@ -6,12 +6,13 @@ import Footer from "@components/layout/Footer.astro";
 
 export interface Props {
 	seo?: BaseHeadProps;
+	isLightTheme?: boolean;
 }
 
-const { seo } = Astro.props as Props;
+const { seo, isLightTheme = false } = Astro.props as Props;
 ---
 
-<BaseLayout seo={seo}>
+<BaseLayout seo={seo} isLightTheme={isLightTheme}>
 	<Header slot="header" />
 	<slot />
 	<Footer slot="footer" />

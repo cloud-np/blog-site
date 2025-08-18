@@ -1,5 +1,3 @@
-import partytown from "@astrojs/partytown";
-
 export type BrowserType =
     "Firefox"
     | "Chrome"
@@ -8,6 +6,10 @@ export type BrowserType =
     | "Edge"
     | "Internet Eplorer"
     | "Unknown Browser";
+
+export type CookieType =
+	"consent"
+	| "analytics-consent";
 
 export type CookieValue = 'accepted' | 'rejected';
 

@@ -22,7 +22,7 @@ const { title, hasFooter, colSpan, reverse } = Astro.props;
     </div>
 
     {hasFooter &&
-        <div class="mt-4 max-h-[20rem] z-40 bg-[rgba(40,40,40,0.30)] [mask-image:radial-gradient(80%_80%_at_50%_50%,white_0%,transparent_100%)]">
+        <div class="mt-4 max-h-80 z-40 bg-[rgba(40,40,40,0.30)] mask-[radial-gradient(80%_80%_at_50%_50%,white_0%,transparent_100%)]">
             <slot name="footer" />
         </div>
     }

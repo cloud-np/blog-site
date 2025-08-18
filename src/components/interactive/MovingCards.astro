@@ -7,16 +7,14 @@ const { duration } = Astro.props;
 
 <div class="wrapper">
     <div class="inner max-w-7xl">
-        <section
-            class="scroller-container flex min-w-full shrink-0 w-max flex-nowrap h-[20rem] rounded-xl z-40 bg-[rgba(40,40,40,0.30)] [mask-image:radial-gradient(50%_50%_at_50%_50%,white_0%,transparent_100%)]"
+        <div
+            class="scroller-container flex min-w-full w-full flex-nowrap h-80 rounded-xl z-40"
             style={{ "--duration": `${duration}ms` }}
         >
             <slot />
-        </section>
+        </div>
     </div>
 </div>
-
-<div id="display"></div>
 
 <script>
     // TOOD: https://ui.aceternity.com/components/infinite-moving-cards
@@ -45,7 +43,7 @@ const { duration } = Astro.props;
 
         // These are the display images that will be shown when hovering the regular ones.
         // document.getElementById("display")?.replaceChildren(scrollerContainer.cloneNode(true));
-        
+
         // For each image add the ability to preview it.
         // Array.from(imagesContainer.children).forEach((child, index) => {
         //     child.addEventListener("mouseover", () => previewImage(index));
@@ -98,7 +96,7 @@ const { duration } = Astro.props;
             transform: translate(calc(-50% - 0.5rem));
         }
     }
-/* 
+/*
     #display {
         transition: all ease 2s;
         width: 50%;

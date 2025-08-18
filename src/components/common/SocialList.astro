@@ -1,40 +1,19 @@
 ---
 import { Icon } from 'astro-icon/components';
-import { socials } from '@data/my-socials.const';
+import { SOCIALS } from '@data/socials.const';
 ---
 
-<ul class="social__list">
+<ul class="flex list-none gap-2">
 	{
-		socials.map((social) => (
-			<li>
-				<a href={social.url} title={`Open ${social.name} profile`}>
+		SOCIALS.map(social => (
+			<li class="flex items-center">
+				<a class="flex items-center p-4 w-full h-full transition-opacity duration-200 ease hover:opacity-80"
+					href={social.url}
+					title={`Open ${social.name} profile`}
+				>
 					<Icon name={social.icon} />
 				</a>
 			</li>
 		))
 	}
 </ul>
-
-<style>
-	.social__list {
-		display: flex;
-		list-style: none;
-		margin: 0;
-		padding: 0;
-		gap: 1rem;
-	}
-	.social__list li {
-		display: flex;
-		align-items: center;
-	}
-	.social__list li a {
-		width: 100%;
-		height: 100%;
-		display: flex;
-		align-items: center;
-		transition: opacity 0.2s ease;
-	}
-	.social__list li a:hover {
-		opacity: 0.8;
-	}
-</style>

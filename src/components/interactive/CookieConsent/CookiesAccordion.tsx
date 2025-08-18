@@ -1,5 +1,5 @@
 import { $, component$, useSignal } from "@builder.io/qwik";
-import { AccordionItem } from "@components/common/Accordion.tsx";
+import { AccordionItem } from "@components/common/Accordion";
 import { COOKIES_CATEGORIES, type Cookie } from "@data/cookies.const.ts";
 
 const allowMultiple = false;

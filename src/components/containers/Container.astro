@@ -1,12 +1,18 @@
 ---
+
+interface Props {
+	className?: string;
+}
+
+const { className = "" } = Astro.props as Props;
 ---
 
 <style>
 	.container {
+		--lg-container: 1296px;
 		width: 100%;
 		margin: 0 auto;
 		max-width: var(--lg-container, 960px);
-		/* padding: var(--container-padding, 1rem); */
 		padding: 0 var(--step-3);
 	}
 
@@ -18,6 +24,6 @@
 	}
 </style>
 
-<div class="container">
+<div class=`container ${className}`>
 	<slot />
 </div>

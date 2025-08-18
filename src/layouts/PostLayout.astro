@@ -10,12 +10,6 @@ import Footer from '@components/layout/Footer.astro';
 	instead of the <head> causing all sort of issues like not rendering UTF-8 chars.
  -->
 <slot name="head">
-	<!-- For LaTeX -->
-	<!-- this resolves to /public/styles/katex.css -->
-	<link rel="preload"
-		href="/styles/katex.css"
-		as="style" onload="this.onload=null;this.rel='stylesheet'" />
-	<noscript><link rel="stylesheet" href="/styles/katex.css" /></noscript>
 </slot>
 <Header slot="header" />
 <slot />

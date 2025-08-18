@@ -2,7 +2,7 @@
 	import AccordionItem from './AccordionItem.svelte';
 	import type { Snippet } from "svelte";
 
-    let { title, content, allowMultiple = false, defaultOpenItems = [0], accordionData = [] }: {
+    let { title, content, allowMultiple = false, defaultOpenItems = [], accordionData = [] }: {
 		title: Snippet<[T]>;
 		content: Snippet<[T]>;
 		allowMultiple?: boolean;
@@ -36,7 +36,7 @@
 	<div class="space-y-2">
 		{#each accordionData as item, index (index)}
 			<AccordionItem
-				item={item}
+				{item}
 				{title}
 				{content}
                 isOpen={isOpen(index)}

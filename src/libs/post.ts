@@ -61,7 +61,7 @@ export const getPosts = async (limit: number | undefined): Promise<Post[]> => {
 };
 
 const getRawPostHref = (slug: string): string => {
-    return `/blog/${slug}`;
+    return `/erga/${slug}`;
 };
 
 export function generateSlug(title: string) {
@@ -83,6 +83,8 @@ interface RawPostData {
     category: string;
     searchCategories: string[];
     personal: boolean;
+	href: string;
+	author?: string;
 };
 
 export interface Post extends RawPostWithOutData {

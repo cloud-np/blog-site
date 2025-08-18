@@ -4,8 +4,6 @@
     "strictNullChecks": true,
     "experimentalDecorators": true,
     "useDefineForClassFields": false,
-    "jsx": "react-jsx",
-    "jsxImportSource": "@builder.io/qwik",
     "baseUrl": ".",
     "paths": {
       "@styles/*": ["src/styles/*"],
@@ -15,7 +13,10 @@
       "@utils/*": ["src/utils/*"],
       "@components/*": ["src/components/*"],
       "@layouts/*": ["src/layouts/*"],
-      // "@fonts/*": ["src/styles/*"]
-    }
-  }
+      "@i18n/*": ["src/i18n/*"],
+    },
+	"plugins": [{ "name": "@astrojs/ts-plugin" }],
+  },
+  "include": [".astro/types.d.ts", "**/*"],
+  "exclude": ["dist"],
 }

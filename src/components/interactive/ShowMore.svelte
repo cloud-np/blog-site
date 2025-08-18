@@ -23,7 +23,7 @@
     onMount(() => {
         if (contentRef) {
             // Get the actual content height
-            const height = contentRef.scrollHeight;
+            const height = (contentRef as HTMLElement).scrollHeight;
             contentHeight = height;
         }
     });
