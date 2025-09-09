@@ -4,7 +4,7 @@ import BlogPostsList from "@components/post/BlogPostsList.astro";
 import { getPosts } from "@libs/post";
 import Reveal from "@components/Reveal.astro";
 import ScrollDown from "@components/interactive/ScrollDown.astro";
-// import SceneController from "@components/interactive/SceneController/SceneController.astro";
+import SceneController from "@components/interactive/SceneController/SceneController.astro";
 import Logo from "@components/common/Logo.astro";
 import MovingCards from "@components/interactive/MovingCards.astro";
 import BentoCard from "@components/content/BentoCard.astro";
@@ -19,20 +19,20 @@ const posts = allPosts.filter((post) => !(post as any).personal);
 ---
 
 <PageLayout seo={seo}>
-	<Reveal />
-	<!-- <SceneController /> -->
+	<!-- <Reveal /> -->
+	<SceneController />
 	<div class="container flex flex-col">
 		<section class="landing px-3 overflow-hidden">
 			<div class="moon"></div>
 			<div class="moon moonRight"></div>
-			<div class="hero-text-container mb-16">
-				<div class="hero-title-container justify-center flex mb-10 overflow-hidden slow-fade">
+			<div class="hero-text-container mb-16 flex justify-center flex-col items-center">
+				<div class="hero-title-container justify-center font-bold flex mb-10 overflow-hidden slow-fade">
 					<h1 class="hero-title">Hi</h1>
 					<h1 class="hero-title">there!</h1>
 					<h1 class="hero-title">I'm</h1>
 					<h1 class="hero-title">Nick</h1>
 				</div>
-				<div class="overflow-hidden mx-6">
+				<div class="overflow-hidden mx-6 max-w-120">
 					<p class="flex justify-center hero-text slow-fade">
 						I enjoy coding, solving complex problems, and giving my best in everything I do.
 						Other than that I enjoy nature and freediving.
@@ -46,16 +46,16 @@ const posts = allPosts.filter((post) => !(post as any).personal);
 		<section class="flex self-center flex-col items-center portofolio-details">
 			<div class="logo-container mb-4">
 				<div class="grad absolute"></div>
-				<div class="w-28">
+				<div class="w-28 h-28">
 					<Logo />
 				</div>
 			</div>
 			<div class="overflow-hidden h-18 flex justify-center mx-4">
-				<h2 class="portofolio-title translate-y-full text-center transition-all duration-300 ease-out">
+				<h2 class="portofolio-title text-3xl font-medium translate-y-full text-center transition-all duration-300 ease-out">
 					Portofolio and past projects
 				</h2>
 			</div>
-			<div class="overflow-hidden h-auto flex justify-center mt-6 mb-5 mx-4">
+			<div class="overflow-hidden h-auto flex justify-center mb-5 mx-4">
 				<p class="portofolio-text translate-y-full text-center w-120 text-base">
 					Explore a small collection of my work showcasing some
 					skills, creativity, but most importantly dedication to
@@ -73,25 +73,56 @@ const posts = allPosts.filter((post) => !(post as any).personal);
 		<!--</div>-->
 		<div class="bentobox-container grid grid-cols-1 lg:grid-cols-3 gap-2 m-10 max-w-7xl">
 			<!-- <?xml version="1.0" encoding="UTF-8"?> <svg xmlns="http://www.w3.org/2000/svg" width="1440" height="1073" viewBox="0 0 1440 1073" fill="none"><g opacity="0.1" filter="url(#filter0_f_1687_32290)"><mask id="mask0_1687_32290" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="237" width="1440" height="792"><rect x="1440" y="237.003" width="791.722" height="1440" rx="395.861" transform="rotate(90 1440 237.003)" fill="white"></rect></mask><g mask="url(#mask0_1687_32290)"><rect x="1440" y="227.198" width="174.032" height="1440" rx="87.0159" transform="rotate(90 1440 227.198)" fill="#FF4444"></rect><rect x="1440" y="401.23" width="174.032" height="1440" rx="87.0159" transform="rotate(90 1440 401.23)" fill="#AD44FF"></rect><rect x="1440" y="575.262" width="174.032" height="1440" rx="87.0159" transform="rotate(90 1440 575.262)" fill="#448FFF"></rect><rect x="1440" y="749.293" width="174.032" height="1440" rx="87.0159" transform="rotate(90 1440 749.293)" fill="#44D2FF"></rect><rect x="1440" y="886.558" width="174.032" height="1440" rx="87.0159" transform="rotate(90 1440 886.558)" fill="#8BFF44"></rect></g></g><defs><filter id="filter0_f_1687_32290" x="-255.6" y="-18.5971" width="1951.2" height="1302.92" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood><feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"></feBlend><feGaussianBlur stdDeviation="127.8" result="effect1_foregroundBlur_1687_32290"></feGaussianBlur></filter></defs></svg>  -->
-			<BentoCard title="betsson" hasFooter={true} colSpan reverse>
+			<BentoCard title="Engineering Tech Lead" colSpanBigger>
+
+				<div slot="preTitle" class="w-full h-50 relative overflow-hidden">
+					<div class="solar-system w-1/2 h-full relative flex items-center justify-center">
+						<!-- Orbital rings -->
+						<div class="orbit orbit-1"></div>
+						<div class="orbit orbit-2"></div>
+						<div class="orbit orbit-3"></div>
+						<div class="absolute w-8 h-8 flex items-center justify-center rounded-full bg-[rgba(40,40,40,0.30)] border border-white/8 hover:scale-110 transition-all duration-300 ease-out">
+							<Logo />
+						</div>
+
+						<!-- Planets (logos) -->
+						<div class="planet planet-1">
+							<img src="/src/assets/icons/github.svg" alt="GitHub" class="w-6 h-6" />
+						</div>
+						<div class="planet planet-2">
+							<img src="/src/assets/icons/nodejs.svg" alt="Node.js" class="w-6 h-6" />
+						</div>
+						<div class="planet planet-3">
+							<img src="/src/assets/icons/angular.svg" alt="Angular" class="w-6 h-6" />
+						</div>
+						<div class="planet planet-4">
+							<img src="/src/assets/icons/typescript.svg" alt="TypeScript" class="w-6 h-6" />
+						</div>
+						<div class="planet planet-5">
+							<img src="/src/assets/icons/go.svg" alt="Go" class="w-6 h-6" />
+						</div>
+						<div class="planet planet-6">
+							<img src="/src/assets/icons/react.svg" alt="React" class="w-6 h-6" />
+						</div>
+					</div>
+					<!-- Bottom fade overlay -->
+					<!-- <div class="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-black/40 via-black/20 to-transparent pointer-events-none"></div> -->
+				</div>
 				<div slot="subTitle">
 					<p class="text-sm italic text-neutral-200 pb-2">
-						Senior Software Engineer
+						betsson - Sportsbook
 					</p>
 				</div>
-				<b>Feature Development:</b> Spearheaded the development of critical features
-				that enhanced and refactored essential functionalities
+				Development of critical features that enhanced and refactored essential functionalities
 				for millions of customers worldwide. This included integrating
 				new API providers, successfully expanded our market offerings
 				and increasing our app capabilities while ensuring an optimal user experience.
 				</br>
-				<b>Performance Optimization:</b> One of the main developers
-				at upgrading, maintaining performance-critical sportsbook app,
-				utilizing Angular, NgRx, and Nx for both B2B, B2C, mobile, desktop and native.
+				Maintaining performance-critical sportsbook app,
+				utilizing Angular, Mfe, NgRx, and Nx for both B2B, B2C, mobile, desktop and native.
 				</br>
-				<b>Mentorship and Guidance:</b> Provide assistance to
-				junior and mid-level developers while collaborate with tech leads
-				to establish guidelines for new Angular features.
+				Provide assistance to developers while collaborating with architects
+				to establish guidelines.
 			</BentoCard>
 			<BentoCard
 				title="Deep dive into the 'Multiple Workflow Scheduling Problem'"
@@ -122,7 +153,7 @@ const posts = allPosts.filter((post) => !(post as any).personal);
 				from scratch using Go.
 				<div slot="footer">Visit chessnp.com</div>
 			</BentoCard>
-			<BentoCard title="Freelancing and web design" hasFooter={true} colSpan
+			<BentoCard title="Freelancing and web design" hasFooter={true} colSpanBigger
 			>
 				With a perfect score when it comes to customer satisfaction,
 				I pride my self delivering only best for my clients.
@@ -326,6 +357,154 @@ const posts = allPosts.filter((post) => !(post as any).personal);
 		position: relative;
 		border-radius: 10px;
 	} */
+
+	/* Solar System Styles */
+	.solar-system {
+		background: transparent;
+	}
+
+	.orbit {
+		position: absolute;
+		border: 1px solid rgba(255, 255, 255, 0.2);
+		border-radius: 50%;
+		left: 50%;
+		top: 50%;
+		transform: translate(-50%, -50%);
+	}
+
+	.orbit-1 {
+		width: 80px;
+		height: 80px;
+		animation: rotate 20s linear infinite;
+	}
+
+	.orbit-2 {
+		width: 120px;
+		height: 120px;
+		animation: rotate 30s linear infinite reverse;
+	}
+
+	.orbit-3 {
+		width: 160px;
+		height: 160px;
+		animation: rotate 40s linear infinite;
+	}
+
+	.planet {
+		position: absolute;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 50%;
+		background: rgba(255, 255, 255, 0.1);
+		backdrop-filter: blur(5px);
+		padding: 6px;
+		transition: transform 0.3s ease;
+	}
+
+	.planet:hover {
+		transform: scale(1.2);
+		background: rgba(255, 255, 255, 0.2);
+	}
+
+	.planet-1 {
+		width: 32px;
+		height: 32px;
+		left: 50%;
+		top: 50%;
+		transform: translate(-50%, -50%);
+		animation: orbit1 20s linear infinite;
+		transform-origin: 40px 0;
+	}
+
+	.planet-2 {
+		width: 32px;
+		height: 32px;
+		left: 50%;
+		top: 50%;
+		transform: translate(-50%, -50%);
+		animation: orbit2 30s linear infinite reverse;
+		transform-origin: 60px 0;
+	}
+
+	.planet-3 {
+		width: 32px;
+		height: 32px;
+		left: 50%;
+		top: 50%;
+		transform: translate(-50%, -50%);
+		animation: orbit3 40s linear infinite;
+		transform-origin: 80px 0;
+	}
+
+	.planet-4 {
+		width: 32px;
+		height: 32px;
+		left: 50%;
+		top: 50%;
+		transform: translate(-50%, -50%);
+		animation: orbit1 25s linear infinite;
+		transform-origin: 40px 0;
+		animation-delay: -8s;
+	}
+
+	.planet-5 {
+		width: 32px;
+		height: 32px;
+		left: 50%;
+		top: 50%;
+		transform: translate(-50%, -50%);
+		animation: orbit2 35s linear infinite reverse;
+		transform-origin: 60px 0;
+		animation-delay: -12s;
+	}
+
+	.planet-6 {
+		width: 32px;
+		height: 32px;
+		left: 50%;
+		top: 50%;
+		transform: translate(-50%, -50%);
+		animation: orbit3 45s linear infinite;
+		transform-origin: 80px 0;
+		animation-delay: -15s;
+	}
+
+	@keyframes rotate {
+		from {
+			transform: translate(-50%, -50%) rotate(0deg);
+		}
+		to {
+			transform: translate(-50%, -50%) rotate(360deg);
+		}
+	}
+
+	@keyframes orbit1 {
+		from {
+			transform: translate(-50%, -50%) rotate(0deg) translateX(40px) rotate(0deg);
+		}
+		to {
+			transform: translate(-50%, -50%) rotate(360deg) translateX(40px) rotate(-360deg);
+		}
+	}
+
+	@keyframes orbit2 {
+		from {
+			transform: translate(-50%, -50%) rotate(0deg) translateX(60px) rotate(0deg);
+		}
+		to {
+			transform: translate(-50%, -50%) rotate(360deg) translateX(60px) rotate(-360deg);
+		}
+	}
+
+	@keyframes orbit3 {
+		from {
+			transform: translate(-50%, -50%) rotate(0deg) translateX(80px) rotate(0deg);
+		}
+		to {
+			transform: translate(-50%, -50%) rotate(360deg) translateX(80px) rotate(-360deg);
+		}
+	}
 </style>
 
 

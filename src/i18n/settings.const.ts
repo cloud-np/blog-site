@@ -38,12 +38,10 @@ export const settings = {
             ]
         },
         contact: {
-            phone: '+30 6988550186',
-            email: 'homeupgrades@gmail.com',
+            email: 'cloud-np@outlook.com',
             address: {
                 street: {
-                    el: 'Στρατάρχου Αλεξάνδρου Παπάγου 111',
-                    en: 'Stratarchou Alexandrou Papagou 111',
+                    el: ``,
                 },
                 city: {
                     el: 'Αθήνα',

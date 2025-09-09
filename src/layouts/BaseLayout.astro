@@ -22,7 +22,7 @@ const lang = getLangFromUrl(Astro.url);
 		<slot name="header" />
 		<main>
 			<slot />
-			<CookieConsent client:idle {lang} />
+			<!-- <CookieConsent client:idle {lang} /> -->
 		</main>
 		<slot name="footer" />
 	</body>

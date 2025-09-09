@@ -25,7 +25,7 @@ class GradientCirclePainter {
         this.ctx.clearRect(0, 0, this.cWidth, this.cHeight);
         this.ctx.beginPath();
 
-        this.ctx.arc(this.centerX, 
+        this.ctx.arc(this.centerX,
             this.cHeight > this.cWidth * 1.5
             ? this.centerY * 0.7
             : this.centerY * 1.15
