@@ -7,6 +7,6 @@ export const SOCIALS = [
     {
         name: 'GitHub',
         url: 'https://github.com/cloud-np',
-        icon: 'github'
+        icon: 'tech/github'
     }
 ] as const;

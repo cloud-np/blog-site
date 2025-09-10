@@ -8,6 +8,13 @@ import SceneController from "@components/interactive/SceneController/SceneContro
 import Logo from "@components/common/Logo.astro";
 import MovingCards from "@components/interactive/MovingCards.astro";
 import BentoCard from "@components/content/BentoCard.astro";
+import git from "@assets/icons/tech/git.svg";
+import nodejs from "@assets/icons/tech/nodejs.svg";
+import angular from "@assets/icons/tech/angular.svg";
+import react from "@assets/icons/tech/react.svg";
+import go from "@assets/icons/tech/go.svg";
+import rust from "@assets/icons/tech/rust.svg";
+import { Image } from "astro:assets";
 
 const seo = {
 	title: "cloud-np",
@@ -32,7 +39,7 @@ const posts = allPosts.filter((post) => !(post as any).personal);
 					<h1 class="hero-title">I'm</h1>
 					<h1 class="hero-title">Nick</h1>
 				</div>
-				<div class="overflow-hidden mx-6 max-w-120">
+				<div class="overflow-hidden mx-6 max-w-156">
 					<p class="flex justify-center hero-text slow-fade">
 						I enjoy coding, solving complex problems, and giving my best in everything I do.
 						Other than that I enjoy nature and freediving.
@@ -76,33 +83,34 @@ const posts = allPosts.filter((post) => !(post as any).personal);
 			<BentoCard title="Engineering Tech Lead" colSpanBigger>
 
 				<div slot="preTitle" class="w-full h-50 relative overflow-hidden">
-					<div class="solar-system w-1/2 h-full relative flex items-center justify-center">
+					<div class="solar-system w-full h-full relative flex items-center justify-center">
 						<!-- Orbital rings -->
 						<div class="orbit orbit-1"></div>
 						<div class="orbit orbit-2"></div>
 						<div class="orbit orbit-3"></div>
-						<div class="absolute w-8 h-8 flex items-center justify-center rounded-full bg-[rgba(40,40,40,0.30)] border border-white/8 hover:scale-110 transition-all duration-300 ease-out">
+						<div class="planet-logo absolute w-8 h-8 flex items-center justify-center rounded-full bg-[rgba(40,40,40,0.30)] border border-white/8 hover:scale-110 transition-all duration-300 ease-out">
+							<div class="grad absolute opacity-0"></div>
 							<Logo />
 						</div>
 
 						<!-- Planets (logos) -->
 						<div class="planet planet-1">
-							<img src="/src/assets/icons/github.svg" alt="GitHub" class="w-6 h-6" />
+							<Image src={git} alt="git" class="w-6 h-6" />
 						</div>
 						<div class="planet planet-2">
-							<img src="/src/assets/icons/nodejs.svg" alt="Node.js" class="w-6 h-6" />
+							<Image src={nodejs} alt="Node.js" class="w-6 h-6" />
 						</div>
 						<div class="planet planet-3">
-							<img src="/src/assets/icons/angular.svg" alt="Angular" class="w-6 h-6" />
+							<Image src={angular} alt="Angular" class="w-6 h-6" />
 						</div>
 						<div class="planet planet-4">
-							<img src="/src/assets/icons/typescript.svg" alt="TypeScript" class="w-6 h-6" />
+							<Image src={rust} alt="Rust" class="w-6 h-6" />
 						</div>
 						<div class="planet planet-5">
-							<img src="/src/assets/icons/go.svg" alt="Go" class="w-6 h-6" />
+							<Image src={go} alt="Go" class="w-6 h-6" />
 						</div>
 						<div class="planet planet-6">
-							<img src="/src/assets/icons/react.svg" alt="React" class="w-6 h-6" />
+							<Image src={react} alt="React" class="w-6 h-6" />
 						</div>
 					</div>
 					<!-- Bottom fade overlay -->
@@ -193,6 +201,7 @@ const posts = allPosts.filter((post) => !(post as any).personal);
 		filter: blur(10px);
 		mix-blend-mode: color-dodge;
 		animation: glow 6s infinite ease-in-out;
+		transition: all ease-in-out 300ms;
 	}
 
 	@keyframes glow {
@@ -361,6 +370,28 @@ const posts = allPosts.filter((post) => !(post as any).personal);
 	/* Solar System Styles */
 	.solar-system {
 		background: transparent;
+		--orbit-size: 10px;
+		transition: all 0.3s ease;
+
+		.grad {
+			width: 20px;
+			height: 20px;
+			margin: 0;
+			margin-left: -10px;
+			opacity: 0;
+		}
+	}
+
+	.solar-system:hover {
+		--orbit-size: 80px;
+		.planet-logo {
+			transform: scale(1.5);
+			.grad {
+				width: 30px;
+				height: 30px;
+				opacity: 1;
+			}
+		}
 	}
 
 	.orbit {
@@ -370,23 +401,24 @@ const posts = allPosts.filter((post) => !(post as any).personal);
 		left: 50%;
 		top: 50%;
 		transform: translate(-50%, -50%);
+		transition: all 0.3s ease;
 	}
 
 	.orbit-1 {
-		width: 80px;
-		height: 80px;
+		width: var(--orbit-size);
+		height: var(--orbit-size);
 		animation: rotate 20s linear infinite;
 	}
 
 	.orbit-2 {
-		width: 120px;
-		height: 120px;
+		width: calc(var(--orbit-size) + 40px);
+		height: calc(var(--orbit-size) + 40px);
 		animation: rotate 30s linear infinite reverse;
 	}
 
 	.orbit-3 {
-		width: 160px;
-		height: 160px;
+		width: calc(var(--orbit-size) + 80px);
+		height: calc(var(--orbit-size) + 80px);
 		animation: rotate 40s linear infinite;
 	}
 
@@ -399,7 +431,9 @@ const posts = allPosts.filter((post) => !(post as any).personal);
 		background: rgba(255, 255, 255, 0.1);
 		backdrop-filter: blur(5px);
 		padding: 6px;
-		transition: transform 0.3s ease;
+		transition: all 0.3s ease;
+		width: calc(var(--orbit-size) / 3);
+		height: calc(var(--orbit-size) / 3);
 	}
 
 	.planet:hover {
@@ -408,65 +442,53 @@ const posts = allPosts.filter((post) => !(post as any).personal);
 	}
 
 	.planet-1 {
-		width: 32px;
-		height: 32px;
 		left: 50%;
 		top: 50%;
 		transform: translate(-50%, -50%);
 		animation: orbit1 20s linear infinite;
-		transform-origin: 40px 0;
+		transform-origin: calc(var(--orbit-size) / 2) 0;
 	}
 
 	.planet-2 {
-		width: 32px;
-		height: 32px;
 		left: 50%;
 		top: 50%;
 		transform: translate(-50%, -50%);
 		animation: orbit2 30s linear infinite reverse;
-		transform-origin: 60px 0;
+		transform-origin: calc((var(--orbit-size) + 40px) / 2) 0;
 	}
 
 	.planet-3 {
-		width: 32px;
-		height: 32px;
 		left: 50%;
 		top: 50%;
 		transform: translate(-50%, -50%);
 		animation: orbit3 40s linear infinite;
-		transform-origin: 80px 0;
+		transform-origin: calc((var(--orbit-size) + 80px) / 2) 0;
 	}
 
 	.planet-4 {
-		width: 32px;
-		height: 32px;
 		left: 50%;
 		top: 50%;
 		transform: translate(-50%, -50%);
 		animation: orbit1 25s linear infinite;
-		transform-origin: 40px 0;
+		transform-origin: calc(var(--orbit-size) / 2) 0;
 		animation-delay: -8s;
 	}
 
 	.planet-5 {
-		width: 32px;
-		height: 32px;
 		left: 50%;
 		top: 50%;
 		transform: translate(-50%, -50%);
 		animation: orbit2 35s linear infinite reverse;
-		transform-origin: 60px 0;
+		transform-origin: calc((var(--orbit-size) + 40px) / 2) 0;
 		animation-delay: -12s;
 	}
 
 	.planet-6 {
-		width: 32px;
-		height: 32px;
 		left: 50%;
 		top: 50%;
 		transform: translate(-50%, -50%);
 		animation: orbit3 45s linear infinite;
-		transform-origin: 80px 0;
+		transform-origin: calc((var(--orbit-size) + 80px) / 2) 0;
 		animation-delay: -15s;
 	}
 
