@@ -19,8 +19,8 @@ class GradientCirclePainter {
             0, this.centerY * 0.05,
             0, this.centerY * 1.3
         );
-        circleLinearGradient.addColorStop(0, '#101010');
-        circleLinearGradient.addColorStop(1, '#141414');
+        circleLinearGradient.addColorStop(0, '#090909');
+        circleLinearGradient.addColorStop(1, '#101010');
 
         this.ctx.clearRect(0, 0, this.cWidth, this.cHeight);
         this.ctx.beginPath();
