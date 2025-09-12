@@ -9,19 +9,49 @@
 		{ id: 4, compCost: 90, cummnicationCost: 0 },
 	]);
 	const processorsPower = [1, 2];
-	const holesP1 = [
-		[0, 37,5],
-		[87,5, 156,5],
-		[176,5, 270],
+
+	// Define timeline scale (0-200 units)
+	const timelineMax = 200;
+
+	// P1 tasks: [start, end, isOpen]
+	const p1Tasks = [
+		{ start: 0, end: 23, isOpen: true },
+		{ start: 25, end: 55, isOpen: false },
+		{ start: 90, end: 106, isOpen: false },
+		{ start: 132, end: 142, isOpen: true },
+		{ start: 150, end: 168, isOpen: false },
 	];
-	const holesP2 = [
-		[80,5, 119,5],
-		[131.5, 150],
-		[152, 174.5],
+
+	// P2 tasks: [start, end, isOpen]
+	const p2Tasks = [
+		{ start: 0, end: 20, isOpen: false },
+		{ start: 20, end: 50, isOpen: false },
+		{ start: 54, end: 70, isOpen: true },
+		{ start: 73, end: 90, isOpen: false },
+		{ start: 100, end: 104, isOpen: false },
+		{ start: 104, end: 120, isOpen: true },
+		{ start: 125, end: 142, isOpen: false }
 	];
+
+	// Convert timeline units to percentages
+	function getPercentage(value: number): number {
+		return (value / timelineMax) * 100;
+	}
+
+	function getWidth(start: number, end: number): number {
+		return getPercentage(end - start);
+	}
+
+	function getLeft(start: number): number {
+		return getPercentage(start);
+	}
 </script>
 
 <style>
+
+	.timeline {
+		max-width: 100%;
+	}
 
 	.task.open {
 		background-color: #53edeb;
@@ -43,38 +73,78 @@
 	.task-p2 {
 		top: 5.25rem;
 	}
+
+	.arrow {
+		width: 120px;
+		position: absolute;
+	}
+
+	.line {
+		margin-top: 4px;
+		width: 90px;
+		background: white;
+		height: 1px;
+		float: left;
+	}
+
+	.point {
+		border-top: 4px solid transparent;
+		border-bottom: 4px solid transparent;
+		border-left: 8px solid white;
+		float: left;
+	}
 </style>
 
-<div class="w-full h-100">
+<div class="w-full h-100 flex flex-col justify-center">
+	<h1 class="font-bold text-xl">Small Demo</h1>
 	<div class="timeline ml-9 flex relative justify-between border-b border-gray-500">
 		<span>0</span>
 		<span>50</span>
 		<span>100</span>
 		<span>150</span>
 		<span>200</span>
-		<!-- P1 -->
-		<div class="w-10 task task-p1 open"></div>
-		<div class="translate-x-30 w-20 task task-p1"></div>
-		<div class="translate-x-50 w-20 task task-p1 open"></div>
-		<div class="translate-x-83 w-12 task task-p1"></div>
-		<div class="translate-x-130 w-12 task task-p1"></div>
 
-		<!-- P2 -->
-		<div class="w-20 task task-p2"></div>
-		<div class="translate-x-20 w-20 task task-p2"></div>
-		<div class="translate-x-60 w-10 task task-p2"></div>
-		<div class="translate-x-77 w-3 task task-p2"></div>
-		<div class="translate-x-95 w-10 task task-p2"></div>
+		<!-- P1 Tasks -->
+		{#each p1Tasks as task, i}
+			<div
+				class="task task-p1 {task.isOpen ? 'open' : ''}"
+				style="left: {getLeft(task.start)}%; width: {getWidth(task.start, task.end)}%;"
+			>
+				<div class={`arrow z-10 ${!task.isOpen && 'hidden'}`}
+					style="left: 101%; top: 30%;"
+				>
+					<div class="line"></div>
+					<div class="point"></div>
+				</div>
+			</div>
+		{/each}
+
+
+		<!-- P2 Tasks -->
+		{#each p2Tasks as task, i}
+			<div
+				class="task task-p2 {task.isOpen ? 'open' : ''}"
+				style="left: {getLeft(task.start)}%; width: {getWidth(task.start, task.end)}%;"
+			></div>
+		{/each}
 	</div>
 	<div class="mt-4 flex flex-col gap-3.5 justify-center">
 		<div class="flex w-full items-center">
-			<p class="mr-2 w-7">P-1</p>
+			<p class="mr-2 w-7 font-bold">P-1</p>
 			<div class="border flex-1 h-7.5 border-dashed rounded-lg border-gray-500"></div>
 		</div>
 
 		<div class="flex w-full items-center">
-			<p class="mr-2 w-7">P-2</p>
+			<p class="mr-2 w-7 font-bold">P-2</p>
 			<div class="border flex-1 h-7.5 border-dashed rounded-lg border-gray-500"></div>
 		</div>
+	</div>
+	<div class="flex gap-4">
+		<button>
+			Save
+		</button>
+		<button>
+			Save
+		</button>
 	</div>
 </div>
