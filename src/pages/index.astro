@@ -7,9 +7,21 @@ import ScrollDown from "@components/interactive/ScrollDown.astro";
 import SceneController from "@components/interactive/SceneController/SceneController.astro";
 import Logo from "@components/common/Logo.astro";
 import MovingCards from "@components/interactive/MovingCards.astro";
+import abyss from "@assets/home-page/bento-box-section/abyss.jpg";
+import aktis from "@assets/home-page/bento-box-section/aktis.jpg";
+import bentoBox from "@assets/home-page/bento-box-section/bento-box.gif";
+import betterNetflix from "@assets/home-page/bento-box-section/better-netflix.png";
+import fromHome from "@assets/home-page/bento-box-section/fromHome.png";
+import igame from "@assets/home-page/bento-box-section/igame.png";
+import oino8eh from "@assets/home-page/bento-box-section/oino8eh.png";
+import pumkin from "@assets/home-page/bento-box-section/pumkin.jpg";
+import yang from "@assets/home-page/bento-box-section/yang.gif";
+import zed from "@assets/home-page/bento-box-section/zed.jpg";
 import TaskScheduling from "@components/interactive/TaskScheduling.svelte";
 import Planets from "@components/interactive/Planets.astro";
 import BentoCard from "@components/content/BentoCard.astro";
+import Slider from "@components/interactive/Slider.svelte";
+import { Image } from "astro:assets";
 
 const seo = {
 	title: "cloud-np",
@@ -114,8 +126,32 @@ const posts = allPosts.filter((post) => !(post as any).personal);
 			<BentoCard title="Freelancing and web design" hasFooter={true} colSpanBigger >
 				With a perfect score when it comes to customer satisfaction,
 				I pride my self delivering only best for my clients.
-				<div slot="footer" class="max-w-[900px] relative">
-					<p class="text-center py-8">Portfolio showcase coming soon</p>
+
+				<Slider client:only
+					initialXOffset={0}
+					images={[
+				]} />
+				<div slot="footer" class="w-full min-h-32 overflow-hidden">
+					<div class="gallery-container">
+						<div class="gallery-item" data-index="0">
+							<Image class="gallery-image" src={abyss} alt="Abyss project" />
+						</div>
+						<div class="gallery-item" data-index="1">
+							<Image class="gallery-image" src={zed} alt="Zed project" />
+						</div>
+						<div class="gallery-item" data-index="2">
+							<Image class="gallery-image" src={aktis} alt="Aktis project" />
+						</div>
+						<div class="gallery-item" data-index="3">
+							<Image class="gallery-image" src={pumkin} alt="Pumkin project" />
+						</div>
+						<div class="gallery-item" data-index="4">
+							<Image class="gallery-image" src={oino8eh} alt="Oino8eh project" />
+						</div>
+						<div class="gallery-item" data-index="5">
+							<Image class="gallery-image" src={fromHome} alt="From Home project" />
+						</div>
+					</div>
 				</div>
 			</BentoCard>
 			<BentoCard title="chessnp.com" hasFooter={true} reverse>
@@ -136,6 +172,15 @@ const posts = allPosts.filter((post) => !(post as any).personal);
 		<h4 class="projects-title fade-in">Latest Posts</h4>
 		<BlogPostsList class="latest-projects-container" posts={posts} />
 	</section>
+
+	<!-- Image Overlay -->
+	<div id="imageOverlay" class="image-overlay">
+		<div class="overlay-backdrop"></div>
+		<button class="overlay-close" aria-label="Close overlay">&times;</button>
+		<div class="overlay-info">
+			<h3 id="overlayTitle" class="overlay-title"></h3>
+		</div>
+	</div>
 </PageLayout>
 
 <style>
@@ -299,6 +344,184 @@ const posts = allPosts.filter((post) => !(post as any).personal);
 		transition: all ease 2s;
 	}
 
+	.gallery-container {
+		display: flex;
+		gap: 8px;
+		padding: 8px;
+		transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+		transform-style: preserve-3d;
+	}
+
+	.gallery-item {
+		position: relative;
+		flex-shrink: 0;
+		border-radius: 12px;
+		overflow: hidden;
+		cursor: pointer;
+		transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+		width: 120px;
+		height: 80px;
+		filter: brightness(0.7) saturate(0.8);
+	}
+
+	.gallery-item:hover {
+		transform: scale(1.15) translateY(-8px);
+		filter: brightness(1.1) saturate(1.2);
+		box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+		z-index: 10;
+	}
+
+	.gallery-item.focused {
+		width: 160px;
+		height: 100px;
+		transform: scale(1.1);
+		filter: brightness(1) saturate(1);
+		box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+		z-index: 5;
+	}
+
+	.gallery-item:not(.focused):not(:hover) {
+		width: 100px;
+		height: 70px;
+		filter: brightness(0.6) saturate(0.7);
+	}
+
+	.gallery-image {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+	}
+
+	/* Add a subtle glow effect */
+	.gallery-item::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background: linear-gradient(45deg, rgba(65, 180, 233, 0.1), rgba(77, 237, 255, 0.1));
+		opacity: 0;
+		transition: opacity 0.3s ease;
+		pointer-events: none;
+		border-radius: 12px;
+	}
+
+	.gallery-item:hover::before,
+	.gallery-item.focused::before {
+		opacity: 1;
+	}
+
+	/* Image Transition Overlay */
+	.image-overlay {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100vw;
+		height: 100vh;
+		z-index: 1000;
+		opacity: 0;
+		visibility: hidden;
+		transition: opacity 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+		pointer-events: none;
+	}
+
+	.image-overlay.active {
+		opacity: 1;
+		visibility: visible;
+		pointer-events: all;
+	}
+
+	.overlay-backdrop {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background: rgba(0, 0, 0, 0);
+		backdrop-filter: blur(0px);
+		cursor: pointer;
+		transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+	}
+
+	.image-overlay.active .overlay-backdrop {
+		background: rgba(0, 0, 0, 0.9);
+		backdrop-filter: blur(10px);
+	}
+
+	.overlay-close {
+		position: absolute;
+		top: 40px;
+		right: 40px;
+		background: rgba(255, 255, 255, 0.1);
+		border: 2px solid rgba(255, 255, 255, 0.2);
+		color: white;
+		font-size: 24px;
+		width: 40px;
+		height: 40px;
+		border-radius: 50%;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: all 0.3s ease;
+		z-index: 1001;
+		opacity: 0;
+		transform: scale(0.8);
+	}
+
+	.image-overlay.active .overlay-close {
+		opacity: 1;
+		transform: scale(1);
+		transition-delay: 0.3s;
+	}
+
+	.overlay-close:hover {
+		background: rgba(255, 255, 255, 0.2);
+		border-color: rgba(255, 255, 255, 0.4);
+		transform: scale(1.1);
+	}
+
+	.overlay-info {
+		position: absolute;
+		bottom: 40px;
+		left: 50%;
+		transform: translateX(-50%);
+		text-align: center;
+		opacity: 0;
+		transform: translateX(-50%) translateY(20px);
+		transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+	}
+
+	.image-overlay.active .overlay-info {
+		opacity: 1;
+		transform: translateX(-50%) translateY(0);
+		transition-delay: 0.3s;
+	}
+
+	.overlay-title {
+		color: white;
+		font-size: 18px;
+		font-weight: 500;
+		margin: 0;
+		opacity: 0.9;
+	}
+
+	/* Gallery image transition states */
+	.gallery-image.transitioning {
+		position: fixed !important;
+		z-index: 1001 !important;
+		transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1) !important;
+		border-radius: 12px;
+		box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+	}
+
+	/* Prevent body scroll when overlay is open */
+	body.overlay-open {
+		overflow: hidden;
+	}
+
 	/* .bentobox-container {
 		background-image: url('../assets/shadow-bg.svg');
 		background-position: center center;
@@ -391,11 +614,237 @@ const posts = allPosts.filter((post) => !(post as any).personal);
 				: 1,
 	});
 
+	// Interactive Gallery functionality
+	function initGallery() {
+		const galleryItems = document.querySelectorAll('.gallery-item');
+		const overlay = document.getElementById('imageOverlay');
+		const overlayTitle = document.getElementById('overlayTitle');
+		const overlayClose = document.querySelector('.overlay-close');
+		const overlayBackdrop = document.querySelector('.overlay-backdrop');
+		let currentFocus = 0;
+		let isTransitioning = false;
+
+		// Set initial focus
+		if (galleryItems.length > 0) {
+			galleryItems[currentFocus].classList.add('focused');
+		}
+
+		// Image data for overlay
+		const imageData = [
+			{ alt: 'Abyss project' },
+			{ alt: 'Zed project' },
+			{ alt: 'Aktis project' },
+			{ alt: 'Pumkin project' },
+			{ alt: 'Οινοθέη project' },
+			{ alt: 'From Home project' }
+		];
+
+		// Calculate center position respecting image's natural dimensions
+		function getCenterPosition(img) {
+			const vw = window.innerWidth;
+			const vh = window.innerHeight;
+			const maxWidth = vw * 0.9;
+			const maxHeight = vh * 0.9;
+
+			// Get natural dimensions
+			const naturalWidth = img.naturalWidth || img.width;
+			const naturalHeight = img.naturalHeight || img.height;
+
+			// Calculate aspect ratio
+			const aspectRatio = naturalWidth / naturalHeight;
+
+			// Calculate dimensions that fit within viewport but don't exceed natural size
+			let finalWidth = Math.min(naturalWidth, maxWidth);
+			let finalHeight = finalWidth / aspectRatio;
+
+			if (finalHeight > maxHeight) {
+				finalHeight = Math.min(naturalHeight, maxHeight);
+				finalWidth = finalHeight * aspectRatio;
+			}
+
+			// Center the image
+			const left = (vw - finalWidth) / 2;
+			const top = (vh - finalHeight) / 2;
+
+			return {
+				left,
+				top,
+				width: finalWidth,
+				height: finalHeight
+			};
+		}
+
+		// Transition functions
+		function openImageTransition(clickedImage, index) {
+			if (isTransitioning) return;
+			isTransitioning = true;
+
+			const data = imageData[index];
+			const rect = clickedImage.getBoundingClientRect();
+
+			// Show overlay
+			overlay.classList.add('active');
+			overlayTitle.textContent = data.alt;
+			document.body.classList.add('overlay-open');
+
+			// Clone the image for transition
+			const transitionImg = clickedImage.cloneNode();
+			transitionImg.classList.add('transitioning');
+
+			// Set initial position (same as original)
+			transitionImg.style.left = rect.left + 'px';
+			transitionImg.style.top = rect.top + 'px';
+			transitionImg.style.width = rect.width + 'px';
+			transitionImg.style.height = rect.height + 'px';
+			transitionImg.style.objectFit = 'cover';
+
+			// Add to overlay
+			overlay.appendChild(transitionImg);
+
+			// Hide original image
+			clickedImage.style.opacity = '0';
+
+			// Wait for image to load if needed, then trigger transition to center
+			if (transitionImg.complete) {
+				requestAnimationFrame(() => {
+					const centerPos = getCenterPosition(transitionImg);
+					transitionImg.style.left = centerPos.left + 'px';
+					transitionImg.style.top = centerPos.top + 'px';
+					transitionImg.style.width = centerPos.width + 'px';
+					transitionImg.style.height = centerPos.height + 'px';
+					transitionImg.style.objectFit = 'contain';
+				});
+			} else {
+				transitionImg.onload = () => {
+					requestAnimationFrame(() => {
+						const centerPos = getCenterPosition(transitionImg);
+						transitionImg.style.left = centerPos.left + 'px';
+						transitionImg.style.top = centerPos.top + 'px';
+						transitionImg.style.width = centerPos.width + 'px';
+						transitionImg.style.height = centerPos.height + 'px';
+						transitionImg.style.objectFit = 'contain';
+					});
+				};
+			}
+
+			// Store references for closing
+			overlay._transitionImg = transitionImg;
+			overlay._originalImg = clickedImage;
+			overlay._originalRect = rect;
+		}
+
+		function closeImageTransition() {
+			if (!isTransitioning) return;
+
+			const transitionImg = overlay._transitionImg;
+			const originalImg = overlay._originalImg;
+			const originalRect = overlay._originalRect;
+
+			if (transitionImg && originalImg) {
+				// Get current rect in case of window resize
+				const currentRect = originalImg.getBoundingClientRect();
+
+				// Transition back to original position
+				transitionImg.style.left = currentRect.left + 'px';
+				transitionImg.style.top = currentRect.top + 'px';
+				transitionImg.style.width = currentRect.width + 'px';
+				transitionImg.style.height = currentRect.height + 'px';
+				transitionImg.style.objectFit = 'cover';
+
+				// After transition completes
+				setTimeout(() => {
+					overlay.classList.remove('active');
+					document.body.classList.remove('overlay-open');
+					originalImg.style.opacity = '1';
+					transitionImg.remove();
+
+					// Clean up references
+					delete overlay._transitionImg;
+					delete overlay._originalImg;
+					delete overlay._originalRect;
+
+					isTransitioning = false;
+				}, 300); // Match transition duration
+			}
+		}
+
+		galleryItems.forEach((item, index) => {
+			// Hover functionality
+			item.addEventListener('mouseenter', () => {
+				if (isTransitioning) return;
+				galleryItems.forEach(i => i.classList.remove('focused'));
+				item.classList.add('focused');
+				currentFocus = index;
+			});
+
+			// Click functionality for transition
+			item.addEventListener('click', () => {
+				const image = item.querySelector('.gallery-image');
+				if (image) {
+					openImageTransition(image, index);
+				}
+			});
+		});
+
+		// Close overlay handlers
+		overlayClose?.addEventListener('click', closeImageTransition);
+		overlayBackdrop?.addEventListener('click', closeImageTransition);
+
+		// Close on Escape key
+		document.addEventListener('keydown', (e) => {
+			if (e.key === 'Escape' && overlay?.classList.contains('active')) {
+				closeImageTransition();
+			}
+		});
+
+		// Handle window resize during transition
+		window.addEventListener('resize', () => {
+			if (isTransitioning && overlay._transitionImg) {
+				const centerPos = getCenterPosition(overlay._transitionImg);
+				const transitionImg = overlay._transitionImg;
+				transitionImg.style.left = centerPos.left + 'px';
+				transitionImg.style.top = centerPos.top + 'px';
+				transitionImg.style.width = centerPos.width + 'px';
+				transitionImg.style.height = centerPos.height + 'px';
+			}
+		});
+
+		// Optional: Auto-cycle through images if no interaction
+		let autoRotate = setInterval(() => {
+			if (!document.querySelector('.gallery-item:hover') && !overlay?.classList.contains('active')) {
+				galleryItems.forEach(i => i.classList.remove('focused'));
+				currentFocus = (currentFocus + 1) % galleryItems.length;
+				galleryItems[currentFocus].classList.add('focused');
+			}
+		}, 1000);
+
+		// Stop auto-rotation on manual interaction
+		const galleryContainer = document.querySelector('.gallery-container');
+		if (galleryContainer) {
+			galleryContainer.addEventListener('mouseenter', () => {
+				clearInterval(autoRotate);
+			});
+
+			galleryContainer.addEventListener('mouseleave', () => {
+				autoRotate = setInterval(() => {
+					if (!document.querySelector('.gallery-item:hover') && !overlay?.classList.contains('active')) {
+						galleryItems.forEach(i => i.classList.remove('focused'));
+						currentFocus = (currentFocus + 1) % galleryItems.length;
+						galleryItems[currentFocus].classList.add('focused');
+					}
+				}, 1000);
+			});
+		}
+	}
+
 	// init(REVEAL_DELAY);
 	init();
+	initGallery();
+
 	document.addEventListener("astro:after-swap", () => {
 		if (window.location.pathname === '/' || window.location.pathname === '') {
 			init();
+			initGallery();
 		}
 	});
 </script>
