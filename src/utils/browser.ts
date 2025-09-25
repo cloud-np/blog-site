@@ -101,3 +101,42 @@ export function deleteAllCookiesExceptConsent() {
         }
     });
 }
+
+// Calculate center position respecting image's natural dimensions
+export function getImageCenterPosition(img: HTMLImageElement): { left: number, top: number, width: number, height: number } | undefined {
+    if (typeof window === undefined) {
+        return undefined;
+    }
+	const vw = window.innerWidth;
+	const vh = window.innerHeight;
+	const maxWidth = vw * 0.9;
+	const maxHeight = vh * 0.9;
+
+	// Get natural dimensions
+	const naturalWidth = img.naturalWidth || img.width;
+	const naturalHeight = img.naturalHeight || img.height;
+
+	// Calculate aspect ratio
+	const aspectRatio = naturalWidth / naturalHeight;
+
+	// Calculate dimensions that fit within viewport but don't exceed natural size
+	let finalWidth = Math.min(naturalWidth, maxWidth);
+	let finalHeight = finalWidth / aspectRatio;
+
+	if (finalHeight > maxHeight) {
+		finalHeight = Math.min(naturalHeight, maxHeight);
+		finalWidth = finalHeight * aspectRatio;
+	}
+
+	// Center the image
+	const left = (vw - finalWidth) / 2;
+	const top = (vh - finalHeight) / 2;
+
+	return {
+		left,
+		top,
+		width: finalWidth,
+		height: finalHeight
+	};
+}
+
