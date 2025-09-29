@@ -29,7 +29,7 @@ const { post } = Astro.props;
 				<p class="post-preview__category clickable">
 					{post.data.category}
 				</p>
-				<h2 class="clickable">{post.data.title}</h2>
+				<h2 class="post-preview__title">{post.data.title}</h2>
 				<p class="post-preview__date">
 					{Helpers.formatDate(post.data.publishedAt)}
 				</p>

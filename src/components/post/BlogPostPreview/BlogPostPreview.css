@@ -2,8 +2,12 @@
 	text-decoration: none;
 }
 
-.post-preview__link:hover .post-preview__img {
-	transform: scale(1.05);
+.post-preview__container:hover .post-preview__title {
+	transform: translateX(0.5rem);
+}
+
+.post-preview__title {
+	transition: transform 0.2s ease-out;
 }
 
 .post-preview__article {
@@ -33,7 +37,6 @@
 	width: 150px;
 	object-fit: contain;
 	border-radius: 1rem;
-	transition: transform 0.2s ease-out;
 }
 
 .post-preview__date {

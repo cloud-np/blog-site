@@ -8,7 +8,7 @@ Disallow: /private/
 Disallow: /api/
 
 # Sitemap
-Sitemap: https://home-upgrades.gr/sitemap-index.xml
+Sitemap: https://cloud-np.com/sitemap-index.xml
 
 # Slower crawling for aggressive bots
 User-agent: AhrefsBot

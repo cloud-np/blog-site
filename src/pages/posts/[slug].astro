@@ -40,18 +40,9 @@ const { category, posts } = Astro.props;
 
 <PageLayout>
     <Container>
-        <div class="home-hero-text__container">
+        <div class="py-[5vh] text-center">
             <h1>{category} Posts</h1>
         </div>
         <BlogPostsList posts={posts} />
     </Container>
 </PageLayout>
-
-<style>
-    .home-hero-text__container {
-        padding: 5vh 0;
-    }
-    h1 {
-        text-align: center;
-    }
-</style>

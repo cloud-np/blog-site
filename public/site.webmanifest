@@ -1,7 +1,7 @@
 {
-  "name": "Home Upgrades - Modern Architecture & Interior Design",
-  "short_name": "Home Upgrades",
-  "description": "Επαγγελματικές ανακαινίσεις σπιτιού στην Αθήνα. Κουζίνες, μπάνια, εσωτερική διακόσμηση και αρχιτεκτονικός σχεδιασμός με σύγχρονη αισθητική.",
+  "name": "cloud-np - Tech Blog",
+  "short_name": "cloud-np",
+  "description": "A personal tech blog covering software engineering, web development, and programming insights.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#000000",
@@ -20,9 +20,9 @@
       "type": "image/x-icon"
     }
   ],
-  "lang": "el",
+  "lang": "en",
   "dir": "ltr",
-  "categories": ["business", "lifestyle", "home"],
+  "categories": ["technology", "programming", "blog"],
   "screenshots": [
     {
       "src": "/social.png",

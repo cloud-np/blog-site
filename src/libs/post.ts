@@ -62,7 +62,7 @@ export const getPosts = async (limit: number | undefined): Promise<Post[]> => {
 };
 
 const getRawPostHref = (slug: string): string => {
-    return `/erga/${slug}`;
+    return `/blog/${slug}`;
 };
 
 export function generateSlug(title: string) {
