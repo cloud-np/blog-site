@@ -1,17 +1,6 @@
 import { ScrollUtil } from "./ScrollUtil.ts";
 import type { Condition, ScrollOptions, StyleProp, UniqProp } from "./scroll.model.ts";
-// function throttle(callback: Function, limit: number) {
-//     let wait = false;
-//     return function () {
-//         if (!wait) {
-//             callback.call();
-//             wait = true;
-//             setTimeout(() => {
-//                 wait = false;
-//             }, limit);
-//         }
-//     }
-// }
+
 let scrollableElements: Record<string, ScrollableElement> = {};
 let lastPosition: number = 0;
 let direction = 0;
@@ -39,10 +28,6 @@ export const scrollEl = (cls: string, styleOptions: Record<string, string | numb
     addAsEventListener();
 }
 
-export const custom = (cls: string, func: Function) => {
-    const funcId = func.toString();
-}
-
 const updateScrollDirection = (): void => {
     // Get the current scroll position
     const currentScrollPosition = window.scrollY || document.documentElement.scrollTop;
@@ -66,14 +51,6 @@ export const getDirection = (): number => {
 export const uniqPropsMap: Record<UniqProp, () => number> = {
     direction: getDirection
 };
-
-// static custom(cls: string, func: Function, ...args: any[]) {
-//     const innerFunc = () => {
-//         func.bind(null, args)();
-//     }
-//     ScrollUtil.createScrollFuncId("custom", cls, {}, { start: 0, end: 0 });
-//     ScrollController.tryToAddAsEventListener(, innerFunc);
-// }
 
 export class ScrollableElement {
     elements: NodeListOf<Element>;

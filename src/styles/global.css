@@ -68,6 +68,7 @@
 	--c-bg_dark_2: #363636;
 	--c-text: #6A6E71;
 	--c-text_light: #e9e9e9;
+	--c-text_light_hover: #62d0ff;
 	--c-bg_light: #E7E7E7;
 }
 
@@ -156,4 +157,8 @@ input:-webkit-autofill:active {
 		transform: translateY(2ex);
 		opacity: 0;
 	}
+}
+
+p, h1, h2, h3, h4, h5, h6, li, a {
+	font-family: var(--f-sans);
 }

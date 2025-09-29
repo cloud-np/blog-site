@@ -14,7 +14,8 @@ import { Image } from "astro:assets";
 import carniatoWebComponents from "@assets/async-angular-signals/carniato-web-components.png";
 import richHarrisWebComponents from "@assets/async-angular-signals/rich-harris-web-components.png";
 import htmxLogo from "@assets/async-angular-signals/htmx-logo.png";
-import { H3, H4 } from "@components/content/HeadingWithAnchor.tsx";
+import H3 from "@components/content/H3.svelte";
+import H4 from "@components/content/H4.svelte";
 
 <H3 title="The Frontend Ecosystem lately" />
 
@@ -111,7 +112,7 @@ constructor() {
 }
 ```
 There couple things we can note here. Not only we take advantage of powerful RxJS operators but the
-key benefit here is that we maintain a unidirectional state pattern by seting our state at the end of our asynchronous flow. 
+key benefit here is that we maintain a unidirectional state pattern by seting our state at the end of our asynchronous flow.
 This means we have a signle state of truth that always remains immutable and only then we ensure UI consistency as well by leveraging the
 power of signals to seamlessly synchronize the UI.
 
@@ -128,7 +129,7 @@ pictureOfTheDay = signal<PictureOfTheDay | undefined>(undefined);
 
 fetchPicture = effect(async () => {
     const pictureData = await this.pictureOfTheDayService.getAsPromise(this.date());
-    this.pictureOfTheDay.set(pictureData); // I'm the trigger of this flow ---^ 
+    this.pictureOfTheDay.set(pictureData); // I'm the trigger of this flow ---^
 }, { allowSignalWrites: true }); // Not longer needed after Angular19
 ```
 But our example above lacks the functionality of a `switchMap` like before.
@@ -143,7 +144,7 @@ myNum = signal<number>(0);
 
 myDeadlyCycle = effect(() => {
     console.log("My number is: ", this.myNum()); // I'm a depedancy of this effect
-    this.myNum.update(num => ++num); // I'm triggering my dependants 
+    this.myNum.update(num => ++num); // I'm triggering my dependants
 });
 ```
 If you cannot avoid the above pattern for whatever reason you could utilize the `untracked` API provided
@@ -155,7 +156,7 @@ myNotSoDeadlyCycle = effect(() => {
     untracked(() => {
         console.log("My number is: ", this.myNum()); // I'm NO longer a depedancy of this effect
     })
-    this.myNum.update(num => ++num); // I'm triggering my dependants 
+    this.myNum.update(num => ++num); // I'm triggering my dependants
 });
 ```
 And while we could utilize `untracked` to make our previous example more readable and have more depedancy control,
@@ -174,7 +175,7 @@ pictureOfTheDay: Signal<PictureOfTheDay | undefined> =
         { behavior: 'switch' } // this is the default behavior if not provided
     );
 ```
-Here `derivedAsync` makes the asynchronous call, provides us with back a `Signal` type, and it also manages to use the 
+Here `derivedAsync` makes the asynchronous call, provides us with back a `Signal` type, and it also manages to use the
 Rxjs operators. How does it achieve all of this?
 
 Well if we check parts of its source code:

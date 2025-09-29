@@ -124,42 +124,11 @@ const nofollow = Astro.props.nofollow || false;
 		url: settings.url,
 		logo: `${settings.url}/favicon.svg`,
 		description: description,
-		address: {
-			"@type": "PostalAddress",
-			streetAddress: t("settings.business.contact.address.street"),
-			addressLocality: t("settings.business.contact.address.city"),
-			postalCode: settings.business.contact.address.postalCode,
-			addressCountry: t("settings.business.contact.address.country"),
-		},
-		contactPoint: {
-			"@type": "ContactPoint",
-			contactType: "customer service",
-			telephone: settings.business.contact.phone,
-			email: settings.business.contact.email,
-			availableLanguage: ["Greek", "English"],
+		author: {
+			"@type": "Person",
+			name: author,
 		},
 		sameAs: Object.values(settings.business.social),
-		serviceArea: {
-			"@type": "Country",
-			name: settings.region,
-		},
-		openingHours: [
-			`Mo-Fr ${settings.business.hours.monday}`,
-			`Sa ${settings.business.hours.saturday}`,
-			`Su ${t("settings.business.hours.sunday")}`,
-		],
-		hasOfferCatalog: {
-			"@type": "OfferCatalog",
-			name: "Home Renovation Services",
-			itemListElement: settings.business.services[lang].map(service => ({
-				"@type": "Offer",
-				itemOffered: {
-					"@type": "Service",
-					name: service,
-					description: `${service} services in Greece`,
-				},
-			})),
-		},
 	})}
 />
 

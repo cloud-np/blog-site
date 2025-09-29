@@ -8,7 +8,9 @@ import ContactInfo from '@components/common/ContactInfo.astro';
 <footer class="mt-auto pt-16 px-8 min-h-50 flex flex-col justify-center md:justify-between">
 	<div class="flex flex-col gap-4 items-center md:items-start md:flex-row justify-between">
 		<div class="flex flex-col items-center text-base mb-4">
-			<Logo width={150} />
+			<span class="w-20">
+				<Logo />
+			</span>
 			<p>&copy; {new Date().getFullYear()} {settings.name}</p>
 			<div class="pt-1 -ml-3">
 				<SocialList />

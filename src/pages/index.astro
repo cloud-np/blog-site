@@ -2,11 +2,9 @@
 import PageLayout from "@layouts/PageLayout.astro";
 import BlogPostsList from "@components/post/BlogPostsList.astro";
 import { getPosts } from "@libs/post";
-import Reveal from "@components/Reveal.astro";
 import ScrollDown from "@components/interactive/ScrollDown.astro";
 import SceneController from "@components/interactive/SceneController/SceneController.astro";
 import Logo from "@components/common/Logo.astro";
-import MovingCards from "@components/interactive/MovingCards.astro";
 import abyss from "@assets/home-page/bento-box-section/abyss.jpg";
 import aktis from "@assets/home-page/bento-box-section/aktis.jpg";
 import bentoBox from "@assets/home-page/bento-box-section/bento-box.gif";
@@ -20,9 +18,9 @@ import zed from "@assets/home-page/bento-box-section/zed.jpg";
 import TaskScheduling from "@components/interactive/TaskScheduling.svelte";
 import Planets from "@components/interactive/Planets.astro";
 import BentoCard from "@components/content/BentoCard.astro";
-import ModalSlider from "@components/interactive/ModalSlider.svelte";
+import Slider2 from "@components/interactive/Slider2.svelte";
 import { Image } from "astro:assets";
-import type { visitNode } from "typescript";
+import "../styles/index.css";
 
 const seo = {
 	title: "cloud-np",
@@ -31,6 +29,19 @@ const seo = {
 
 const allPosts = await getPosts(undefined);
 const posts = allPosts.filter((post) => !(post as any).personal);
+
+const galleryImages = [
+	{ src: abyss, alt: "Abyss signature" },
+	{ src: aktis, alt: "Aktis logo design" },
+	{ src: zed, alt: "Zed signature" },
+	{ src: oino8eh, alt: "Οινοθέη logo design" },
+	{ src: pumkin, alt: "Pumkin signature" },
+	{ src: yang, alt: "Yang project" },
+	{ src: betterNetflix, alt: "Better Netflix project" },
+	{ src: igame, alt: "iGame project" },
+	{ src: fromHome, alt: "From Home project" },
+	{ src: bentoBox, alt: "BentoBox project" },
+];
 ---
 
 <PageLayout seo={seo}>
@@ -38,9 +49,9 @@ const posts = allPosts.filter((post) => !(post as any).personal);
 	<SceneController />
 	<div class="container flex flex-col">
 		<section class="landing px-3 overflow-hidden">
-			<div class="moon"></div>
-			<div class="moon moonRight"></div>
-			<div class="hero-text-container mb-16 flex justify-center flex-col items-center">
+			<div class="moon moon-left"></div>
+			<div class="moon moon-right top-[20vh] left-[80vw] overflow-x-hidden"></div>
+			<div class="transition-all duration-300 ease-out mb-16 flex justify-center flex-col items-center">
 				<div class="hero-title-container justify-center font-bold flex mb-10 overflow-hidden slow-fade">
 					<h1 class="hero-title">Hi</h1>
 					<h1 class="hero-title">there!</h1>
@@ -59,8 +70,8 @@ const posts = allPosts.filter((post) => !(post as any).personal);
 			</div>
 		</section>
 		<section class="portofolio-details flex self-center flex-col items-center">
-			<div class="logo-container mb-4">
-				<div class="grad absolute"></div>
+			<div class="-mt-15 mb-4">
+				<div class="gradient absolute"></div>
 				<div class="w-28 h-28">
 					<Logo />
 				</div>
@@ -78,22 +89,11 @@ const posts = allPosts.filter((post) => !(post as any).personal);
 				</p>
 			</div>
 		</section>
-		<!--<div class="slider-container">-->
-		<!--	<div class="slider-hiding-el-left"></div>-->
-		<!--	<Slider client:visible-->
-		<!--		categories={["Multiple Workflow Scheduling", "Freelancing", "Chessnp", "Senior Software Engineer"]}-->
-		<!--		initialXOffset={400}-->
-		<!--	/>-->
-		<!--	<div class="slider-hiding-el-right"></div>-->
-		<!--</div>-->
 		<div class="bentobox-container grid grid-cols-1 lg:grid-cols-3 gap-2 m-10 max-w-7xl">
-			<!-- <?xml version="1.0" encoding="UTF-8"?> <svg xmlns="http://www.w3.org/2000/svg" width="1440" height="1073" viewBox="0 0 1440 1073" fill="none"><g opacity="0.1" filter="url(#filter0_f_1687_32290)"><mask id="mask0_1687_32290" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="237" width="1440" height="792"><rect x="1440" y="237.003" width="791.722" height="1440" rx="395.861" transform="rotate(90 1440 237.003)" fill="white"></rect></mask><g mask="url(#mask0_1687_32290)"><rect x="1440" y="227.198" width="174.032" height="1440" rx="87.0159" transform="rotate(90 1440 227.198)" fill="#FF4444"></rect><rect x="1440" y="401.23" width="174.032" height="1440" rx="87.0159" transform="rotate(90 1440 401.23)" fill="#AD44FF"></rect><rect x="1440" y="575.262" width="174.032" height="1440" rx="87.0159" transform="rotate(90 1440 575.262)" fill="#448FFF"></rect><rect x="1440" y="749.293" width="174.032" height="1440" rx="87.0159" transform="rotate(90 1440 749.293)" fill="#44D2FF"></rect><rect x="1440" y="886.558" width="174.032" height="1440" rx="87.0159" transform="rotate(90 1440 886.558)" fill="#8BFF44"></rect></g></g><defs><filter id="filter0_f_1687_32290" x="-255.6" y="-18.5971" width="1951.2" height="1302.92" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood><feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"></feBlend><feGaussianBlur stdDeviation="127.8" result="effect1_foregroundBlur_1687_32290"></feGaussianBlur></filter></defs></svg>  -->
 			<BentoCard title="Engineering Tech Lead">
 
 				<div slot="preTitle" class="w-full h-50 relative overflow-hidden">
 					<Planets />
-					<!-- Bottom fade overlay -->
-					<!-- <div class="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-black/40 via-black/20 to-transparent pointer-events-none"></div> -->
 				</div>
 				<div slot="subTitle">
 					<p class="text-sm italic text-neutral-200 pb-2">
@@ -129,41 +129,13 @@ const posts = allPosts.filter((post) => !(post as any).personal);
 				I pride my self delivering only best for my clients.
 
 				<div slot="footer" class="w-full min-h-50">
-					<ModalSlider client:only initialXOffset={600}>
-						<div class="gallery-item" data-slide>
-							<Image class="gallery-image" data-modal draggable={false} src={abyss} alt="Abyss project" />
-						</div>
-						<div class="gallery-item" data-slide>
-							<Image class="gallery-image" data-modal draggable={false} src={aktis} alt="Aktis project" />
-						</div>
-						<div class="gallery-item" data-slide>
-							<Image class="gallery-image" data-modal draggable={false} src={zed} alt="Zed project" />
-						</div>
-						<div class="gallery-item" data-slide>
-							<Image class="gallery-image" data-modal draggable={false} src={oino8eh} alt="Oino8eh project" />
-						</div>
-						<div class="gallery-item" data-slide>
-							<Image class="gallery-image" data-modal draggable={false} src={pumkin} alt="Pumkin project" />
-						</div>
-						<div class="gallery-item" data-slide>
-							<Image class="gallery-image" data-modal draggable={false} src={betterNetflix} alt="From Better Netflix project" />
-						</div>
-						<div class="gallery-item" data-slide>
-							<Image class="gallery-image" data-modal draggable={false} src={igame} alt="From igame project" />
-						</div>
-						<div class="gallery-item" data-slide>
-							<Image class="gallery-image" data-modal draggable={false} src={fromHome} alt="From Home project" />
-						</div>
-						<div class="gallery-item" data-slide>
-							<Image class="gallery-image" data-modal draggable={false} src={igame} alt="From igame project" />
-						</div>
-						<div class="gallery-item" data-slide>
-							<Image class="gallery-image" data-modal draggable={false} src={bentoBox} alt="From BentoBox project" />
-						</div>
-						<div class="gallery-item" data-slide>
-							<Image class="gallery-image" data-modal draggable={false} src={yang} alt="From Yang project" />
-						</div>
-					</ModalSlider>
+					<Slider2 client:only initialXOffset={600}>
+						{galleryImages.map((image) => (
+							<div class="gallery-item" data-slide>
+								<Image class="gallery-image" draggable={false} src={image.src} alt={image.alt} />
+							</div>
+						))}
+					</Slider2>
 				</div>
 			</BentoCard>
 			<BentoCard title="chessnp.com" hasFooter={true} reverse>
@@ -180,100 +152,13 @@ const posts = allPosts.filter((post) => !(post as any).personal);
 			</BentoCard>
 		</div>
 	</div>
-	<section class="mx-6 flex flex-col justify-center items-center">
-		<h4 class="projects-title fade-in">Latest Posts</h4>
-		<BlogPostsList class="latest-projects-container" posts={posts} />
+	<section class="mx-6 mt-20 flex flex-col justify-center items-center">
+		<h4 class="mb-16 fade-in text-2xl">Latest Posts</h4>
+		<BlogPostsList class="pt-16" posts={posts} />
 	</section>
-
-	<!-- Image Overlay -->
-	<div id="imageOverlay" class="image-overlay">
-		<div class="overlay-backdrop"></div>
-		<button class="overlay-close" aria-label="Close overlay">&times;</button>
-		<div class="overlay-info">
-			<h3 id="overlayTitle" class="overlay-title"></h3>
-		</div>
-	</div>
 </PageLayout>
 
 <style>
-	/* TODO: Styles need to come after HTML otherwise BentoCard breaks, look into this... */
-	.landing {
-		padding: 5vh 0;
-		display: flex;
-		flex-direction: column;
-		height: 95vh;
-		color: var(--primary);
-	}
-
-	.logo-container {
-		margin-top: -3.5rem;
-	}
-
-	.grad {
-		width: 40px;
-		height: 40px;
-		margin-top: 25px;
-		left: 50%;
-		background: radial-gradient(circle, #41b4e9, #4dedff);
-		border-radius: 50%;
-		filter: blur(10px);
-		mix-blend-mode: color-dodge;
-		animation: glow 6s infinite ease-in-out;
-		transition: all ease-in-out 300ms;
-	}
-
-	@keyframes glow {
-		0% {
-			opacity: 0.5;
-		}
-		50% {
-			opacity: 1;
-		}
-		100% {
-			opacity: 0.5;
-		}
-	}
-	/* all .5s cubic-bezier(.76,0,.24,1); */
-
-	.portofolio-details {
-		margin-top: 5vh;
-		border-radius: 5px;
-		background: linear-gradient(0deg, #101010 40%, #080808);
-		transition: all 0.3s ease-out;
-	}
-
-	.moon {
-		width: min(400px, 30vw);
-		height: min(400px, 30vw);
-		position: absolute;
-		top: 10vh;
-		left: 5vw;
-		border-radius: 50%;
-		z-index: -5;
-		background: linear-gradient(
-			-90deg,
-			rgb(26, 26, 26) 10%,
-			rgb(15, 15, 15)
-		);
-		cursor: none;
-	}
-
-	.moonRight {
-		top: 20vh;
-		left: 80vw;
-		overflow-x: hidden;
-		background: linear-gradient(
-			90deg,
-			rgb(26, 26, 26) 10%,
-			rgb(15, 15, 15)
-		);
-	}
-
-	@media (max-width: 768px) {
-		.moonRight {
-			display: none;
-		}
-	}
 
 	/* Do not include margin to the last char for small devices */
 	.hero-title-container .hero-title:not(:last-child) {
@@ -283,17 +168,9 @@ const posts = allPosts.filter((post) => !(post as any).personal);
 	.hero-title {
 		transform: translateY(100%);
 		z-index: -1;
-	}
-
-	.no-overflowing {
-		overflow: hidden;
-		border: 1px solid green;
-	}
-
-	h1 {
+		font-size: min(6rem, 9vw);
 		text-align: center;
 		max-width: 100%;
-		font-size: min(6rem, 9vw);
 		white-space: nowrap;
 	}
 
@@ -304,128 +181,6 @@ const posts = allPosts.filter((post) => !(post as any).personal);
 		margin: auto;
 		text-align: center;
 	}
-
-	.slow-fade {
-		position: relative;
-		mask-image: linear-gradient(115deg, #fff 34%, hsla(0, 0%, 100%, 0) 95%);
-		-webkit-mask-image: linear-gradient(115deg, #fff 34%, hsla(0, 0%, 100%, 0) 95%);
-	}
-
-	.hero-text-container {
-		/* transition: all 0.7s cubic-bezier(0.76, 0, 0.24, 1); */
-		transition: all 0.3s ease-out;
-	}
-
-	.scroll-down-indicator {
-		position: absolute;
-		top: 85%;
-		left: 50%;
-		opacity: 0;
-		transition: all 0.5s cubic-bezier(0.76, 0, 0.24, 1);
-	}
-
-	.latest-projects-container {
-		padding-top: 2rem;
-	}
-
-	.projects-title {
-		margin-top: 6rem;
-		margin-bottom: 3rem;
-	}
-
-	.container {
-		width: 100%;
-		margin: 0 auto;
-		max-width: var(--lg-container, 960px);
-		/* padding: var(--container-padding, 1rem); */
-	}
-
-	.slider-container {
-		max-width: var(--lg-container, 960px);
-		overflow: hidden;
-	}
-
-	@media (max-width: 768px) {
-		.container {
-			display: flex;
-			flex-direction: column;
-		}
-	}
-
-	.moving-card-img {
-		transition: all ease 2s;
-	}
-
-	.gallery-container {
-		display: flex;
-		gap: 8px;
-		padding: 8px;
-		transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-		transform-style: preserve-3d;
-	}
-
-	.gallery-item {
-		position: relative;
-		flex-shrink: 0;
-		border-radius: 12px;
-		overflow: hidden;
-		cursor: pointer;
-		transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
-		width: 120px;
-		height: 80px;
-		filter: brightness(0.7) saturate(0.8);
-	}
-
-	.gallery-item:hover {
-		transform: scale(1.2) translateY(-4px);
-		filter: brightness(1.1) saturate(1.2);
-		box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
-		z-index: 10;
-		width: 130px;
-		height: 85px;
-	}
-
-	.gallery-item.focused {
-		width: 140px;
-		height: 90px;
-		transform: scale(1.09);
-		filter: brightness(1) saturate(1);
-		box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-		z-index: 5;
-	}
-
-	.gallery-item:not(.focused):not(:hover) {
-		width: 110px;
-		height: 75px;
-		filter: brightness(0.6) saturate(0.7);
-	}
-
-	.gallery-image {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-		transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-	}
-
-	/* Add a subtle glow effect */
-	.gallery-item::before {
-		content: '';
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		background: linear-gradient(45deg, rgba(65, 180, 233, 0.1), rgba(77, 237, 255, 0.1));
-		opacity: 0;
-		transition: opacity 0.3s ease;
-		pointer-events: none;
-		border-radius: 12px;
-	}
-
-	.gallery-item:hover::before,
-	.gallery-item.focused::before {
-		opacity: 1;
-	}
 </style>
 
 
@@ -433,7 +188,6 @@ const posts = allPosts.filter((post) => !(post as any).personal);
 	import gsap from "gsap";
 	import { ScrollTrigger } from "gsap/all";
 	import { scrollEl } from "@components/interactive/ScrollController/ScrollController";
-	import { getImageCenterPosition } from "@utils/browser";
 
 	const REVEAL_DELAY = 3.72;
 	gsap.registerPlugin(ScrollTrigger);
@@ -510,152 +264,12 @@ const posts = allPosts.filter((post) => !(post as any).personal);
 				: 1,
 	});
 
-	// Interactive Gallery functionality
-	function initGallery() {
-		const galleryItems = document.querySelectorAll('.gallery-item');
-		const overlay = document.getElementById('imageOverlay');
-		const overlayTitle = document.getElementById('overlayTitle');
-		const overlayClose = document.querySelector('.overlay-close');
-		const overlayBackdrop = document.querySelector('.overlay-backdrop');
-		let isTransitioning = false;
-
-		// Image data for overlay
-		const imageData = [
-			{ alt: 'Abyss project' },
-			{ alt: 'Zed project' },
-			{ alt: 'Aktis project' },
-			{ alt: 'Pumkin project' },
-			{ alt: 'Οινοθέη project' },
-			{ alt: 'From Home project' }
-		];
-
-		// Transition functions
-		function openImageTransition(clickedImage, index) {
-			if (isTransitioning) return;
-			isTransitioning = true;
-
-			const data = imageData[index];
-			const rect = clickedImage.getBoundingClientRect();
-
-			// Show overlay
-			overlay.classList.add('active');
-			overlayTitle.textContent = data.alt;
-			document.body.classList.add('overlay-open');
-
-			// Clone the image for transition
-			const transitionImg = clickedImage.cloneNode();
-			transitionImg.classList.add('transitioning');
-
-			// Set initial position (same as original)
-			transitionImg.style.left = rect.left + 'px';
-			transitionImg.style.top = rect.top + 'px';
-			transitionImg.style.width = rect.width + 'px';
-			transitionImg.style.height = rect.height + 'px';
-			transitionImg.style.objectFit = 'cover';
-
-			// Add to overlay
-			overlay.appendChild(transitionImg);
-
-			// Hide original image
-			clickedImage.style.opacity = '0';
-
-			// Wait for image to load if needed, then trigger transition to center
-			if (transitionImg.complete) {
-				requestAnimationFrame(() => {
-					const centerPos = getImageCenterPosition(transitionImg);
-					transitionImg.style.left = centerPos.left + 'px';
-					transitionImg.style.top = centerPos.top + 'px';
-					transitionImg.style.width = centerPos.width + 'px';
-					transitionImg.style.height = centerPos.height + 'px';
-					transitionImg.style.objectFit = 'contain';
-				});
-			} else {
-				transitionImg.onload = () => {
-					requestAnimationFrame(() => {
-						const centerPos = getImageCenterPosition(transitionImg);
-						transitionImg.style.left = centerPos.left + 'px';
-						transitionImg.style.top = centerPos.top + 'px';
-						transitionImg.style.width = centerPos.width + 'px';
-						transitionImg.style.height = centerPos.height + 'px';
-						transitionImg.style.objectFit = 'contain';
-					});
-				};
-			}
-
-			// Store references for closing
-			overlay._transitionImg = transitionImg;
-			overlay._originalImg = clickedImage;
-			overlay._originalRect = rect;
-		}
-
-		function closeImageTransition() {
-			if (!isTransitioning) return;
-
-			const transitionImg = overlay._transitionImg;
-			const originalImg = overlay._originalImg;
-			const originalRect = overlay._originalRect;
-
-			if (transitionImg && originalImg) {
-				// Get current rect in case of window resize
-				const currentRect = originalImg.getBoundingClientRect();
-
-				// Transition back to original position
-				transitionImg.style.left = currentRect.left + 'px';
-				transitionImg.style.top = currentRect.top + 'px';
-				transitionImg.style.width = currentRect.width + 'px';
-				transitionImg.style.height = currentRect.height + 'px';
-				transitionImg.style.objectFit = 'cover';
-
-				// After transition completes
-				setTimeout(() => {
-					overlay.classList.remove('active');
-					document.body.classList.remove('overlay-open');
-					originalImg.style.opacity = '1';
-					transitionImg.remove();
-
-					// Clean up references
-					delete overlay._transitionImg;
-					delete overlay._originalImg;
-					delete overlay._originalRect;
-
-					isTransitioning = false;
-				}, 300); // Match transition duration
-			}
-		}
-
-		// Close overlay handlers
-		overlayClose?.addEventListener('click', closeImageTransition);
-		overlayBackdrop?.addEventListener('click', closeImageTransition);
-
-		// Close on Escape key
-		document.addEventListener('keydown', (e) => {
-			if (e.key === 'Escape' && overlay?.classList.contains('active')) {
-				closeImageTransition();
-			}
-		});
-
-		// Handle window resize during transition
-		window.addEventListener('resize', () => {
-			if (isTransitioning && overlay._transitionImg) {
-				const centerPos = getImageCenterPosition(overlay._transitionImg);
-				const transitionImg = overlay._transitionImg;
-				transitionImg.style.left = centerPos.left + 'px';
-				transitionImg.style.top = centerPos.top + 'px';
-				transitionImg.style.width = centerPos.width + 'px';
-				transitionImg.style.height = centerPos.height + 'px';
-			}
-		});
-
-	}
-
 	// init(REVEAL_DELAY);
 	init();
-	initGallery();
 
 	document.addEventListener("astro:after-swap", () => {
 		if (window.location.pathname === '/' || window.location.pathname === '') {
 			init();
-			initGallery();
 		}
 	});
 </script>

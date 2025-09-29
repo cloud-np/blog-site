@@ -1,21 +1,37 @@
 <script>
-	import startNightScene from "./nightScene";
+	let nightSceneModule: any = null;
 
-	const init = () => {
-		const resizeCanvas = () => {
+	const loadNightScene = async () => {
+		if (!nightSceneModule) {
+			// @ts-ignore - Dynamic import for deferred loading
+			nightSceneModule = await import("./nightScene.js");
+		}
+		return nightSceneModule.default;
+	};
+
+	const init = async () => {
+		const resizeCanvas = async () => {
 			const canvas = document.getElementById('scene') as HTMLCanvasElement;
 			if (!canvas) return;
 			canvas.width = window.innerWidth;
 			canvas.height = window.innerHeight;
 			const ctx = canvas.getContext('2d');
 			if (!ctx) return;
+
+			const startNightScene = await loadNightScene();
 			startNightScene(canvas);
 		};
-		resizeCanvas();
+		await resizeCanvas();
 		window.addEventListener('resize', resizeCanvas);
 	}
 
-	init();
+	// Defer initialization until page is loaded
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', init);
+	} else {
+		// Use setTimeout to defer even if DOM is already ready
+		setTimeout(init, 0);
+	}
 
 	document.addEventListener('astro:after-swap', init);
 </script>

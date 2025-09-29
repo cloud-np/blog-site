@@ -1,40 +1,40 @@
 export const settings = {
-    url: 'https://home-upgrades.gr',
-    name: 'Home Upgrades',
+    url: 'https://cloud-np.com',
+    name: 'cloud-np',
     title: {
-        el: 'Home Upgrades - Μοντέρνα Αρχιτεκτονική & Εσωτερική Διακόσμηση',
-        en: 'Home Upgrades - Modern Architecture & Interior Design',
+        el: 'cloud-np - Tech Blog & Software Development',
+        en: 'cloud-np - Tech Blog & Software Development',
     },
     description: {
-        el: 'Επαγγελματικές ανακαινίσεις σπιτιού στην Αθήνα. Κουζίνες, μπάνια, εσωτερική διακόσμηση και αρχιτεκτονικός σχεδιασμός με σύγχρονη αισθητική.',
-        en: 'Professional home renovations in Athens. Kitchens, bathrooms, interior design and architectural planning with modern aesthetics.',
+        el: 'A tech blog focused on software development, web technologies, programming tutorials, and industry insights.',
+        en: 'A tech blog focused on software development, web technologies, programming tutorials, and industry insights.',
     },
     keywords: {
-        el: 'ανακαίνιση σπιτιού, αρχιτεκτονική, εσωτερική διακόσμηση, κουζίνες, μπάνια, έργα, home upgrades, architecture, interior design, kitchen renovation, bathroom renovation, construction, Greece',
-        en: 'home renovation, architecture, interior design, kitchens, bathrooms, projects, home upgrades, architecture, interior design, kitchen renovation, bathroom renovation, construction, Greece',
+        el: 'programming, software development, web development, javascript, typescript, react, angular, node.js, tech blog, coding tutorials, programming tips',
+        en: 'programming, software development, web development, javascript, typescript, react, angular, node.js, tech blog, coding tutorials, programming tips',
     },
-    author: 'Home Upgrades',
-    language: 'el',
+    author: 'Nick Pappas',
+    language: 'en',
     country: 'GR',
     region: 'Greece',
     business: {
-        type: 'HomeImprovementBusiness',
+        type: 'TechBlog',
         services: {
             el: [
-                'Ανακαίνιση Κουζίνας',
-                'Ανακαίνιση Μπάνιου',
-                'Εσωτερική Διακόσμηση',
-                'Αρχιτεκτονική',
-                'Κατασκευές',
-                'Ανακαίνιση Σπιτιού'
+                'Software Development',
+                'Web Development',
+                'Technical Writing',
+                'Programming Tutorials',
+                'Code Reviews',
+                'Tech Consulting'
             ],
             en: [
-                'Kitchen Renovation',
-                'Bathroom Renovation',
-                'Interior Design',
-                'Architecture',
-                'Construction',
-                'Home Remodeling'
+                'Software Development',
+                'Web Development',
+                'Technical Writing',
+                'Programming Tutorials',
+                'Code Reviews',
+                'Tech Consulting'
             ]
         },
         contact: {
@@ -55,24 +55,10 @@ export const settings = {
             }
         },
         social: {
-            facebook: 'https://www.facebook.com/homeupgradesgr',
-            instagram: 'https://www.instagram.com/homeupgradesgr',
-            linkedin: 'https://www.linkedin.com/company/homeupgradesgr',
-			tiktok: 'https://www.tiktok.com/@homeupgradesgr',
-			youtube: 'https://www.youtube.com/@homeupgradesgr',
-			twitter: 'https://www.twitter.com/homeupgradesgr',
-        },
-        hours: {
-            monday: '09:00-18:00',
-            tuesday: '09:00-18:00',
-            wednesday: '09:00-18:00',
-            thursday: '09:00-18:00',
-            friday: '09:00-18:00',
-            saturday: '10:00-16:00',
-            sunday: {
-                el: 'Κλειστά',
-                en: 'Closed',
-            }
+            github: 'https://github.com/cloud-np',
+            linkedin: 'https://www.linkedin.com/in/cloud-np',
+            twitter: 'https://twitter.com/_cloudnp',
+            youtube: 'https://www.youtube.com/@cloudnp',
         }
     }
 }
