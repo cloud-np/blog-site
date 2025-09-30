@@ -8,8 +8,7 @@
 		onTileClick?: () => void;
 		isClicked?: boolean;
 		clickedColor?: string;
-		onDragStart?: () => void;
-		onDrop?: () => void;
+		onPieceClick?: () => void;
 	}
 
 	let {
@@ -19,31 +18,16 @@
 		onTileClick,
 		isClicked = false,
 		clickedColor = "",
-		onDragStart,
-		onDrop,
+		onPieceClick,
 	}: Props = $props();
 
 	function handleClick() {
 		onTileClick?.();
 	}
 
-	function handleDragStart(e: DragEvent) {
-		if (tile?.piece) {
-			e.dataTransfer!.effectAllowed = "move";
-			onDragStart?.();
-		}
-	}
-
-	function handleDragOver(e: DragEvent) {
-		e.preventDefault();
-		if (e.dataTransfer) {
-			e.dataTransfer.dropEffect = "move";
-		}
-	}
-
-	function handleDrop(e: DragEvent) {
-		e.preventDefault();
-		onDrop?.();
+	function handlePieceClick(e: MouseEvent) {
+		e.stopPropagation();
+		onPieceClick?.();
 	}
 </script>
 
@@ -52,8 +36,6 @@
 	class="square {color}"
 	onclick={handleClick}
 	onkeydown={e => e.key === "Enter" && handleClick()}
-	ondragover={handleDragOver}
-	ondrop={handleDrop}
 	role="button"
 	tabindex="0"
 	style="height: {squareSize}px; width: {squareSize}px;">
@@ -67,8 +49,8 @@
 
 	{#if tile?.piece?.type !== "empty" && tile?.piece?.imgSrc}
 		<img
-			draggable="true"
-			ondragstart={handleDragStart}
+			onclick={handlePieceClick}
+			onkeydown={e => e.key === "Enter" && handlePieceClick(e)}
 			loading="lazy"
 			decoding="async"
 			fetchpriority="low"
@@ -76,6 +58,8 @@
 			style="width: {squareSize}px;"
 			src={tile.piece.imgSrc.src}
 			alt={tile.piece.type}
+			role="button"
+			tabindex="0"
 		/>
 	{/if}
 </div>
@@ -131,10 +115,6 @@
 	}
 
 	.clickable {
-		cursor: grab;
-	}
-
-	.clickable:active {
-		cursor: grabbing;
+		cursor: pointer;
 	}
 </style>

@@ -20,6 +20,7 @@
 
 .moon-right {
 	background: var(--moon-gradient-right);
+	overflow-x: hidden;
 }
 
 .video-container {

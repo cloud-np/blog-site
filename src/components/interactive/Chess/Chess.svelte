@@ -30,7 +30,6 @@
 
 	let squareSize = $state(28);
 	let selectedSquare = $state<string | null>(null);
-	let draggedFrom = $state<string | null>(null);
 
 	// Initialize an 8x8 chess board
 	function initializeBoard(): Tile[][] {
@@ -98,9 +97,57 @@
 	}
 
 	function handleSquareClick(squareName: string) {
+		const tile = findTile(squareName);
+
+		// If no square is selected, select this square if it has a piece
+		if (!selectedSquare) {
+			if (tile?.piece) {
+				selectedSquare = squareName;
+			}
+			return;
+		}
+
+		// If clicking the same square, deselect it
 		if (selectedSquare === squareName) {
 			selectedSquare = null;
+			return;
+		}
+
+		// If a square is selected, try to move the piece
+		const selectedTile = findTile(selectedSquare);
+		if (selectedTile?.piece) {
+			movePiece(selectedSquare, squareName);
 		} else {
+			// If the selected square has no piece, select the new square if it has a piece
+			if (tile?.piece) {
+				selectedSquare = squareName;
+			} else {
+				selectedSquare = null;
+			}
+		}
+	}
+
+	function handlePieceClick(squareName: string) {
+		const tile = findTile(squareName);
+
+		// If no square is selected, select this piece's square
+		if (!selectedSquare) {
+			selectedSquare = squareName;
+			return;
+		}
+
+		// If clicking the same piece, deselect it
+		if (selectedSquare === squareName) {
+			selectedSquare = null;
+			return;
+		}
+
+		// If a different square is selected, try to move the piece there
+		const selectedTile = findTile(selectedSquare);
+		if (selectedTile?.piece) {
+			movePiece(selectedSquare, squareName);
+		} else {
+			// Select this piece instead
 			selectedSquare = squareName;
 		}
 	}
@@ -126,24 +173,7 @@
 
 			// Clear selection
 			selectedSquare = null;
-			draggedFrom = null;
 		}
-	}
-
-	// Drag handlers
-	function handleDragStart(squareName: string) {
-		const tile = findTile(squareName);
-		if (tile?.piece) {
-			draggedFrom = squareName;
-			selectedSquare = squareName;
-		}
-	}
-
-	function handleDrop(squareName: string) {
-		if (draggedFrom && draggedFrom !== squareName) {
-			movePiece(draggedFrom, squareName);
-		}
-		draggedFrom = null;
 	}
 
 	// Initialize board
@@ -152,7 +182,6 @@
 	function handleReload() {
 		board = initializeBoard();
 		selectedSquare = null;
-		draggedFrom = null;
 	}
 </script>
 
@@ -166,10 +195,9 @@
 						color={getSquareColor(rowIndex, colIndex)}
 						{squareSize}
 						onTileClick={() => handleSquareClick(tile.squareName)}
+						onPieceClick={() => handlePieceClick(tile.squareName)}
 						isClicked={selectedSquare === tile.squareName}
 						clickedColor="yellow"
-						onDragStart={() => handleDragStart(tile.squareName)}
-						onDrop={() => handleDrop(tile.squareName)}
 					/>
 				{/each}
 			</div>
