@@ -11,8 +11,6 @@ import rehypeKatex from 'rehype-katex';
 
 import partytown from '@astrojs/partytown';
 
-import node from '@astrojs/node';
-
 import tailwindcss from '@tailwindcss/vite';
 import playformCompress from '@playform/compress';
 
@@ -54,7 +52,4 @@ export default defineConfig({
 	},
 	output: 'static',
 	plugins: [],
-	adapter: node({
-		mode: 'standalone',
-	}),
 });

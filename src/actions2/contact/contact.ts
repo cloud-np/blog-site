@@ -1,6 +1,6 @@
 import { ActionError, defineAction } from "astro:actions";
-import { ContactAntiSpam } from "src/actions/contact/contact-anti-spam";
-import { contactFormSchema } from "src/actions/contact/contact.validation";
+import { ContactAntiSpam } from "src/actions2/contact/contact-anti-spam";
+import { contactFormSchema } from "src/actions2/contact/contact.validation";
 import { getEmailService } from "@libs/services/services";
 
 export const contact = {

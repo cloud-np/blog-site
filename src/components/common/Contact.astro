@@ -1,10 +1,10 @@
 ---
 import { Icon } from "astro-icon/components";
 
-export const prerender = false;
+// export const prerender = false;
 
-// Set Cache-Control headers for server island caching
-Astro.response.headers.set('Cache-Control', 'public, max-age=3600, s-maxage=3600, stale-while-revalidate=86400');
+// // Set Cache-Control headers for server island caching
+// Astro.response.headers.set('Cache-Control', 'public, max-age=3600, s-maxage=3600, stale-while-revalidate=86400');
 
 const inputClass = "block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-sky-400 peer";
 ---
@@ -153,182 +153,182 @@ const inputClass = "block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparen
 </div>
 
 <script>
-	import { actions } from "astro:actions";
-	import { z } from "astro:schema";
+	// import { actions } from "astro:actions";
+	// import { z } from "astro:schema";
 
-	const contactSchema = z.object({
-		name: z.string().min(1, "Το όνομα είναι υποχρεωτικό").max(100, "Το όνομα πρέπει να έχει λιγότερους από 100 χαρακτήρες"),
-		email: z.string().min(1, "Το email είναι υποχρεωτικό").email("Το email δεν είναι έγκυρο"),
-		countryCode: z.string().min(2, "Ο κωδικός χώρας πρέπει να έχει τουλάχιστον 2 χαρακτήρες").max(5, "Ο κωδικός χώρας πρέπει να έχει το πολύ 5 χαρακτήρες"),
-		phone: z.string().min(7, "Το τηλέφωνο πρέπει να έχει περισσότερους από 7 χαρακτήρες").max(15, "Το τηλέφωνο πρέπει να έχει λιγότερους από 15 χαρακτήρες"),
-		subject: z.string().max(100, "Το θέμα πρέπει να έχει λιγότερους από 100 χαρακτήρες").optional(),
-		message: z.string().max(600, "Το μήνυμα πρέπει να έχει λιγότερους από 600 χαρακτήρες").optional(),
-		terms: z.boolean().refine(val => val === true, "Πρέπει να συμφωνήσετε με τους όρους")
-	});
+	// const contactSchema = z.object({
+	// 	name: z.string().min(1, "Το όνομα είναι υποχρεωτικό").max(100, "Το όνομα πρέπει να έχει λιγότερους από 100 χαρακτήρες"),
+	// 	email: z.string().min(1, "Το email είναι υποχρεωτικό").email("Το email δεν είναι έγκυρο"),
+	// 	countryCode: z.string().min(2, "Ο κωδικός χώρας πρέπει να έχει τουλάχιστον 2 χαρακτήρες").max(5, "Ο κωδικός χώρας πρέπει να έχει το πολύ 5 χαρακτήρες"),
+	// 	phone: z.string().min(7, "Το τηλέφωνο πρέπει να έχει περισσότερους από 7 χαρακτήρες").max(15, "Το τηλέφωνο πρέπει να έχει λιγότερους από 15 χαρακτήρες"),
+	// 	subject: z.string().max(100, "Το θέμα πρέπει να έχει λιγότερους από 100 χαρακτήρες").optional(),
+	// 	message: z.string().max(600, "Το μήνυμα πρέπει να έχει λιγότερους από 600 χαρακτήρες").optional(),
+	// 	terms: z.boolean().refine(val => val === true, "Πρέπει να συμφωνήσετε με τους όρους")
+	// });
 
-	const inputClass = "block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-sky-400 peer";
-	const errorClass = "border border-red-500 text-red-900 placeholder-red-700 text-sm focus:ring-red-500 focus:border-red-500 block w-full p-2.5";
-	const nameInput = document.getElementById("floating_name") as HTMLInputElement;
-	const emailInput = document.getElementById("floating_email") as HTMLInputElement;
-	const countryCodeInput = document.getElementById("floating_countryCode") as HTMLInputElement;
-	const phoneInput = document.getElementById("floating_phone") as HTMLInputElement;
-	const termsInput = document.getElementById("terms") as HTMLInputElement;
-	const subjectInput = document.getElementById("floating_subject") as HTMLInputElement;
-	const messageInput = document.getElementById("floating_message") as HTMLTextAreaElement;
+	// const inputClass = "block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-sky-400 peer";
+	// const errorClass = "border border-red-500 text-red-900 placeholder-red-700 text-sm focus:ring-red-500 focus:border-red-500 block w-full p-2.5";
+	// const nameInput = document.getElementById("floating_name") as HTMLInputElement;
+	// const emailInput = document.getElementById("floating_email") as HTMLInputElement;
+	// const countryCodeInput = document.getElementById("floating_countryCode") as HTMLInputElement;
+	// const phoneInput = document.getElementById("floating_phone") as HTMLInputElement;
+	// const termsInput = document.getElementById("terms") as HTMLInputElement;
+	// const subjectInput = document.getElementById("floating_subject") as HTMLInputElement;
+	// const messageInput = document.getElementById("floating_message") as HTMLTextAreaElement;
 
-	const showError = (input: HTMLElement, msg: string): void => {
-		input.className += " " + errorClass;
-		const parent = input.parentElement;
-		if (!parent) return;
+	// const showError = (input: HTMLElement, msg: string): void => {
+	// 	input.className += " " + errorClass;
+	// 	const parent = input.parentElement;
+	// 	if (!parent) return;
 
-		const existingError = parent.querySelector(".error-msg");
-		if (existingError) existingError.remove();
+	// 	const existingError = parent.querySelector(".error-msg");
+	// 	if (existingError) existingError.remove();
 
-		const errorDiv = document.createElement("div");
-		errorDiv.className = "error-msg text-red-600 text-sm mt-1";
-		errorDiv.textContent = msg;
-		parent.appendChild(errorDiv);
-	};
+	// 	const errorDiv = document.createElement("div");
+	// 	errorDiv.className = "error-msg text-red-600 text-sm mt-1";
+	// 	errorDiv.textContent = msg;
+	// 	parent.appendChild(errorDiv);
+	// };
 
-	const clearError = (input: HTMLElement): void => {
-		input.className = inputClass;
-		const parent = input.parentElement;
-		if (!parent) return;
-		const errorDiv = parent.querySelector(".error-msg");
-		if (errorDiv) errorDiv.remove();
-	};
+	// const clearError = (input: HTMLElement): void => {
+	// 	input.className = inputClass;
+	// 	const parent = input.parentElement;
+	// 	if (!parent) return;
+	// 	const errorDiv = parent.querySelector(".error-msg");
+	// 	if (errorDiv) errorDiv.remove();
+	// };
 
-	const clearAllErrors = (): void => {
-		[nameInput, emailInput, countryCodeInput, phoneInput, subjectInput, messageInput].forEach(clearError);
-	};
+	// const clearAllErrors = (): void => {
+	// 	[nameInput, emailInput, countryCodeInput, phoneInput, subjectInput, messageInput].forEach(clearError);
+	// };
 
-	// Initialize country code with + prefix
-	if (!countryCodeInput.value.startsWith("+")) {
-		countryCodeInput.value = "+" + countryCodeInput.value;
-	}
+	// // Initialize country code with + prefix
+	// if (!countryCodeInput.value.startsWith("+")) {
+	// 	countryCodeInput.value = "+" + countryCodeInput.value;
+	// }
 
-	// Auto-prefix + for country code and prevent its deletion
-	countryCodeInput.addEventListener("input", () => {
-		let value = countryCodeInput.value;
-		// Remove any non-digit characters except +
-		value = value.replace(/[^\d+]/g, "");
-		// If value doesn't start with +, add it
-		if (!value.startsWith("+")) {
-			value = "+" + value.replace(/\+/g, "");
-		}
-		// Ensure only one + at the beginning
-		if (((value ?? '') as any).match(/\+/g)?.length > 1) {
-			value = "+" + value.replace(/\+/g, "");
-		}
+	// // Auto-prefix + for country code and prevent its deletion
+	// countryCodeInput.addEventListener("input", () => {
+	// 	let value = countryCodeInput.value;
+	// 	// Remove any non-digit characters except +
+	// 	value = value.replace(/[^\d+]/g, "");
+	// 	// If value doesn't start with +, add it
+	// 	if (!value.startsWith("+")) {
+	// 		value = "+" + value.replace(/\+/g, "");
+	// 	}
+	// 	// Ensure only one + at the beginning
+	// 	if (((value ?? '') as any).match(/\+/g)?.length > 1) {
+	// 		value = "+" + value.replace(/\+/g, "");
+	// 	}
 
-		countryCodeInput.value = value === "+30"
-			? `${value} 🇬🇷`
-			: value;
-	});
+	// 	countryCodeInput.value = value === "+30"
+	// 		? `${value} 🇬🇷`
+	// 		: value;
+	// });
 
-	// Prevent deletion of the + sign
-	countryCodeInput.addEventListener("keydown", (e) => {
-		const cursorPosition = countryCodeInput.selectionStart;
-		if (e.key === "Backspace" && countryCodeInput.value.includes("🇬🇷")) {
-			countryCodeInput.value = "+30";
-		}
+	// // Prevent deletion of the + sign
+	// countryCodeInput.addEventListener("keydown", (e) => {
+	// 	const cursorPosition = countryCodeInput.selectionStart;
+	// 	if (e.key === "Backspace" && countryCodeInput.value.includes("🇬🇷")) {
+	// 		countryCodeInput.value = "+30";
+	// 	}
 
-		// Prevent cursor from being placed before the +
-		if (e.key === "ArrowLeft" && cursorPosition === 1) {
-			e.preventDefault();
-		}
-	});
+	// 	// Prevent cursor from being placed before the +
+	// 	if (e.key === "ArrowLeft" && cursorPosition === 1) {
+	// 		e.preventDefault();
+	// 	}
+	// });
 
-	// Ensure cursor doesn't go before the +
-	countryCodeInput.addEventListener("click", () => {
-		if (countryCodeInput.selectionStart === 0) {
-			countryCodeInput.setSelectionRange(1, 1);
-		}
-	});
+	// // Ensure cursor doesn't go before the +
+	// countryCodeInput.addEventListener("click", () => {
+	// 	if (countryCodeInput.selectionStart === 0) {
+	// 		countryCodeInput.setSelectionRange(1, 1);
+	// 	}
+	// });
 
-	const form = document.getElementById("contact-form") as HTMLFormElement;
-	const submitBtn = document.getElementById("submit-btn") as HTMLButtonElement;
-	const submitContent = document.getElementById("submit-content") as HTMLSpanElement;
-	const loadingContent = document.getElementById("loading-content") as HTMLSpanElement;
+	// const form = document.getElementById("contact-form") as HTMLFormElement;
+	// const submitBtn = document.getElementById("submit-btn") as HTMLButtonElement;
+	// const submitContent = document.getElementById("submit-content") as HTMLSpanElement;
+	// const loadingContent = document.getElementById("loading-content") as HTMLSpanElement;
 
-	const showLoading = () => {
-		submitBtn.disabled = true;
-		submitContent.classList.add("hidden");
-		loadingContent.classList.remove("hidden");
-		loadingContent.classList.add("flex");
-	};
+	// const showLoading = () => {
+	// 	submitBtn.disabled = true;
+	// 	submitContent.classList.add("hidden");
+	// 	loadingContent.classList.remove("hidden");
+	// 	loadingContent.classList.add("flex");
+	// };
 
-	const hideLoading = () => {
-		submitBtn.disabled = false;
-		submitContent.classList.remove("hidden");
-		loadingContent.classList.add("hidden");
-		loadingContent.classList.remove("flex");
-	};
+	// const hideLoading = () => {
+	// 	submitBtn.disabled = false;
+	// 	submitContent.classList.remove("hidden");
+	// 	loadingContent.classList.add("hidden");
+	// 	loadingContent.classList.remove("flex");
+	// };
 
-	form.addEventListener("submit", async e => {
-		e.preventDefault();
-		clearAllErrors();
-		showLoading();
+	// form.addEventListener("submit", async e => {
+	// 	e.preventDefault();
+	// 	clearAllErrors();
+	// 	showLoading();
 
-		const formData = new FormData(form);
-		const rawCountryCode = formData.get("countryCode") as string;
-		const formObject = {
-			name: formData.get("name") as string,
-			email: formData.get("email") as string,
-			countryCode: rawCountryCode.match(/\d+/)?.[0] || "",
-			phone: formData.get("phone") as string,
-			subject: formData.get("subject") as string,
-			message: formData.get("message") as string,
-			terms: formData.get("terms") === "on"
-		};
+	// 	const formData = new FormData(form);
+	// 	const rawCountryCode = formData.get("countryCode") as string;
+	// 	const formObject = {
+	// 		name: formData.get("name") as string,
+	// 		email: formData.get("email") as string,
+	// 		countryCode: rawCountryCode.match(/\d+/)?.[0] || "",
+	// 		phone: formData.get("phone") as string,
+	// 		subject: formData.get("subject") as string,
+	// 		message: formData.get("message") as string,
+	// 		terms: formData.get("terms") === "on"
+	// 	};
 
-		const validation = contactSchema.safeParse(formObject);
+	// 	const validation = contactSchema.safeParse(formObject);
 
-		if (!validation.success) {
-			const errors = validation.error.flatten().fieldErrors;
+	// 	if (!validation.success) {
+	// 		const errors = validation.error.flatten().fieldErrors;
 
-			if (errors.name) showError(nameInput, errors.name[0]);
-			if (errors.email) showError(emailInput, errors.email[0]);
-			if (errors.countryCode) showError(countryCodeInput, errors.countryCode[0]);
-			if (errors.phone) showError(phoneInput, errors.phone[0]);
-			if (errors.subject) showError(subjectInput, errors.subject[0]);
-			if (errors.message) showError(messageInput, errors.message[0]);
-			if (errors.terms) showError(termsInput, errors.terms[0]);
+	// 		if (errors.name) showError(nameInput, errors.name[0]);
+	// 		if (errors.email) showError(emailInput, errors.email[0]);
+	// 		if (errors.countryCode) showError(countryCodeInput, errors.countryCode[0]);
+	// 		if (errors.phone) showError(phoneInput, errors.phone[0]);
+	// 		if (errors.subject) showError(subjectInput, errors.subject[0]);
+	// 		if (errors.message) showError(messageInput, errors.message[0]);
+	// 		if (errors.terms) showError(termsInput, errors.terms[0]);
 
-			return;
-		}
+	// 		return;
+	// 	}
 
-		// TODO: The timestamp should be from the time they try to fill the form
-		// formData.set("timestamp", Date.now().toString());
-		const res = await actions.contact.sendEmail(formData);
-		hideLoading();
+	// 	// TODO: The timestamp should be from the time they try to fill the form
+	// 	// formData.set("timestamp", Date.now().toString());
+	// 	const res = await actions.contact.sendEmail(formData);
+	// 	hideLoading();
 
-		if (res.error && res.error.code === "TOO_MANY_REQUESTS") {
-			showError(messageInput, "Παρακαλώ περιμένετε λίγα λεπτά πριν προσπαθήσετε ξανά");
-			return;
-		}
+	// 	if (res.error && res.error.code === "TOO_MANY_REQUESTS") {
+	// 		showError(messageInput, "Παρακαλώ περιμένετε λίγα λεπτά πριν προσπαθήσετε ξανά");
+	// 		return;
+	// 	}
 
-		// Show success message if no errors
-		if (!res.error) {
-			// Clear form
-			form.reset();
-			// Show success message
-			const successDiv = document.createElement("div");
-			successDiv.className = "text-green-800 mb-4 p-3 bg-green-50 rounded border-l-4 border-green-500 transform translate-y-[-20px] opacity-0 transition-all duration-300 ease-out";
-			successDiv.textContent = "Ευχαριστούμε για το μήνυμά σας! Θα επικοινωνήσουμε μαζί σας σύντομα.";
-			form.parentElement?.insertBefore(successDiv, form);
+	// 	// Show success message if no errors
+	// 	if (!res.error) {
+	// 		// Clear form
+	// 		form.reset();
+	// 		// Show success message
+	// 		const successDiv = document.createElement("div");
+	// 		successDiv.className = "text-green-800 mb-4 p-3 bg-green-50 rounded border-l-4 border-green-500 transform translate-y-[-20px] opacity-0 transition-all duration-300 ease-out";
+	// 		successDiv.textContent = "Ευχαριστούμε για το μήνυμά σας! Θα επικοινωνήσουμε μαζί σας σύντομα.";
+	// 		form.parentElement?.insertBefore(successDiv, form);
 
-			// Trigger slide-in animation
-			setTimeout(() => {
-				successDiv.classList.remove("translate-y-[-20px]", "opacity-0");
-				successDiv.classList.add("translate-y-0", "opacity-100");
-			}, 50);
+	// 		// Trigger slide-in animation
+	// 		setTimeout(() => {
+	// 			successDiv.classList.remove("translate-y-[-20px]", "opacity-0");
+	// 			successDiv.classList.add("translate-y-0", "opacity-100");
+	// 		}, 50);
 
-			// Remove success message after 10 seconds
-			setTimeout(() => {
-				successDiv.classList.add("translate-y-[-20px]", "opacity-0");
-				setTimeout(() => successDiv.remove(), 300);
-			}, 10000);
-		}
-	});
+	// 		// Remove success message after 10 seconds
+	// 		setTimeout(() => {
+	// 			successDiv.classList.add("translate-y-[-20px]", "opacity-0");
+	// 			setTimeout(() => successDiv.remove(), 300);
+	// 		}, 10000);
+	// 	}
+	// });
 </script>
