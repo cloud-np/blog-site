@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { onMount, type Snippet } from "svelte";
-
 	type TaskId = number;
 	type ProcessorId = number;
 
@@ -140,11 +138,13 @@
 			<div class="border flex-1 h-7.5 border-dashed rounded-lg border-gray-500"></div>
 		</div>
 	</div>
-	<div class="flex gap-4 mt-5">
+	<div class="flex gap-4 mt-5 items-center">
 		<button onclick={handleReload} class="px-3 py-1 bg-gray-600 text-white rounded-md cursor-pointer hover:bg-gray-800 transition-colors">
 			Replay 🔄
 		</button>
-		Example of EFT (Earlist Finish Time using Best fit)
+		<p class="text-sm text-gray-400">
+			Example of EFT (Earlist Finish Time using Best fit)
+		</p>
 	</div>
 
 	<!-- Task Info Popover -->
@@ -171,14 +171,6 @@
 </div>
 
 <style>
-	.task-info {
-		opacity: 0;
-		transition: all 300ms cubic-bezier(0.19, 1, 0.22, 1);
-	}
-	.task-info:hover {
-		opacity: 1;
-	}
-
 	.timeline {
 		max-width: 100%;
 	}
@@ -226,25 +218,5 @@
 
 	.task-p2 {
 		top: 5.25rem;
-	}
-
-	.arrow {
-		width: 120px;
-		position: absolute;
-	}
-
-	.line {
-		margin-top: 4px;
-		width: 90px;
-		background: white;
-		height: 1px;
-		float: left;
-	}
-
-	.point {
-		border-top: 4px solid transparent;
-		border-bottom: 4px solid transparent;
-		border-left: 8px solid white;
-		float: left;
 	}
 </style>

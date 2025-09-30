@@ -159,6 +159,6 @@ input:-webkit-autofill:active {
 	}
 }
 
-p, h1, h2, h3, h4, h5, h6, li, a {
+p, h1, h2, h3, h4, h5, h6, li, a, button, span, input, label, textarea {
 	font-family: var(--f-sans);
 }

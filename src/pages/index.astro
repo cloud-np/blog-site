@@ -19,6 +19,7 @@ import TaskScheduling from "@components/interactive/TaskScheduling.svelte";
 import Planets from "@components/interactive/Planets.astro";
 import BentoCard from "@components/content/BentoCard.astro";
 import Slider2 from "@components/interactive/Slider2.svelte";
+import Chess from "@components/interactive/Chess/Chess.svelte";
 import { Image } from "astro:assets";
 import "../styles/index.css";
 
@@ -148,7 +149,10 @@ const galleryImages = [
 				chessnp.com lets users replay famous historical chess matches
 				and play against a custom AI chess engine built entirely
 				from scratch using Go.
-				<div slot="footer">Visit chessnp.com</div>
+				<div slot="footer">
+					<Chess client:load />
+					<p class="text-gray-500 line-through">Visit chessnp.com</p>
+				</div>
 			</BentoCard>
 		</div>
 	</div>
