@@ -1,17 +1,17 @@
 <script lang="ts">
 	import Square from './Square.svelte';
-	import bk from '@assets/chess/bk.png';
-	import bq from '@assets/chess/bq.png';
-	import br from '@assets/chess/br.png';
-	import bb from '@assets/chess/bb.png';
-	import bn from '@assets/chess/bn.png';
-	import bp from '@assets/chess/bp.png';
-	import wk from '@assets/chess/wk.png';
-	import wq from '@assets/chess/wq.png';
-	import wr from '@assets/chess/wr.png';
-	import wb from '@assets/chess/wb.png';
-	import wn from '@assets/chess/wn.png';
-	import wp from '@assets/chess/wp.png';
+	import bk from '@assets/chess/bk.webp';
+	import bq from '@assets/chess/bq.webp';
+	import br from '@assets/chess/br.webp';
+	import bb from '@assets/chess/bb.webp';
+	import bn from '@assets/chess/bn.webp';
+	import bp from '@assets/chess/bp.webp';
+	import wk from '@assets/chess/wk.webp';
+	import wq from '@assets/chess/wq.webp';
+	import wr from '@assets/chess/wr.webp';
+	import wb from '@assets/chess/wb.webp';
+	import wn from '@assets/chess/wn.webp';
+	import wp from '@assets/chess/wp.webp';
 	import type { ImageMetadata } from 'astro';
 
 	type PieceType = 'king' | 'queen' | 'rook' | 'bishop' | 'knight' | 'pawn' | 'empty';
@@ -156,27 +156,29 @@
 	}
 </script>
 
-<div class="chess-board">
-	{#each board as row, rowIndex}
-		<div class="flex">
-			{#each row as tile, colIndex}
-				<Square
-					{tile}
-					color={getSquareColor(rowIndex, colIndex)}
-					{squareSize}
-					onTileClick={() => handleSquareClick(tile.squareName)}
-					isClicked={selectedSquare === tile.squareName}
-					clickedColor="yellow"
-					onDragStart={() => handleDragStart(tile.squareName)}
-					onDrop={() => handleDrop(tile.squareName)}
-				/>
-			{/each}
-		</div>
-	{/each}
+<div class="flex flex-col items-center gap-4">
+	<div class="chess-board">
+		{#each board as row, rowIndex}
+			<div class="flex">
+				{#each row as tile, colIndex}
+					<Square
+						{tile}
+						color={getSquareColor(rowIndex, colIndex)}
+						{squareSize}
+						onTileClick={() => handleSquareClick(tile.squareName)}
+						isClicked={selectedSquare === tile.squareName}
+						clickedColor="yellow"
+						onDragStart={() => handleDragStart(tile.squareName)}
+						onDrop={() => handleDrop(tile.squareName)}
+					/>
+				{/each}
+			</div>
+		{/each}
+	</div>
+	<button onclick={handleReload} class="px-3 py-1 bg-gray-600 text-white rounded-md cursor-pointer hover:bg-gray-800 transition-colors">
+		Replay 🔄
+	</button>
 </div>
-<button onclick={handleReload} class="px-3 py-1 bg-gray-600 text-white rounded-md cursor-pointer hover:bg-gray-800 transition-colors">
-	Replay 🔄
-</button>
 
 <style>
 	.chess-board {

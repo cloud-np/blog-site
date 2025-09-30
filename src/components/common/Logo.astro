@@ -1,5 +1,8 @@
 ---
-const { default: innerHtml } = await import('@assets/logo.svg?raw');
+// const { default: innerHtml } = await import('@assets/logo.svg?raw');
+import { Image } from "astro:assets";
+import logoPng from "@assets/logo.png";
 ---
 
-<Fragment set:html={innerHtml} />
+<!-- <Fragment set:html={innerHtml} /> -->
+<Image loading="eager" src={logoPng} alt="cloud-np logo" />
