@@ -2,7 +2,7 @@
 import PageLayout from "@layouts/PageLayout.astro";
 import Container from '@components/containers/Container.astro';
 import BlogPostsList from "@components/post/BlogPostsList.astro";
-import { getPosts } from "../libs/post";
+import { getPosts } from "@libs/post";
 
 const allPosts = await getPosts(undefined);
 const posts = allPosts.filter(post => !post.data.personal);
@@ -12,17 +12,9 @@ const seo = {
 };
 ---
 
-<style>
-    h1 {
-        padding: 5vh;
-        text-align: center;
-        margin: 6rem 0;
-    }
-</style>
-
 <PageLayout seo={seo}>
     <Container>
-        <h1>Blog</h1>
+        <h1 class="text-4xl p-12 my-15 text-center">Blog</h1>
         <BlogPostsList posts={posts} />
     </Container>
 </PageLayout>

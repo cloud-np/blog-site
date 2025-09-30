@@ -1,0 +1,39 @@
+---
+import { type Post } from '@libs/post';
+import { Helpers } from '@utils/helpers';
+import { Image } from 'astro:assets';
+import './BlogPostPreview.css';
+
+export interface Props {
+	post: Post;
+}
+
+const { post } = Astro.props;
+---
+
+<div class="post-preview__container max-w-full py-4 px-8">
+	<a class="post-preview__link fade-in" href={post.href}>
+		<article class="post-preview__article">
+			{
+				!!post.data.previewImage && (
+					<Image
+						src={post.data.previewImage}
+						alt={`Featured for ${post.data.title}`}
+						class="post-preview__img"
+						width={250}
+						height={250}
+					/>
+				)
+			}
+			<div class="post-preview__text">
+				<p class="post-preview__category clickable">
+					{post.data.category}
+				</p>
+				<h2 class="post-preview__title">{post.data.title}</h2>
+				<p class="post-preview__date">
+					{Helpers.formatDate(post.data.publishedAt)}
+				</p>
+			</div>
+		</article>
+	</a>
+</div>

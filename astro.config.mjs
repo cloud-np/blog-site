@@ -1,39 +1,60 @@
 import { defineConfig } from 'astro/config';
-import { settings } from './src/data/settings.const';
+import { settings } from './src/i18n/settings.const';
 import sitemap from "@astrojs/sitemap";
-import mdx from "@astrojs/mdx";
-import rehypeKatex from 'rehype-katex';
-import remarkMath from 'remark-math';
 import astroExpressiveCode from 'astro-expressive-code';
-import qwikdev from "@qwikdev/astro";
-import tailwind from '@astrojs/tailwind';
-import react from '@astrojs/react';
+import { getExpressiveCodeConfig } from "./src/config/astro-expressive-code.config.js";
+import mdx from "@astrojs/mdx";
 import icon from "astro-icon";
-import { getExpressiveCodeConfig } from "./config/astro-expressive-code.config.js";
+import svelte from '@astrojs/svelte';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
+
+import partytown from '@astrojs/partytown';
+
+import node from '@astrojs/node';
+
+import tailwindcss from '@tailwindcss/vite';
+import playformCompress from '@playform/compress';
 
 export default defineConfig({
 	site: settings.url,
 	integrations: [
 		sitemap(),
+		// To allow code blocks on MDX pages to use astro-expressive-code, please move astroExpressiveCode()
+		//  before mdx() in the "integrations" array of your Astro config file.
 		astroExpressiveCode(getExpressiveCodeConfig()),
 		mdx(),
-		tailwind(),
-		icon(),
-		qwikdev({ include: ['**/qwik/*'] }),
-		react({ include: ['**/react/*'] })
+		icon({
+			iconDir: 'src/assets/icons',
+		}),
+		svelte({ extensions: ['.svelte'] }),
+		partytown({
+			config: {
+				forward: ["gtag", "dataLayer.push"], // Needed for GA
+			}
+		}),
+		playformCompress(),
 	],
 	vite: {
 		ssr: {
 			external: ["svgo"]
 		},
-	},
-	markdown: {
-		remarkPlugins: [remarkMath],
-		rehypePlugins: [rehypeKatex]
+		resolve: {
+			conditions: ["browser"]
+		},
+		markdown: {
+			remarkPlugins: [remarkMath],
+			rehypePlugins: [rehypeKatex]
+		},
+		plugins: [tailwindcss()],
 	},
 	prefetch: {
 		defaultStrategy: 'hover',
 		prefetchAll: true
 	},
 	output: 'static',
+	plugins: [],
+	adapter: node({
+		mode: 'standalone',
+	}),
 });

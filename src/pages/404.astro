@@ -1,6 +1,6 @@
 ---
 import PageLayout from "@layouts/PageLayout.astro";
-import girl404 from '../assets/giphy.gif';
+import girl404 from '../assets/404.gif';
 import { Picture } from "astro:assets";
 
 const seo = {
@@ -28,13 +28,11 @@ const seo = {
 
 <PageLayout seo={seo}>
     <section>
-        <div>
-            <h1>404</h1>
-            <p>Well that was unfortunate..</p>
-        </div>
+        <h1 class="mt-28">404</h1>
+        <p class="m-6">This page is playing hide and seek (and winning)..</p>
         <Picture
             src={girl404}
-            alt="ep"
+            alt="awkward girl meme 404"
         />
     </section>
 </PageLayout>

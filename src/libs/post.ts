@@ -17,7 +17,8 @@ export const getPosts = async (limit: number | undefined): Promise<Post[]> => {
         }
 
         const slug = generateSlug(rawPost.data.title);
-        const post: Post = {
+		// TODO: Post type issue
+        const post: any = {
             ...rawPost,
             // ...data as RawPostData,
             id: rawPost.id,
@@ -83,6 +84,8 @@ interface RawPostData {
     category: string;
     searchCategories: string[];
     personal: boolean;
+	href: string;
+	author?: string;
 };
 
 export interface Post extends RawPostWithOutData {

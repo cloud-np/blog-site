@@ -1,26 +1,27 @@
 ---
-layout: '../../layouts/PostLayout.astro'
+layout: '@layouts/PostLayout.astro'
 title: Revolutionizing Angular reactivity with signals.
-previewImage: "../../assets/images/ang-signal-logo.png"
-titleImage: "../../assets/images/ang-signal-logo.png"
+previewImage: "@assets/angular-signals/ang-signal-logo.png"
+titleImage: "@assets/angular-signals/ang-signal-logo.png"
 publishedAt: "2024-01-11"
 category: 'Angular'
 searchCategories: ['Angular', 'Frontend', 'Typescript']
 personal: false
 ---
 
-import Note from "../../components/ui/Note.astro";
+import Note from "@components/content/Note.astro";
 import { Image } from "astro:assets";
-import what from "../../assets/angular-signals/what-no-bg.png";
-import defaultCd from "../../assets/angular-signals/default_cd.svg";
-import onPushCd from "../../assets/angular-signals/on_push_cd.svg";
-import signalsCd from "../../assets/angular-signals/on_push_signals_cd.svg";
-import butTheresMore from "../../assets/angular-signals/but-theres-more.webp";
-import { H3, H4 } from "../../components/mdx/HeadingWithAnchor.tsx";
+import what from "@assets/angular-signals/what-no-bg.png";
+import defaultCd from "@assets/angular-signals/default_cd.svg";
+import onPushCd from "@assets/angular-signals/on_push_cd.svg";
+import signalsCd from "@assets/angular-signals/on_push_signals_cd.svg";
+import butTheresMore from "@assets/angular-signals/but-theres-more.webp";
+import H3 from "@components/content/H3.svelte";
+import H4 from "@components/content/H4.svelte";
 
 
 <Note title="Note">
-    This is not a tutorial on signals; there are already many excellent resources available online. 
+    This is not a tutorial on signals; there are already many excellent resources available online.
     Instead, we'll provide a high-level overview of the benefits signals offer and their integration within the Angular ecosystem.
 </Note>
 
@@ -75,7 +76,7 @@ recomputed every time the `firstName` signal is updated. By that we can derive t
 However, there's a key concept to highlight here that we have mentioned yet: the term `granularly`.
 
 <H3 title="Granular updates and fine-grained reactivity." />
-To get a better idea what Angular docs are reffering to when they say `granularly`, lets see how 
+To get a better idea what Angular docs are reffering to when they say `granularly`, lets see how
 Angular's Change Detection is currently working in Angular.
 
 <H4 title="1. Angular's Default Change Detection" />
@@ -95,7 +96,7 @@ and to compensate with that Angular gives us another change detection strategy c
 
 <H4 title="2. Change Detection Strategy **OnPush**" />
 
-OnPush basically checks only if the input properties of a component have changed (`@Input()`) since the last change detection cycle and if we manually trigger 
+OnPush basically checks only if the input properties of a component have changed (`@Input()`) since the last change detection cycle and if we manually trigger
 change detection, like this:
 
 ```typescript title="onpush.component.ts" {12}
@@ -144,7 +145,7 @@ we **granularly** update ONLY the parts of the DOM that needs to be udpated.
 
 Not only that but signals opens us the door for a zoneless future as well.
 Now we can build using a signal based reactivity model. This model does not rely on Zone.js
-for change detection. Instead, it uses signals to explicitly notify the Angular framework 
+for change detection. Instead, it uses signals to explicitly notify the Angular framework
 when the model changes. There will still be backward compatibility with Zone.js but making it optional
 is another step to the right direction.
 
@@ -239,7 +240,7 @@ search(event: Event) {
     this.firstName$.next(value);
 }
 ```
-RxJS operators showcase their power and directness through high-level abstractions and the 
+RxJS operators showcase their power and directness through high-level abstractions and the
 capability to handle complex operations. Specifically, the switchMap operator stands out by
 canceling previous subscriptions and emitting only the latest values. Attempting to replicate
 this behavior with signals presents an interesting challenge:
@@ -272,7 +273,7 @@ fetchUsers(firstName: string) {
 ```
 Attempting to replicate RxJS operators with signals proves challenging, affects readability, and
 importantly, deviates from the declarative paradigm, leading to excessive imperative coding for
-similar results. 
+similar results.
 
 Additionally, this approach risks creating race conditions due to varying server responses and the
 lack of mechanisms for canceling previous subscriptions, a feature `switchMap` efficiently manages.

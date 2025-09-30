@@ -1,0 +1,43 @@
+.cursor {
+	mix-blend-mode: difference;
+	color: rgb(255, 255, 255);
+	background-color: rgb(255, 255, 255);
+	position: fixed;
+	z-index: var(--z-cursor);
+	top: 25px;
+	left: 25px;
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	pointer-events: none;
+	transform: translate(-50%, -50%);
+	transition:
+		transform 0.3s var(--ease-out-quad),
+		width 0.3s ease,
+		height 0.3s ease,
+		mix-blend-mode 0.3s ease;
+}
+.cursor-over-link {
+	width: 40px;
+	height: 40px;
+}
+.cursor-over-image {
+	width: 350px;
+	height: 350px;
+	display: flex;
+	mix-blend-mode: normal;
+	background-size: cover;
+	background-position: center;
+	border-radius: inherit;
+}
+.cursor-over-video {
+	width: 100px;
+	height: 100px;
+	background-color: rgba(255, 255, 255, 0.2);
+	border: 2px solid rgba(255, 255, 255, 0.5);
+}
+/* Ensure cursor doesn't interfere with text selection */
+.cursor *, .cursor-icon-container * {
+	user-select: none;
+	pointer-events: none;
+}

@@ -1,0 +1,126 @@
+---
+import Logo from "@components/common/Logo.astro";
+import SocialList from "@components/common/SocialList.astro";
+import BurgerMenu from "@components/common/BurgerMenu.astro";
+import ContactInfo from "@components/common/ContactInfo.astro";
+import "./header.css";
+import Container from "@components/containers/Container.astro";
+
+const navItems = [
+	{ label: "Home", href: "/", },
+	{ label: "Contact", href: "/contact", },
+	{ label: "Blog", href: "/blog", },
+	//* { label: "Μπάνια", href: "/mpania", }, */
+	//* { label: "Υπνοδωμάτια", href: "/ypnodomatia" }, */
+];
+---
+
+<header id="nav-header" class="flex h-20 max-w-screen items-center text-white border-b border-white/8">
+	<Container>
+		<nav class="flex w-full items-center justify-between">
+			<a class="m-0 flex items-center gap-4 text-l font-bold" href="/" title="Home">
+				<span class="z-2 w-12">
+					<Logo priority={true} />
+				</span>
+				<span class="text-nowrap">cloud-np</span>
+			</a>
+
+			<div class="hidden md:flex px-8 justify-between">
+				<ul class="items-left flex justify-center gap-4">
+					{
+						navItems.map(item => (
+							<li class="m-1 list-none text-gray-400 hover:text-gray-300">
+								<a class="clickable block w-full" href={item.href} title={item.label}>
+									{item.label}
+								</a>
+							</li>
+						))
+					}
+				</ul>
+			</div>
+			<div class="menu-reveal-box-wrapper md:hidden">
+				<div class="menu-reveal-box absolute top-0 left-0 z-2 flex h-full w-full flex-col items-center justify-around pt-8">
+					<div class="px-8 md:flex md:flex-row md:justify-around">
+						<ul class="nav-items items-left flex flex-col justify-center text-left font-bold">
+							{
+								navItems.map(item => (
+									<li class="m-1 list-none gap-1">
+										<a class="nav-item clickable block w-full" href={item.href} title={item.label}>
+											{item.label}
+										</a>
+									</li>
+								))
+							}
+						</ul>
+						<div class="info-container">
+							<ContactInfo className="pt-12 md:ml-24" />
+						</div>
+					</div>
+					<div class="socials-container mr-2 px-8 pb-16">
+						<SocialList />
+						<div class="mt-8 w-full border-t border-white/20"></div>
+					</div>
+				</div>
+			</div>
+			<span class="md:hidden z-10">
+				<BurgerMenu />
+			</span>
+			<span class="hidden md:flex">
+				<SocialList />
+			</span>
+		</nav>
+	</Container>
+</header>
+
+<script>
+	function init() {
+		const elementsThatNeedChange = [
+			document.getElementsByClassName("menu-reveal-box-wrapper")[0],
+			document.getElementsByClassName("nav-items")[0],
+			document.getElementsByClassName("info-container")[0],
+			document.getElementsByClassName("socials-container")[0],
+		];
+
+		let isAnimating = false; // Debounce flag
+		const handleMenuClose = () => {
+			elementsThatNeedChange.forEach(el => el.classList.add("closing"));
+
+			// Wait for the closing animation to complete before removing classes
+			setTimeout(() => {
+				elementsThatNeedChange.forEach(el => el.classList.remove("opened", "closing"));
+				isAnimating = false;
+			}, 600);
+		};
+
+		(document.getElementById("burger-check") as HTMLInputElement)?.addEventListener("change", function () {
+			// Prevent rapid clicking during animation
+			if (isAnimating) {
+				// Revert the checkbox state
+				this.checked = !this.checked;
+				return;
+			}
+
+			if (this.checked) {
+				// Opening: remove closing class and add opened class
+				isAnimating = true;
+				elementsThatNeedChange.forEach(el => {
+					el.classList.remove("closing");
+					el.classList.add("opened");
+				});
+
+				// Allow clicks again after opening animation completes
+				setTimeout(() => {
+					isAnimating = false;
+				}, 600);
+			} else {
+				// Closing: start the closing sequence
+				isAnimating = true;
+				handleMenuClose();
+			}
+		});
+	}
+
+	init();
+
+	document.addEventListener("astro:after-swap", init);
+</script>

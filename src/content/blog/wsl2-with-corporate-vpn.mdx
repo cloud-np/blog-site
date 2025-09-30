@@ -1,14 +1,14 @@
 ---
-layout: '../../layouts/PostLayout.astro'
+layout: '@layouts/PostLayout.astro'
 title: Use wsl2 with a corporate VPN
-previewImage: "../../assets/images/use-wsl2-with-corporate-vpn.png"
-titleImage: "../../assets/images/use-wsl2-with-corporate-vpn.png"
+previewImage: "@assets/use-wsl2-with-corporate-vpn.png"
+titleImage: "@assets/use-wsl2-with-corporate-vpn.png"
 publishedAt: "2025-03-25"
 category: 'DevOps'
 searchCategories: ['DevOps', 'Tooling', 'Fullstack']
 personal: false
 ---
-import { H3 } from "../../components/mdx/HeadingWithAnchor.tsx";
+import H3 from "@components/content/H3.svelte";
 
 <H3 title="Taming DNS on wsl2 under a Corporate VPN 🦁" />
 Working under a corporate VPN can unleash DNS chaos for your underlying VMs/services. This is especially true with wsl2,

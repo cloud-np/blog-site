@@ -1,0 +1,48 @@
+<script>
+	let nightSceneModule: any = null;
+
+	const loadNightScene = async () => {
+		if (!nightSceneModule) {
+			// @ts-ignore - Dynamic import for deferred loading
+			nightSceneModule = await import("./nightScene.js");
+		}
+		return nightSceneModule.default;
+	};
+
+	const init = async () => {
+		const resizeCanvas = async () => {
+			const canvas = document.getElementById('scene') as HTMLCanvasElement;
+			if (!canvas) return;
+			canvas.width = window.innerWidth;
+			canvas.height = window.innerHeight;
+			const ctx = canvas.getContext('2d');
+			if (!ctx) return;
+
+			const startNightScene = await loadNightScene();
+			startNightScene(canvas);
+		};
+		await resizeCanvas();
+		window.addEventListener('resize', resizeCanvas);
+	}
+
+	// Defer initialization until page is loaded
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', init);
+	} else {
+		// Use setTimeout to defer even if DOM is already ready
+		setTimeout(init, 0);
+	}
+
+	document.addEventListener('astro:after-swap', init);
+</script>
+
+<canvas id="scene"></canvas>
+
+<style>
+	canvas {
+		top: 0;
+		position: absolute;
+		max-width: 100%;
+		z-index: -3;
+	}
+</style>

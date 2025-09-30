@@ -1,20 +1,22 @@
 ---
-layout: '../../layouts/PostLayout.astro'
+layout: '@layouts/PostLayout.astro'
 title: Using Git Bisect to find Bugs Fast
-previewImage: "../../assets/images/git-bisect-logo.png"
-titleImage: "../../assets/images/git-bisect-logo.png"
+previewImage: "@assets/git-bisect/git-bisect-logo.png"
+titleImage: "@assets/git-bisect/git-bisect-logo.png"
 publishedAt: "2024-09-24"
 category: 'Git'
 searchCategories: ['Git', 'Tooling', 'Fullstack']
 personal: false
 ---
 
-import hellYeah from "../../assets/git-bisect/hell-yeah.gif";
-import amazedFace from "../../assets/git-bisect/amazed-face.gif";
-import sadCat from "../../assets/git-bisect/sadcat.png";
-import Note from "../../components/ui/Note.astro";
+import hellYeah from "@assets/git-bisect/hell-yeah.gif";
+import amazedFace from "@assets/git-bisect/amazed-face.gif";
+import sadCat from "@assets/git-bisect/sadcat.png";
+import Note from "@components/content/Note.astro";
 import { Image } from "astro:assets";
-import { H2, H3, H4 } from "../../components/mdx/HeadingWithAnchor.tsx";
+import H2 from "@components/content/H2.svelte";
+import H3 from "@components/content/H3.svelte";
+import H4 from "@components/content/H4.svelte";
 
 Recently at work, I encountered a couple of complex bugs with unclear origins,
 making it difficult to pinpoint exactly when they first appeared. In general
@@ -44,7 +46,7 @@ Some time passes by, more commits are coming in and everything is working. Howev
 We notice that there are two new bugs appearing compared to the old version:
 ![differences](../../assets/git-bisect/differences.png)
 
-We are puzzled by how long these issues had persisted and which specific commit might 
+We are puzzled by how long these issues had persisted and which specific commit might
 have introduced them. Its time to use `git bisect` <Image src={amazedFace} alt="amazed face" style={"width: 35px;display: inline;margin: 0; transform: scaleX(-1)"} />
 ```sh
 > git bisect start
@@ -114,7 +116,7 @@ Author: cloud-np <nipa04@betssongroup.com>
 Date:   Tue Sep 24 15:47:01 2024 +0200
 
     fix: month should be in aug
-    
+
     ref: #T-31
 
  index.html | 2 +-
@@ -131,7 +133,7 @@ Author: cloud-np <random@mail.com>
 Date:   Tue Sep 24 15:47:01 2024 +0200
 
     fix: month should be in aug
-    
+
     ref: #T-31
 
 diff --git a/index.html b/index.html
@@ -240,7 +242,7 @@ Author: cloud-np <nipa04@betssongroup.com>
 Date:   Tue Sep 24 13:25:48 2024 +0200
 
     chore: remove more comments
-    
+
     ref: #T-10
 
  index.html | 11 ++---------
@@ -253,7 +255,7 @@ This automated process efficiently identified the first commit where our test su
 was the first "bad" commit that introduced the issue.
 
 Now we can remove this faulty commit the same way we did before:
-```sh 
+```sh
 > git rebase -i 687e5eb387387eb6476e4bf59b348e14159217a8^
 ```
 
