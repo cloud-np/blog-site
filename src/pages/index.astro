@@ -16,7 +16,7 @@ import pumkin from "@assets/home-page/bento-box-section/pumkin.jpg";
 import yang from "@assets/home-page/bento-box-section/yang.gif";
 import zed from "@assets/home-page/bento-box-section/zed.jpg";
 import TaskScheduling from "@components/interactive/TaskScheduling.svelte";
-import Planets from "@components/interactive/Planets.astro";
+import Planets from "@components/interactive/Planets/Planets.astro";
 import BentoCard from "@components/content/BentoCard.astro";
 import Slider2 from "@components/interactive/Slider2.svelte";
 import Chess from "@components/interactive/Chess/Chess.svelte";
@@ -193,7 +193,7 @@ const galleryImages = [
 	import { ScrollTrigger } from "gsap/all";
 	import { scrollEl } from "@components/interactive/ScrollController/ScrollController";
 
-	const REVEAL_DELAY = 3.72;
+	// const REVEAL_DELAY = 3.72;
 	gsap.registerPlugin(ScrollTrigger);
 
 	function init(delay: number = 0) {

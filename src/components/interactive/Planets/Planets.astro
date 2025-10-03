@@ -1,0 +1,44 @@
+---
+import git from "@assets/icons/tech/git.svg";
+import nodejs from "@assets/icons/tech/nodejs.svg";
+import angular from "@assets/icons/tech/angular.svg";
+import react from "@assets/icons/tech/react.svg";
+import go from "@assets/icons/tech/go.svg";
+import rust from "@assets/icons/tech/rust.svg";
+import { Image } from "astro:assets";
+import Logo from "@components/common/Logo.astro";
+
+import "./planets.css";
+---
+
+<div class="solar-system relative flex h-full w-full items-center justify-center">
+	<!-- Orbital rings -->
+	<div class="orbit orbit-1"></div>
+	<div class="orbit orbit-2"></div>
+	<div class="orbit orbit-3"></div>
+	<div
+		class="planet-logo absolute flex h-8 w-8 items-center justify-center rounded-full border border-white/8 bg-[rgba(40,40,40,0.30)] transition-all duration-300 ease-out hover:scale-110">
+		<div class="grad absolute opacity-0"></div>
+		<Logo />
+	</div>
+
+	<!-- Planets (logos) -->
+	<div class="planet planet-1">
+		<Image src={git} alt="git" class="h-6 w-6" />
+	</div>
+	<div class="planet planet-2">
+		<Image src={nodejs} alt="Node.js" class="h-6 w-6" />
+	</div>
+	<div class="planet planet-3">
+		<Image src={angular} alt="Angular" class="h-6 w-6" />
+	</div>
+	<div class="planet planet-4">
+		<Image src={rust} alt="Rust" class="h-6 w-6" />
+	</div>
+	<div class="planet planet-5">
+		<Image src={go} alt="Go" class="h-6 w-6" />
+	</div>
+	<div class="planet planet-6">
+		<Image src={react} alt="React" class="h-6 w-6" />
+	</div>
+</div>
