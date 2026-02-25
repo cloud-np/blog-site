@@ -185,7 +185,7 @@
 	}
 </script>
 
-<div class="flex flex-col items-center gap-4">
+<div class="flex flex-col items-start gap-4">
 	<div class="chess-board">
 		{#each board as row, rowIndex}
 			<div class="flex">
@@ -203,8 +203,8 @@
 			</div>
 		{/each}
 	</div>
-	<button onclick={handleReload} class="px-3 py-1 bg-gray-600 text-white rounded-md cursor-pointer hover:bg-gray-800 transition-colors">
-		Reset 🔄
+	<button onclick={handleReload} class="px-3 py-1.5 mb-2 text-sm text-neutral-400 rounded-lg cursor-pointer border border-white/10 bg-white/5 hover:bg-white/10 hover:text-white transition-all">
+		Reset
 	</button>
 </div>
 

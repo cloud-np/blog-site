@@ -139,8 +139,8 @@
 		</div>
 	</div>
 	<div class="flex gap-4 mt-5 items-center">
-		<button onclick={handleReload} class="px-3 py-1 bg-gray-600 text-white rounded-md cursor-pointer hover:bg-gray-800 transition-colors">
-			Replay 🔄
+		<button onclick={handleReload} class="px-3 py-1.5 text-sm text-neutral-400 rounded-lg cursor-pointer border border-white/10 bg-white/5 hover:bg-white/10 hover:text-white transition-all">
+			Replay
 		</button>
 		<p class="text-sm text-gray-400">
 			Example of EFT (Earlist Finish Time using Best fit)
