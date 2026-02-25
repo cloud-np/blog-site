@@ -7,30 +7,35 @@ import "./header.css";
 import Container from "@components/containers/Container.astro";
 
 const navItems = [
-	{ label: "Home", href: "/", },
-	{ label: "Contact", href: "/contact", },
-	{ label: "Blog", href: "/blog", },
-	//* { label: "Μπάνια", href: "/mpania", }, */
-	//* { label: "Υπνοδωμάτια", href: "/ypnodomatia" }, */
+	{ label: "Home", href: "/", isCta: false },
+	{ label: "Blog", href: "/blog", isCta: false },
+	{ label: "Get in Touch", href: "/contact", isCta: true },
 ];
 ---
 
-<header id="nav-header" class="flex h-20 max-w-screen items-center text-white border-b border-white/8">
+<header id="nav-header" class="flex h-20 max-w-screen items-center text-white">
 	<Container>
 		<nav class="flex w-full items-center justify-between">
-			<a class="m-0 flex items-center gap-4 text-l font-bold" href="/" title="Home">
+			<a class="text-l m-0 flex items-center gap-4 font-bold" href="/" title="Home">
 				<span class="z-2 w-12">
 					<Logo priority={true} />
 				</span>
 				<span class="text-nowrap">cloud-np</span>
 			</a>
 
-			<div class="hidden md:flex px-8 justify-between">
-				<ul class="items-left flex justify-center gap-4">
+			<div class="hidden justify-between px-8 md:flex">
+				<ul class="items-left flex items-center justify-center gap-4">
 					{
 						navItems.map(item => (
-							<li class="m-1 list-none text-gray-400 hover:text-gray-300">
-								<a class="clickable block w-full" href={item.href} title={item.label}>
+							<li class:list={["m-1 list-none", item.isCta ? "" : "text-gray-400 hover:text-gray-300"]}>
+								<a
+									class:list={[
+										"clickable block w-full",
+										item.isCta &&
+											"rounded-md border border-white/20 px-3 py-1.5 text-sm text-white transition-colors duration-200 hover:border-white/40",
+									]}
+									href={item.href}
+									title={item.label}>
 									{item.label}
 								</a>
 							</li>
@@ -39,7 +44,8 @@ const navItems = [
 				</ul>
 			</div>
 			<div class="menu-reveal-box-wrapper md:hidden">
-				<div class="menu-reveal-box absolute top-0 left-0 z-2 flex h-full w-full flex-col items-center justify-around pt-8">
+				<div
+					class="menu-reveal-box absolute top-0 left-0 z-2 flex h-full w-full flex-col items-center justify-around pt-8">
 					<div class="px-8 md:flex md:flex-row md:justify-around">
 						<ul class="nav-items items-left flex flex-col justify-center text-left font-bold">
 							{
@@ -53,7 +59,7 @@ const navItems = [
 							}
 						</ul>
 						<div class="info-container">
-							<ContactInfo className="pt-12 md:ml-24" />
+							<ContactInfo className="pt-12 md:ml-24" hideQuote />
 						</div>
 					</div>
 					<div class="socials-container mr-2 px-8 pb-16">
@@ -62,7 +68,7 @@ const navItems = [
 					</div>
 				</div>
 			</div>
-			<span class="md:hidden z-10">
+			<span class="z-10 md:hidden">
 				<BurgerMenu />
 			</span>
 			<span class="hidden md:flex">

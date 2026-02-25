@@ -204,7 +204,7 @@
 		{/each}
 	</div>
 	<button onclick={handleReload} class="px-3 py-1 bg-gray-600 text-white rounded-md cursor-pointer hover:bg-gray-800 transition-colors">
-		Replay 🔄
+		Reset 🔄
 	</button>
 </div>
 

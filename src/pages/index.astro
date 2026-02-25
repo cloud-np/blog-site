@@ -2,9 +2,7 @@
 import PageLayout from "@layouts/PageLayout.astro";
 import BlogPostsList from "@components/post/BlogPostsList.astro";
 import { getPosts } from "@libs/post";
-import ScrollDown from "@components/interactive/ScrollDown.astro";
 import SceneController from "@components/interactive/SceneController/SceneController.astro";
-import Logo from "@components/common/Logo.astro";
 import abyss from "@assets/home-page/bento-box-section/abyss.jpg";
 import aktis from "@assets/home-page/bento-box-section/aktis.jpg";
 import bentoBox from "@assets/home-page/bento-box-section/bento-box.gif";
@@ -21,6 +19,7 @@ import BentoCard from "@components/content/BentoCard.astro";
 import Slider from "@components/interactive/Slider.svelte";
 import Chess from "@components/interactive/Chess/Chess.svelte";
 import { Image } from "astro:assets";
+import { Helpers } from "@utils/helpers";
 import "../styles/index.css";
 
 const seo = {
@@ -29,7 +28,17 @@ const seo = {
 };
 
 const allPosts = await getPosts(undefined);
-const posts = allPosts.filter((post) => !(post as any).personal);
+const posts = allPosts.filter(post => !(post as any).personal);
+
+const events = [
+	{ title: "Joined @ Cloudflare", date: "01-12-2025" },
+	{ title: "Released Meteor theme", date: "01-06-2024" },
+	{ title: "Re-launched nuro.dev", date: "26-05-2024" },
+	{ title: "Joined @ RONIN", date: "15-12-2022" },
+	{ title: "Joined @ Wander", date: "14-03-2022" },
+	{ title: "Launched nuro.dev", date: "22-10-2021" },
+	{ title: "Joined @ Attio", date: "15-03-2021" },
+];
 
 const galleryImages = [
 	{ src: abyss, alt: "Abyss signature" },
@@ -49,106 +58,102 @@ const galleryImages = [
 	<!-- <Reveal /> -->
 	<SceneController />
 	<div class="container flex flex-col">
-		<section class="landing px-3 overflow-hidden">
+		<section class="landing mx-8 overflow-hidden px-6">
 			<div class="moon moon-left"></div>
 			<div class="moon moon-right top-[20vh] left-[80vw]"></div>
-			<div class="transition-all duration-300 ease-out mb-16 flex justify-center flex-col items-center">
-				<div class="hero-title-container justify-center font-bold flex mb-10 overflow-hidden slow-fade">
-					<h1 class="hero-title">Hi</h1>
-					<h1 class="hero-title">there!</h1>
-					<h1 class="hero-title">I'm</h1>
-					<h1 class="hero-title">Nick</h1>
-				</div>
-				<div class="overflow-hidden mx-6 max-w-156">
-					<p class="flex justify-center hero-text slow-fade">
-						I enjoy coding, solving complex problems, and giving my best in everything I do.
-						Other than that I enjoy nature and freediving.
-					</p>
-				</div>
+			<div class="mb-12 flex flex-col items-center justify-center transition-all duration-300 ease-out">
+				<h1 class="hero-name slow-fade mb-6 font-bold">Hi I'm Nick</h1>
+				<p class="hero-role mb-2 text-neutral-400">Engineering Tech Lead / Full-Stack Developer</p>
+				<p class="hero-text slow-fade">I build scalable web applications and lead engineering teams.</p>
 			</div>
-			<div class="m-auto scroll-down-indicator">
-				<ScrollDown />
-			</div>
+			<!-- <div class="hero-tables grid w-full grid-cols-1 gap-8 md:grid-cols-2 md:gap-12">
+				<div class="hero-table-col">
+					<h2 class="mb-4 text-xs tracking-widest text-neutral-500 uppercase">Posts</h2>
+					<ul class="flex flex-col gap-0">
+						{
+							posts.slice(0, 8).map(post => (
+								<li>
+									<a
+										href={post.href}
+										class="hero-table-row group flex items-baseline justify-between border-b border-white/5 py-2 transition-colors duration-200 hover:border-white/15">
+										<span class="mr-4 truncate text-sm text-neutral-300 transition-colors duration-200 group-hover:text-white">
+											{post.data.title}
+										</span>
+										<span class="shrink-0 text-xs text-neutral-600 tabular-nums">
+											{Helpers.formatDate(post.data.publishedAt)}
+										</span>
+									</a>
+								</li>
+							))
+						}
+					</ul>
+				</div> -->
+			<!-- <div class="hero-table-col">
+					<h2 class="mb-4 text-xs tracking-widest text-neutral-500 uppercase">History</h2>
+					<ul class="flex flex-col gap-0">
+						{
+							events.map(event => (
+								<li class="hero-table-row flex items-baseline justify-between border-b border-white/5 py-2">
+									<span class="mr-4 truncate text-sm text-neutral-300">{event.title}</span>
+									<span class="shrink-0 text-xs text-neutral-600 tabular-nums">{event.date}</span>
+								</li>
+							))
+						}
+					</ul>
+				</div> -->
+			<!-- </div> -->
 		</section>
-		<section class="portofolio-details flex self-center flex-col items-center">
-			<div class="-mt-15 mb-4">
-				<div class="gradient absolute"></div>
-				<div class="w-28 h-28">
-					<Logo />
-				</div>
-			</div>
-			<div class="overflow-hidden h-18 flex justify-center mx-4">
-				<h2 class="portofolio-title text-3xl font-medium translate-y-full text-center transition-all duration-300 ease-out">
-					Portofolio and past projects
-				</h2>
-			</div>
-			<div class="overflow-hidden h-auto flex justify-center mb-5 mx-4">
-				<p class="portofolio-text translate-y-full text-center w-120 text-base">
-					Explore a small collection of my work showcasing some
-					skills, creativity, but most importantly dedication to
-					quality.
-				</p>
-			</div>
-		</section>
-		<div class="bentobox-container grid grid-cols-1 lg:grid-cols-3 gap-2 m-10 max-w-7xl">
+		<!-- <h2 class="selected-work-heading mx-8 my-6 text-xl font-normal">Selected Work</h2> -->
+		<div class="mx-6 mb-10 grid max-w-7xl grid-cols-1 gap-4 lg:grid-cols-3">
 			<BentoCard title="Engineering Tech Lead">
-
-				<div slot="preTitle" class="w-full h-50 relative overflow-hidden">
+				<div slot="preTitle" class="relative h-50 w-full overflow-hidden">
 					<Planets />
 				</div>
 				<div slot="subTitle">
-					<p class="text-sm italic text-neutral-200 pb-2">
-						betsson - Sportsbook
-					</p>
+					<p class="pb-2 text-sm text-neutral-200 italic">betsson - Sportsbook</p>
 				</div>
-				Developed critical features serving millions of users globally, integrating new API providers to expand market reach and app capabilities.
-				Built and maintained high-performance sportsbook application using Angular, mfe, NgRx, and Nx across B2B/B2C platforms (mobile, desktop, native).
-				Collaborated with architects on technical guidelines while mentoring development teams to ensure optimal user experience and system reliability.
+				Developed critical features serving millions of users globally, integrating new API providers to expand market
+				reach and app capabilities. Built and maintained high-performance sportsbook application using Angular, mfe,
+				NgRx, and Nx across B2B/B2C platforms (mobile, desktop, native). Collaborated with architects on technical
+				guidelines while mentoring development teams to ensure optimal user experience and system reliability.
 			</BentoCard>
 			<BentoCard
 				title="Bin Packing Heuristics for the 'Multiple Workflow Scheduling Problem'"
 				hasFooter={true}
-				colSpanBigger
-			>
-				Under the guidance of Dr. Panagiotis Oikonomou, I researched
-				MWSP (Multiple Workflow Scheduling Problem) which is a NP-hard problem with conflicting
-				optimization goals. Our proposed algorithm achieved up to a
-				9% improvement and unveiled various trade-offs depending on
-				the specific characteristics of each workflow and optimization objectives.
-				<a
-					href="https://dl.acm.org/doi/10.1145/3503823.3503876"
-					target="_blank"
-					slot="footer"
-				>
+				colSpanBigger>
+				Under the guidance of Dr. Panagiotis Oikonomou, I researched MWSP (Multiple Workflow Scheduling Problem)
+				which is a NP-hard problem with conflicting optimization goals. Our proposed algorithm achieved up to a
+				9% improvement and unveiled various trade-offs depending on the specific characteristics of each
+				workflow and optimization objectives.
+				<a href="https://dl.acm.org/doi/10.1145/3503823.3503876" target="_blank" slot="footer">
 					View Publication
 				</a>
 
 				<TaskScheduling slot="preTitle" client:load />
 			</BentoCard>
-			<BentoCard title="Freelancing and web design" hasFooter={true} colSpanBigger >
-				With a perfect score when it comes to customer satisfaction,
-				I pride my self delivering only best for my clients.
+			<BentoCard title="Freelancing and web design" hasFooter={true} colSpanBigger>
+				With a perfect score when it comes to customer satisfaction, I pride my self delivering only best for my
+				clients.
 
-				<div slot="footer" class="w-full min-h-50">
+				<div slot="footer" class="min-h-50 w-full">
 					<Slider client:only initialXOffset={600}>
-						{galleryImages.map((image) => (
-							<div class="gallery-item" data-slide>
-								<Image class="gallery-image" draggable={false} src={image.src} alt={image.alt} />
-							</div>
-						))}
+						{
+							galleryImages.map(image => (
+								<div class="gallery-item" data-slide>
+									<Image class="gallery-image" draggable={false} src={image.src} alt={image.alt} />
+								</div>
+							))
+						}
 					</Slider>
 				</div>
 			</BentoCard>
 			<BentoCard title="chessnp.com" hasFooter={true} reverse>
 				<div slot="subTitle">
-					<p class="text-sm inline">🚧</p>
-					<p class="text-sm inline italic text-neutral-200 pb-2">
-						Under Construction
-					</p>
+					<p class="inline text-sm">🚧</p>
+					<p class="inline pb-2 text-sm text-neutral-200 italic">Under Construction</p>
 				</div>
-				chessnp.com lets users replay famous historical chess matches
-				and play against a custom AI chess engine built entirely
-				from scratch using Go.
+				chessnp.com lets users replay famous historical chess matches and play against a custom AI chess engine built
+				entirely from scratch using Go.
 				<div slot="footer">
 					<Chess client:load />
 					<p class="text-gray-500 line-through">Visit chessnp.com</p>
@@ -156,97 +161,72 @@ const galleryImages = [
 			</BentoCard>
 		</div>
 	</div>
-	<section class="mx-6 mt-20 flex flex-col justify-center items-center">
-		<h4 class="mb-16 fade-in text-2xl">Latest Posts</h4>
-		<BlogPostsList class="pt-16" posts={posts} />
+	<section class="mx-6 mt-20 flex flex-col items-center justify-center">
+		<h2 class="fade-in mb-16 text-3xl font-normal">Latest Posts</h2>
+		<BlogPostsList class="pt-16" posts={posts.slice(0, 3)} />
+		<a href="/blog" class="mt-8 text-neutral-400 transition-colors duration-200 hover:text-white">
+			View all posts &rarr;
+		</a>
 	</section>
 </PageLayout>
 
 <style>
-
-	/* Do not include margin to the last char for small devices */
-	.hero-title-container .hero-title:not(:last-child) {
-		margin-right: 13px;
+	.hero-name {
+		font-size: min(3.5rem, 8vw);
+		opacity: 0;
+		transform: translateY(20px);
 	}
 
-	.hero-title {
-		transform: translateY(100%);
-		z-index: -1;
-		font-size: min(6rem, 9vw);
-		text-align: center;
-		max-width: 100%;
-		white-space: nowrap;
+	.hero-role {
+		font-size: 1rem;
+		letter-spacing: 0.05em;
+		opacity: 0;
+		transform: translateY(20px);
 	}
 
 	.hero-text {
-		font-size: 1.3rem;
-		transform: translateY(100%);
-		max-width: min(var(--md-container), 600px);
-		margin: auto;
-		text-align: center;
+		font-size: 1rem;
+		opacity: 0;
+		transform: translateY(20px);
+		max-width: 550px;
+		color: var(--c-text_light);
+	}
+
+	.hero-tables {
+		opacity: 0;
+		transform: translateY(15px);
+	}
+
+	.selected-work-heading {
+		opacity: 0;
+		transform: translateY(10px);
 	}
 </style>
 
-
 <script>
 	import gsap from "gsap";
-	import { ScrollTrigger } from "gsap/all";
-	import { scrollEl } from "@components/interactive/ScrollController/ScrollController";
-
-	// const REVEAL_DELAY = 3.72;
-	gsap.registerPlugin(ScrollTrigger);
 
 	function init(delay: number = 0) {
 		const tl = gsap.timeline({
 			defaults: { ease: "power2.out" },
-			scrollBehavior: "smooth",
-		});
-		const portofolioTl = gsap.timeline({
-			defaults: { ease: "power2.out" },
-			scrollBehavior: "smooth",
-			paused: true,
-		});
-		portofolioTl
-			.to(".portofolio-title", { duration: 0.8, y: 0 })
-			.to(".portofolio-text", { duration: 0.8, y: 0 }, "-=0.4");
-
-		tl.to(".hero-title", { duration: 0.8, y: 0, delay }).to(
-			".hero-text",
-			{ duration: 0.8, y: 0 },
-			"-=0.4",
-		);
-		tl.to(".portofolio-details", {
-			scrollTrigger: {
-				trigger: ".portofolio-details",
-				start: "top-=500 center",
-				end: "center-=300 center",
-				scrub: true,
-			},
-			width: "100vw",
-			duration: 2.2,
-		});
-		tl.to(".portofolio-title", {
-			scrollTrigger: {
-				trigger: ".portofolio-details",
-				start: "top center",
-				end: "center center",
-				scrub: true,
-				onEnter: () => portofolioTl.play(),
-			},
 		});
 
-		const elements = document.querySelectorAll('.slow-fade') as NodeListOf<HTMLElement>;
-		document.addEventListener('mousemove', mouseEvent => {
+		tl.to(".hero-name", { duration: 0.6, opacity: 1, y: 0, delay })
+			.to(".hero-role", { duration: 0.5, opacity: 1, y: 0 }, "-=0.3")
+			.to(".hero-text", { duration: 0.5, opacity: 1, y: 0 }, "-=0.3")
+			.to(".hero-tables", { duration: 0.6, opacity: 1, y: 0 }, "-=0.2")
+			.to(".selected-work-heading", { duration: 0.5, opacity: 1, y: 0 }, "-=0.3");
+
+		const elements = document.querySelectorAll(".slow-fade") as NodeListOf<HTMLElement>;
+		document.addEventListener("mousemove", mouseEvent => {
 			elements.forEach(el => {
 				const rect = el.getBoundingClientRect();
 				const x = mouseEvent.pageX - rect.left;
 				const y = mouseEvent.pageY - rect.top;
 
-				// Calculate the position in percentages
 				const xPercent = (x / rect.width) * 100;
 				const yPercent = (y / rect.height) * 100;
 
-				// Apply radial gradient mask effect
 				const maskImage = `radial-gradient(
 					circle at ${xPercent}% ${yPercent}%,
 					rgba(255, 255, 255, 1) 0%,
@@ -258,21 +238,12 @@ const galleryImages = [
 				el.style.maskImage = maskImage;
 			});
 		});
-
 	}
 
-	scrollEl(".scroll-down-indicator", {
-		opacity: () =>
-			window.scrollY - 100 >= 0
-				? Math.max(1 - (window.scrollY - 100) / 20, 0)
-				: 1,
-	});
-
-	// init(REVEAL_DELAY);
 	init();
 
 	document.addEventListener("astro:after-swap", () => {
-		if (window.location.pathname === '/' || window.location.pathname === '') {
+		if (window.location.pathname === "/" || window.location.pathname === "") {
 			init();
 		}
 	});
