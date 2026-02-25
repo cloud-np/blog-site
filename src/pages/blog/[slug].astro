@@ -27,6 +27,9 @@ const seo = {
 	title: post.data.title,
 	description: post.data.description,
 	image: post.data.titleImage.src,
+	section: post.data.category,
+	publishedTime: post.data.publishedAt.toISOString(),
+	tags: post.data.searchCategories,
 };
 ---
 
