@@ -1,17 +1,16 @@
 ---
 import PageLayout from "@layouts/PageLayout.astro";
-import BlogPostsList from "@components/post/BlogPostsList.astro";
 import { getPosts } from "@libs/post";
 import SceneController from "@components/interactive/SceneController/SceneController.astro";
 import abyss from "@assets/home-page/bento-box-section/abyss.jpg";
 import aktis from "@assets/home-page/bento-box-section/aktis.jpg";
-import bentoBox from "@assets/home-page/bento-box-section/bento-box.gif";
+import homeupgrades from "@assets/home-page/bento-box-section/homeupgrades.gif";
 import betterNetflix from "@assets/home-page/bento-box-section/better-netflix.png";
 import fromHome from "@assets/home-page/bento-box-section/fromHome.png";
 import igame from "@assets/home-page/bento-box-section/igame.png";
 import oino8eh from "@assets/home-page/bento-box-section/oino8eh.png";
 import pumkin from "@assets/home-page/bento-box-section/pumkin.jpg";
-import yang from "@assets/home-page/bento-box-section/yang.gif";
+import sailgreek from "@assets/home-page/bento-box-section/sailgreek.gif";
 import zed from "@assets/home-page/bento-box-section/zed.jpg";
 import TaskScheduling from "@components/interactive/TaskScheduling.svelte";
 import Planets from "@components/interactive/Planets/Planets.astro";
@@ -30,27 +29,17 @@ const seo = {
 const allPosts = await getPosts(undefined);
 const posts = allPosts.filter(post => !(post as any).personal);
 
-const events = [
-	{ title: "Joined @ Cloudflare", date: "01-12-2025" },
-	{ title: "Released Meteor theme", date: "01-06-2024" },
-	{ title: "Re-launched nuro.dev", date: "26-05-2024" },
-	{ title: "Joined @ RONIN", date: "15-12-2022" },
-	{ title: "Joined @ Wander", date: "14-03-2022" },
-	{ title: "Launched nuro.dev", date: "22-10-2021" },
-	{ title: "Joined @ Attio", date: "15-03-2021" },
-];
-
 const galleryImages = [
 	{ src: abyss, alt: "Abyss signature" },
 	{ src: aktis, alt: "Aktis logo design" },
 	{ src: zed, alt: "Zed signature" },
 	{ src: oino8eh, alt: "Οινοθέη logo design" },
 	{ src: pumkin, alt: "Pumkin signature" },
-	{ src: yang, alt: "Yang project" },
+	{ src: sailgreek, alt: "SailGreek project" },
 	{ src: betterNetflix, alt: "Better Netflix project" },
 	{ src: igame, alt: "iGame project" },
 	{ src: fromHome, alt: "From Home project" },
-	{ src: bentoBox, alt: "BentoBox project" },
+	{ src: homeupgrades, alt: "HomeUpgrades project" },
 ];
 ---
 
@@ -76,10 +65,11 @@ const galleryImages = [
 				<div slot="subTitle">
 					<p class="pb-2 text-sm text-neutral-200 italic">betsson - Sportsbook</p>
 				</div>
-				Developed critical features serving millions of users globally, integrating new API providers to expand market
-				reach and app capabilities. Built and maintained high-performance sportsbook application using Angular, mfe,
-				NgRx, and Nx across B2B/B2C platforms (mobile, desktop, native). Collaborated with architects on technical
-				guidelines while mentoring development teams to ensure optimal user experience and system reliability.
+				Led the frontend engineering of a high-performance sportsbook platform at Betsson, serving millions of users
+				across mobile, desktop, and native apps. Helped steering architecture decisions around state management,
+				integration of new stacks, and micro-frontends while owning the integration of new API providers to expand
+				market reach. Shaped technical standards alongside architects, mentored developers, and enforced performance
+				budgets and observability to keep the platform fast and reliable at scale.
 			</BentoCard>
 			<BentoCard
 				title="Bin Packing Heuristics for the 'Multiple Workflow Scheduling Problem'"
@@ -96,8 +86,24 @@ const galleryImages = [
 				<TaskScheduling slot="preTitle" client:load />
 			</BentoCard>
 			<BentoCard title="Freelancing and web design" hasFooter={true} colSpanBigger>
-				With a perfect score when it comes to customer satisfaction, I pride my self delivering only best for my
-				clients.
+				<div
+					slot="preTitle"
+					class="freelance-showcase relative flex h-52 w-full items-center justify-center overflow-hidden">
+					<div
+						class="absolute h-32 w-48 -translate-x-6 translate-y-2 -rotate-6 overflow-hidden rounded-lg opacity-70 shadow-lg transition-transform duration-300 hover:scale-105">
+						<Image class="h-full w-full object-cover" src={aktis} alt="Aktis logo design" />
+					</div>
+					<div
+						class="absolute h-32 w-48 translate-x-4 -translate-y-2 rotate-3 overflow-hidden rounded-lg opacity-80 shadow-lg transition-transform duration-300 hover:scale-105">
+						<Image class="h-full w-full object-cover" src={pumkin} alt="Οινοθέη logo design" />
+					</div>
+					<div
+						class="relative z-10 h-32 w-48 overflow-hidden rounded-lg border border-white/10 shadow-xl transition-transform duration-300 hover:scale-105">
+						<Image class="h-full w-full object-cover" src={abyss} alt="Abyss signature" />
+					</div>
+				</div>
+				With a perfect score when it comes to customer satisfaction, I pride myself in delivering only the best for
+				my clients.
 
 				<div slot="footer" class="min-h-50 w-full">
 					<Slider client:only initialXOffset={600}>
@@ -126,8 +132,13 @@ const galleryImages = [
 		</div>
 	</div>
 
-	<!-- <div class="hero-tables grid w-full grid-cols-1 gap-8 md:grid-cols-2 md:gap-12">
-		<div class="hero-table-col">
+	<section class="container mt-20 flex flex-col justify-center gap-6 px-6">
+		<!-- <h2 class="fade-in mb-16 text-3xl font-normal">Latest Posts</h2>
+		<BlogPostsList class="pt-16" posts={posts.slice(0, 3)} />
+		<a href="/blog" class="mt-8 text-neutral-400 transition-colors duration-200 hover:text-white">
+			View all posts &rarr;
+		</a> -->
+		<div>
 			<h2 class="mb-4 text-xs tracking-widest text-neutral-500 uppercase">Posts</h2>
 			<ul class="flex flex-col gap-0">
 				{
@@ -135,11 +146,22 @@ const galleryImages = [
 						<li>
 							<a
 								href={post.href}
-								class="hero-table-row group flex items-baseline justify-between border-b border-white/5 py-2 transition-colors duration-200 hover:border-white/15">
-								<span class="mr-4 truncate text-sm text-neutral-300 transition-colors duration-200 group-hover:text-white">
-									{post.data.title}
-								</span>
-								<span class="shrink-0 text-xs text-neutral-600 tabular-nums">
+								class="post-row hero-table-row group relative flex items-center justify-between overflow-hidden border-b border-white/5 py-2 transition-colors duration-200 hover:border-white/15">
+								<div
+									class="post-row-bg pointer-events-none absolute inset-0 bg-cover bg-center opacity-0 transition-opacity duration-300 group-hover:opacity-25"
+									style={`background-image: url(${post.data.previewImage.src});`}
+								/>
+								<div class="relative z-10 flex items-center gap-3 overflow-hidden">
+									<img
+										src={post.data.previewImage.src}
+										alt={`Preview image for ${post.data.title}`}
+										class="h-10 w-10 shrink-0 rounded-md object-cover opacity-50 transition-opacity duration-200 group-hover:opacity-90"
+									/>
+									<span class="truncate text-sm text-neutral-300 transition-colors duration-200 group-hover:text-white">
+										{post.data.title}
+									</span>
+								</div>
+								<span class="relative z-10 ml-4 shrink-0 text-xs text-neutral-600 tabular-nums">
 									{Helpers.formatDate(post.data.publishedAt)}
 								</span>
 							</a>
@@ -147,27 +169,7 @@ const galleryImages = [
 					))
 				}
 			</ul>
-		</div> -->
-	<!-- <div class="hero-table-col">
-			<h2 class="mb-4 text-xs tracking-widest text-neutral-500 uppercase">History</h2>
-			<ul class="flex flex-col gap-0">
-				{
-					events.map(event => (
-						<li class="hero-table-row flex items-baseline justify-between border-b border-white/5 py-2">
-							<span class="mr-4 truncate text-sm text-neutral-300">{event.title}</span>
-							<span class="shrink-0 text-xs text-neutral-600 tabular-nums">{event.date}</span>
-						</li>
-					))
-				}
-			</ul>
-		</div> -->
-	<!-- </div> -->
-	<section class="mx-6 mt-20 flex flex-col items-center justify-center">
-		<h2 class="fade-in mb-16 text-3xl font-normal">Latest Posts</h2>
-		<BlogPostsList class="pt-16" posts={posts.slice(0, 3)} />
-		<a href="/blog" class="mt-8 text-neutral-400 transition-colors duration-200 hover:text-white">
-			View all posts &rarr;
-		</a>
+		</div>
 	</section>
 </PageLayout>
 
@@ -201,6 +203,11 @@ const galleryImages = [
 	.selected-work-heading {
 		opacity: 0;
 		transform: translateY(10px);
+	}
+
+	.post-row-bg {
+		filter: blur(20px) brightness(0.3) saturate(1.4);
+		transform: scale(1.2);
 	}
 </style>
 
