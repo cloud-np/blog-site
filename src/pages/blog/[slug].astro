@@ -5,7 +5,7 @@ import Header from "../../components/layout/Header.astro";
 import SharePost from "@components/post/SharePost.astro";
 import { Picture } from "astro:assets";
 import { getPosts, type Post } from "../../libs/post";
-import {type CollectionEntry, render} from "astro:content";
+import { type CollectionEntry, render } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import "@styles/post.css";
 
@@ -21,7 +21,7 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
-const { Content, headings } = await render(post as CollectionEntry<'blog'>);
+const { Content, headings } = await render(post as CollectionEntry<"blog">);
 
 const seo = {
 	title: post.data.title,
@@ -37,33 +37,38 @@ const seo = {
 	<Header slot="header" />
 	<Container>
 		<article class="post-content__article">
-			<div class="flex flex-col items-center text-center fade-in">
-				{post.data.category && (
-					<p class="post-content__category">
-						<a href={`/blog/category/${Helpers.slugify(post.data.category)}`}>
+			<div class="fade-in flex flex-col items-center text-center">
+				{
+					post.data.category && (
+						<a
+							href={`/blog/category/${Helpers.slugify(post.data.category)}`}
+							class="text-xs tracking-widest text-neutral-500 uppercase transition-colors duration-200 hover:text-neutral-300">
 							{post.data.category}
 						</a>
-					</p>
-				)}
+					)
+				}
 				<h1 class="post-content__title">{post.data.title}</h1>
-				<p class="post-content__date">
-					<time datetime={post.data.publishedAt.toISOString()}>{Helpers.formatDate(post.data.publishedAt)}</time>
-				</p>
-				<p class="post-content__minsread">
+				<p class="flex items-center gap-2 text-xs text-neutral-600">
+					<time datetime={post.data.publishedAt.toISOString()}>
+						{Helpers.formatDate(post.data.publishedAt)}
+					</time>
+					<span>&middot;</span>
 					<span>{post.minutesRead} read</span>
 				</p>
 
-				{post.data.titleImage && (
-					<Picture
-						src={post.data.titleImage}
-						alt={`Featured for ${post.data.title}`}
-						formats={["webp", "png"]}
-						class="post-content__img"
-						loading="eager"
-						width={post.data.titleImage.width}
-						height={post.data.titleImage.height}
-					/>
-				)}
+				{
+					post.data.titleImage && (
+						<Picture
+							src={post.data.titleImage}
+							alt={`Featured for ${post.data.title}`}
+							formats={["webp", "png"]}
+							class="post-content__img"
+							loading="eager"
+							width={post.data.titleImage.width}
+							height={post.data.titleImage.height}
+						/>
+					)
+				}
 			</div>
 			<div class="post-content__content flow fade-in">
 				<Content />

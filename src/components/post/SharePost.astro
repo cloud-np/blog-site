@@ -1,5 +1,4 @@
 ---
-import Container from "../containers/Container.astro";
 import { Icon } from "astro-icon/components";
 import { shareSocials } from "../../data/share-socials.const";
 
@@ -11,62 +10,22 @@ const currUrl = Astro.url.toString();
 const postTitle = Astro.props.postTitle;
 ---
 
-<Container>
-	<div class="share__container">
-		<h4>Share</h4>
-		<ul class="social__list">
+<div class="mx-auto mt-12 max-w-[42.875rem] border-t border-white/5 pt-6 pb-8">
+	<div class="flex items-center justify-between">
+		<span class="text-xs tracking-widest text-neutral-500 uppercase">Share</span>
+		<ul class="flex list-none gap-3">
 			{
 				shareSocials.map(social => (
 					<li>
 						<a
 							href={social.url.replace("[post-url]", currUrl).replace("[post-title]", postTitle)}
-							title={social.name}>
-							<Icon name={social.icon} width={24} height={24} />
+							title={social.name}
+							class="flex items-center opacity-50 transition-opacity duration-200 hover:opacity-100">
+							<Icon name={social.icon} width={20} height={20} />
 						</a>
 					</li>
 				))
 			}
 		</ul>
 	</div>
-</Container>
-
-<style>
-	.share__container {
-		padding: 1rem;
-		border-radius: 10rem;
-		margin: 2rem;
-	}
-
-	h4 {
-		font-size: 1.5rem;
-		font-weight: 700;
-		text-align: center;
-		margin-bottom: 1rem;
-	}
-	.social__list {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		list-style: none;
-		padding: 0;
-		margin: 0;
-	}
-
-	.social__list li {
-		margin: 0 1rem;
-	}
-
-	.social__list li a {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		width: 2.5rem;
-		height: 2.5rem;
-		border-radius: 50%;
-		transition: all 0.3s ease;
-	}
-
-	.social__list li a:hover {
-		background-color: var(--share);
-	}
-</style>
+</div>

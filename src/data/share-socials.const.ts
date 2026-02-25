@@ -1,18 +1,13 @@
 export const shareSocials = [
 	{
-		name: 'Share to Facebook.',
-		url: 'https://www.facebook.com/sharer.php?u=[post-url]',
-		icon: 'facebook',
+		name: "Share to Facebook.",
+		url: "https://www.facebook.com/sharer.php?u=[post-url]",
+		icon: "facebook",
 	},
 	{
-		name: 'Share to X.',
-		url: 'https://x.com/share?url=[post-url]&text=[post-title]',
-		icon: 'x',
-	},
-	{
-		name: 'Share to Pinterest.',
-		url: 'https://pinterest.com/pin/create/bookmarklet/?media=[post-img]&url=[post-url]&is_video=[is_video]&description=[post-title]',
-		icon: 'pinterest'
+		name: "Share to X.",
+		url: "https://x.com/share?url=[post-url]&text=[post-title]",
+		icon: "x",
 	},
 	// {
 	// 	name: 'Share to LinkedIn.',
@@ -30,9 +25,9 @@ export const shareSocials = [
 	//   icon: 'mdi:telegram'
 	// },
 	{
-		name: 'Email the Post.',
-		url: 'mailto:?subject=[post-title]&body=[post-url]',
-		icon: 'email',
+		name: "Email the Post.",
+		url: "mailto:?subject=[post-title]&body=[post-url]",
+		icon: "email",
 	},
 	// {
 	//   name: 'Copy Link',
