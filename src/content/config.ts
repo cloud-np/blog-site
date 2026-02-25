@@ -13,7 +13,7 @@ const blog = defineCollection({
 			title: z.string().max(80),
 			titleImage: image(),
 			previewImage: image(),
-			// description: z.string().max(200),
+			description: z.string().max(200),
 			// Transform string to Date object
 			publishedAt: z
 				.string()

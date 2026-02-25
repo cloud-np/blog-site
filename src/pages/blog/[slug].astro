@@ -25,7 +25,7 @@ const { Content, headings } = await render(post as CollectionEntry<'blog'>);
 
 const seo = {
 	title: post.data.title,
-	// description: post.description,
+	description: post.data.description,
 	image: post.data.titleImage.src,
 };
 ---

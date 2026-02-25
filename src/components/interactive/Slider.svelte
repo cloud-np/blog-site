@@ -1,81 +1,101 @@
-<!-- svelte-ignore a11y_no_noninteractive_element_to_interactive_role -->
-<!-- svelte-ignore a11y_click_events_have_key_events -->
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
-	import * as Carousel from '@libs/ui/carousel';
-	import type { LocalImage } from '@libs/images';
+
+	import type { Snippet } from 'svelte';
 
 	interface Props {
 		initialXOffset?: number;
 		slideTimer?: number;
-		images: LocalImage[];
+		children?: Snippet;
 	}
 
 	let {
-		initialXOffset = 900,
-		slideTimer = 10_000,
-		images
+		initialXOffset = 0,
+		slideTimer = 50_00,
+		children,
 	}: Props = $props();
 
 	let sliderWrapper: HTMLDivElement;
-	let currentImage = $state(images[0]);
+	let items: Element[] = $state([]);
 	let xTransition = $state(initialXOffset);
 	let intervalId: ReturnType<typeof setInterval> | null = null;
-	let touchStartX = $state(0);
 	let selectedIndex = $state(0);
 
+	function setItems() {
+		// First item is always <astro-slot> here
+		const slideElements = sliderWrapper.firstElementChild?.querySelectorAll("[data-slide]");
+		if (!slideElements || slideElements.length === 0) {
+			return;
+		}
+
+		items = Array.from(slideElements);
+		items.forEach((element, index) => {
+			element.addEventListener('click', () => handleItemClick(index));
+			element.addEventListener('mouseenter', () => handleItemEnter(index));
+			element.addEventListener('mouseleave', () => handleItemLeave(index));
+		});
+	}
+
 	function startAutoSlide() {
+		if (!items) return;
 		intervalId = setInterval(() => {
-			const currentIndex = images.indexOf(currentImage);
-			const nextIndex = (currentIndex + 1) % images.length;
-			goToImage(images[nextIndex], nextIndex);
+			items[selectedIndex].classList.remove('focused')
+			const nextIndex = (selectedIndex + 1) % items.length;
+			goToItem(nextIndex);
+			items[nextIndex].classList.add('focused');
 		}, slideTimer);
+	}
+
+	function handleItemEnter(index: number) {
+		const item = items[index];
+		stopAutoSlide();
+	}
+
+	function handleItemLeave(index: number) {
+		startAutoSlide();
 	}
 
 	function stopAutoSlide() {
 		if (intervalId) {
+			items[selectedIndex].classList.remove('focused')
 			clearInterval(intervalId);
 			intervalId = null;
 		}
 	}
 
-	function goToImage(destinationImage: LocalImage, targetIndex: number) {
-		const currentIndex = images.indexOf(currentImage);
-		if (currentIndex === targetIndex) return;
+	function goToItem(targetIndex: number) {
+		if (selectedIndex === targetIndex) return;
 
 		if (!sliderWrapper) return;
 
 		const ulEl = sliderWrapper.children[0];
 		const lis = Array.from(ulEl.children);
-		const screenCenterX = window.innerWidth / 2;
-		const rect = lis[targetIndex].getBoundingClientRect();
-		const elementCenterX = rect.left + rect.width / 2;
-		const dist = elementCenterX - screenCenterX;
+
+		// Get the stable parent container (the one that doesn't transform)
+		const stableParent = sliderWrapper.parentElement;
+		if(!stableParent) return;
+		const stableRect = stableParent.getBoundingClientRect();
+
+		// Get target element position
+		const elementRect = lis[targetIndex].getBoundingClientRect();
+
+		// Calculate positions relative to the stable parent
+		const elementCenterRelativeToStable = elementRect.left - stableRect.left + elementRect.width / 2;
+		const stableCenter = stableRect.width / 2;
+
+		const dist = elementCenterRelativeToStable - stableCenter;
 		const newX = xTransition + (-1 * dist);
 
 		xTransition = newX;
-		currentImage = destinationImage;
 		selectedIndex = targetIndex;
-
-		// Restart auto-slide timer
-		stopAutoSlide();
-		startAutoSlide();
 	}
 
-	function handleImageClick(index: number) {
-		goToImage(images[index], index);
-	}
-
-	function handleTouchStart(event: TouchEvent | MouseEvent) {
-		touchStartX = Carousel.handleStart(event);
-	}
-
-	function handleTouchEnd(event: TouchEvent | MouseEvent) {
-		selectedIndex = Carousel.handleEnd(event, touchStartX, selectedIndex, images.length);
-		goToImage(images[selectedIndex], selectedIndex);
+	function handleItemClick(index: number) {
+		goToItem(index);
 	}
 
 	onMount(() => {
+		setItems();
 		startAutoSlide();
 	});
 
@@ -84,33 +104,12 @@
 	});
 </script>
 
-<div class="overflow-hidden max-w-full">
+<div class="overflow-hidden max-w-full relative">
 	<div
 		bind:this={sliderWrapper}
-		class="transition-transform duration-300 ease-out flex items-center justify-center my-12 mx-auto"
+		class="transition-transform duration-300 ease-out flex items-center justify-center my-12 mx-auto gap-2 transform-3d"
 		style="transform: translate3d({xTransition}px, 0, 0)"
 	>
-		<ul class="flex gap-2">
-			{#each images as image, index}
-				<li class="flex flex-col items-center justify-center">
-					<img
-						src={image.imageMetadata.src}
-						alt={image.alt}
-						class="cursor-grab active:cursor-grabbing w-88 min-w-88 max-w-full h-auto object-cover transition-opacity duration-200 ease-out hover:opacity-80 select-none"
-						draggable="false"
-						role="button"
-						loading="lazy"
-						decoding="async"
-						fetchpriority="low"
-						onclick={() => handleImageClick(index)}
-						onmousedown={handleTouchStart}
-						onmouseup={handleTouchEnd}
-						ontouchstart={handleTouchStart}
-						ontouchend={handleTouchEnd}
-						aria-label={image.alt}
-					/>
-				</li>
-			{/each}
-		</ul>
+		{#if children}{@render children()}{/if}
 	</div>
 </div>

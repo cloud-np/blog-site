@@ -18,7 +18,7 @@ import zed from "@assets/home-page/bento-box-section/zed.jpg";
 import TaskScheduling from "@components/interactive/TaskScheduling.svelte";
 import Planets from "@components/interactive/Planets/Planets.astro";
 import BentoCard from "@components/content/BentoCard.astro";
-import Slider2 from "@components/interactive/Slider2.svelte";
+import Slider from "@components/interactive/Slider.svelte";
 import Chess from "@components/interactive/Chess/Chess.svelte";
 import { Image } from "astro:assets";
 import "../styles/index.css";
@@ -130,13 +130,13 @@ const galleryImages = [
 				I pride my self delivering only best for my clients.
 
 				<div slot="footer" class="w-full min-h-50">
-					<Slider2 client:only initialXOffset={600}>
+					<Slider client:only initialXOffset={600}>
 						{galleryImages.map((image) => (
 							<div class="gallery-item" data-slide>
 								<Image class="gallery-image" draggable={false} src={image.src} alt={image.alt} />
 							</div>
 						))}
-					</Slider2>
+					</Slider>
 				</div>
 			</BentoCard>
 			<BentoCard title="chessnp.com" hasFooter={true} reverse>

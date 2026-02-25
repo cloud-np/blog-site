@@ -78,6 +78,7 @@ type RawPostWithOutData = Omit<CollectionEntry<'blog'>, 'data' | 'body'>;
 
 interface RawPostData {
     title: string;
+    description: string;
     titleImage: LoadedImage;
     previewImage: LoadedImage;
     publishedAt: Date;

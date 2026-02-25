@@ -108,7 +108,9 @@
 	border-radius: 12px;
 	overflow: hidden;
 	cursor: pointer;
-	transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+	transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1),
+		filter 0.3s cubic-bezier(0.23, 1, 0.32, 1),
+		box-shadow 0.3s cubic-bezier(0.23, 1, 0.32, 1);
 	width: 120px;
 	height: 80px;
 	filter: brightness(0.7) saturate(0.8);
@@ -119,22 +121,17 @@
 	filter: brightness(1.1) saturate(1.2);
 	box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
 	z-index: 10;
-	width: 130px;
-	height: 85px;
 }
 
 .gallery-item.focused {
-	width: 140px;
-	height: 90px;
-	transform: scale(1.09);
+	transform: scale(1.15);
 	filter: brightness(1) saturate(1);
 	box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
 	z-index: 5;
 }
 
 .gallery-item:not(.focused):not(:hover) {
-	width: 110px;
-	height: 75px;
+	transform: scale(0.9);
 	filter: brightness(0.6) saturate(0.7);
 }
 
