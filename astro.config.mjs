@@ -17,7 +17,9 @@ import playformCompress from '@playform/compress';
 export default defineConfig({
 	site: settings.url,
 	integrations: [
-		sitemap(),
+		sitemap({
+			filter: (page) => !page.includes('/privacy-policy'),
+		}),
 		// To allow code blocks on MDX pages to use astro-expressive-code, please move astroExpressiveCode()
 		//  before mdx() in the "integrations" array of your Astro config file.
 		astroExpressiveCode(getExpressiveCodeConfig()),

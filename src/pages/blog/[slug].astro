@@ -47,7 +47,7 @@ const seo = {
 				)}
 				<h1 class="post-content__title">{post.data.title}</h1>
 				<p class="post-content__date">
-					<time>{Helpers.formatDate(post.data.publishedAt)}</time>
+					<time datetime={post.data.publishedAt.toISOString()}>{Helpers.formatDate(post.data.publishedAt)}</time>
 				</p>
 				<p class="post-content__minsread">
 					<span>{post.minutesRead} read</span>
