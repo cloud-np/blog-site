@@ -10,10 +10,10 @@ export interface Props {
 const { posts } = Astro.props;
 ---
 
-<ul class="m-0 mb-[10vh] list-none p-0 flex justify-center flex-col items-center gap-12">
+<ul id="blog-posts-list" class="m-0 mb-[10vh] list-none p-0 flex justify-center flex-col items-center gap-12">
 	{
 		posts.map((post) => (
-			<li class="max-w-[60rem] w-full">
+			<li class="max-w-[60rem] w-full" data-categories={post.data.searchCategories.join(',')}>
 				<BlogPostPreview post={post} />
 			</li>
 		))
