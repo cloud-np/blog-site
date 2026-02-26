@@ -51,9 +51,13 @@ const galleryImages = [
 			<div class="moon moon-left"></div>
 			<div class="moon moon-right top-[20vh] left-[80vw]"></div>
 			<div class="mb-12 flex flex-col items-center justify-center transition-all duration-300 ease-out">
-				<h1 class="hero-name slow-fade mb-6 font-bold">Hi I'm Nick</h1>
-				<p class="hero-role mb-2 text-neutral-400">Engineering Tech Lead / Full-Stack Developer</p>
-				<p class="hero-text slow-fade">I build scalable web applications and lead engineering teams.</p>
+				<h1 class="hero-name slow-fade mb-6 text-center text-6xl font-bold">Hi I'm Nick</h1>
+				<p class="hero-role slow-fade mb-2 text-center text-neutral-400">
+					Engineering Tech Lead / Full-Stack Developer
+				</p>
+				<p class="hero-text slow-fade text-center">
+					I build scalable web applications and lead engineering teams.
+				</p>
 			</div>
 		</section>
 		<!-- <h2 class="selected-work-heading mx-8 my-6 text-xl font-normal">Selected Work</h2> -->
@@ -133,11 +137,6 @@ const galleryImages = [
 	</div>
 
 	<section class="container mt-20 flex flex-col justify-center gap-6 px-6">
-		<!-- <h2 class="fade-in mb-16 text-3xl font-normal">Latest Posts</h2>
-		<BlogPostsList class="pt-16" posts={posts.slice(0, 3)} />
-		<a href="/blog" class="mt-8 text-neutral-400 transition-colors duration-200 hover:text-white">
-			View all posts &rarr;
-		</a> -->
 		<div>
 			<h2 class="mb-4 text-xs tracking-widest text-neutral-500 uppercase">Posts</h2>
 			<ul class="flex flex-col gap-0">
@@ -175,7 +174,6 @@ const galleryImages = [
 
 <style>
 	.hero-name {
-		font-size: min(3.5rem, 8vw);
 		opacity: 0;
 		transform: translateY(20px);
 	}
