@@ -185,7 +185,7 @@
 	}
 </script>
 
-<div class="flex flex-col items-start gap-4">
+<div class="flex flex-col gap-4">
 	<div class="chess-board">
 		{#each board as row, rowIndex}
 			<div class="flex">

@@ -27,7 +27,7 @@ const seo = {
 };
 
 const allPosts = await getPosts(undefined);
-const posts = allPosts.filter(post => !(post as any).personal);
+const posts = allPosts.filter(post => !post.data.personal);
 
 const galleryImages = [
 	{ src: abyss, alt: "Abyss signature" },
@@ -128,7 +128,7 @@ const galleryImages = [
 				</div>
 				chessnp.com lets users replay famous historical chess matches and play against a custom AI chess engine built
 				entirely from scratch using Go.
-				<div slot="footer">
+				<div class="flex flex-col items-center justify-center" slot="footer">
 					<Chess client:load />
 					<p class="text-gray-500 line-through">Visit chessnp.com</p>
 				</div>
