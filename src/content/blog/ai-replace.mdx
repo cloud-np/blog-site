@@ -19,32 +19,36 @@ import H2 from "@components/content/H2.svelte";
 import H3 from "@components/content/H3.svelte";
 import H4 from "@components/content/H4.svelte";
 
-Its no secret that utilizing AI tools in some extent provides a productivity boost and speed unmatched to what
-was ever capable up until now. Although even that setence is being heavily challenged by people arguing that the productivity boost and extra velocity are translated into poor quality and an amalgamation of all sorts of "bad taste" code, security vulnerabilities, and poor architectural decisions.
+Utilizing heavily AI tools provides a productivity boost and speed unmatched to what
+was ever capable up until now. Or is it?
 
-Nevertheless many of us have this feeling that we need to integrate it more somehow in our workflows either because of FOMO (fear of missing out) or because we actually manage be more productive with to a certain degree
-because we managed to delegate certain work to it successfully.
+That setence is being heavily challenged by many arguing that the productivity
+boost and extra velocity coming from AI geenrated code is translated into poor quality
+and an amalgamation of all sorts issues such as:
+* low quality
+* "bad taste" code
+* security vulnerabilities
+* poor architectural decisions
+
+Nevertheless many of us have this feeling that we need to integrate it more somehow in our workflows either because of FOMO
+(fear of missing out) or because we actually managed be more productive with it to a certain degree.
 
 <H2 title="What should we delegate to AI?" />
 But what should we really delegate to AI? Does it really matter how and in which workflows we
-really integrate these tools?
+introduce these tools?
 
-*Well maybe we should delegate the work of thinking about what to delegate to AI to AI itself.*
+One could argue that the more we delegate to AI, the more we can focus on other aspects of our work,
+such as problem-solving, creativity, and strategic planning.
 
-I think this setence alone captures perfectly the irony of the modern development and how the average developer
-is going to try to tackle any problem he may be facing.
+But is this true?
 
-
-
-I mean technically given enough iterations maybe either by pure chance
-or struggle AI could manage to satisfy our needs when it comes to a task relatively ok'ish they are after all probabilistic.
-<Note title="Note">
-	"LLMs are probabilistic models which generate a completion to a prompt, they do this one token at a time and produce non-deterministic results."
-</Note>
-Sure one could argue our job becomes more **reactive** vs **generative** and the creativeness slowly fades since we now reacting on issues produces from the LLM output rather than thinking but who cares our job just become easier right?
+The code quality could take a hit but who cares? I mean technically given enough tokens/iterations maybe either by pure chance
+or struggle AI could manage to satisfy our needs when it comes to a task relatively ok'ish, they are after all probabilistic.
+Sure, lets even assume development time increases in some cases but we didn't have to think much to achieve that outcome.
 <div class="flex justify-center items-center">
 	<Image src={easier} alt="ai-meme" class="w-100" />
 </div>
+Sure one could argue our job becomes more **reactive** vs **generative** and the creativeness slowly fades since we now reacting on issues produces from the LLM output rather than thinking but who cares our job just become easier right?
 
 <H2 title="Using AI for productivity" />
 
@@ -288,3 +292,12 @@ to revert fast.
 Remember, the key to effective debugging is not just finding the bug, but understanding why it occurred.
 Once we've identified the problematic commit with `git bisect` and resolve the issue, we can take the time to analyze the changes and
 prevent similar issues in the future.
+
+*Well maybe we should delegate the work of thinking about what to delegate to AI to AI itself.*
+
+I think this setence alone captures perfectly the irony of the modern development and how the average developer
+is going to try to tackle any problem he may be facing.
+
+<Note title="Note">
+	"LLMs are probabilistic models which generate a completion to a prompt, they do this one token at a time and produce non-deterministic results."
+</Note>
