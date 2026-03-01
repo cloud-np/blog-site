@@ -11,6 +11,7 @@ personal: false
 ---
 
 import easier from "@assets/ai-replace/ai-meme.png";
+import research from "@assets/ai-replace/ai-research.webp";
 import amazedFace from "@assets/git-bisect/amazed-face.gif";
 import sadCat from "@assets/git-bisect/sadcat.png";
 import Note from "@components/content/Note.astro";
@@ -18,159 +19,85 @@ import { Image } from "astro:assets";
 import H2 from "@components/content/H2.svelte";
 import H3 from "@components/content/H3.svelte";
 import H4 from "@components/content/H4.svelte";
+import ImageZoom from "@components/content/ImageZoom.svelte";
 
 Utilizing heavily AI tools provides a productivity boost and speed unmatched to what
 was ever capable up until now. Or is it?
 
 That setence is being heavily challenged by many arguing that the productivity
-boost and extra velocity coming from AI geenrated code is translated into poor quality
-and an amalgamation of all sorts issues such as:
+boost and extra velocity coming from AI generated code is translated into
+an amalgamation of all sorts issues such as:
 * low quality
 * "bad taste" code
 * security vulnerabilities
 * poor architectural decisions
 
 Nevertheless many of us have this feeling that we need to integrate it more somehow in our workflows either because of FOMO
-(fear of missing out) or because we actually managed be more productive with it to a certain degree.
+(fear of missing out) or because we actually managed be more productive with it to a certain degree. Which then begs the
+question.
 
 <H2 title="What should we delegate to AI?" />
-But what should we really delegate to AI? Does it really matter how and in which workflows we
-introduce these tools?
+Does it really matter how and in which workflows we introduce these tools in?
 
 One could argue that the more we delegate to AI, the more we can focus on other aspects of our work,
 such as problem-solving, creativity, and strategic planning.
 
-But is this true?
+But is this accurate?
 
-The code quality could take a hit but who cares? I mean technically given enough tokens/iterations maybe either by pure chance
-or struggle AI could manage to satisfy our needs when it comes to a task relatively ok'ish, they are after all probabilistic.
-Sure, lets even assume development time increases in some cases but we didn't have to think much to achieve that outcome.
+Could we really detach ourselves from writing code all together?
+Is it possible to automate the entire development/thinking process?
+
 <div class="flex justify-center items-center">
-	<Image src={easier} alt="ai-meme" class="w-100" />
+	<Image src={easier} alt="ai meme about llms writing 100% of our code" class="w-100" />
 </div>
-Sure one could argue our job becomes more **reactive** vs **generative** and the creativeness slowly fades since we now reacting on issues produces from the LLM output rather than thinking but who cares our job just become easier right?
 
-<H2 title="Using AI for productivity" />
+The answer to these questions is highly subjective and depends on:
+* context
+* complexity
+* goals
+* severity of the software failing
 
-<H3 title="Example use" />
-Let's consider a scenario where we travel back in time and our website used to look like this:
+For example if you are in the aviation business I highly doubt you'll have any AI generated code
+written anytime soon. At least I hope so..
 
-<H4 title="Our good state" />
-![the site working initially](../../assets/git-bisect/site-working.png)
-And let's assume that this state was back in some random commit with hash `e4824da`.
+However when stakes are lower maybe we could afford to dip into the fobidden fruit, right?
+Sure the code quality could take a hit but who cares? I mean, technically given enough tokens/iterations maybe either by pure chance
+or struggle AI could manage to satisfy our needs, they are after all probabilistic. Lets assume costs/development time increases,
+but lets focus on the fact we didn't need to think much of **implementation details**. Isn't that a net positive?
 
-<H4 title="All hell broke loose" />
-Some time passes by, more commits are coming in and everything is working. However after a while we notice that the site looks like this...
-![the site that is now broken](../../assets/git-bisect/site-broken.png)
+Well it depends... <a href="https://www.anthropic.com/research/AI-assistance-coding-skills">Research</a>
+so far suggests that aggresively delegating your coding tasks to AI impacts your skill formation.
+
+<div class="flex flex-col justify-center items-center">
+	<ImageZoom client:load>
+		<Image src={research} alt="anthropic research on how ai impacts skill formation" class="w-200" />
+	</ImageZoom>
+	<p><i>Note: Click twice to zoom</i></p>
+</div>
+
+And its not suprising, the absence of struggle on learning something new
+**always** hinders progression. If I want to improve at understanding code (at least
+the "tough" parts) not writting it myself is the best way to slowly fade in obscurity.
+
+<H2 title="Not all coding tasks are the same" />
+To avoid the fear mongering, we need to address that not all coding tasks are the same.
+If you managed to re-style that blue button into red or you made another
+CRUD app for the 100th time, you can safely delegate it into AI you are not missing
+out anything. In fact AI may end up doing a better job as well for these since the examples are countless out there.
+
+However if you haven't made any CRUD app before and you need to learn how, using AI to
+**specifically write code** for you, then you definitely doing yourself a disservice, you are not
+going fast you are just wasting fuel.
+
+For example in my home server I'm hosting a modded <a href="https://en.wikipedia.org/wiki/Palworld">PalWorld</a> server
+to play with friends. Because the game is in early access updating the server on a newer version could break the
+clients and it demands some manual steps depending on the version.
+
+I really don't care on how the specifics of that works, neither I want
+to delegate time to learn how to, which makes it a perfect candinate to use AI for it.
 
 We notice that there are two new bugs appearing compared to the old version:
 ![differences](../../assets/git-bisect/differences.png)
-
-We are puzzled by how long these issues had persisted and which specific commit might
-have introduced them. Its time to use `git bisect` <Image src={amazedFace} alt="amazed face" style={"width: 35px;display: inline;margin: 0; transform: scaleX(-1)"} />
-```sh
-> git bisect start
-```
-Let's try and resolve the first issue regarding the missing styles, we will need to know the
-commits for our <b>good</b> and <b>bad</b> states. So we `git log` to find the hash of our commits/states.
-
-```sh
-> git log --oneline
-
-d138661 (HEAD -> master) chore: update project desc  <-- We will mark this as "bad"
-a8b9468 chore: version bump
-321c4d7 fix: change the date for all the links
-d68679a feat: change the date
-162f406 chore: remove more comments
-19f6b7f feat: change the name
-1e094ed fix: month should be in aug
-a9c3f07 fix: wrong address in footer
-e4824da chore: remove comments                      <-- We will mark this as "good"
-0d4fb6b feat: add test cases
-437c478 feat: add jest and jsdom depedencies
-a971818 Initial commit
-```
-We will mark `d138661` (master) as "bad" commit/state as we've confirmed that our site is broken while on it.
-```sh
-> git bisect bad d138661
-```
-<Note title="Note">
-    ```sh
-    > git bisect bad
-    ```
-    <br/>
-    If we don't add a commit number, Git will use the current branch as the 'bad' commit.
-</Note>
-Likewise we will mark `e4824da` as "good" because we're certain that when we are on that commit everything is fine.
-```sh
-> git bisect good e4824da
-Bisecting: 3 revisions left to test after this (roughly 2 steps)
-[162f40681aff305047e94fd6649693135b11b717] chore: remove more comments
-```
-Now we see that Git has automatically checked out a commit right in the middle of our two states.
-```sh
-❯ git status
-HEAD detached at 162f406
-You are currently bisecting, started from branch 'master'.
-  (use "git bisect reset" to get back to the original branch)
-```
-We check if our site's styles are applied but it seems that the issue persisted so we mark the commit as bad
-```sh
-> git bisect bad
-Bisecting: 1 revision left to test after this (roughly 1 step)
-[1e094edc1a54fa883e68a937c7ad96d095bf2a0d] fix: month should be in aug
-```
-We check again but no luck...So we mark this commit as bad as well and we continue
-```sh
-> git bisect bad
-Bisecting: 0 revisions left to test after this (roughly 0 steps)
-[a9c3f0710e25f4d2c77abe95ca534d936668f0d7] fix: wrong address in footer
-```
-We check our site and our styles are back!! We mark this commit as "good" and
-by that `git bisect` gives us the <b>first</b> "bad" commit.
-```sh
-> git bisect good
-1e094edc1a54fa883e68a937c7ad96d095bf2a0d is the first bad commit
-commit 1e094edc1a54fa883e68a937c7ad96d095bf2a0d
-Author: cloud-np <nipa04@betssongroup.com>
-Date:   Tue Sep 24 15:47:01 2024 +0200
-
-    fix: month should be in aug
-
-    ref: #T-31
-
- index.html | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-```
-Now we found our faulty commit and finish the process with:
-```sh
-git bisect reset
-```
-But let's investigate the faulty commit.
-```sh {18}
-❯ git show 1e094edc1a54fa883e68a937c7ad96d095bf2a0d
-Author: cloud-np <random@mail.com>
-Date:   Tue Sep 24 15:47:01 2024 +0200
-
-    fix: month should be in aug
-
-    ref: #T-31
-
-diff --git a/index.html b/index.html
-index 7d86d29..1ffcdc3 100644
---- a/index.html
-+++ b/index.html
-@@ -4,7 +4,7 @@
-                <title>Massively by HTML5 UP</title>
-                <meta charset="utf-8" />
-                <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
--               <link rel="stylesheet" href="assets/css/main.css" />
-+               <link rel="stylesheet" href="assets/css/maincss" />
-                <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
-        </head>
-        <body class="is-preload">
-```
-We can see that we accidentally messed up the link reference 🤦. Now that we found the culprit lets remove it.
 
 ```sh
 > git rebase -i 1e094edc1a54fa883e68a937c7ad96d095bf2a0d^
@@ -279,19 +206,9 @@ Now we can remove this faulty commit the same way we did before:
 > git rebase -i 687e5eb387387eb6476e4bf59b348e14159217a8^
 ```
 
-Finally let's again our site again:
-![site working again](../../assets/git-bisect/site-working.png)
+Sure one could argue our job becomes more **reactive** vs **generative** and the creativeness slowly
+fades since we now reacting on issues produces from the LLM output rather than thinking but who cares our job just become easier right?
 
-<H3 title="Conclusion" />
-Git bisect is a really useful tool for efficiently tracking down bugs in large codebases.
-Although in these trivial examples above it could not be that obvious straight away. By leveraging its binary
-search algorithm, we can save time and frustration when debugging. Whether used manually
-or with automation, `git bisect` could be a very usefull toolkit especially when you need to indentify which commit
-to revert fast.
-
-Remember, the key to effective debugging is not just finding the bug, but understanding why it occurred.
-Once we've identified the problematic commit with `git bisect` and resolve the issue, we can take the time to analyze the changes and
-prevent similar issues in the future.
 
 *Well maybe we should delegate the work of thinking about what to delegate to AI to AI itself.*
 
@@ -301,3 +218,7 @@ is going to try to tackle any problem he may be facing.
 <Note title="Note">
 	"LLMs are probabilistic models which generate a completion to a prompt, they do this one token at a time and produce non-deterministic results."
 </Note>
+
+## Nice closer
+Unless AI will become fully autonomous on writting software this won't be changing anytime soon.
+You'll still need to struggle if you want to improve at coding.
