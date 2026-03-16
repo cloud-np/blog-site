@@ -1,8 +1,8 @@
 
 export default new Map([
 ["src/content/blog/ai-replace.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Fblog%2Fai-replace.mdx&astroContentModuleFlag=true")],
-["src/content/blog/async-angular-signals.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Fblog%2Fasync-angular-signals.mdx&astroContentModuleFlag=true")],
 ["src/content/blog/angular-signals.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Fblog%2Fangular-signals.mdx&astroContentModuleFlag=true")],
+["src/content/blog/async-angular-signals.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Fblog%2Fasync-angular-signals.mdx&astroContentModuleFlag=true")],
 ["src/content/blog/wsl2-with-corporate-vpn.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Fblog%2Fwsl2-with-corporate-vpn.mdx&astroContentModuleFlag=true")],
 ["src/content/blog/git-bisect.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Fblog%2Fgit-bisect.mdx&astroContentModuleFlag=true")]]);
 		

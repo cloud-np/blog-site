@@ -17,7 +17,7 @@ import Planets from "@components/interactive/Planets/Planets.astro";
 import BentoCard from "@components/content/BentoCard.astro";
 import Slider from "@components/interactive/Slider.svelte";
 import Chess from "@components/interactive/Chess/Chess.svelte";
-import { Image } from "astro:assets";
+import { Image, getImage } from "astro:assets";
 import { Helpers } from "@utils/helpers";
 import "../styles/index.css";
 
@@ -28,6 +28,15 @@ const seo = {
 
 const allPosts = await getPosts(undefined);
 const posts = allPosts.filter(post => !post.data.personal);
+
+const postImages = await Promise.all(
+	posts.slice(0, 8).map(async post => {
+		const thumb = await getImage({ src: post.data.previewImage, width: 80, height: 80, format: "webp" });
+		const bg = await getImage({ src: post.data.previewImage, width: 100, format: "webp", quality: 30 });
+		return { slug: post.slug, thumb, bg };
+	}),
+);
+const postImageMap = Object.fromEntries(postImages.map(p => [p.slug, p]));
 
 const galleryImages = [
 	{ src: abyss, alt: "Abyss signature" },
@@ -95,15 +104,15 @@ const galleryImages = [
 					class="freelance-showcase relative flex h-52 w-full items-center justify-center overflow-hidden">
 					<div
 						class="absolute h-32 w-48 -translate-x-6 translate-y-2 -rotate-6 overflow-hidden rounded-lg opacity-70 shadow-lg transition-transform duration-300 hover:scale-105">
-						<Image class="h-full w-full object-cover" src={aktis} alt="Aktis logo design" />
+						<Image class="h-full w-full object-cover" src={aktis} alt="Aktis logo design" width={384} height={256} format="webp" />
 					</div>
 					<div
 						class="absolute h-32 w-48 translate-x-4 -translate-y-2 rotate-3 overflow-hidden rounded-lg opacity-80 shadow-lg transition-transform duration-300 hover:scale-105">
-						<Image class="h-full w-full object-cover" src={pumkin} alt="Οινοθέη logo design" />
+						<Image class="h-full w-full object-cover" src={pumkin} alt="Οινοθέη logo design" width={384} height={256} format="webp" />
 					</div>
 					<div
 						class="relative z-10 h-32 w-48 overflow-hidden rounded-lg border border-white/10 shadow-xl transition-transform duration-300 hover:scale-105">
-						<Image class="h-full w-full object-cover" src={abyss} alt="Abyss signature" />
+						<Image class="h-full w-full object-cover" src={abyss} alt="Abyss signature" width={384} height={256} format="webp" />
 					</div>
 				</div>
 				With a perfect score when it comes to customer satisfaction, I pride myself in delivering only the best for
@@ -114,7 +123,7 @@ const galleryImages = [
 						{
 							galleryImages.map(image => (
 								<div class="gallery-item" data-slide>
-									<Image class="gallery-image" draggable={false} src={image.src} alt={image.alt} />
+									<Image class="gallery-image" draggable={false} src={image.src} alt={image.alt} width={240} height={160} format="webp" />
 								</div>
 							))
 						}
@@ -148,12 +157,15 @@ const galleryImages = [
 								class="post-row hero-table-row group relative flex items-center justify-between overflow-hidden border-b border-white/5 py-2 transition-colors duration-200 hover:border-white/15">
 								<div
 									class="post-row-bg pointer-events-none absolute inset-0 bg-cover bg-center opacity-0 transition-opacity duration-300 group-hover:opacity-25"
-									style={`background-image: url(${post.data.previewImage.src});`}
+									style={`background-image: url(${postImageMap[post.slug]?.bg.src ?? post.data.previewImage.src});`}
 								/>
 								<div class="relative z-10 flex items-center gap-3 overflow-hidden">
-									<img
-										src={post.data.previewImage.src}
+									<Image
+										src={post.data.previewImage}
 										alt={`Preview image for ${post.data.title}`}
+										width={80}
+										height={80}
+										format="webp"
 										class="h-10 w-10 shrink-0 rounded-md object-cover opacity-50 transition-opacity duration-200 group-hover:opacity-90"
 									/>
 									<span class="truncate text-sm text-neutral-300 transition-colors duration-200 group-hover:text-white">
