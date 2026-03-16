@@ -38,6 +38,7 @@
 	onkeydown={e => e.key === "Enter" && handleClick()}
 	role="button"
 	tabindex="0"
+	aria-label="{tile?.squareName}{tile?.piece?.type && tile.piece.type !== 'empty' ? ` - ${tile.piece.color} ${tile.piece.type}` : ''}"
 	style="height: {squareSize}px; width: {squareSize}px;">
 	{#if isClicked}
 		<span
@@ -55,7 +56,8 @@
 			decoding="async"
 			fetchpriority="low"
 			class="piece clickable"
-			style="width: {squareSize}px;"
+			width={squareSize}
+			height={squareSize}
 			src={tile.piece.imgSrc.src}
 			alt={tile.piece.type}
 			role="button"

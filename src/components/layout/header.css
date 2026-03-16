@@ -1,6 +1,5 @@
 #nav-header {
 	transition: transform ease-in 400ms;
-	background-color: var(--c-bg_dark);
 }
 .opened {
 	pointer-events: all;
