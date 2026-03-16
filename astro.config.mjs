@@ -9,8 +9,6 @@ import svelte from '@astrojs/svelte';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 
-import partytown from '@astrojs/partytown';
-
 import tailwindcss from '@tailwindcss/vite';
 import playformCompress from '@playform/compress';
 
@@ -28,11 +26,6 @@ export default defineConfig({
 			iconDir: 'src/assets/icons',
 		}),
 		svelte({ extensions: ['.svelte'] }),
-		partytown({
-			config: {
-				forward: ["gtag", "dataLayer.push"], // Needed for GA
-			}
-		}),
 		playformCompress(),
 	],
 	vite: {

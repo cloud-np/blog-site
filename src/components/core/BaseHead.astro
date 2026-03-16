@@ -213,10 +213,8 @@ const nofollow = Astro.props.nofollow || false;
 <meta name="theme-color" content="#000000" />
 <meta name="msapplication-TileColor" content="#000000" />
 
-<!-- Partytown installs 3rd party libs using a WebWorker so we don't mind loading this first -->
-<script is:inline type="text/partytown" src="https://www.googletagmanager.com/gtag/js?id=G-G8SYECNPWT"></script>
-
 <!-- Google Analytics - Always load but with denied consent by default -->
+<!--
 <script is:inline type="text/partytown">
 	// Define dataLayer and the gtag function.
 	window.dataLayer = window.dataLayer || [];
@@ -232,3 +230,4 @@ const nofollow = Astro.props.nofollow || false;
 	window.gtag("js", new Date());
 	window.gtag("config", "G-G8SYECNPWT");
 </script>
+ -->
