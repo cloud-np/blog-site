@@ -1,5 +1,5 @@
 import { type ActionAPIContext } from 'astro:actions';
-import { z } from 'astro:schema';
+import { z } from 'astro/zod';
 import { ActionError } from 'astro:actions';
 import type { ContactDuplicateDetector } from 'src/actions2/contact/contact-duplicate-detector';
 import type { RateLimiter } from '@libs/security/rate-limiter';

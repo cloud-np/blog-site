@@ -1,4 +1,4 @@
-import { z } from "astro:schema";
+import { z } from "astro/zod";
 
 const DISPOSABLE_EMAIL_DOMAINS = [
 	'10minutemail.com', 'tempmail.org', 'guerrillamail.com',
