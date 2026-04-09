@@ -9,6 +9,7 @@ import svelte from '@astrojs/svelte';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 
+import node from '@astrojs/node';
 import tailwindcss from '@tailwindcss/vite';
 import playformCompress from '@playform/compress';
 
@@ -46,5 +47,7 @@ export default defineConfig({
 		prefetchAll: true
 	},
 	output: 'static',
-	plugins: [],
+	adapter: node({
+		mode: 'standalone',
+	}),
 });
