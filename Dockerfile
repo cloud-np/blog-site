@@ -37,12 +37,12 @@ ENV ASTRO_TELEMETRY_DISABLED=1
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 astro
 
-# Copy package files and install production dependencies
+# Copy package files and the builder's working dependency layout.
+# Reinstalling with pnpm --prod drops the top-level link for
+# @astrojs/internal-helpers, which the generated server entry imports.
 COPY --from=builder /app/package.json ./package.json
 COPY --from=builder /app/pnpm-lock.yaml ./pnpm-lock.yaml
-
-# Install only production dependencies
-RUN pnpm install --prod --frozen-lockfile
+COPY --from=builder /app/node_modules ./node_modules
 
 # Copy the built application
 COPY --from=builder --chown=astro:nodejs /app/dist ./dist
