@@ -1,19 +1,24 @@
 ---
-import Container from "@components/containers/Container.astro";
 import { Helpers } from "../../utils/helpers";
 import Header from "../../components/layout/Header.astro";
-import SharePost from "@components/post/SharePost.astro";
 import { Picture } from "astro:assets";
 import { getPosts, type Post } from "../../libs/post";
 import { type CollectionEntry, render } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import SharePost from "@components/post/SharePost.astro";
+import Share from "@components/interactive/Share.svelte";
 import "@styles/post.css";
+import MdxHeadingH1 from "@components/common/MdxHeading/MdxHeadingH1.astro";
+import MdxHeadingH2 from "@components/common/MdxHeading/MdxHeadingH2.astro";
+import MdxHeadingH3 from "@components/common/MdxHeading/MdxHeadingH3.astro";
+import MdxHeadingH4 from "@components/common/MdxHeading/MdxHeadingH4.astro";
+import MdxHeadingH5 from "@components/common/MdxHeading/MdxHeadingH5.astro";
+import MdxHeadingH6 from "@components/common/MdxHeading/MdxHeadingH6.astro";
 
 export async function getStaticPaths() {
 	const allPosts = await getPosts(undefined);
 	const posts: Post[] = allPosts.filter(post => !post.data.personal);
 
-	// map through the categories array
 	return posts.map(post => ({
 		params: { slug: post.slug },
 		props: { post },
@@ -22,6 +27,16 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content } = await render(post as CollectionEntry<"blog">);
+const shareUrl = Astro.url.toString();
+
+const mdxComponents = {
+	h1: MdxHeadingH1,
+	h2: MdxHeadingH2,
+	h3: MdxHeadingH3,
+	h4: MdxHeadingH4,
+	h5: MdxHeadingH5,
+	h6: MdxHeadingH6,
+};
 
 const seo = {
 	title: post.data.title,
@@ -29,51 +44,100 @@ const seo = {
 	image: post.data.titleImage.src,
 	section: post.data.category,
 	publishedTime: post.data.publishedAt.toISOString(),
-	tags: post.data.searchCategories,
 };
 ---
 
 <BaseLayout seo={seo}>
 	<Header slot="header" />
-	<Container>
-		<article class="post-content__article">
-			<div class="fade-in flex flex-col items-center text-center">
-				{
-					post.data.category && (
-						<a
-							href={`/blog/category/${Helpers.slugify(post.data.category)}`}
-							class="text-xs tracking-widest text-neutral-500 uppercase transition-colors duration-200 hover:text-neutral-300">
-							{post.data.category}
-						</a>
-					)
-				}
-				<h1 class="post-content__title">{post.data.title}</h1>
-				<p class="flex items-center gap-2 text-xs text-neutral-600">
-					<time datetime={post.data.publishedAt.toISOString()}>
-						{Helpers.formatDate(post.data.publishedAt)}
-					</time>
-					<span>&middot;</span>
-					<span>{post.minutesRead} read</span>
-				</p>
+	<article class="mx-auto w-full max-w-6xl px-4 pb-16 sm:px-6 lg:px-8">
+		{
+			post.data.titleImage && (
+				<div class="relative mt-8 mb-12 flex min-h-80 max-h-80 w-full items-center justify-center overflow-hidden rounded-[2rem] border border-white/10 bg-neutral-950 shadow-[0_24px_80px_rgba(0,0,0,0.35)]">
+					<Picture
+						src={post.data.titleImage}
+						alt={`Featured for ${post.data.title}`}
+						formats={["webp", "png"]}
+						class="h-auto w-full object-contain"
+						loading="eager"
+						width={post.data.titleImage.width}
+						height={post.data.titleImage.height}
+					/>
+					<div class="absolute inset-0 bg-gradient-to-t from-black via-black/55 to-black/10" />
+					<div class="absolute inset-x-0 bottom-0 p-6 sm:p-8 lg:p-10">
+						{post.data.category && (
+							<a
+								href="/blog"
+								class="inline-flex rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs font-medium tracking-[0.18em] text-white/85 uppercase backdrop-blur-sm transition hover:bg-white/15">
+								{post.data.category}
+							</a>
+						)}
+						<h1 class="mt-4 max-w-4xl text-4xl font-semibold tracking-tight text-white sm:text-5xl lg:text-6xl">
+							{post.data.title}
+						</h1>
+						<div class="mt-4 flex flex-wrap items-center gap-3 text-sm text-neutral-200 sm:text-base">
+							<time datetime={post.data.publishedAt.toISOString()}>
+								{Helpers.formatDate(post.data.publishedAt)}
+							</time>
+							<span class="text-neutral-400" aria-hidden="true">
+								&middot;
+							</span>
+							<span>{post.minutesRead} read</span>
+						</div>
+					</div>
+					<div class="absolute top-4 left-4 sm:top-6 sm:left-6">
+						<button
+							type="button"
+							class="cursor-pointer inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-black/35 text-white backdrop-blur-sm transition hover:bg-black/55"
+							aria-label="Go back"
+							onclick="history.length > 1 ? history.back() : location.assign('/')">
+							<svg
+								viewBox="0 0 24 24"
+								class="h-4 w-4"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2.2"
+								stroke-linecap="round"
+								stroke-linejoin="round">
+								<path d="M15 18l-6-6 6-6" />
+							</svg>
+						</button>
+					</div>
+					<div class="absolute top-4 right-4 sm:top-6 sm:right-6">
+						<button
+							type="button"
+							class="cursor-pointer inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-black/35 text-white backdrop-blur-sm transition hover:bg-black/55"
+							aria-label="Share post"
+							onclick="window.dispatchEvent(new Event('open-share-modal'))">
+							<svg
+								viewBox="0 0 24 24"
+								fill="none"
+								class="h-4 w-4"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round">
+								<circle cx="18" cy="5" r="3" />
+								<circle cx="6" cy="12" r="3" />
+								<circle cx="18" cy="19" r="3" />
+								<line x1="8.6" y1="13.5" x2="15.4" y2="17.5" />
+								<line x1="15.4" y1="6.5" x2="8.6" y2="10.5" />
+							</svg>
+						</button>
+					</div>
+				</div>
+			)
+		}
 
-				{
-					post.data.titleImage && (
-						<Picture
-							src={post.data.titleImage}
-							alt={`Featured for ${post.data.title}`}
-							formats={["webp", "png"]}
-							class="post-content__img"
-							loading="eager"
-							width={post.data.titleImage.width}
-							height={post.data.titleImage.height}
-						/>
-					)
-				}
+		<div class="post-content__article">
+			<div class="post-content__content fade-in">
+				<Content components={mdxComponents} />
 			</div>
-			<div class="post-content__content flow fade-in">
-				<Content />
+
+			<div id="post-share">
+				<SharePost postTitle={post.data.title} />
 			</div>
-		</article>
-		<SharePost postTitle={post.data.title} />
-	</Container>
+		</div>
+
+		<Share client:load url={shareUrl} title={post.data.title} />
+	</article>
 </BaseLayout>

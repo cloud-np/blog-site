@@ -1,0 +1,41 @@
+---
+interface Props {
+	as?: keyof HTMLElementTagNameMap;
+	id?: string;
+	class?: string;
+	[key: string]: unknown;
+}
+
+const { as = "h2", id, class: className, ...restProps } = Astro.props as Props;
+const Tag = as;
+
+const rawTitle = Astro.slots.has("default") ? await Astro.slots.render("default") : "";
+
+const slugify = (text: string): string => {
+	return text
+		.toString()
+		.toLowerCase()
+		.trim()
+		.replace(/<[^>]*>/g, "")
+		.replace(/&amp;/g, "&")
+		.replace(/\s+/g, "-")
+		.replace(/&/g, "-and-")
+		.replace(/[^\w-]+/g, "")
+		.replace(/--+/g, "-")
+		.replace(/^-+|-+$/g, "");
+};
+
+const computedId = id || slugify(rawTitle) || "";
+const classes = ["group relative", className].filter(Boolean).join(" ");
+---
+
+<Tag id={computedId} class={classes} {...restProps}>
+	{computedId && (
+		<a
+			href={`#${computedId}`}
+			class="absolute right-full invisible flex flex-col justify-center p-[5px_10px_5px_5px] opacity-0 transition-opacity group-hover:visible group-hover:opacity-100"
+			aria-hidden="true"
+			tabindex="-1">#</a>
+	)}
+	<slot />
+</Tag>
