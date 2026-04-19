@@ -96,7 +96,7 @@ const galleryImages = [
 					View Publication
 				</a>
 
-				<TaskScheduling slot="preTitle" client:load />
+				<TaskScheduling slot="preTitle" client:only="svelte" />
 			</BentoCard>
 			<BentoCard title="Freelancing and web design" hasFooter={true} colSpanBigger>
 				<div
@@ -104,15 +104,15 @@ const galleryImages = [
 					class="freelance-showcase relative flex h-52 w-full items-center justify-center overflow-hidden">
 					<div
 						class="absolute h-32 w-48 -translate-x-6 translate-y-2 -rotate-6 overflow-hidden rounded-lg opacity-70 shadow-lg transition-transform duration-300 hover:scale-105">
-						<Image class="h-full w-full object-cover" src={aktis} alt="Aktis logo design" width={384} height={256} format="webp" />
+						<Image class="h-full w-full object-cover" src={aktis} alt="Aktis logo design" width={256} height={170} format="webp"  />
 					</div>
 					<div
 						class="absolute h-32 w-48 translate-x-4 -translate-y-2 rotate-3 overflow-hidden rounded-lg opacity-80 shadow-lg transition-transform duration-300 hover:scale-105">
-						<Image class="h-full w-full object-cover" src={pumkin} alt="Οινοθέη logo design" width={384} height={256} format="webp" />
+						<Image class="h-full w-full object-cover" src={pumkin} alt="Οινοθέη logo design" width={256} height={170} format="webp"  />
 					</div>
 					<div
 						class="relative z-10 h-32 w-48 overflow-hidden rounded-lg border border-white/10 shadow-xl transition-transform duration-300 hover:scale-105">
-						<Image class="h-full w-full object-cover" src={abyss} alt="Abyss signature" width={384} height={256} format="webp" />
+						<Image class="h-full w-full object-cover" src={abyss} alt="Abyss signature" width={256} height={170} format="webp"  />
 					</div>
 				</div>
 				With a perfect score when it comes to customer satisfaction, I pride myself in delivering only the best for
@@ -123,7 +123,7 @@ const galleryImages = [
 						{
 							galleryImages.map(image => (
 								<div class="gallery-item" data-slide>
-									<Image class="gallery-image" draggable={false} src={image.src} alt={image.alt} width={240} height={160} format="webp" />
+									<Image class="gallery-image" draggable={false} src={image.src} alt={image.alt} width={144} height={100} format="webp"  />
 								</div>
 							))
 						}
@@ -138,8 +138,8 @@ const galleryImages = [
 				chessnp.com lets users replay famous historical chess matches and play against a custom AI chess engine built
 				entirely from scratch using Go.
 				<div class="flex flex-col items-center justify-center" slot="footer">
-					<Chess client:load />
-					<p class="text-gray-500 line-through">Visit chessnp.com</p>
+					<Chess client:only="svelte" />
+					<p class="text-gray-400 line-through">Visit chessnp.com</p>
 				</div>
 			</BentoCard>
 		</div>
@@ -147,7 +147,7 @@ const galleryImages = [
 
 	<section class="container mt-20 flex flex-col justify-center gap-6 px-6">
 		<div>
-			<h2 class="mb-4 text-xs tracking-widest text-neutral-500 uppercase">Posts</h2>
+			<h2 class="mb-4 text-xs tracking-widest text-neutral-400 uppercase">Posts</h2>
 			<ul class="flex flex-col gap-0">
 				{
 					posts.slice(0, 8).map(post => (
@@ -168,11 +168,11 @@ const galleryImages = [
 										format="webp"
 										class="h-10 w-10 shrink-0 rounded-md object-cover opacity-50 transition-opacity duration-200 group-hover:opacity-90"
 									/>
-									<span class="truncate text-sm text-neutral-300 transition-colors duration-200 group-hover:text-white">
+									<span class="truncate text-sm text-neutral-200 transition-colors duration-200 group-hover:text-white">
 										{post.data.title}
 									</span>
 								</div>
-								<span class="relative z-10 ml-4 shrink-0 text-xs text-neutral-600 tabular-nums">
+								<span class="relative z-10 ml-4 shrink-0 text-xs text-neutral-400 tabular-nums">
 									{Helpers.formatDate(post.data.publishedAt)}
 								</span>
 							</a>

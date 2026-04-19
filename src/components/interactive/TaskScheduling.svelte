@@ -12,7 +12,6 @@
 		processor: ProcessorId;
 	};
 
-	let isExpanded = $state(false);
 	let hoveredTask: Task | null = $state(null);
 	let popoverPosition = $state({ x: 0, y: 0 });
 	let isReloading = $state(false);
@@ -76,10 +75,6 @@
 		hoveredTask = null;
 	}
 
-	function hover(): number {
-		return 0;
-	}
-
 	function handleReload() {
 		isReloading = true;
 		// Reset animation after it completes (4 tasks * 200ms delay + 300ms animation = ~1.1s)
@@ -108,7 +103,7 @@
 		<!-- P1 Tasks -->
 		{#each p1Tasks as task, i}
 			<button
-				aria-label={"Task-" + i}
+				aria-label={task.id ? `Task ${task.id} on P1, ${task.start}-${task.end}` : `P1 task ${i + 1}, ${task.start}-${task.end}`}
 				class="task task-p1 {!!task.id && 'open'} {task.id && isReloading ? 'loading' : ''}"
 				style="left: {getLeft(task.start)}%; width: {getWidth(task.start, task.end)}%; {task.id ? `animation-delay: ${getAnimationDelay(task.id)}ms;` : ''}"
 				onmouseenter={(e) => handleMouseEnter(e, task, 'P1')}
@@ -118,13 +113,13 @@
 
 		<!-- P2 Tasks -->
 		{#each p2Tasks as task, i}
-			<div
-				role="tooltip"
+			<button
+				aria-label={task.id ? `Task ${task.id} on P2, ${task.start}-${task.end}` : `P2 task ${i + 1}, ${task.start}-${task.end}`}
 				class="task task-p2 {!!task.id && 'open'} {task.id && isReloading ? 'loading' : ''}"
 				style="left: {getLeft(task.start)}%; width: {getWidth(task.start, task.end)}%; {task.id ? `animation-delay: ${getAnimationDelay(task.id)}ms;` : ''}"
 				onmouseenter={(e) => handleMouseEnter(e, task, 'P2')}
 				onmouseleave={handleMouseLeave}>
-			</div>
+			</button>
 		{/each}
 	</div>
 	<div class="mt-4 flex flex-col gap-3.5 justify-center">

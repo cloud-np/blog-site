@@ -21,7 +21,7 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
-const { Content, headings } = await render(post as CollectionEntry<"blog">);
+const { Content } = await render(post as CollectionEntry<"blog">);
 
 const seo = {
 	title: post.data.title,

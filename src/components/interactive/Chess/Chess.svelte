@@ -128,8 +128,6 @@
 	}
 
 	function handlePieceClick(squareName: string) {
-		const tile = findTile(squareName);
-
 		// If no square is selected, select this piece's square
 		if (!selectedSquare) {
 			selectedSquare = squareName;

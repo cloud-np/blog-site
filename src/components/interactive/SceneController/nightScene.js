@@ -54,15 +54,7 @@ class GradientCirclePainter {
 }
 
 export default function startNightScene(canvas) {
-    const circlePainter = new GradientCirclePainter(canvas);
-
     //Helpers
-    function lineToAngle(x1, y1, length, radians) {
-        var x2 = x1 + length * Math.cos(radians),
-            y2 = y1 + length * Math.sin(radians);
-        return { x: x2, y: y2 };
-    }
-
     function randomRange(min, max) {
         return min + Math.random() * (max - min);
     }
@@ -119,25 +111,23 @@ export default function startNightScene(canvas) {
         width = canvas.width = window.innerWidth,
         height = canvas.height = window.innerHeight,
         stars = [],
-        shootingStars = [],
         layers = [
             { speed: 0.015, scale: 0.2, count: 320 },
             { speed: 0.03, scale: 0.5, count: 50 },
             { speed: 0.05, scale: 0.75, count: 30 }
         ],
         starsAngle = 145,
-        shootingStarSpeed = {
-            min: 15,
-            max: 20
-        },
-        shootingStarOpacityDelta = 0.01,
-        trailLengthDelta = 0.01,
-        shootingStarEmittingInterval = 2000,
-        shootingStarLifeTime = 500,
-        maxTrailLength = 300,
         starBaseRadius = 2,
-        shootingStarRadius = 3,
         paused = false;
+
+    // Pre-render static background (planet + moons) to an offscreen canvas
+    var bgCanvas = document.createElement("canvas");
+    bgCanvas.width = width;
+    bgCanvas.height = height;
+    var bgPainter = new GradientCirclePainter(bgCanvas);
+    bgPainter.drawBigPlanet();
+    bgPainter.drawMoon(0.05, 0.4, 0.2, 0.67);
+    bgPainter.drawMoon(3.04, 0, 1.6, 0.40);
 
     //Create all stars
     for (let j = 0; j < layers.length; j++) {
@@ -151,143 +141,49 @@ export default function startNightScene(canvas) {
         }
     }
 
-    function createShootingStar() {
-        let shootingStar = particle.create(randomRange(width / 2, width), randomRange(0, height / 3), 0, 0);
-        shootingStar.setSpeed(randomRange(shootingStarSpeed.min, shootingStarSpeed.max));
-        shootingStar.setHeading(degreesToRads(starsAngle));
-        shootingStar.radius = shootingStarRadius;
-        shootingStar.opacity = 0;
-        shootingStar.trailLengthDelta = 0;
-        shootingStar.isSpawning = true;
-        shootingStar.isDying = false;
-        shootingStars.push(shootingStar);
-    }
+    // Throttle to ~20fps (50ms interval) — stars are too slow to need 60fps
+    var FRAME_INTERVAL = 50;
+    var lastFrameTime = 0;
+    // Pause when canvas is off-screen
+    var observer = new IntersectionObserver(function (entries) {
+        paused = !entries[0].isIntersecting;
+    }, { threshold: 0 });
+    observer.observe(canvas);
 
-    function killShootingStar(shootingStar) {
-        setTimeout(function () {
-            shootingStar.isDying = true;
-        }, shootingStarLifeTime);
-    }
+    // Respect prefers-reduced-motion
+    var prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    function update() {
+    function update(timestamp) {
         if (!paused) {
-            context.clearRect(0, 0, width, height);
-            context.fillRect(0, 0, width, height);
-            context.fill();
-            // drawGradientCircle(canvas, context);
-            circlePainter.drawBigPlanet();
-            // Left moon
-            circlePainter.drawMoon(0.05, 0.4, 0.2, 0.67);
-            // Right moon
-            circlePainter.drawMoon(3.04, 0, 1.6, 0.40);
+            if (timestamp - lastFrameTime >= FRAME_INTERVAL) {
+                lastFrameTime = timestamp;
 
-            for (let i = 0; i < stars.length; i += 1) {
-                let star = stars[i];
-                star.update();
-                drawStar(star);
-                if (star.x > width) {
-                    star.x = 0;
-                }
-                if (star.x < 0) {
-                    star.x = width;
-                }
-                if (star.y > height) {
-                    star.y = 0;
-                }
-                if (star.y < 0) {
-                    star.y = height;
-                }
-            }
+                context.clearRect(0, 0, width, height);
+                // Draw cached background in one call
+                context.drawImage(bgCanvas, 0, 0);
 
-            for (let i = 0; i < shootingStars.length; i += 1) {
-                var shootingStar = shootingStars[i];
-                if (shootingStar.isSpawning) {
-                    shootingStar.opacity += shootingStarOpacityDelta;
-                    if (shootingStar.opacity >= 1.0) {
-                        shootingStar.isSpawning = false;
-                        killShootingStar(shootingStar);
-                    }
+                context.fillStyle = "#ebfbff";
+                context.beginPath();
+                for (let i = 0; i < stars.length; i += 1) {
+                    let star = stars[i];
+                    star.update();
+                    // Batch all stars into a single path
+                    context.moveTo(star.x + star.radius, star.y);
+                    context.arc(star.x, star.y, star.radius, 0, Math.PI * 2, false);
+                    if (star.x > width) star.x = 0;
+                    else if (star.x < 0) star.x = width;
+                    if (star.y > height) star.y = 0;
+                    else if (star.y < 0) star.y = height;
                 }
-                if (shootingStar.isDying) {
-                    shootingStar.opacity -= shootingStarOpacityDelta;
-                    if (shootingStar.opacity <= 0.0) {
-                        shootingStar.isDying = false;
-                        shootingStar.isDead = true;
-                    }
-                }
-                shootingStar.trailLengthDelta += trailLengthDelta;
-
-                shootingStar.update();
-                if (shootingStar.opacity > 0.0) {
-                    drawShootingStar(shootingStar);
-                }
-            }
-
-            //Delete dead shooting shootingStars
-            for (let i = shootingStars.length - 1; i >= 0; i--) {
-                if (shootingStars[i].isDead) {
-                    shootingStars.splice(i, 1);
-                }
+                context.fill();
             }
         }
+
+        // If user prefers reduced motion, render one frame and stop
+        if (prefersReducedMotion) return;
+
         requestAnimationFrame(update);
     }
 
-    function drawStar(star) {
-        context.fillStyle = "#ebfbff";
-        context.beginPath();
-        context.arc(star.x, star.y, star.radius, 0, Math.PI * 2, false);
-        context.fill();
-    }
-
-    function drawShootingStar(p) {
-        var x = p.x,
-            y = p.y,
-            currentTrailLength = (maxTrailLength * p.trailLengthDelta),
-            pos = lineToAngle(x, y, -currentTrailLength, p.getHeading());
-
-        context.fillStyle = "rgba(255, 255, 255, " + p.opacity + ")";
-        context.beginPath();
-        context.arc(x, y, p.radius, 0, Math.PI * 2, false);
-        context.fill();
-        var starLength = 5;
-        context.beginPath();
-        context.moveTo(x - 1, y + 1);
-
-        context.lineTo(x, y + starLength);
-        context.lineTo(x + 1, y + 1);
-
-        context.lineTo(x + starLength, y);
-        context.lineTo(x + 1, y - 1);
-
-        context.lineTo(x, y + 1);
-        context.lineTo(x, y - starLength);
-
-        context.lineTo(x - 1, y - 1);
-        context.lineTo(x - starLength, y);
-
-        context.lineTo(x - 1, y + 1);
-        context.lineTo(x - starLength, y);
-
-        context.closePath();
-        context.fill();
-
-        //trail
-        context.fillStyle = `rgba(235, 251, 255, ${p.opacity})`;
-        context.beginPath();
-        context.moveTo(x - 1, y - 1);
-        context.lineTo(pos.x, pos.y);
-        context.lineTo(x + 1, y + 1);
-        context.closePath();
-        context.fill();
-    }
-
-    //Run
-    update();
-
-    //Shooting stars
-    // setInterval(function () {
-    //     if (paused) return;
-    //     createShootingStar();
-    // }, shootingStarEmittingInterval);
+    requestAnimationFrame(update);
 }
