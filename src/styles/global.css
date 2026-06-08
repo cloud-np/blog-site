@@ -8,7 +8,7 @@
 	font-family: 'Inter';
 	font-style: normal;
 	font-weight: 400;
-	src: url('/fonts/inter-v19-greek_latin-regular.woff2') format('woff2');
+	src: url('../assets/fonts/inter-v19-greek_latin-regular.woff2') format('woff2');
 }
 
 /* inter-500 */
@@ -18,7 +18,7 @@
 	font-family: 'Inter';
 	font-style: normal;
 	font-weight: 500;
-	src: url('/fonts/inter-v19-latin-500.woff2') format('woff2');
+	src: url('../assets/fonts/inter-v19-latin-500.woff2') format('woff2');
 }
 
 /* inter-700 - greek_latin */
@@ -27,7 +27,7 @@
 	font-family: 'Inter';
 	font-style: normal;
 	font-weight: 700;
-	src: url('/fonts/inter-v19-greek_latin-700.woff2') format('woff2');
+	src: url('../assets/fonts/inter-v19-greek_latin-700.woff2') format('woff2');
 }
 
 /* End of Selection */
