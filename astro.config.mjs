@@ -1,4 +1,4 @@
-import { defineConfig } from 'astro/config';
+import { defineConfig, fontProviders } from 'astro/config';
 import { settings } from './src/i18n/settings.const';
 import sitemap from "@astrojs/sitemap";
 import astroExpressiveCode from 'astro-expressive-code';
@@ -15,6 +15,32 @@ import playformCompress from '@playform/compress';
 
 export default defineConfig({
 	site: settings.url,
+	fonts: [
+		{
+			provider: fontProviders.local(),
+			name: 'Inter',
+			cssVariable: '--font-inter',
+			options: {
+				variants: [
+					{
+						src: ['./src/assets/fonts/inter-v19-greek_latin-regular.woff2'],
+						weight: '400',
+						style: 'normal',
+					},
+					{
+						src: ['./src/assets/fonts/inter-v19-latin-500.woff2'],
+						weight: '500',
+						style: 'normal',
+					},
+					{
+						src: ['./src/assets/fonts/inter-v19-greek_latin-700.woff2'],
+						weight: '700',
+						style: 'normal',
+					},
+				],
+			},
+		},
+	],
 	integrations: [
 		sitemap({
 			filter: (page) => !page.includes('/privacy-policy'),

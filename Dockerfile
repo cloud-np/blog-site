@@ -13,8 +13,11 @@ FROM base AS builder
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-# Copy package files
-COPY package.json pnpm-lock.yaml ./
+# Copy package files. pnpm-workspace.yaml and .npmrc must be present for the
+# install: they carry the build-script allowlist (onlyBuiltDependencies /
+# ignoredBuiltDependencies) and hoist settings. Without them pnpm v10+ aborts
+# with ERR_PNPM_IGNORED_BUILDS.
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
 # Install all dependencies (including dev) for build
 RUN pnpm install --frozen-lockfile
 
