@@ -1,0 +1,252 @@
+---
+layout: '@layouts/PostLayout.astro'
+title: Triggering Deploys Behind a Private Dokploy Control Plane
+description: "How we reached a Tailscale-only Dokploy control plane from a separate app server with a tiny relay and a constrained SSH tunnel."
+previewImage: "@assets/private-dokploy-deploy-relay/title.png"
+titleImage: "@assets/private-dokploy-deploy-relay/title.png"
+publishedAt: "2026-08-31"
+category: 'DevOps'
+searchCategories: ['DevOps', 'Backend', 'Tooling', 'Fullstack']
+personal: false
+---
+
+import Note from "@components/content/Note.astro";
+import { Image } from "astro:assets";
+import H2 from "@components/content/H2.svelte";
+import H3 from "@components/content/H3.svelte";
+import problem from "@assets/private-dokploy-deploy-relay/problem.svg";
+import solution from "@assets/private-dokploy-deploy-relay/solution.svg";
+
+Mezenta is a multi-tenant restaurant platform. Every restaurant gets its own site, and most of
+those sites are static Astro deployments. The whole point of the editor is that you change a menu
+and the change shows up on the public site, which means **saving a menu has to trigger a rebuild**
+of the restaurant's static deployment.
+
+Those builds are orchestrated by [Dokploy](https://dokploy.com), our self-hosted deployment tool.
+The catch: Dokploy sits on a private network, reachable only through Tailscale, while Mezenta
+runs on a completely different public server. This post is the story of how we made those two
+machines talk without ever exposing Dokploy to the internet.
+
+<H2 title="The problem: a control plane we can't call" />
+
+Mezenta lives on a public app server. When a restaurant owner hits "save", Mezenta needs to fire
+Dokploy's deploy webhook so the matching restaurant site rebuilds. Dokploy's control plane, however,
+is private on Tailscale — there is no public route to it, and we were not going to create one.
+
+<Image src={problem} alt="Two servers: a public app server running Mezenta and a Tailscale-only Dokploy host, with the deploy webhook between them blocked" />
+
+The naive options all had problems:
+
+- **Expose Dokploy publicly** — absolutely not, that's the opposite of why it's private.
+- **Put everything on Tailscale** — the app server and the restaurant sites have no business being on our private mesh, and third-party build providers definitely don't.
+- **An IP allowlist** — brittle, and it makes Dokploy's administration API reachable, which is worse than the problem we were solving.
+
+What we needed was a door that only opens in one direction: Mezenta can trigger a deploy, and nothing
+else can get through.
+
+<H2 title="The solution: a relay and a one-way tunnel" />
+
+The answer came in two small pieces, each doing exactly one thing.
+
+<H3 title="A tiny relay on the Dokploy host" />
+
+First, a ~35-line Node service that runs *next to* Dokploy, on the same Docker network, so it can
+reach the private control plane directly. It exposes just two endpoints:
+
+```js title="deploy-webhook-relay/server.mjs"
+import { createServer } from "node:http";
+
+const secret = process.env.DEPLOY_RELAY_SECRET;
+const dokployUrl = new URL(process.env.DOKPLOY_INTERNAL_URL ?? "http://dokploy:3000");
+
+if (!secret) throw new Error("DEPLOY_RELAY_SECRET is required");
+
+const send = (response, status) => response.writeHead(status).end();
+
+createServer(async (request, response) => {
+	if (request.method === "GET" && request.url === "/health")
+		return response.writeHead(200, { "Content-Type": "application/json" }).end('{"ok":true}');
+	if (request.method !== "POST" || request.url !== "/deploy") return send(response, 404);
+	if (request.headers.authorization !== `Bearer ${secret}`) return send(response, 401);
+
+	let body = "";
+	for await (const chunk of request) body += chunk;
+
+	try {
+		const { webhookUrl, payload } = JSON.parse(body);
+		const path = new URL(webhookUrl).pathname;
+		if (!/^\/api\/deploy\/[A-Za-z0-9_-]+$/.test(path)) return send(response, 400);
+
+		const target = new URL(path, dokployUrl);
+		const upstream = await fetch(target, {
+			method: "POST",
+			headers: { "Content-Type": "application/json", "X-Event-Key": "repo:push" },
+			body: JSON.stringify(payload),
+			signal: AbortSignal.timeout(15_000),
+		});
+		send(response, upstream.ok ? 204 : 502);
+	} catch {
+		send(response, 400);
+	}
+}).listen(process.env.PORT ?? 3000);
+```
+
+Two details make this safe rather than scary:
+
+- **It ignores the host you send it.** The caller passes a full webhook URL, but the relay only keeps
+  the path (`/api/deploy/<token>`) and rebuilds the target from `DOKPLOY_INTERNAL_URL`. A caller
+  can't point it at `http://169.254.169.254` or any other internal address.
+- **It only forwards a known shape.** The path has to match `/api/deploy/<token>`, so the relay can
+  never become a general-purpose internal HTTP proxy.
+
+<Note title="Why not just call Dokploy directly?">
+    Dokploy's deploy endpoint is the thing we were keeping private. The relay is a deliberately
+    dumb, read-only forwarder scoped to exactly one route. If it's compromised, the attacker can
+    trigger a rebuild and nothing else.
+</Note>
+
+It ships as a one-file Docker image joined to Dokploy's own network:
+
+```yaml title="deploy-webhook-relay/compose.yml"
+services:
+  deploy-webhook-relay:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      DEPLOY_RELAY_SECRET: ${DEPLOY_RELAY_SECRET:?set in Dokploy}
+      DOKPLOY_INTERNAL_URL: http://dokploy:3000
+    networks:
+      - dokploy-network
+
+networks:
+  dokploy-network:
+    external: true
+```
+
+<H3 title="A constrained SSH tunnel" />
+
+The relay now talks to Dokploy, but it still needs to be reachable from Mezenta's server. The Dokploy
+host's firewall blocks public ports `80` and `443`, and Tailscale Funnel wasn't enabled — so there
+was no public path to the relay either.
+
+The fix was an SSH tunnel with the tightest possible key. On the Dokploy host we authorized a
+dedicated key that can't open a shell and can only forward to the relay's port:
+
+```text title="~/.ssh/authorized_keys (on the Dokploy host)"
+restrict,port-forwarding,permitopen="<relay_ip>:3000" ssh-ed25519 <PUBLIC_KEY> mezenta-relay-tunnel
+```
+
+On the app server, a systemd unit keeps the tunnel alive and forwards a local port across it:
+
+```ini title="/etc/systemd/system/mezenta-relay-tunnel.service"
+[Unit]
+Description=Mezenta deployment relay tunnel
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+ExecStart=/usr/bin/ssh -i /root/.ssh/mezenta-relay-tunnel \
+  -o StrictHostKeyChecking=accept-new \
+  -o BatchMode=yes \
+  -o ExitOnForwardFailure=yes \
+  -o ServerAliveInterval=30 \
+  -o ServerAliveCountMax=3 \
+  -N -L 172.17.0.1:4300:<relay_ip>:3000 root@<dokploy_host>
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Finally, the app server's Traefik routes a public hostname to that local forwarded port:
+
+```yaml title="/etc/dokploy/traefik/dynamic/mezenta-deploy-relay.yml"
+http:
+  routers:
+    mezenta-deploy-relay:
+      rule: Host(`relay.example.com`)
+      service: mezenta-deploy-relay
+      entryPoints:
+        - web
+  services:
+    mezenta-deploy-relay:
+      loadBalancer:
+        servers:
+          - url: http://172.17.0.1:4300
+        passHostHeader: true
+```
+
+<H2 title="The full flow" />
+
+Put together, a menu save travels through the whole chain and back out to the public site:
+
+<Image src={solution} alt="Menu save flows from Mezenta through Traefik, an SSH tunnel, and the relay into Dokploy, which redeploys the static restaurant site" />
+
+1. Mezenta saves the menu and posts to the relay URL with its bearer secret.
+2. Traefik accepts the public `https://relay.example.com` and forwards to the local tunnel port.
+3. The SSH tunnel carries it to the relay on the Dokploy host — no shell, only that one port.
+4. The relay validates the path and forwards to `http://dokploy:3000` on the private Docker network.
+5. Dokploy rebuilds and redeploys the restaurant's static site.
+
+<H2 title="Wiring it into Mezenta" />
+
+On Mezenta's side this was two environment variables and a small amount of code:
+
+```text
+DOKPLOY_RELAY_URL=https://relay.example.com
+DOKPLOY_RELAY_SECRET=<same long random secret>
+```
+
+When the relay is configured, Mezenta posts to it instead of the raw webhook, and — importantly —
+**never waits for the deploy**. The database save and its audit finish first; the deploy trigger runs
+as best-effort background work, and a failure only gets logged and audited while the previous static
+site stays live.
+
+<Note title="Two build gotchas worth remembering">
+    The restaurant site fetches its menu during the Docker build, so a stale Docker cache layer can
+    "succeed" while still serving the old menu. We had to enable Dokploy's <code>Clean Cache</code>
+    on the static apps. And because Astro bundles server code at image build time, changing the relay
+    variables required a full rebuild, not just a container reload.
+</Note>
+
+<H2 title="The parts that actually hurt" />
+
+The relay itself was the easy bit. The hard part was the debugging loop to prove the chain worked end
+to end, because each failure looked like the previous one:
+
+- `GET /health` returned Traefik's `404` — the relay router wasn't loaded at all.
+- Then it returned `502` — Traefik could see the hostname but not reach the relay.
+- A stale, empty temporary Traefik file made the *entire* file provider fail, which took unrelated
+  domains down with it.
+
+We fixed each in turn, and the final verification was a reversible menu edit: change the name, watch
+Dokploy spin up a deployment titled `Menu updated for <slug>`, confirm the public site changed, then
+change it back and confirm the restore deployment too.
+
+<Note title="Screenshot placeholder">
+    Insert a screenshot of the Dokploy application list showing the `deploy-webhook-relay` Compose
+    service next to the `dokploy` control plane, both on `dokploy-network`.
+</Note>
+
+<Note title="Screenshot placeholder">
+    Insert a screenshot of a Dokploy deployment log for a restaurant app, ideally showing the
+    `Menu updated for <slug>` deployment title and the `pnpm run build` step running (not cached).
+</Note>
+
+<Note title="Screenshot placeholder">
+    Insert a screenshot of the running `mezenta-relay-tunnel.service` (`systemctl status`) alongside
+    a `curl http://127.0.0.1:4300/health` returning `{"ok":true}`.
+</Note>
+
+<H2 title="Wrapping up" />
+
+The whole thing is a couple of small, boring pieces — a relay that forwards one path, and a key that
+forwards one port — but together they solved a real constraint: **trigger a build on a private control
+plane without exposing it.** The relay stayed dumb and scoped, Dokploy stayed private, and a menu save
+still ended up on the public site a minute later.
+
+This setup has since been retired in favour of shared server-side rendering, but it's a pattern we'd
+reach for again anywhere a deployment trigger has to cross a network boundary it shouldn't be able to
+see.
