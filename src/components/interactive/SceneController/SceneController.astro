@@ -1,48 +1,114 @@
-<script>
-	let nightSceneModule: any = null;
+---
+interface Props {
+	/** CSS selector of the element the planet horizon should sit right under. */
+	anchor?: string;
+}
 
-	const loadNightScene = async () => {
-		if (!nightSceneModule) {
-			// @ts-ignore - Dynamic import for deferred loading
-			nightSceneModule = await import("./nightScene.js");
-		}
-		return nightSceneModule.default;
+const { anchor } = Astro.props;
+---
+
+<div class="space" aria-hidden="true" data-space data-anchor={anchor}>
+	<div class="space-nebula"></div>
+	<canvas class="space-stars" data-space-stars></canvas>
+	<canvas class="space-planet" data-space-planet></canvas>
+</div>
+
+<script>
+	import type { SpaceScene } from "./spaceScene";
+
+	let scene: SpaceScene | null = null;
+
+	const destroy = () => {
+		scene?.destroy();
+		scene = null;
 	};
 
 	const init = async () => {
-		const resizeCanvas = async () => {
-			const canvas = document.getElementById('scene') as HTMLCanvasElement;
-			if (!canvas) return;
-			canvas.width = window.innerWidth;
-			canvas.height = window.innerHeight;
-			const ctx = canvas.getContext('2d');
-			if (!ctx) return;
+		destroy();
+		const root = document.querySelector<HTMLElement>("[data-space]");
+		const stars = root?.querySelector<HTMLCanvasElement>("[data-space-stars]");
+		const planet = root?.querySelector<HTMLCanvasElement>("[data-space-planet]");
+		if (!root || !stars || !planet) return;
 
-			const startNightScene = await loadNightScene();
-			startNightScene(canvas);
-		};
-		await resizeCanvas();
-		window.addEventListener('resize', resizeCanvas);
-	}
+		// Deferred so the scene code never blocks the first paint.
+		const { createSpaceScene } = await import("./spaceScene");
+		// The user may have navigated away while the module was loading.
+		if (!root.isConnected) return;
 
-	// Defer initialization until page is loaded
-	if (document.readyState === 'loading') {
-		document.addEventListener('DOMContentLoaded', init);
-	} else {
-		// Use setTimeout to defer even if DOM is already ready
-		setTimeout(init, 0);
-	}
+		const anchor = root.dataset.anchor ? document.querySelector<HTMLElement>(root.dataset.anchor) : null;
+		scene = createSpaceScene({ stars, planet, anchor });
+	};
 
-	document.addEventListener('astro:after-swap', init);
+	document.addEventListener("astro:page-load", init);
+	document.addEventListener("astro:before-swap", destroy);
 </script>
 
-<canvas id="scene"></canvas>
-
 <style>
-	canvas {
-		top: 0;
+	.space {
+		position: fixed;
+		inset: 0;
+		z-index: -1;
+		overflow: hidden;
+		pointer-events: none;
+		background-color: #04050a;
+	}
+
+	.space-nebula {
 		position: absolute;
-		max-width: 100%;
-		z-index: -3;
+		inset: -12%;
+		background:
+			radial-gradient(ellipse 45% 35% at 12% 6%, rgba(120, 150, 255, 0.16), transparent 70%),
+			radial-gradient(ellipse 55% 45% at 22% 18%, rgba(88, 62, 170, 0.18), transparent 72%),
+			radial-gradient(ellipse 45% 40% at 86% 26%, rgba(28, 118, 168, 0.15), transparent 70%),
+			radial-gradient(ellipse 65% 45% at 72% 88%, rgba(120, 44, 128, 0.1), transparent 72%),
+			radial-gradient(ellipse 40% 30% at 8% 72%, rgba(22, 138, 150, 0.08), transparent 70%);
+		animation: nebula-drift 80s ease-in-out infinite alternate;
+		will-change: transform;
+	}
+
+	.space-stars {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+	}
+
+	.space-planet {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		will-change: transform;
+	}
+
+	.space-stars,
+	.space-planet {
+		opacity: 0;
+		transition: opacity 1.2s ease;
+	}
+
+	.space-stars[data-ready],
+	.space-planet[data-ready] {
+		opacity: 1;
+	}
+
+	@keyframes nebula-drift {
+		from {
+			transform: translate3d(0, 0, 0) scale(1);
+		}
+		to {
+			transform: translate3d(-3%, 2%, 0) scale(1.06);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.space-nebula {
+			animation: none;
+		}
+
+		.space-stars,
+		.space-planet {
+			transition: none;
+		}
 	}
 </style>

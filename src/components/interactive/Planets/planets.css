@@ -1,161 +1,287 @@
-/* Solar System Styles */
+/*
+ * Solar system
+ * Kept free of CSS nesting on purpose: nested rules failed to load in production builds.
+ */
 .solar-system {
-	background: transparent;
-	--orbit-size: 10px;
-	transition: all 0.3s ease;
-
-	.grad {
-		width: 20px;
-		height: 20px;
-		margin: 0;
-		margin-left: -10px;
-		opacity: 0;
-	}
+	--scale: 1;
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
 }
 
-.solar-system:hover {
-	--orbit-size: 80px;
-	.planet-logo {
-		transform: scale(1.5);
-		.grad {
-			width: 30px;
-			height: 30px;
-			opacity: 1;
-		}
-	}
+.solar-system:hover,
+.solar-system:focus-within,
+.solar-system[data-pinned] {
+	--scale: 1.14;
 }
 
-.orbit {
+/* Sun */
+.sun {
 	position: absolute;
-	border: 1px solid rgba(255, 255, 255, 0.2);
-	border-radius: 50%;
-	left: 50%;
 	top: 50%;
-	transform: translate(-50%, -50%);
-	object-fit: contain;
-	transition: all 0.3s ease;
+	left: 50%;
+	width: 34px;
+	height: 34px;
+	margin: -17px 0 0 -17px;
+	z-index: 2;
 }
 
-.orbit-1 {
-	width: var(--orbit-size);
-	height: var(--orbit-size);
-	animation: rotate 20s linear infinite;
-}
-
-.orbit-2 {
-	width: calc(var(--orbit-size) + 40px);
-	height: calc(var(--orbit-size) + 40px);
-	animation: rotate 30s linear infinite reverse;
-}
-
-.orbit-3 {
-	width: calc(var(--orbit-size) + 80px);
-	height: calc(var(--orbit-size) + 80px);
-	animation: rotate 40s linear infinite;
-}
-
-.planet {
+.sun-corona {
 	position: absolute;
+	inset: -18px;
+	border-radius: 50%;
+	background: radial-gradient(circle, rgba(98, 190, 255, 0.42) 0%, rgba(98, 140, 255, 0.12) 45%, transparent 70%);
+	animation: sun-pulse 4.5s ease-in-out infinite;
+	transition: transform 0.5s ease;
+}
+
+.solar-system:hover .sun-corona {
+	transform: scale(1.25);
+}
+
+.sun-core {
+	position: absolute;
+	inset: 0;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	border-radius: 50%;
-	background: rgba(255, 255, 255, 0.1);
-	backdrop-filter: blur(5px);
-	padding: 6px;
-	transition: all 0.3s ease;
-	width: calc(var(--orbit-size) / 3);
-	height: calc(var(--orbit-size) / 3);
+	background: radial-gradient(circle at 35% 30%, rgba(60, 80, 120, 0.9), rgba(12, 16, 28, 0.95));
+	border: 1px solid rgba(160, 210, 255, 0.25);
+	box-shadow:
+		0 0 18px rgba(98, 190, 255, 0.35),
+		inset 0 0 8px rgba(150, 210, 255, 0.2);
 }
 
-.planet:hover {
-	transform: scale(1.2);
-	background: rgba(255, 255, 255, 0.2);
+.sun-core svg {
+	width: 20px;
+	height: auto;
 }
 
-.planet-1 {
-	left: 50%;
+/* Orbits */
+.orbit {
+	position: absolute;
 	top: 50%;
-	transform: translate(-50%, -50%);
-	animation: orbit1 20s linear infinite;
-	transform-origin: calc(var(--orbit-size) / 2) 0;
-}
-
-.planet-2 {
 	left: 50%;
-	top: 50%;
-	transform: translate(-50%, -50%);
-	animation: orbit2 30s linear infinite reverse;
-	transform-origin: calc((var(--orbit-size) + 40px) / 2) 0;
+	width: calc(var(--r) * 2 * var(--scale));
+	height: calc(var(--r) * 2 * var(--scale));
+	margin-top: calc(var(--r) * -1 * var(--scale));
+	margin-left: calc(var(--r) * -1 * var(--scale));
+	border-radius: 50%;
+	border: 1px solid rgba(255, 255, 255, 0.07);
+	/* Orbits overlap each other; only the planets themselves should catch the pointer. */
+	pointer-events: none;
+	transition:
+		width 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+		height 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+		margin 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+		border-color 0.4s ease;
 }
 
-.planet-3 {
+.solar-system:hover .orbit {
+	border-color: rgba(255, 255, 255, 0.11);
+}
+
+.orbit-arm {
+	position: absolute;
+	inset: -1px;
+	border-radius: 50%;
+	animation: orbit-spin var(--duration) linear infinite;
+	animation-delay: calc(var(--duration) * var(--phase) * -1);
+}
+
+.orbit-reverse .orbit-arm {
+	animation-direction: reverse;
+}
+
+/* Comet trail that follows each planet along its ring */
+.orbit-arm::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	border-radius: 50%;
+	background: conic-gradient(from 0deg, transparent 0turn, transparent 0.75turn, rgba(150, 210, 255, 0.5) 1turn);
+	-webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 1.5px), #000 calc(100% - 1.5px));
+	mask: radial-gradient(farthest-side, transparent calc(100% - 1.5px), #000 calc(100% - 1.5px));
+	opacity: 0.7;
+}
+
+.orbit-reverse .orbit-arm::before {
+	background: conic-gradient(from 0deg, rgba(150, 210, 255, 0.5) 0turn, transparent 0.25turn, transparent 1turn);
+}
+
+/* Planets */
+.planet {
+	position: absolute;
+	top: 0;
 	left: 50%;
-	top: 50%;
-	transform: translate(-50%, -50%);
-	animation: orbit3 40s linear infinite;
-	transform-origin: calc((var(--orbit-size) + 80px) / 2) 0;
+	width: 26px;
+	height: 26px;
+	margin: -13px 0 0 -13px;
+	padding: 0;
+	border: 0;
+	border-radius: 50%;
+	background: none;
+	cursor: pointer;
+	pointer-events: auto;
+	z-index: 3;
+	transition:
+		transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+		opacity 0.3s ease;
 }
 
-.planet-4 {
+.planet:hover,
+.planet:focus-visible,
+.planet[aria-pressed="true"] {
+	transform: scale(1.3);
+	z-index: 4;
+}
+
+.planet:focus-visible {
+	outline: none;
+}
+
+.planet-upright {
+	position: relative;
+	display: block;
+	width: 100%;
+	height: 100%;
+	animation: orbit-spin var(--duration) linear infinite reverse;
+	animation-delay: calc(var(--duration) * var(--phase) * -1);
+}
+
+.orbit-reverse .planet-upright {
+	animation-direction: normal;
+}
+
+.planet-body {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100%;
+	border-radius: 50%;
+	background: radial-gradient(
+		circle at 32% 28%,
+		rgba(255, 255, 255, 0.22),
+		rgba(255, 255, 255, 0.05) 55%,
+		rgba(0, 0, 0, 0.25)
+	);
+	border: 1px solid rgba(255, 255, 255, 0.12);
+	box-shadow: inset -3px -4px 8px rgba(0, 0, 0, 0.55);
+	transition:
+		box-shadow 0.3s ease,
+		border-color 0.3s ease;
+}
+
+.planet:hover .planet-body,
+.planet:focus-visible .planet-body,
+.planet[aria-pressed="true"] .planet-body {
+	border-color: color-mix(in srgb, var(--glow) 70%, white);
+	box-shadow:
+		inset -3px -4px 8px rgba(0, 0, 0, 0.45),
+		0 0 14px color-mix(in srgb, var(--glow) 65%, transparent);
+}
+
+.planet-icon {
+	width: 14px;
+	height: 14px;
+	object-fit: contain;
+	pointer-events: none;
+}
+
+.planet-label {
+	position: absolute;
+	top: calc(100% + 6px);
 	left: 50%;
-	top: 50%;
-	transform: translate(-50%, -50%);
-	animation: orbit1 25s linear infinite;
-	transform-origin: calc(var(--orbit-size) / 2) 0;
-	animation-delay: -8s;
+	padding: 2px 6px;
+	border-radius: 6px;
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	background: rgba(8, 10, 18, 0.88);
+	color: #e9eefc;
+	/* The planet scales up 1.3x on hover, so this renders at ~12px. */
+	font-size: 9px;
+	line-height: 1.4;
+	white-space: nowrap;
+	pointer-events: none;
+	opacity: 0;
+	transform: translate(-50%, -4px);
+	transition:
+		opacity 0.2s ease,
+		transform 0.2s ease;
 }
 
-.planet-5 {
-	left: 50%;
-	top: 50%;
-	transform: translate(-50%, -50%);
-	animation: orbit2 35s linear infinite reverse;
-	transform-origin: calc((var(--orbit-size) + 40px) / 2) 0;
-	animation-delay: -12s;
+.planet:hover .planet-label,
+.planet:focus-visible .planet-label,
+.planet[aria-pressed="true"] .planet-label {
+	opacity: 1;
+	transform: translate(-50%, 0);
 }
 
-.planet-6 {
-	left: 50%;
-	top: 50%;
-	transform: translate(-50%, -50%);
-	animation: orbit3 45s linear infinite;
-	transform-origin: calc((var(--orbit-size) + 80px) / 2) 0;
-	animation-delay: -15s;
+/* Hold the system still while a planet is being looked at. */
+.solar-system[data-pinned] .orbit-arm,
+.solar-system[data-pinned] .planet-upright {
+	animation-play-state: paused;
 }
 
-@keyframes rotate {
+.solar-system:has(.planet:hover) .orbit-arm,
+.solar-system:has(.planet:hover) .planet-upright {
+	animation-play-state: paused;
+}
+
+.solar-system:has(.planet:focus-visible) .orbit-arm,
+.solar-system:has(.planet:focus-visible) .planet-upright {
+	animation-play-state: paused;
+}
+
+.solar-system[data-pinned] .planet:not([aria-pressed="true"]):not(:hover) {
+	opacity: 0.45;
+}
+
+@keyframes orbit-spin {
 	from {
-		transform: translate(-50%, -50%) rotate(0deg);
+		transform: rotate(0deg);
 	}
 	to {
-		transform: translate(-50%, -50%) rotate(360deg);
+		transform: rotate(360deg);
 	}
 }
 
-@keyframes orbit1 {
-	from {
-		transform: translate(-50%, -50%) rotate(0deg) translateX(40px) rotate(0deg);
+@keyframes sun-pulse {
+	0%,
+	100% {
+		opacity: 0.7;
+		scale: 0.92;
 	}
-	to {
-		transform: translate(-50%, -50%) rotate(360deg) translateX(40px) rotate(-360deg);
-	}
-}
-
-@keyframes orbit2 {
-	from {
-		transform: translate(-50%, -50%) rotate(0deg) translateX(60px) rotate(0deg);
-	}
-	to {
-		transform: translate(-50%, -50%) rotate(360deg) translateX(60px) rotate(-360deg);
+	50% {
+		opacity: 1;
+		scale: 1.08;
 	}
 }
 
-@keyframes orbit3 {
-	from {
-		transform: translate(-50%, -50%) rotate(0deg) translateX(80px) rotate(0deg);
+@media (prefers-reduced-motion: reduce) {
+	.orbit-arm,
+	.planet-upright,
+	.sun-corona {
+		animation: none;
 	}
-	to {
-		transform: translate(-50%, -50%) rotate(360deg) translateX(80px) rotate(-360deg);
+
+	.orbit-arm {
+		transform: rotate(calc(var(--phase) * 360deg));
+	}
+
+	.planet-upright {
+		transform: rotate(calc(var(--phase) * -360deg));
+	}
+
+	.orbit-reverse .orbit-arm {
+		transform: rotate(calc(var(--phase) * -360deg));
+	}
+
+	.orbit-reverse .planet-upright {
+		transform: rotate(calc(var(--phase) * 360deg));
 	}
 }

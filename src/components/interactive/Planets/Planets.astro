@@ -9,36 +9,97 @@ import { Image } from "astro:assets";
 import Logo from "@components/common/Logo.astro";
 
 import "./planets.css";
+
+interface Planet {
+	name: string;
+	src: ImageMetadata;
+	glow: string;
+}
+
+interface Orbit {
+	radius: number;
+	duration: number;
+	reverse?: boolean;
+	planets: Planet[];
+}
+
+const orbits: Orbit[] = [
+	{
+		radius: 34,
+		duration: 18,
+		planets: [
+			{ name: "Angular", src: angular, glow: "#dd0031" },
+			{ name: "Git", src: git, glow: "#f05032" },
+		],
+	},
+	{
+		radius: 58,
+		duration: 28,
+		reverse: true,
+		planets: [
+			{ name: "Node.js", src: nodejs, glow: "#5fa04e" },
+			{ name: "Go", src: go, glow: "#00add8" },
+		],
+	},
+	{
+		radius: 82,
+		duration: 40,
+		planets: [
+			{ name: "React", src: react, glow: "#61dafb" },
+			{ name: "Rust", src: rust, glow: "#f74c00" },
+		],
+	},
+];
 ---
 
-<div class="solar-system relative flex h-full w-full items-center justify-center">
-	<!-- Orbital rings -->
-	<div class="orbit orbit-1"></div>
-	<div class="orbit orbit-2"></div>
-	<div class="orbit orbit-3"></div>
-	<div
-		class="planet-logo absolute flex h-8 w-8 items-center justify-center rounded-full border border-white/8 bg-[rgba(40,40,40,0.30)] transition-all duration-300 ease-out hover:scale-110">
-		<div class="grad absolute opacity-0"></div>
-		<Logo />
+<div class="solar-system" role="group" aria-label="Technologies I work with" data-solar-system>
+	<div class="sun" aria-hidden="true">
+		<span class="sun-corona"></span>
+		<span class="sun-core"><Logo /></span>
 	</div>
 
-	<!-- Planets (logos) -->
-	<div class="planet planet-1">
-		<Image src={git} alt="git" class="h-6 w-6 object-contain" />
-	</div>
-	<div class="planet planet-2">
-		<Image src={nodejs} alt="Node.js" class="h-6 w-6 object-contain" />
-	</div>
-	<div class="planet planet-3">
-		<Image src={angular} alt="Angular" class="h-6 w-6 object-contain" />
-	</div>
-	<div class="planet planet-4">
-		<Image src={rust} alt="Rust" class="h-6 w-6 object-contain" />
-	</div>
-	<div class="planet planet-5">
-		<Image src={go} alt="Go" class="h-6 w-6 object-contain" />
-	</div>
-	<div class="planet planet-6">
-		<Image src={react} alt="React" class="h-6 w-6 object-contain" />
-	</div>
+	{
+		orbits.map((orbit, orbitIndex) => (
+			<div
+				class:list={["orbit", { "orbit-reverse": orbit.reverse }]}
+				style={`--r: ${orbit.radius}px; --duration: ${orbit.duration}s;`}>
+				{orbit.planets.map((planet, planetIndex) => (
+					<div
+						class="orbit-arm"
+						style={`--phase: ${planetIndex / orbit.planets.length + orbitIndex * 0.17};`}>
+						<button
+							type="button"
+							class="planet"
+							style={`--glow: ${planet.glow};`}
+							aria-label={planet.name}
+							aria-pressed="false">
+							<span class="planet-upright">
+								<span class="planet-body">
+									<Image src={planet.src} alt="" class="planet-icon" width={16} height={16} />
+								</span>
+								<span class="planet-label" aria-hidden="true">
+									{planet.name}
+								</span>
+							</span>
+						</button>
+					</div>
+				))}
+			</div>
+		))
+	}
 </div>
+
+<script>
+	// Clicking a planet pins it: the system holds still and keeps its label visible.
+	document.addEventListener("click", event => {
+		const planet = (event.target as Element | null)?.closest?.<HTMLButtonElement>(".solar-system .planet");
+		if (!planet) return;
+		const system = planet.closest<HTMLElement>("[data-solar-system]");
+		if (!system) return;
+
+		const wasPinned = planet.getAttribute("aria-pressed") === "true";
+		system.querySelectorAll(".planet").forEach(p => p.setAttribute("aria-pressed", "false"));
+		planet.setAttribute("aria-pressed", String(!wasPinned));
+		system.toggleAttribute("data-pinned", !wasPinned);
+	});
+</script>
