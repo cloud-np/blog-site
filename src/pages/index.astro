@@ -38,6 +38,7 @@ const postImages = await Promise.all(
 );
 const postImageMap = Object.fromEntries(postImages.map(p => [p.slug, p]));
 
+const GALLERY_START = 0;
 const galleryImages = [
 	{ src: abyss, alt: "Abyss signature" },
 	{ src: aktis, alt: "Aktis logo design" },
@@ -53,14 +54,11 @@ const galleryImages = [
 ---
 
 <PageLayout seo={seo}>
-	<!-- <Reveal /> -->
-	<SceneController />
+	<SceneController anchor="[data-hero]" />
 	<div class="container flex flex-col">
-		<section class="landing mx-8 overflow-hidden px-6">
-			<div class="moon moon-left"></div>
-			<div class="moon moon-right top-[20vh] left-[80vw]"></div>
-			<div class="mb-12 flex flex-col items-center justify-center transition-all duration-300 ease-out">
-				<h1 class="hero-name slow-fade mb-6 text-center text-6xl font-bold">Hi I'm Nick</h1>
+		<section class="landing mx-8 px-6" data-hero>
+			<div class="mb-12 flex flex-col items-center justify-center">
+				<h1 class="hero-name slow-fade text-center text-6xl font-bold">Hi I'm Nick</h1>
 				<p class="hero-role slow-fade mb-2 text-center text-neutral-400">
 					Engineering Tech Lead / Full-Stack Developer
 				</p>
@@ -70,9 +68,9 @@ const galleryImages = [
 			</div>
 		</section>
 		<!-- <h2 class="selected-work-heading mx-8 my-6 text-xl font-normal">Selected Work</h2> -->
-		<div class="mx-6 mb-10 grid max-w-7xl grid-cols-1 gap-4 lg:grid-cols-3">
+		<div class="bento-grid mx-6 mb-10 grid max-w-7xl grid-cols-1 gap-4 lg:grid-cols-3">
 			<BentoCard title="Engineering Tech Lead">
-				<div slot="preTitle" class="relative h-50 w-full overflow-hidden">
+				<div slot="preTitle" class="relative h-56 w-full">
 					<Planets />
 				</div>
 				<div slot="subTitle">
@@ -92,34 +90,65 @@ const galleryImages = [
 				which is a NP-hard problem with conflicting optimization goals. Our proposed algorithm achieved up to a
 				9% improvement and unveiled various trade-offs depending on the specific characteristics of each
 				workflow and optimization objectives.
-				<a href="https://dl.acm.org/doi/10.1145/3503823.3503876" target="_blank" slot="footer">
+				<a
+					href="https://dl.acm.org/doi/10.1145/3503823.3503876"
+					target="_blank"
+					rel="noopener"
+					slot="footer"
+					class="group/link inline-flex items-center gap-1.5 text-sm font-medium text-sky-300 transition-colors hover:text-sky-200">
 					View Publication
+					<svg
+						class="transition-transform duration-200 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5"
+						width="14"
+						height="14"
+						viewBox="0 0 24 24"
+						fill="none"
+						aria-hidden="true">
+						<path
+							d="M7 17L17 7M9 7h8v8"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+						/>
+					</svg>
 				</a>
 
-				<TaskScheduling slot="preTitle" client:only="svelte" />
+				<div slot="preTitle" class="flex flex-1 items-center">
+					<TaskScheduling client:only="svelte" />
+				</div>
 			</BentoCard>
 			<BentoCard title="Freelancing and web design" hasFooter={true} colSpanBigger>
 				<div
 					slot="preTitle"
-					class="freelance-showcase relative flex h-52 w-full items-center justify-center overflow-hidden">
-					<div
-						class="absolute h-32 w-48 -translate-x-6 translate-y-2 -rotate-6 overflow-hidden rounded-lg opacity-70 shadow-lg transition-transform duration-300 hover:scale-105">
-						<Image class="h-full w-full object-cover" src={aktis} alt="Aktis logo design" width={256} height={170} format="webp"  />
-					</div>
-					<div
-						class="absolute h-32 w-48 translate-x-4 -translate-y-2 rotate-3 overflow-hidden rounded-lg opacity-80 shadow-lg transition-transform duration-300 hover:scale-105">
-						<Image class="h-full w-full object-cover" src={pumkin} alt="Οινοθέη logo design" width={256} height={170} format="webp"  />
-					</div>
-					<div
-						class="relative z-10 h-32 w-48 overflow-hidden rounded-lg border border-white/10 shadow-xl transition-transform duration-300 hover:scale-105">
-						<Image class="h-full w-full object-cover" src={abyss} alt="Abyss signature" width={256} height={170} format="webp"  />
+					class="freelance-showcase relative flex h-52 w-full items-center justify-center"
+					aria-hidden="true"
+					data-showcase>
+					<div class="showcase-float relative h-32 w-48">
+						{
+							[2, 1, 0].map(depth => (
+								<div class={`showcase-card showcase-depth-${depth}`} data-depth={depth}>
+									{galleryImages.map((image, i) => (
+										<Image
+											class="showcase-image"
+											src={image.src}
+											alt=""
+											width={256}
+											height={170}
+											format="webp"
+											data-active={i === (GALLERY_START + depth) % galleryImages.length ? "" : undefined}
+										/>
+									))}
+								</div>
+							))
+						}
 					</div>
 				</div>
 				With a perfect score when it comes to customer satisfaction, I pride myself in delivering only the best for
 				my clients.
 
-				<div slot="footer" class="min-h-50 w-full">
-					<Slider client:only initialXOffset={600}>
+				<div slot="footer" class="w-full">
+					<Slider client:only="svelte" startIndex={GALLERY_START} label="Freelance work">
 						{
 							galleryImages.map(image => (
 								<div class="gallery-item" data-slide>
@@ -172,8 +201,23 @@ const galleryImages = [
 										{post.data.title}
 									</span>
 								</div>
-								<span class="relative z-10 ml-4 shrink-0 text-xs text-neutral-400 tabular-nums">
+								<span class="relative z-10 ml-4 flex shrink-0 items-center gap-2 text-xs text-neutral-400 tabular-nums">
 									{Helpers.formatDate(post.data.publishedAt)}
+									<svg
+										class="-translate-x-1 text-sky-300 opacity-0 transition-all duration-200 group-hover:translate-x-0 group-hover:opacity-100"
+										width="12"
+										height="12"
+										viewBox="0 0 24 24"
+										fill="none"
+										aria-hidden="true">
+										<path
+											d="M5 12h14M13 6l6 6-6 6"
+											stroke="currentColor"
+											stroke-width="2"
+											stroke-linecap="round"
+											stroke-linejoin="round"
+										/>
+									</svg>
 								</span>
 							</a>
 						</li>
@@ -189,27 +233,48 @@ const galleryImages = [
 		from {
 			opacity: 0;
 			transform: translateY(var(--reveal-y, 20px));
+			filter: blur(6px);
 		}
 		to {
 			opacity: 1;
 			transform: translateY(0);
+			filter: blur(0);
+		}
+	}
+
+	/* The name comes into focus like something drifting out of deep space. */
+	@keyframes name-in {
+		from {
+			opacity: 0;
+			transform: translateY(20px) scale(0.96);
+			filter: blur(12px) drop-shadow(0 0 0 rgba(110, 170, 255, 0));
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0) scale(1);
+			filter: blur(0) drop-shadow(0 0 28px rgba(110, 170, 255, 0.28));
 		}
 	}
 
 	.hero-name {
+		/* Room for the glow to fade out inside the spotlight mask instead of being clipped. */
+		padding: 32px 40px;
+		margin: -32px -40px calc(1.5rem - 32px);
 		opacity: 0;
-		animation: reveal-up 0.6s cubic-bezier(0.33, 1, 0.68, 1) forwards;
-		animation-delay: 0s;
-		--reveal-y: 20px;
+		background: linear-gradient(180deg, #ffffff 30%, #a3b7da 100%);
+		-webkit-background-clip: text;
+		background-clip: text;
+		color: transparent;
+		animation: name-in 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 	}
 
 	.hero-role {
 		font-size: 1rem;
 		letter-spacing: 0.05em;
 		opacity: 0;
-		animation: reveal-up 0.5s cubic-bezier(0.33, 1, 0.68, 1) forwards;
-		animation-delay: 0.3s;
-		--reveal-y: 20px;
+		animation: reveal-up 0.7s cubic-bezier(0.33, 1, 0.68, 1) forwards;
+		animation-delay: 0.35s;
+		--reveal-y: 16px;
 	}
 
 	.hero-text {
@@ -217,61 +282,134 @@ const galleryImages = [
 		opacity: 0;
 		max-width: 550px;
 		color: var(--c-text_light);
-		animation: reveal-up 0.5s cubic-bezier(0.33, 1, 0.68, 1) forwards;
-		animation-delay: 0.5s;
-		--reveal-y: 20px;
-	}
-
-	.hero-tables {
-		opacity: 0;
-		animation: reveal-up 0.6s cubic-bezier(0.33, 1, 0.68, 1) forwards;
-		animation-delay: 0.8s;
-		--reveal-y: 15px;
-	}
-
-	.selected-work-heading {
-		opacity: 0;
-		animation: reveal-up 0.5s cubic-bezier(0.33, 1, 0.68, 1) forwards;
-		animation-delay: 1.1s;
-		--reveal-y: 10px;
+		animation: reveal-up 0.7s cubic-bezier(0.33, 1, 0.68, 1) forwards;
+		animation-delay: 0.55s;
+		--reveal-y: 16px;
 	}
 
 	.post-row-bg {
 		filter: blur(20px) brightness(0.3) saturate(1.4);
 		transform: scale(1.2);
 	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.hero-name,
+		.hero-role,
+		.hero-text {
+			opacity: 1;
+			animation: none;
+		}
+
+		.hero-name {
+			filter: drop-shadow(0 0 28px rgba(110, 170, 255, 0.28));
+		}
+	}
 </style>
 
 <script>
-	function initMouseEffect() {
-		const elements = document.querySelectorAll(".slow-fade") as NodeListOf<HTMLElement>;
-		document.addEventListener("mousemove", mouseEvent => {
-			elements.forEach(el => {
+	let cleanup: (() => void) | null = null;
+
+	/** Text near the cursor is lit up, like a torch sweeping across the hero. */
+	function initHeroSpotlight(signal: AbortSignal) {
+		const hero = document.querySelector<HTMLElement>("[data-hero]");
+		const elements = hero ? Array.from(hero.querySelectorAll<HTMLElement>(".slow-fade")) : [];
+		if (!hero || !elements.length) return;
+
+		let pending: PointerEvent | null = null;
+		const update = () => {
+			const event = pending;
+			pending = null;
+			if (!event) return;
+			for (const el of elements) {
 				const rect = el.getBoundingClientRect();
-				const x = mouseEvent.pageX - rect.left;
-				const y = mouseEvent.pageY - rect.top;
+				el.style.setProperty("--spot-x", `${event.clientX - rect.left}px`);
+				el.style.setProperty("--spot-y", `${event.clientY - rect.top}px`);
+			}
+		};
 
-				const xPercent = (x / rect.width) * 100;
-				const yPercent = (y / rect.height) * 100;
-
-				const maskImage = `radial-gradient(
-					circle at ${xPercent}% ${yPercent}%,
-					rgba(255, 255, 255, 1) 0%,
-					rgba(255, 255, 255, 0.9) 20%,
-					rgba(255, 255, 255, 0.7) 40%,
-					rgba(255, 255, 255, 0.5) 60%
-				)`;
-
-				el.style.maskImage = maskImage;
-			});
-		});
+		document.addEventListener(
+			"pointermove",
+			event => {
+				if (event.pointerType !== "mouse") return;
+				// Nothing to light up once the hero has scrolled away.
+				if (window.scrollY > hero.offsetTop + hero.offsetHeight) return;
+				if (!pending) requestAnimationFrame(update);
+				pending = event;
+			},
+			{ passive: true, signal }
+		);
 	}
 
-	initMouseEffect();
+	/** Keeps the floating showcase stack in sync with the gallery slider. */
+	function initShowcase(signal: AbortSignal) {
+		const showcase = document.querySelector<HTMLElement>("[data-showcase]");
+		const card = showcase?.closest(".bento-card");
+		if (!showcase || !card) return;
 
-	document.addEventListener("astro:after-swap", () => {
-		if (window.location.pathname === "/" || window.location.pathname === "") {
-			initMouseEffect();
+		card.addEventListener(
+			"gallery:select",
+			event => {
+				const { index } = (event as CustomEvent<{ index: number }>).detail;
+				showcase.querySelectorAll<HTMLElement>("[data-depth]").forEach(layer => {
+					const images = layer.querySelectorAll("img");
+					const active = (index + Number(layer.dataset.depth)) % images.length;
+					images.forEach((img, i) => img.toggleAttribute("data-active", i === active));
+				});
+			},
+			{ signal }
+		);
+	}
+
+	/** Cards float in as they enter the viewport. */
+	function initReveal() {
+		if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return () => {};
+
+		const cards = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
+		const observer = new IntersectionObserver(
+			entries => {
+				entries
+					.filter(entry => entry.isIntersecting)
+					.forEach((entry, i) => {
+						const el = entry.target as HTMLElement;
+						el.style.setProperty("--reveal-delay", `${i * 90}ms`);
+						el.dataset.reveal = "visible";
+						observer.unobserve(el);
+					});
+			},
+			{ rootMargin: "0px 0px -8% 0px" }
+		);
+
+		for (const card of cards) {
+			// Cards already on screen stay put; only the ones below the fold animate in.
+			if (card.getBoundingClientRect().top < window.innerHeight * 0.92) continue;
+			card.dataset.reveal = "hidden";
+			observer.observe(card);
 		}
+
+		return () => observer.disconnect();
+	}
+
+	function initLanding() {
+		cleanup?.();
+		if (!document.querySelector("[data-hero]")) {
+			cleanup = null;
+			return;
+		}
+
+		const controller = new AbortController();
+		initHeroSpotlight(controller.signal);
+		initShowcase(controller.signal);
+		const stopReveal = initReveal();
+
+		cleanup = () => {
+			controller.abort();
+			stopReveal();
+		};
+	}
+
+	document.addEventListener("astro:page-load", initLanding);
+	document.addEventListener("astro:before-swap", () => {
+		cleanup?.();
+		cleanup = null;
 	});
 </script>
