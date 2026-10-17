@@ -14,14 +14,11 @@ export async function getStaticPaths() {
         (a, b) => new Date(b.data.publishedAt).valueOf() - new Date(a.data.publishedAt).valueOf(),
     );
 
-	const allCategoriesUnique = new Set<string>();
-
-	// TODO: Could be done with reduce or filter/map for readability
-	sortedPostsByDate.forEach(post => {
-		if (post.data.category) {
-			allCategoriesUnique.add(post.data.category);
-		}
-	});
+	const allCategoriesUnique = new Set<string>(
+		sortedPostsByDate
+			.filter(post => post.data.category)
+			.map(post => post.data.category)
+	);
 
 	const allCategoriesData = Helpers.generateCategoryData(allCategoriesUnique);
 	// map through the categories array
